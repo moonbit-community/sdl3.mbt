@@ -20,6 +20,9 @@ impl Show for InitializeSDLError
 pub suberror RenderPresentError String
 impl Show for RenderPresentError
 
+pub suberror RenderRendError String
+impl Show for RenderRendError
+
 pub suberror SetDrawColorError String
 impl Show for SetDrawColorError
 
@@ -37,7 +40,10 @@ pub(all) enum Color {
 pub struct Context {
   windows : Array[Window]
 }
-fn Context::createWindow(Self, String, Int, Int) -> Window raise
+fn Context::createLine(Point, Point) -> Line
+fn Context::createPoint(Double, Double) -> Point
+fn Context::createRect(Self, anchor~ : (Double, Double), width~ : Double, height~ : Double) -> Rect
+fn Context::createWindow(Self, String, width~ : Int, height~ : Int) -> Window raise
 fn Context::getEvents(Self) -> Array[Event]
 fn Context::getTimer(Self) -> Timer
 fn Context::new() -> Self raise
@@ -162,11 +168,44 @@ pub(all) enum EventType {
   InValidEventType
 }
 
+pub struct Line {
+  start : Point
+  end : Point
+}
+impl Eq for Line
+impl Show for Line
+
+pub struct Point {
+  x : Double
+  y : Double
+}
+impl Eq for Point
+impl Show for Point
+
+pub struct Rect {
+  anchor : Point
+  width : Double
+  height : Double
+}
+impl Eq for Rect
+impl Show for Rect
+
 pub struct Renderer(@lib.SDL_Renderer)
-fn Renderer::clear(Self) -> Unit raise
+fn Renderer::clear(Self) -> Unit raise ClearRendererError
+fn[T : Geometry] Renderer::draw(Self, T) -> Unit raise
+fn Renderer::drawLine(Self, Line) -> Unit raise
+fn Renderer::drawLines(Self, Array[Line]) -> Unit raise
+fn Renderer::drawPoint(Self, Point) -> Unit raise
+fn Renderer::drawPoints(Self, Array[Point]) -> Unit raise
+fn Renderer::drawRect(Self, Rect) -> Unit raise
+fn Renderer::drawRects(Self, Array[Rect]) -> Unit raise
 fn Renderer::inner(Self) -> @lib.SDL_Renderer
-fn Renderer::present(Self) -> Unit raise
-fn Renderer::setDrawColor(Self, Color, alpha? : Int) -> Unit raise
+fn Renderer::line(Self, (Double, Double), (Double, Double)) -> Unit raise
+fn Renderer::lines(Self, Array[(Double, Double)]) -> Unit raise
+fn Renderer::point(Self, Double, Double) -> Unit raise
+fn Renderer::points(Self, Array[(Double, Double)]) -> Unit raise
+fn Renderer::present(Self) -> Unit raise RenderPresentError
+fn Renderer::setDrawColor(Self, Color, alpha? : Int) -> Unit raise SetDrawColorError
 
 pub struct Timer {
 }
@@ -180,4 +219,5 @@ fn Window::inner(Self) -> @lib.SDL_Window
 // Type aliases
 
 // Traits
+trait Geometry
 

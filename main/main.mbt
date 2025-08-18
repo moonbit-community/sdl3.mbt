@@ -11,9 +11,18 @@ fn main_err() -> Unit raise {
     if events.iter().any(e => e.getType() is Quit) {
       quit = true
     }
-    renderer.setDrawColor(Black)
+    renderer.setDrawColor(White)
     renderer.clear()
+    renderer.setDrawColor(Black)
+    renderer.point(400, 300)
+    renderer.line((100, 100), (700, 500))
+    renderer.setDrawColor(Red)
+    renderer.lines([(100, 100), (100, 500), (500, 500), (500, 100), (100, 100)])
+    let rect = ctx.createRect(anchor=(200, 200), width=300, height=300)
+    renderer.drawRect(rect)
+    //renderer.rect(@sdl3.Rect::)
     renderer.present()
+    renderer.clear()
     timer.delay(16)
   }
   println("loop finished, cleaning up resources...")

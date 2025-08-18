@@ -2168,7 +2168,8 @@ pub extern "C" fn sdl_RenderPoint(renderer: SDL_Renderer, x: Float, y: Float) ->
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderPoints(SDL_Renderer *renderer, const SDL_FPoint *points, int count);
 /// ```
-pub extern "C" fn sdl_RenderPoints(renderer: SDL_Renderer, points: SDL_FPoint, count: Int) -> Bool = "SDL_RenderPoints"
+/// Note: the type of points `FixedArray[Float]` is correct, because SDL_FPoint is { Float, Float }
+pub extern "C" fn sdl_RenderPoints(renderer: SDL_Renderer, points: FixedArray[Float], count: Int) -> Bool = "SDL_RenderPoints"
 
 ///| Draw a line on the current rendering target.
 ///
@@ -2210,7 +2211,8 @@ pub extern "C" fn sdl_RenderLine(renderer: SDL_Renderer, x1: Float, y1: Float, x
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderLines(SDL_Renderer *renderer, const SDL_FPoint *points, int count);
 /// ```
-pub extern "C" fn sdl_RenderLines(renderer: SDL_Renderer, points: SDL_FPoint, count: Int) -> Bool = "SDL_RenderLines"
+/// Note: the type of points `FixedArray[Float]` is correct, because SDL_FPoint is { Float, Float }
+pub extern "C" fn sdl_RenderLines(renderer: SDL_Renderer, points: FixedArray[Float], count: Int) -> Bool = "SDL_RenderLines"
 
 ///| Draw a rectangle on the current rendering target.
 ///
@@ -2250,7 +2252,8 @@ pub extern "C" fn sdl_RenderRect(renderer: SDL_Renderer, rect: SDL_FRect) -> Boo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderRects(SDL_Renderer *renderer, const SDL_FRect *rects, int count);
 /// ```
-pub extern "C" fn sdl_RenderRects(renderer: SDL_Renderer, rects: SDL_FRect, count: Int) -> Bool = "SDL_RenderRects"
+/// Note: the type of rects `FixedArray[Float]` is correct, because SDL_FRect is { Float, Float, Float, Float }
+pub extern "C" fn sdl_RenderRects(renderer: SDL_Renderer, rects: FixedArray[Float], count: Int) -> Bool = "SDL_RenderRects"
 
 ///| Fill a rectangle on the current rendering target with the drawing color.
 ///
@@ -2291,7 +2294,8 @@ pub extern "C" fn sdl_RenderFillRect(renderer: SDL_Renderer, rect: SDL_FRect) ->
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderFillRects(SDL_Renderer *renderer, const SDL_FRect *rects, int count);
 /// ```
-pub extern "C" fn sdl_RenderFillRects(renderer: SDL_Renderer, rects: SDL_FRect, count: Int) -> Bool = "SDL_RenderFillRects"
+/// Note: the type of rects `FixedArray[Float]` is correct, because SDL_FRect is { Float, Float, Float, Float }
+pub extern "C" fn sdl_RenderFillRects(renderer: SDL_Renderer, rects: FixedArray[Float], count: Int) -> Bool = "SDL_RenderFillRects"
 
 ///| Copy a portion of the texture to the current rendering target.
 ///

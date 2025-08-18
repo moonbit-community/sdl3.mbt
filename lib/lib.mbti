@@ -1478,7 +1478,7 @@ fn sdl_RenderCoordinatesToWindow(SDL_Renderer, Float, Float, FixedArray[Float], 
 
 fn sdl_RenderFillRect(SDL_Renderer, SDL_FRect) -> Bool
 
-fn sdl_RenderFillRects(SDL_Renderer, SDL_FRect, Int) -> Bool
+fn sdl_RenderFillRects(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 fn sdl_RenderFlush(SDL_Renderer) -> Bool
 
@@ -1488,17 +1488,17 @@ fn sdl_RenderGeometryRaw(SDL_Renderer, SDL_Texture, FixedArray[Float], Int, SDL_
 
 fn sdl_RenderLine(SDL_Renderer, Float, Float, Float, Float) -> Bool
 
-fn sdl_RenderLines(SDL_Renderer, SDL_FPoint, Int) -> Bool
+fn sdl_RenderLines(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 fn sdl_RenderPoint(SDL_Renderer, Float, Float) -> Bool
 
-fn sdl_RenderPoints(SDL_Renderer, SDL_FPoint, Int) -> Bool
+fn sdl_RenderPoints(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 fn sdl_RenderPresent(SDL_Renderer) -> Bool
 
 fn sdl_RenderRect(SDL_Renderer, SDL_FRect) -> Bool
 
-fn sdl_RenderRects(SDL_Renderer, SDL_FRect, Int) -> Bool
+fn sdl_RenderRects(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 fn sdl_RenderTexture(SDL_Renderer, SDL_Texture, SDL_FRect, SDL_FRect) -> Bool
 

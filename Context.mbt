@@ -81,3 +81,18 @@ pub fn Context::quit(self : Self) -> Unit {
   self.windows.each(w => @lib.sdl_DestroyWindow(w.inner()))
   @lib.sdl_Quit()
 }
+
+pub fn Context::createPoint(x: Double, y: Double) -> Point {
+  Point::{ x, y }
+}
+
+pub fn Context::createLine(start: Point, end: Point) -> Line {
+  Line::{ start, end }
+}
+
+pub fn Context::createRect(self: Self, anchor~: (Double, Double), width~: Double, height~: Double) -> Rect {
+  ignore(self)
+  let anchor = Point::{ x: anchor.0, y: anchor.1 }
+  Rect::{ anchor, width, height }
+}
+
