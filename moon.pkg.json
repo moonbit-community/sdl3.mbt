@@ -2,6 +2,6 @@
   "is-main": false,
   "import": [
     "Kaida-Amethyst/sdl3/lib"
-  ],
+  ]
 }
 
