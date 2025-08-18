@@ -1,0 +1,6 @@
+target/
+.mooncakes/
+.DS_Store
+c/
+.moonagent/
+AGENTS.md

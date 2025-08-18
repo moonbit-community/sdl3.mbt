@@ -1,0 +1,693 @@
+/// Simple DirectMedia Layer
+/// Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
+/// 
+/// This software is provided 'as-is', without any express or implied
+/// warranty.  In no event will the authors be held liable for any damages
+/// arising from the use of this software.
+/// 
+/// Permission is granted to anyone to use this software for any purpose,
+/// including commercial applications, and to alter it and redistribute it
+/// freely, subject to the following restrictions:
+/// 
+/// 1. The origin of this software must not be misrepresented; you must not
+///    claim that you wrote the original software. If you use this software
+///    in a product, an acknowledgment in the product documentation would be
+///    appreciated but is not required.
+/// 2. Altered source versions must be plainly marked as such, and must not be
+///    misrepresented as being the original software.
+/// 3. This notice may not be removed or altered from any source distribution.
+
+/// # CategoryKeyboard
+/// 
+/// SDL keyboard management.
+/// 
+/// Please refer to the Best Keyboard Practices document for details on how
+/// best to accept keyboard input in various types of programs:
+/// 
+/// https://wiki.libsdl.org/SDL3/BestKeyboardPractices
+
+// 引入其他模块中定义的类型
+#external  
+pub type SDL_Scancode
+
+#external
+pub type SDL_Keycode
+
+#external
+pub type SDL_Keymod
+
+///| This is a unique ID for a keyboard for the time it is connected to the
+/// system, and is never reused for the lifetime of the application.
+/// 
+/// If the keyboard is disconnected and reconnected, it will get a new ID.
+/// 
+/// The value 0 is an invalid ID.
+/// 
+/// @since This datatype is available since SDL 3.2.0.
+/// 
+/// ```c
+/// typedef Uint32 SDL_KeyboardID;
+/// ```
+pub typealias UInt as SDL_KeyboardID
+
+///| Text input type.
+/// 
+/// These are the valid values for SDL_PROP_TEXTINPUT_TYPE_NUMBER. Not every
+/// value is valid on every platform, but where a value isn't supported, a
+/// reasonable fallback will be used.
+/// 
+/// @since This enum is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInputWithProperties
+/// 
+/// ```c
+/// typedef enum SDL_TextInputType
+/// {
+///     SDL_TEXTINPUT_TYPE_TEXT,                        /**< The input is text */
+///     SDL_TEXTINPUT_TYPE_TEXT_NAME,                   /**< The input is a person's name */
+///     SDL_TEXTINPUT_TYPE_TEXT_EMAIL,                  /**< The input is an e-mail address */
+///     SDL_TEXTINPUT_TYPE_TEXT_USERNAME,               /**< The input is a username */
+///     SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN,        /**< The input is a secure password that is hidden */
+///     SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE,       /**< The input is a secure password that is visible */
+///     SDL_TEXTINPUT_TYPE_NUMBER,                      /**< The input is a number */
+///     SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN,      /**< The input is a secure PIN that is hidden */
+///     SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE      /**< The input is a secure PIN that is visible */
+/// } SDL_TextInputType;
+/// ```
+pub(all) enum SDL_TextInputType {
+  SDL_TEXTINPUT_TYPE_TEXT
+  SDL_TEXTINPUT_TYPE_TEXT_NAME
+  SDL_TEXTINPUT_TYPE_TEXT_EMAIL
+  SDL_TEXTINPUT_TYPE_TEXT_USERNAME
+  SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN
+  SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE
+  SDL_TEXTINPUT_TYPE_NUMBER
+  SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN
+  SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE
+}
+
+///| Auto capitalization type.
+/// 
+/// These are the valid values for SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER.
+/// Not every value is valid on every platform, but where a value isn't
+/// supported, a reasonable fallback will be used.
+/// 
+/// @since This enum is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInputWithProperties
+/// 
+/// ```c
+/// typedef enum SDL_Capitalization
+/// {
+///     SDL_CAPITALIZE_NONE,        /**< No auto-capitalization will be done */
+///     SDL_CAPITALIZE_SENTENCES,   /**< The first letter of sentences will be capitalized */
+///     SDL_CAPITALIZE_WORDS,       /**< The first letter of words will be capitalized */
+///     SDL_CAPITALIZE_LETTERS      /**< All letters will be capitalized */
+/// } SDL_Capitalization;
+/// ```
+pub(all) enum SDL_Capitalization {
+  SDL_CAPITALIZE_NONE
+  SDL_CAPITALIZE_SENTENCES
+  SDL_CAPITALIZE_WORDS
+  SDL_CAPITALIZE_LETTERS
+}
+
+// 文本输入属性常量
+pub const SDL_PROP_TEXTINPUT_TYPE_NUMBER : String = "SDL.textinput.type"
+pub const SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER : String = "SDL.textinput.capitalization"
+pub const SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN : String = "SDL.textinput.autocorrect"
+pub const SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN : String = "SDL.textinput.multiline"
+pub const SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER : String = "SDL.textinput.android.inputtype"
+
+// Function prototypes
+
+///| Return whether a keyboard is currently connected.
+/// 
+/// @return true if a keyboard is connected, false otherwise.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyboards
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_HasKeyboard(void);
+/// ```
+pub extern "C" fn sdl_HasKeyboard() -> Bool = "SDL_HasKeyboard";
+
+///| Get a list of currently connected keyboards.
+/// 
+/// Note that this will include any device or virtual driver that includes
+/// keyboard functionality, including some mice, KVM switches, motherboard
+/// power buttons, etc. You should wait for input from a device before you
+/// consider it actively in use.
+/// 
+/// @param count a pointer filled in with the number of keyboards returned, may
+///              be NULL.
+/// @return a 0 terminated array of keyboards instance IDs or NULL on failure;
+///          call SDL_GetError() for more information. This should be freed
+///          with SDL_free() when it is no longer needed.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyboardNameForID
+/// @see SDL_HasKeyboard
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_KeyboardID * SDLCALL SDL_GetKeyboards(int *count);
+/// ```
+pub extern "C" fn sdl_GetKeyboards(count: FixedArray[Int]) -> FixedArray[SDL_KeyboardID] = "SDL_GetKeyboards";
+
+///| Get the name of a keyboard.
+/// 
+/// This function returns "" if the keyboard doesn't have a name.
+/// 
+/// @param instance_id the keyboard instance ID.
+/// @return the name of the selected keyboard or NULL on failure; call
+///          SDL_GetError() for more information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyboards
+/// 
+/// ```c
+/// extern SDL_DECLSPEC const char * SDLCALL SDL_GetKeyboardNameForID(SDL_KeyboardID instance_id);
+/// ```
+pub fn sdl_GetKeyboardNameForID(instance_id: SDL_KeyboardID) -> String {
+  let cres = __sdl_GetKeyboardNameForID(instance_id);
+  let res = cres.to_string();
+  free_cstr(cres)
+  res
+}
+
+extern "C" fn __sdl_GetKeyboardNameForID(instance_id: SDL_KeyboardID) -> CStr = "SDL_GetKeyboardNameForID";
+
+///| Query the window which currently has keyboard focus.
+/// 
+/// @return the window with keyboard focus.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetKeyboardFocus(void);
+/// ```
+pub extern "C" fn sdl_GetKeyboardFocus() -> SDL_Window = "SDL_GetKeyboardFocus";
+
+///| Get a snapshot of the current state of the keyboard.
+/// 
+/// The pointer returned is a pointer to an internal SDL array. It will be
+/// valid for the whole lifetime of the application and should not be freed by
+/// the caller.
+/// 
+/// A array element with a value of true means that the key is pressed and a
+/// value of false means that it is not. Indexes into this array are obtained
+/// by using SDL_Scancode values.
+/// 
+/// Use SDL_PumpEvents() to update the state array.
+/// 
+/// This function gives you the current state after all events have been
+/// processed, so if a key or button has been pressed and released before you
+/// process events, then the pressed state will never show up in the
+/// SDL_GetKeyboardState() calls.
+/// 
+/// Note: This function doesn't take into account whether shift has been
+/// pressed or not.
+/// 
+/// @param numkeys if non-NULL, receives the length of the returned array.
+/// @return a pointer to an array of key states.
+/// 
+/// @threadsafety It is safe to call this function from any thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_PumpEvents
+/// @see SDL_ResetKeyboard
+/// 
+/// ```c
+/// extern SDL_DECLSPEC const bool * SDLCALL SDL_GetKeyboardState(int *numkeys);
+/// ```
+pub extern "C" fn sdl_GetKeyboardState(numkeys: FixedArray[Int]) -> FixedArray[Bool] = "SDL_GetKeyboardState";
+
+///| Clear the state of the keyboard.
+/// 
+/// This function will generate key up events for all pressed keys.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyboardState
+/// 
+/// ```c
+/// extern SDL_DECLSPEC void SDLCALL SDL_ResetKeyboard(void);
+/// ```
+pub extern "C" fn sdl_ResetKeyboard() = "SDL_ResetKeyboard";
+
+///| Get the current key modifier state for the keyboard.
+/// 
+/// @return an OR'd combination of the modifier keys for the keyboard. See
+///          SDL_Keymod for details.
+/// 
+/// @threadsafety It is safe to call this function from any thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyboardState
+/// @see SDL_SetModState
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Keymod SDLCALL SDL_GetModState(void);
+/// ```
+pub extern "C" fn sdl_GetModState() -> SDL_Keymod = "SDL_GetModState";
+
+///| Set the current key modifier state for the keyboard.
+/// 
+/// The inverse of SDL_GetModState(), SDL_SetModState() allows you to impose
+/// modifier key states on your application. Simply pass your desired modifier
+/// states into `modstate`. This value may be a bitwise, OR'd combination of
+/// SDL_Keymod values.
+/// 
+/// This does not change the keyboard state, only the key modifier flags that
+/// SDL reports.
+/// 
+/// @param modstate the desired SDL_Keymod for the keyboard.
+/// 
+/// @threadsafety It is safe to call this function from any thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetModState
+/// 
+/// ```c
+/// extern SDL_DECLSPEC void SDLCALL SDL_SetModState(SDL_Keymod modstate);
+/// ```
+pub extern "C" fn sdl_SetModState(modstate: SDL_Keymod) = "SDL_SetModState";
+
+///| Get the key code corresponding to the given scancode according to the
+/// current keyboard layout.
+/// 
+/// If you want to get the keycode as it would be delivered in key events,
+/// including options specified in SDL_HINT_KEYCODE_OPTIONS, then you should
+/// pass `key_event` as true. Otherwise this function simply translates the
+/// scancode based on the given modifier state.
+/// 
+/// @param scancode the desired SDL_Scancode to query.
+/// @param modstate the modifier state to use when translating the scancode to
+///                 a keycode.
+/// @param key_event true if the keycode will be used in key events.
+/// @return the SDL_Keycode that corresponds to the given SDL_Scancode.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyName
+/// @see SDL_GetScancodeFromKey
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Keycode SDLCALL SDL_GetKeyFromScancode(SDL_Scancode scancode, SDL_Keymod modstate, bool key_event);
+/// ```
+pub extern "C" fn sdl_GetKeyFromScancode(scancode: SDL_Scancode, modstate: SDL_Keymod, key_event: Bool) -> SDL_Keycode = "SDL_GetKeyFromScancode";
+
+///| Get the scancode corresponding to the given key code according to the
+/// current keyboard layout.
+/// 
+/// Note that there may be multiple scancode+modifier states that can generate
+/// this keycode, this will just return the first one found.
+/// 
+/// @param key the desired SDL_Keycode to query.
+/// @param modstate a pointer to the modifier state that would be used when the
+///                 scancode generates this key, may be NULL.
+/// @return the SDL_Scancode that corresponds to the given SDL_Keycode.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyFromScancode
+/// @see SDL_GetScancodeName
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Scancode SDLCALL SDL_GetScancodeFromKey(SDL_Keycode key, SDL_Keymod *modstate);
+/// ```
+pub extern "C" fn sdl_GetScancodeFromKey(key: SDL_Keycode, modstate: FixedArray[SDL_Keymod]) -> SDL_Scancode = "SDL_GetScancodeFromKey";
+
+///| Set a human-readable name for a scancode.
+/// 
+/// @param scancode the desired SDL_Scancode.
+/// @param name the name to use for the scancode, encoded as UTF-8. The string
+///             is not copied, so the pointer given to this function must stay
+///             valid while SDL is being used.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetScancodeName
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_SetScancodeName(SDL_Scancode scancode, const char *name);
+/// ```
+pub fn sdl_SetScancodeName(scancode: SDL_Scancode, name: String) -> Bool {
+  __sdl_SetScancodeName(scancode, string_to_cbytes(name))
+}
+
+extern "C" fn __sdl_SetScancodeName(scancode: SDL_Scancode, name: Bytes) -> Bool = "SDL_SetScancodeName";
+
+///| Get a human-readable name for a scancode.
+/// 
+/// **Warning**: The returned name is by design not stable across platforms,
+/// e.g. the name for `SDL_SCANCODE_LGUI` is "Left GUI" under Linux but "Left
+/// Windows" under Microsoft Windows, and some scancodes like
+/// `SDL_SCANCODE_NONUSBACKSLASH` don't have any name at all. There are even
+/// scancodes that share names, e.g. `SDL_SCANCODE_RETURN` and
+/// `SDL_SCANCODE_RETURN2` (both called "Return"). This function is therefore
+/// unsuitable for creating a stable cross-platform two-way mapping between
+/// strings and scancodes.
+/// 
+/// @param scancode the desired SDL_Scancode to query.
+/// @return a pointer to the name for the scancode. If the scancode doesn't
+///          have a name this function returns an empty string ("").
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetScancodeFromKey
+/// @see SDL_GetScancodeFromName
+/// @see SDL_SetScancodeName
+/// 
+/// ```c
+/// extern SDL_DECLSPEC const char * SDLCALL SDL_GetScancodeName(SDL_Scancode scancode);
+/// ```
+pub fn sdl_GetScancodeName(scancode: SDL_Scancode) -> String {
+  let cres = __sdl_GetScancodeName(scancode);
+  let res = cres.to_string();
+  free_cstr(cres)
+  res
+}
+
+extern "C" fn __sdl_GetScancodeName(scancode: SDL_Scancode) -> CStr = "SDL_GetScancodeName";
+
+///| Get a scancode from a human-readable name.
+/// 
+/// @param name the human-readable scancode name.
+/// @return the SDL_Scancode, or `SDL_SCANCODE_UNKNOWN` if the name wasn't
+///          recognized; call SDL_GetError() for more information.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyFromName
+/// @see SDL_GetScancodeFromKey
+/// @see SDL_GetScancodeName
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Scancode SDLCALL SDL_GetScancodeFromName(const char *name);
+/// ```
+pub fn sdl_GetScancodeFromName(name: String) -> SDL_Scancode {
+  __sdl_GetScancodeFromName(string_to_cbytes(name))
+}
+
+extern "C" fn __sdl_GetScancodeFromName(name: Bytes) -> SDL_Scancode = "SDL_GetScancodeFromName";
+
+///| Get a human-readable name for a key.
+/// 
+/// If the key doesn't have a name, this function returns an empty string ("").
+/// 
+/// Letters will be presented in their uppercase form, if applicable.
+/// 
+/// @param key the desired SDL_Keycode to query.
+/// @return a UTF-8 encoded string of the key name.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyFromName
+/// @see SDL_GetKeyFromScancode
+/// @see SDL_GetScancodeFromKey
+/// 
+/// ```c
+/// extern SDL_DECLSPEC const char * SDLCALL SDL_GetKeyName(SDL_Keycode key);
+/// ```
+pub fn sdl_GetKeyName(key: SDL_Keycode) -> String {
+  let cres = __sdl_GetKeyName(key);
+  let res = cres.to_string();
+  free_cstr(cres)
+  res
+}
+
+extern "C" fn __sdl_GetKeyName(key: SDL_Keycode) -> CStr = "SDL_GetKeyName";
+
+///| Get a key code from a human-readable name.
+/// 
+/// @param name the human-readable key name.
+/// @return key code, or `SDLK_UNKNOWN` if the name wasn't recognized; call
+///          SDL_GetError() for more information.
+/// 
+/// @threadsafety This function is not thread safe.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetKeyFromScancode
+/// @see SDL_GetKeyName
+/// @see SDL_GetScancodeFromName
+/// 
+/// ```c
+/// extern SDL_DECLSPEC SDL_Keycode SDLCALL SDL_GetKeyFromName(const char *name);
+/// ```
+pub fn sdl_GetKeyFromName(name: String) -> SDL_Keycode {
+  __sdl_GetKeyFromName(string_to_cbytes(name))
+}
+
+extern "C" fn __sdl_GetKeyFromName(name: Bytes) -> SDL_Keycode = "SDL_GetKeyFromName";
+
+///| Start accepting Unicode text input events in a window.
+/// 
+/// This function will enable text input (SDL_EVENT_TEXT_INPUT and
+/// SDL_EVENT_TEXT_EDITING events) in the specified window. Please use this
+/// function paired with SDL_StopTextInput().
+/// 
+/// Text input events are not received by default.
+/// 
+/// On some platforms using this function shows the screen keyboard and/or
+/// activates an IME, which can prevent some key press events from being passed
+/// through.
+/// 
+/// @param window the window to enable text input.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_SetTextInputArea
+/// @see SDL_StartTextInputWithProperties
+/// @see SDL_StopTextInput
+/// @see SDL_TextInputActive
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_StartTextInput(SDL_Window *window);
+/// ```
+pub extern "C" fn sdl_StartTextInput(window: SDL_Window) -> Bool = "SDL_StartTextInput";
+
+///| Start accepting Unicode text input events in a window, with properties
+/// describing the input.
+/// 
+/// This function will enable text input (SDL_EVENT_TEXT_INPUT and
+/// SDL_EVENT_TEXT_EDITING events) in the specified window. Please use this
+/// function paired with SDL_StopTextInput().
+/// 
+/// Text input events are not received by default.
+/// 
+/// On some platforms using this function shows the screen keyboard and/or
+/// activates an IME, which can prevent some key press events from being passed
+/// through.
+/// 
+/// These are the supported properties:
+/// 
+/// - `SDL_PROP_TEXTINPUT_TYPE_NUMBER` - an SDL_TextInputType value that
+///   describes text being input, defaults to SDL_TEXTINPUT_TYPE_TEXT.
+/// - `SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER` - an SDL_Capitalization value
+///   that describes how text should be capitalized, defaults to
+///   SDL_CAPITALIZE_SENTENCES for normal text entry, SDL_CAPITALIZE_WORDS for
+///   SDL_TEXTINPUT_TYPE_TEXT_NAME, and SDL_CAPITALIZE_NONE for e-mail
+///   addresses, usernames, and passwords.
+/// - `SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN` - true to enable auto completion
+///   and auto correction, defaults to true.
+/// - `SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN` - true if multiple lines of text
+///   are allowed. This defaults to true if SDL_HINT_RETURN_KEY_HIDES_IME is
+///   "0" or is not set, and defaults to false if SDL_HINT_RETURN_KEY_HIDES_IME
+///   is "1".
+/// 
+/// On Android you can directly specify the input type:
+/// 
+/// - `SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER` - the text input type to
+///   use, overriding other properties. This is documented at
+///   https://developer.android.com/reference/android/text/InputType
+/// 
+/// @param window the window to enable text input.
+/// @param props the properties to use.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_SetTextInputArea
+/// @see SDL_StartTextInput
+/// @see SDL_StopTextInput
+/// @see SDL_TextInputActive
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props);
+/// ```
+pub extern "C" fn sdl_StartTextInputWithProperties(window: SDL_Window, props: UInt) -> Bool = "SDL_StartTextInputWithProperties"; // SDL_PropertiesID is Uint32
+
+///| Check whether or not Unicode text input events are enabled for a window.
+/// 
+/// @param window the window to check.
+/// @return true if text input events are enabled else false.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInput
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_TextInputActive(SDL_Window *window);
+/// ```
+pub extern "C" fn sdl_TextInputActive(window: SDL_Window) -> Bool = "SDL_TextInputActive";
+
+///| Stop receiving any text input events in a window.
+/// 
+/// If SDL_StartTextInput() showed the screen keyboard, this function will hide
+/// it.
+/// 
+/// @param window the window to disable text input.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInput
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_StopTextInput(SDL_Window *window);
+/// ```
+pub extern "C" fn sdl_StopTextInput(window: SDL_Window) -> Bool = "SDL_StopTextInput";
+
+///| Dismiss the composition window/IME without disabling the subsystem.
+/// 
+/// @param window the window to affect.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInput
+/// @see SDL_StopTextInput
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_ClearComposition(SDL_Window *window);
+/// ```
+pub extern "C" fn sdl_ClearComposition(window: SDL_Window) -> Bool = "SDL_ClearComposition";
+
+///| Set the area used to type Unicode text input.
+/// 
+/// Native input methods may place a window with word suggestions near the
+/// cursor, without covering the text being entered.
+/// 
+/// @param window the window for which to set the text input area.
+/// @param rect the SDL_Rect representing the text input area, in window
+///             coordinates, or NULL to clear it.
+/// @param cursor the offset of the current cursor location relative to
+///               `rect->x`, in window coordinates.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_GetTextInputArea
+/// @see SDL_StartTextInput
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor);
+/// ```
+pub extern "C" fn sdl_SetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_Rect], cursor: Int) -> Bool = "SDL_SetTextInputArea";
+
+///| Get the area used to type Unicode text input.
+/// 
+/// This returns the values previously set by SDL_SetTextInputArea().
+/// 
+/// @param window the window for which to query the text input area.
+/// @param rect a pointer to an SDL_Rect filled in with the text input area,
+///             may be NULL.
+/// @param cursor a pointer to the offset of the current cursor location
+///               relative to `rect->x`, may be NULL.
+/// @return true on success or false on failure; call SDL_GetError() for more
+///          information.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_SetTextInputArea
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor);
+/// ```
+pub extern "C" fn sdl_GetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_Rect], cursor: FixedArray[Int]) -> Bool = "SDL_GetTextInputArea";
+
+///| Check whether the platform has screen keyboard support.
+/// 
+/// @return true if the platform has some screen keyboard support or false if
+///          not.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_StartTextInput
+/// @see SDL_ScreenKeyboardShown
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_HasScreenKeyboardSupport(void);
+/// ```
+pub extern "C" fn sdl_HasScreenKeyboardSupport() -> Bool = "SDL_HasScreenKeyboardSupport";
+
+///| Check whether the screen keyboard is shown for given window.
+/// 
+/// @param window the window for which screen keyboard should be queried.
+/// @return true if screen keyboard is shown or false if not.
+/// 
+/// @threadsafety This function should only be called on the main thread.
+/// 
+/// @since This function is available since SDL 3.2.0.
+/// 
+/// @see SDL_HasScreenKeyboardSupport
+/// 
+/// ```c
+/// extern SDL_DECLSPEC bool SDLCALL SDL_ScreenKeyboardShown(SDL_Window *window);
+/// ```
+pub extern "C" fn sdl_ScreenKeyboardShown(window: SDL_Window) -> Bool = "SDL_ScreenKeyboardShown";
