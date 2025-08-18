@@ -5,6 +5,10 @@ pub struct Renderer(@lib.SDL_Renderer)
 pub suberror SetDrawColorError String derive(Show)
 
 ///|
+/// Set the draw color for the renderer.
+/// ## Parameters
+/// - `color`: The color to set.
+/// - `alpha`: The alpha value of the color.
 pub fn Renderer::setDrawColor(
   self : Renderer,
   color : Color,
@@ -24,6 +28,7 @@ pub fn Renderer::setDrawColor(
 pub suberror ClearRendererError String derive(Show)
 
 ///|
+/// Clear the renderer.
 pub fn Renderer::clear(self : Renderer) -> Unit raise {
   let res = @lib.sdl_RenderClear(self.inner())
   if !res {
@@ -36,6 +41,7 @@ pub fn Renderer::clear(self : Renderer) -> Unit raise {
 pub suberror RenderPresentError String derive(Show)
 
 ///|
+/// Present the renderer.
 pub fn Renderer::present(self : Renderer) -> Unit raise {
   let res = @lib.sdl_RenderPresent(self.inner())
   if !res {

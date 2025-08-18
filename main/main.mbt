@@ -1,7 +1,7 @@
 ///|
 fn main_err() -> Unit raise {
   let ctx = @sdl3.Context::new()
-  let window = ctx.createWindow("simple black window", 800, 600)
+  let window = ctx.createWindow("simple black window", width=800, height=600)
   let renderer = window.createRenderer()
   let timer = ctx.getTimer()
   println("window and renderer created successfully")
