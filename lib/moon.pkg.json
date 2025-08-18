@@ -1,1 +1,10 @@
-{}
+{
+  "is-main": false,
+  "supported-targets" : ["native"],
+  "native-stub" : ["wrap.c"],
+  "link": {
+    "native": {
+      "flags": ["-lSDL3", "-lSDL3_image"]
+    }
+  }
+}

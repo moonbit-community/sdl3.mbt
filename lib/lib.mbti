@@ -1,0 +1,2882 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Kaida-Amethyst/sdl3/lib"
+
+// Values
+const SDL_ALPHA_OPAQUE : UInt = 255
+
+const SDL_ALPHA_OPAQUE_FLOAT : Float = 1.0
+
+const SDL_ALPHA_TRANSPARENT : UInt = 0
+
+const SDL_ALPHA_TRANSPARENT_FLOAT : Float = 0.0
+
+const SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK : UInt = 0xFFFFFFFF
+
+const SDL_AUDIO_DEVICE_DEFAULT_RECORDING : UInt = 0xFFFFFFFE
+
+const SDL_BUTTON_LEFT : Int = 1
+
+const SDL_BUTTON_LMASK : UInt = 1
+
+const SDL_BUTTON_MIDDLE : Int = 2
+
+const SDL_BUTTON_MMASK : UInt = 2
+
+const SDL_BUTTON_RIGHT : Int = 3
+
+const SDL_BUTTON_RMASK : UInt = 4
+
+const SDL_BUTTON_X1 : Int = 4
+
+const SDL_BUTTON_X1MASK : UInt = 8
+
+const SDL_BUTTON_X2 : Int = 5
+
+const SDL_BUTTON_X2MASK : UInt = 16
+
+const SDL_CACHELINE_SIZE : Int = 128
+
+const SDL_GLOB_CASEINSENSITIVE : UInt = 1
+
+const SDL_GL_CONTEXT_DEBUG_FLAG : UInt = 0x0001
+
+const SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG : UInt = 0x0002
+
+const SDL_GL_CONTEXT_PROFILE_COMPATIBILITY : UInt = 0x0002
+
+const SDL_GL_CONTEXT_PROFILE_CORE : UInt = 0x0001
+
+const SDL_GL_CONTEXT_PROFILE_ES : UInt = 0x0004
+
+const SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : UInt = 0x0001
+
+const SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE : UInt = 0x0000
+
+const SDL_GL_CONTEXT_RESET_ISOLATION_FLAG : UInt = 0x0008
+
+const SDL_GL_CONTEXT_RESET_LOSE_CONTEXT : UInt = 0x0001
+
+const SDL_GL_CONTEXT_RESET_NO_NOTIFICATION : UInt = 0x0000
+
+const SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG : UInt = 0x0004
+
+const SDL_HAT_CENTERED : UInt = 0x00
+
+const SDL_HAT_DOWN : UInt = 0x04
+
+const SDL_HAT_LEFT : UInt = 0x08
+
+const SDL_HAT_LEFTDOWN : UInt = 12
+
+const SDL_HAT_LEFTUP : UInt = 9
+
+const SDL_HAT_RIGHT : UInt = 0x02
+
+const SDL_HAT_RIGHTDOWN : UInt = 6
+
+const SDL_HAT_RIGHTUP : UInt = 3
+
+const SDL_HAT_UP : UInt = 0x01
+
+const SDL_IMAGE_MAJOR_VERSION : Int = 3
+
+const SDL_IMAGE_MICRO_VERSION : Int = 4
+
+const SDL_IMAGE_MINOR_VERSION : Int = 2
+
+const SDL_INIT_AUDIO : UInt = 0x00000010
+
+const SDL_INIT_CAMERA : UInt = 0x00010000
+
+const SDL_INIT_EVENTS : UInt = 0x00004000
+
+const SDL_INIT_GAMEPAD : UInt = 0x00002000
+
+const SDL_INIT_HAPTIC : UInt = 0x00001000
+
+const SDL_INIT_JOYSTICK : UInt = 0x00000200
+
+const SDL_INIT_SENSOR : UInt = 0x00008000
+
+const SDL_INIT_VIDEO : UInt = 0x00000020
+
+const SDL_JOYSTICK_AXIS_MAX : Int = 32767
+
+const SDL_JOYSTICK_AXIS_MIN : Int = -32768
+
+const SDL_MAJOR_VERSION : Int = 3
+
+const SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT : UInt = 0x00000080
+
+const SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT : UInt = 0x00000100
+
+const SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT : UInt = 0x00000002
+
+const SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT : UInt = 0x00000001
+
+const SDL_MESSAGEBOX_ERROR : UInt = 0x00000010
+
+const SDL_MESSAGEBOX_INFORMATION : UInt = 0x00000040
+
+const SDL_MESSAGEBOX_WARNING : UInt = 0x00000020
+
+const SDL_MICRO_VERSION : Int = 0
+
+const SDL_MINOR_VERSION : Int = 3
+
+const SDL_MS_PER_SECOND : Int = 1000
+
+const SDL_NS_PER_MS : Int = 1000000
+
+const SDL_NS_PER_SECOND : Int64 = 1000000000
+
+const SDL_NS_PER_US : Int = 1000
+
+const SDL_PEN_MOUSEID : UInt = 0xFFFF_FFFE
+
+const SDL_PEN_TOUCHID : UInt64 = 0xFFFF_FFFF_FFFF_FFFE
+
+const SDL_PROP_APP_METADATA_COPYRIGHT_STRING : String = "SDL.app.metadata.copyright"
+
+const SDL_PROP_APP_METADATA_CREATOR_STRING : String = "SDL.app.metadata.creator"
+
+const SDL_PROP_APP_METADATA_IDENTIFIER_STRING : String = "SDL.app.metadata.identifier"
+
+const SDL_PROP_APP_METADATA_NAME_STRING : String = "SDL.app.metadata.name"
+
+const SDL_PROP_APP_METADATA_TYPE_STRING : String = "SDL.app.metadata.type"
+
+const SDL_PROP_APP_METADATA_URL_STRING : String = "SDL.app.metadata.url"
+
+const SDL_PROP_APP_METADATA_VERSION_STRING : String = "SDL.app.metadata.version"
+
+const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN : String = "SDL.renderer.create.gpu.shaders_dxil"
+
+const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN : String = "SDL.renderer.create.gpu.shaders_msl"
+
+const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN : String = "SDL.renderer.create.gpu.shaders_spirv"
+
+const SDL_PROP_RENDERER_CREATE_NAME_STRING : String = "SDL.renderer.create.name"
+
+const SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER : String = "SDL.renderer.create.output_colorspace"
+
+const SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER : String = "SDL.renderer.create.present_vsync"
+
+const SDL_PROP_RENDERER_CREATE_SURFACE_POINTER : String = "SDL.renderer.create.surface"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER : String = "SDL.renderer.create.vulkan.device"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER : String = "SDL.renderer.create.vulkan.graphics_queue_family_index"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER : String = "SDL.renderer.create.vulkan.instance"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER : String = "SDL.renderer.create.vulkan.physical_device"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER : String = "SDL.renderer.create.vulkan.present_queue_family_index"
+
+const SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER : String = "SDL.renderer.create.vulkan.surface"
+
+const SDL_PROP_RENDERER_CREATE_WINDOW_POINTER : String = "SDL.renderer.create.window"
+
+const SDL_PROP_RENDERER_D3D11_DEVICE_POINTER : String = "SDL.renderer.d3d11.device"
+
+const SDL_PROP_RENDERER_D3D11_SWAPCHAIN_POINTER : String = "SDL.renderer.d3d11.swap_chain"
+
+const SDL_PROP_RENDERER_D3D12_COMMAND_QUEUE_POINTER : String = "SDL.renderer.d3d12.command_queue"
+
+const SDL_PROP_RENDERER_D3D12_DEVICE_POINTER : String = "SDL.renderer.d3d12.device"
+
+const SDL_PROP_RENDERER_D3D12_SWAPCHAIN_POINTER : String = "SDL.renderer.d3d12.swap_chain"
+
+const SDL_PROP_RENDERER_D3D9_DEVICE_POINTER : String = "SDL.renderer.d3d9.device"
+
+const SDL_PROP_RENDERER_GPU_DEVICE_POINTER : String = "SDL.renderer.gpu.device"
+
+const SDL_PROP_RENDERER_HDR_ENABLED_BOOLEAN : String = "SDL.renderer.HDR_enabled"
+
+const SDL_PROP_RENDERER_HDR_HEADROOM_FLOAT : String = "SDL.renderer.HDR_headroom"
+
+const SDL_PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER : String = "SDL.renderer.max_texture_size"
+
+const SDL_PROP_RENDERER_NAME_STRING : String = "SDL.renderer.name"
+
+const SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER : String = "SDL.renderer.output_colorspace"
+
+const SDL_PROP_RENDERER_SDR_WHITE_POINT_FLOAT : String = "SDL.renderer.SDR_white_point"
+
+const SDL_PROP_RENDERER_SURFACE_POINTER : String = "SDL.renderer.surface"
+
+const SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER : String = "SDL.renderer.texture_formats"
+
+const SDL_PROP_RENDERER_VSYNC_NUMBER : String = "SDL.renderer.vsync"
+
+const SDL_PROP_RENDERER_VULKAN_DEVICE_POINTER : String = "SDL.renderer.vulkan.device"
+
+const SDL_PROP_RENDERER_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER : String = "SDL.renderer.vulkan.graphics_queue_family_index"
+
+const SDL_PROP_RENDERER_VULKAN_INSTANCE_POINTER : String = "SDL.renderer.vulkan.instance"
+
+const SDL_PROP_RENDERER_VULKAN_PHYSICAL_DEVICE_POINTER : String = "SDL.renderer.vulkan.physical_device"
+
+const SDL_PROP_RENDERER_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER : String = "SDL.renderer.vulkan.present_queue_family_index"
+
+const SDL_PROP_RENDERER_VULKAN_SURFACE_NUMBER : String = "SDL.renderer.vulkan.surface"
+
+const SDL_PROP_RENDERER_VULKAN_SWAPCHAIN_IMAGE_COUNT_NUMBER : String = "SDL.renderer.vulkan.swapchain_image_count"
+
+const SDL_PROP_RENDERER_WINDOW_POINTER : String = "SDL.renderer.window"
+
+const SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT : String = "SDL.surface.HDR_headroom"
+
+const SDL_PROP_SURFACE_HOTSPOT_X_NUMBER : String = "SDL.surface.hotspot.x"
+
+const SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER : String = "SDL.surface.hotspot.y"
+
+const SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT : String = "SDL.surface.SDR_white_point"
+
+const SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING : String = "SDL.surface.tonemap"
+
+const SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER : String = "SDL.textinput.android.inputtype"
+
+const SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN : String = "SDL.textinput.autocorrect"
+
+const SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER : String = "SDL.textinput.capitalization"
+
+const SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN : String = "SDL.textinput.multiline"
+
+const SDL_PROP_TEXTINPUT_TYPE_NUMBER : String = "SDL.textinput.type"
+
+const SDL_PROP_TEXTURE_ACCESS_NUMBER : String = "SDL.texture.access"
+
+const SDL_PROP_TEXTURE_COLORSPACE_NUMBER : String = "SDL.texture.colorspace"
+
+const SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER : String = "SDL.texture.create.access"
+
+const SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER : String = "SDL.texture.create.colorspace"
+
+const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER : String = "SDL.texture.create.d3d11.texture"
+
+const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER : String = "SDL.texture.create.d3d11.texture_u"
+
+const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER : String = "SDL.texture.create.d3d11.texture_v"
+
+const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER : String = "SDL.texture.create.d3d12.texture"
+
+const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER : String = "SDL.texture.create.d3d12.texture_u"
+
+const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER : String = "SDL.texture.create.d3d12.texture_v"
+
+const SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER : String = "SDL.texture.create.format"
+
+const SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT : String = "SDL.texture.create.HDR_headroom"
+
+const SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER : String = "SDL.texture.create.height"
+
+const SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER : String = "SDL.texture.create.metal.pixelbuffer"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER : String = "SDL.texture.create.opengles2.texture"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER : String = "SDL.texture.create.opengles2.texture_uv"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER : String = "SDL.texture.create.opengles2.texture_u"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER : String = "SDL.texture.create.opengles2.texture_v"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER : String = "SDL.texture.create.opengl.texture"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER : String = "SDL.texture.create.opengl.texture_uv"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER : String = "SDL.texture.create.opengl.texture_u"
+
+const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER : String = "SDL.texture.create.opengl.texture_v"
+
+const SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT : String = "SDL.texture.create.SDR_white_point"
+
+const SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER : String = "SDL.texture.create.vulkan.texture"
+
+const SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER : String = "SDL.texture.create.width"
+
+const SDL_PROP_TEXTURE_D3D11_TEXTURE_POINTER : String = "SDL.texture.d3d11.texture"
+
+const SDL_PROP_TEXTURE_D3D11_TEXTURE_U_POINTER : String = "SDL.texture.d3d11.texture_u"
+
+const SDL_PROP_TEXTURE_D3D11_TEXTURE_V_POINTER : String = "SDL.texture.d3d11.texture_v"
+
+const SDL_PROP_TEXTURE_D3D12_TEXTURE_POINTER : String = "SDL.texture.d3d12.texture"
+
+const SDL_PROP_TEXTURE_D3D12_TEXTURE_U_POINTER : String = "SDL.texture.d3d12.texture_u"
+
+const SDL_PROP_TEXTURE_D3D12_TEXTURE_V_POINTER : String = "SDL.texture.d3d12.texture_v"
+
+const SDL_PROP_TEXTURE_FORMAT_NUMBER : String = "SDL.texture.format"
+
+const SDL_PROP_TEXTURE_HDR_HEADROOM_FLOAT : String = "SDL.texture.HDR_headroom"
+
+const SDL_PROP_TEXTURE_HEIGHT_NUMBER : String = "SDL.texture.height"
+
+const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_NUMBER : String = "SDL.texture.opengles2.texture"
+
+const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER : String = "SDL.texture.opengles2.target"
+
+const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_UV_NUMBER : String = "SDL.texture.opengles2.texture_uv"
+
+const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_U_NUMBER : String = "SDL.texture.opengles2.texture_u"
+
+const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_V_NUMBER : String = "SDL.texture.opengles2.texture_v"
+
+const SDL_PROP_TEXTURE_OPENGL_TEXTURE_NUMBER : String = "SDL.texture.opengl.texture"
+
+const SDL_PROP_TEXTURE_OPENGL_TEXTURE_TARGET_NUMBER : String = "SDL.texture.opengl.target"
+
+const SDL_PROP_TEXTURE_OPENGL_TEXTURE_UV_NUMBER : String = "SDL.texture.opengl.texture_uv"
+
+const SDL_PROP_TEXTURE_OPENGL_TEXTURE_U_NUMBER : String = "SDL.texture.opengl.texture_u"
+
+const SDL_PROP_TEXTURE_OPENGL_TEXTURE_V_NUMBER : String = "SDL.texture.opengl.texture_v"
+
+const SDL_PROP_TEXTURE_OPENGL_TEX_H_FLOAT : String = "SDL.texture.opengl.tex_h"
+
+const SDL_PROP_TEXTURE_OPENGL_TEX_W_FLOAT : String = "SDL.texture.opengl.tex_w"
+
+const SDL_PROP_TEXTURE_SDR_WHITE_POINT_FLOAT : String = "SDL.texture.SDR_white_point"
+
+const SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER : String = "SDL.texture.vulkan.texture"
+
+const SDL_PROP_TEXTURE_WIDTH_NUMBER : String = "SDL.texture.width"
+
+const SDL_SOFTWARE_RENDERER : String = "software"
+
+const SDL_SURFACE_LOCKED : UInt = 0x00000004
+
+const SDL_SURFACE_LOCK_NEEDED : UInt = 0x00000002
+
+const SDL_SURFACE_PREALLOCATED : UInt = 0x00000001
+
+const SDL_SURFACE_SIMD_ALIGNED : UInt = 0x00000008
+
+const SDL_TTF_MAJOR_VERSION : Int = 3
+
+const SDL_TTF_MICRO_VERSION : Int = 2
+
+const SDL_TTF_MINOR_VERSION : Int = 2
+
+const SDL_US_PER_SECOND : Int = 1000000
+
+const SDL_VERSION : Int = 3003000
+
+const SDL_WINDOW_ALWAYS_ON_TOP : UInt64 = 0x0000000000010000
+
+const SDL_WINDOW_BORDERLESS : UInt64 = 0x0000000000000010
+
+const SDL_WINDOW_EXTERNAL : UInt64 = 0x0000000000000800
+
+const SDL_WINDOW_FULLSCREEN : UInt64 = 0x0000000000000001
+
+const SDL_WINDOW_HIDDEN : UInt64 = 0x0000000000000008
+
+const SDL_WINDOW_HIGH_PIXEL_DENSITY : UInt64 = 0x0000000000002000
+
+const SDL_WINDOW_INPUT_FOCUS : UInt64 = 0x0000000000000200
+
+const SDL_WINDOW_KEYBOARD_GRABBED : UInt64 = 0x0000000000100000
+
+const SDL_WINDOW_MAXIMIZED : UInt64 = 0x0000000000000080
+
+const SDL_WINDOW_METAL : UInt64 = 0x0000000020000000
+
+const SDL_WINDOW_MINIMIZED : UInt64 = 0x0000000000000040
+
+const SDL_WINDOW_MODAL : UInt64 = 0x0000000000001000
+
+const SDL_WINDOW_MOUSE_CAPTURE : UInt64 = 0x0000000000004000
+
+const SDL_WINDOW_MOUSE_FOCUS : UInt64 = 0x0000000000000400
+
+const SDL_WINDOW_MOUSE_GRABBED : UInt64 = 0x0000000000000100
+
+const SDL_WINDOW_MOUSE_RELATIVE_MODE : UInt64 = 0x0000000000008000
+
+const SDL_WINDOW_NOT_FOCUSABLE : UInt64 = 0x0000000080000000
+
+const SDL_WINDOW_OCCLUDED : UInt64 = 0x0000000000000004
+
+const SDL_WINDOW_OPENGL : UInt64 = 0x0000000000000002
+
+const SDL_WINDOW_POPUP_MENU : UInt64 = 0x0000000000080000
+
+const SDL_WINDOW_RESIZABLE : UInt64 = 0x0000000000000020
+
+const SDL_WINDOW_TOOLTIP : UInt64 = 0x0000000000040000
+
+const SDL_WINDOW_TRANSPARENT : UInt64 = 0x0000000040000000
+
+const SDL_WINDOW_UTILITY : UInt64 = 0x0000000000020000
+
+const SDL_WINDOW_VULKAN : UInt64 = 0x0000000010000000
+
+const TTF_FONT_WEIGHT_BLACK : Int = 900
+
+const TTF_FONT_WEIGHT_BOLD : Int = 700
+
+const TTF_FONT_WEIGHT_EXTRA_BLACK : Int = 950
+
+const TTF_FONT_WEIGHT_EXTRA_BOLD : Int = 800
+
+const TTF_FONT_WEIGHT_EXTRA_LIGHT : Int = 200
+
+const TTF_FONT_WEIGHT_LIGHT : Int = 300
+
+const TTF_FONT_WEIGHT_MEDIUM : Int = 500
+
+const TTF_FONT_WEIGHT_NORMAL : Int = 400
+
+const TTF_FONT_WEIGHT_SEMI_BOLD : Int = 600
+
+const TTF_FONT_WEIGHT_THIN : Int = 100
+
+const TTF_PROP_FONT_CREATE_EXISTING_FONT : String = "SDL_ttf.font.create.existing_font"
+
+const TTF_PROP_FONT_CREATE_FACE_NUMBER : String = "SDL_ttf.font.create.face"
+
+const TTF_PROP_FONT_CREATE_FILENAME_STRING : String = "SDL_ttf.font.create.filename"
+
+const TTF_PROP_FONT_CREATE_HORIZONTAL_DPI_NUMBER : String = "SDL_ttf.font.create.hdpi"
+
+const TTF_PROP_FONT_CREATE_IOSTREAM_AUTOCLOSE_BOOLEAN : String = "SDL_ttf.font.create.iostream.autoclose"
+
+const TTF_PROP_FONT_CREATE_IOSTREAM_OFFSET_NUMBER : String = "SDL_ttf.font.create.iostream.offset"
+
+const TTF_PROP_FONT_CREATE_IOSTREAM_POINTER : String = "SDL_ttf.font.create.iostream"
+
+const TTF_PROP_FONT_CREATE_SIZE_FLOAT : String = "SDL_ttf.font.create.size"
+
+const TTF_PROP_FONT_CREATE_VERTICAL_DPI_NUMBER : String = "SDL_ttf.font.create.vdpi"
+
+const TTF_STYLE_BOLD : UInt = 0x01
+
+const TTF_STYLE_ITALIC : UInt = 0x02
+
+const TTF_STYLE_NORMAL : UInt = 0x00
+
+const TTF_STYLE_STRIKETHROUGH : UInt = 0x08
+
+const TTF_STYLE_UNDERLINE : UInt = 0x04
+
+fn __SDL_CreateRenderer(SDL_Window, Bytes) -> SDL_Renderer
+
+fn __SDL_CreateWindowAndRenderer(Bytes, Int, Int, UInt64, FixedArray[SDL_Window], FixedArray[SDL_Renderer]) -> Bool
+
+fn __SDL_GetRenderDriver(Int) -> CStr
+
+fn __SDL_GetRendererName(SDL_Renderer) -> CStr
+
+fn __sdl_GetGamepadMappingForID(UInt) -> CStr
+
+fn __sdl_GetGamepadSensorData(SDL_Gamepad, SDL_SensorType, FixedArray[Float], Int) -> Bool
+
+fn __sdl_GetGamepadStringForType(SDL_GamepadType) -> CStr
+
+fn __sdl_GetJoystickPowerInfo(SDL_Joystick, FixedArray[Int]) -> SDL_PowerState
+
+fn __sdl_GetJoysticks(FixedArray[Int]) -> FixedArray[UInt]
+
+fn __sdl_SendJoystickVirtualSensorData(SDL_Joystick, SDL_SensorType, UInt64, FixedArray[Float], Int) -> Bool
+
+fn get_null() -> VoidPtr
+
+fn img_FreeAnimation(IMG_Animation) -> Unit
+
+fn img_Load(String) -> SDL_Surface
+
+fn img_LoadAVIF_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadAnimation(String) -> IMG_Animation
+
+fn img_LoadAnimationTyped_IO(SDL_IOStream, Bool, String) -> IMG_Animation
+
+fn img_LoadAnimation_IO(SDL_IOStream, Bool) -> IMG_Animation
+
+fn img_LoadBMP_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadCUR_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadGIFAnimation_IO(SDL_IOStream) -> IMG_Animation
+
+fn img_LoadGIF_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadICO_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadJPG_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadJXL_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadLBM_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadPCX_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadPNG_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadPNM_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadQOI_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadSVG_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadSizedSVG_IO(SDL_IOStream, Int, Int) -> SDL_Surface
+
+fn img_LoadTGA_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadTIF_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadTexture(SDL_Renderer, String) -> SDL_Texture
+
+fn img_LoadTextureTyped_IO(SDL_Renderer, SDL_IOStream, Bool, String) -> SDL_Texture
+
+fn img_LoadTexture_IO(SDL_Renderer, SDL_IOStream, Bool) -> SDL_Texture
+
+fn img_LoadTyped_IO(SDL_IOStream, Bool, String) -> SDL_Surface
+
+fn img_LoadWEBPAnimation_IO(SDL_IOStream) -> IMG_Animation
+
+fn img_LoadWEBP_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadXCF_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadXPM_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_LoadXV_IO(SDL_IOStream) -> SDL_Surface
+
+fn img_Load_IO(SDL_IOStream, Bool) -> SDL_Surface
+
+fn img_ReadXPMFromArray(FixedArray[Bytes]) -> SDL_Surface
+
+fn img_ReadXPMFromArrayToRGB888(FixedArray[Bytes]) -> SDL_Surface
+
+fn img_SaveAVIF(SDL_Surface, String, Int) -> Bool
+
+fn img_SaveAVIF_IO(SDL_Surface, SDL_IOStream, Bool, Int) -> Bool
+
+fn img_SaveJPG(SDL_Surface, String, Int) -> Bool
+
+fn img_SaveJPG_IO(SDL_Surface, SDL_IOStream, Bool, Int) -> Bool
+
+fn img_SavePNG(SDL_Surface, String) -> Bool
+
+fn img_SavePNG_IO(SDL_Surface, SDL_IOStream, Bool) -> Bool
+
+fn img_Version() -> Int
+
+fn img_isAVIF(SDL_IOStream) -> Bool
+
+fn img_isBMP(SDL_IOStream) -> Bool
+
+fn img_isCUR(SDL_IOStream) -> Bool
+
+fn img_isGIF(SDL_IOStream) -> Bool
+
+fn img_isICO(SDL_IOStream) -> Bool
+
+fn img_isJPG(SDL_IOStream) -> Bool
+
+fn img_isJXL(SDL_IOStream) -> Bool
+
+fn img_isLBM(SDL_IOStream) -> Bool
+
+fn img_isPCX(SDL_IOStream) -> Bool
+
+fn img_isPNG(SDL_IOStream) -> Bool
+
+fn img_isPNM(SDL_IOStream) -> Bool
+
+fn img_isQOI(SDL_IOStream) -> Bool
+
+fn img_isSVG(SDL_IOStream) -> Bool
+
+fn img_isTIF(SDL_IOStream) -> Bool
+
+fn img_isWEBP(SDL_IOStream) -> Bool
+
+fn img_isXCF(SDL_IOStream) -> Bool
+
+fn img_isXPM(SDL_IOStream) -> Bool
+
+fn img_isXV(SDL_IOStream) -> Bool
+
+fn new_sdl_event() -> SDL_Event
+
+fn[T] nullptr() -> T
+
+fn sdl_AcquireCameraFrame(SDL_Camera, FixedArray[UInt64]) -> SDL_Surface
+
+fn sdl_AddEventWatch(FuncRef[(VoidPtr, SDL_Event) -> Int], VoidPtr) -> Bool
+
+fn sdl_AddGamepadMapping(String) -> Int
+
+fn sdl_AddGamepadMappingsFromFile(String) -> Int
+
+fn sdl_AddGamepadMappingsFromIO(SDL_IOStream, Bool) -> Int
+
+fn sdl_AddTimer(UInt, FuncRef[(VoidPtr, UInt, UInt) -> UInt], VoidPtr) -> UInt
+
+fn sdl_AddTimerNS(UInt64, FuncRef[(VoidPtr, UInt, UInt64) -> UInt64], VoidPtr) -> UInt
+
+fn sdl_AttachVirtualJoystick(SDL_VirtualJoystickDesc) -> UInt
+
+fn sdl_AudioDevicePaused(UInt) -> Bool
+
+fn sdl_BindAudioStream(UInt, SDL_AudioStream) -> Bool
+
+fn sdl_BlitSurface(SDL_Surface, FixedArray[SDL_Rect], SDL_Surface, FixedArray[SDL_Rect]) -> Bool
+
+fn sdl_BlitSurfaceScaled(SDL_Surface, FixedArray[SDL_Rect], SDL_Surface, FixedArray[SDL_Rect], SDL_ScaleMode) -> Bool
+
+fn sdl_BlitSurfaceTiled(SDL_Surface, FixedArray[SDL_Rect], SDL_Surface, FixedArray[SDL_Rect]) -> Bool
+
+fn sdl_CaptureMouse(Bool) -> Bool
+
+fn sdl_ClearAudioStream(SDL_AudioStream) -> Bool
+
+fn sdl_ClearClipboardData() -> Bool
+
+fn sdl_ClearComposition(SDL_Window) -> Bool
+
+fn sdl_ClearError() -> Bool
+
+fn sdl_CloseAudioDevice(UInt) -> Unit
+
+fn sdl_CloseCamera(SDL_Camera) -> Unit
+
+fn sdl_CloseGamepad(SDL_Gamepad) -> Unit
+
+fn sdl_CloseIO(SDL_IOStream) -> Bool
+
+fn sdl_CloseJoystick(SDL_Joystick) -> Unit
+
+fn sdl_ComposeCustomBlendMode(SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation) -> SDL_BlendMode
+
+fn sdl_ConvertAudioSamples(FixedArray[SDL_AudioSpec], FixedArray[UInt], Int, FixedArray[SDL_AudioSpec], FixedArray[FixedArray[UInt]], FixedArray[Int]) -> Bool
+
+fn sdl_ConvertEventToRenderCoordinates(SDL_Renderer, SDL_Event) -> Bool
+
+fn sdl_CopyFile(String, String) -> Bool
+
+fn sdl_CreateAudioStream(FixedArray[SDL_AudioSpec], FixedArray[SDL_AudioSpec]) -> SDL_AudioStream
+
+fn sdl_CreateColorCursor(SDL_Surface, Int, Int) -> SDL_Cursor
+
+fn sdl_CreateCursor(FixedArray[UInt], FixedArray[UInt], Int, Int, Int, Int) -> SDL_Cursor
+
+fn sdl_CreateDirectory(String) -> Bool
+
+fn sdl_CreateGPURenderer(SDL_Window, SDL_GPUShaderFormat, FixedArray[SDL_GPUDevice]) -> SDL_Renderer
+
+fn sdl_CreatePalette(Int) -> SDL_Palette
+
+fn sdl_CreateRenderer(SDL_Window, String) -> SDL_Renderer
+
+fn sdl_CreateRendererWithProperties(SDL_PropertiesID) -> SDL_Renderer
+
+fn sdl_CreateSoftwareRenderer(SDL_Surface) -> SDL_Renderer
+
+fn sdl_CreateSurface(Int, Int, SDL_PixelFormat) -> SDL_Surface
+
+fn sdl_CreateSurfaceFrom(Int, Int, SDL_PixelFormat, VoidPtr, Int) -> SDL_Surface
+
+fn sdl_CreateSystemCursor(SDL_SystemCursor) -> SDL_Cursor
+
+fn sdl_CreateTexture(SDL_Renderer, SDL_PixelFormat, SDL_TextureAccess, Int, Int) -> SDL_Texture
+
+fn sdl_CreateTextureFromSurface(SDL_Renderer, SDL_Surface) -> SDL_Texture
+
+fn sdl_CreateTextureWithProperties(SDL_Renderer, SDL_PropertiesID) -> SDL_Texture
+
+fn sdl_CreateWindow(String, Int, Int, UInt64) -> SDL_Window
+
+fn sdl_CreateWindowAndRenderer(String, Int, Int, UInt64, FixedArray[SDL_Window], FixedArray[SDL_Renderer]) -> Bool
+
+fn sdl_CreateWindowWithProperties(UInt) -> SDL_Window
+
+fn sdl_CursorVisible() -> Bool
+
+fn sdl_DateTimeToTime(FixedArray[SDL_DateTime], FixedArray[Int64]) -> Bool
+
+fn sdl_Delay(UInt) -> Unit
+
+fn sdl_DelayNS(UInt64) -> Unit
+
+fn sdl_DelayPrecise(UInt64) -> Unit
+
+fn sdl_DestroyAudioStream(SDL_AudioStream) -> Unit
+
+fn sdl_DestroyCursor(SDL_Cursor) -> Unit
+
+fn sdl_DestroyPalette(SDL_Palette) -> Unit
+
+fn sdl_DestroyRenderer(SDL_Renderer) -> Unit
+
+fn sdl_DestroySurface(SDL_Surface) -> Unit
+
+fn sdl_DestroyTexture(SDL_Texture) -> Unit
+
+fn sdl_DestroyWindow(SDL_Window) -> Unit
+
+fn sdl_DetachVirtualJoystick(UInt) -> Bool
+
+fn sdl_EGL_GetProcAddress(String) -> VoidPtr
+
+fn sdl_EnumerateDirectory(String, FuncRef[(VoidPtr, CStr, CStr) -> SDL_EnumerationResult], VoidPtr) -> Bool
+
+fn sdl_EventEnabled(UInt) -> Bool
+
+fn sdl_FlushAudioStream(SDL_AudioStream) -> Bool
+
+fn sdl_FlushEvent(UInt) -> Unit
+
+fn sdl_FlushEvents(UInt, UInt) -> Unit
+
+fn sdl_FlushIO(SDL_IOStream) -> Bool
+
+fn sdl_GL_CreateContext(SDL_Window) -> SDL_GLContext
+
+fn sdl_GL_DestroyContext(SDL_GLContext) -> Bool
+
+fn sdl_GL_ExtensionSupported(String) -> Bool
+
+fn sdl_GL_GetAttribute(SDL_GLAttr, FixedArray[Int]) -> Bool
+
+fn sdl_GL_GetCurrentContext() -> SDL_GLContext
+
+fn sdl_GL_GetCurrentWindow() -> SDL_Window
+
+fn sdl_GL_GetProcAddress(String) -> VoidPtr
+
+fn sdl_GL_GetSwapInterval(FixedArray[Int]) -> Bool
+
+fn sdl_GL_LoadLibrary(String) -> Bool
+
+fn sdl_GL_MakeCurrent(SDL_Window, SDL_GLContext) -> Bool
+
+fn sdl_GL_ResetAttributes() -> Unit
+
+fn sdl_GL_SetAttribute(SDL_GLAttr, Int) -> Bool
+
+fn sdl_GL_SetSwapInterval(Int) -> Bool
+
+fn sdl_GL_SwapWindow(SDL_Window) -> Bool
+
+fn sdl_GL_UnloadLibrary() -> Unit
+
+fn sdl_GamepadConnected(SDL_Gamepad) -> Bool
+
+fn sdl_GamepadEventsEnabled() -> Bool
+
+fn sdl_GamepadHasAxis(SDL_Gamepad, SDL_GamepadAxis) -> Bool
+
+fn sdl_GamepadHasButton(SDL_Gamepad, SDL_GamepadButton) -> Bool
+
+fn sdl_GamepadHasSensor(SDL_Gamepad, SDL_SensorType) -> Bool
+
+fn sdl_GamepadSensorEnabled(SDL_Gamepad, SDL_SensorType) -> Bool
+
+fn sdl_GetAppMetadataProperty(String) -> String
+
+fn sdl_GetAudioDeviceFormat(UInt, FixedArray[SDL_AudioSpec], FixedArray[Int]) -> Bool
+
+fn sdl_GetAudioDeviceGain(UInt) -> Float
+
+fn sdl_GetAudioDeviceName(UInt) -> String
+
+fn sdl_GetAudioDriver(Int) -> String
+
+fn sdl_GetAudioFormatName(SDL_AudioFormat) -> String
+
+fn sdl_GetAudioPlaybackDevices(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetAudioRecordingDevices(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetAudioStreamAvailable(SDL_AudioStream) -> Int
+
+fn sdl_GetAudioStreamData(SDL_AudioStream, VoidPtr, Int) -> Int
+
+fn sdl_GetAudioStreamDevice(SDL_AudioStream) -> UInt
+
+fn sdl_GetAudioStreamFormat(SDL_AudioStream, FixedArray[SDL_AudioSpec], FixedArray[SDL_AudioSpec]) -> Bool
+
+fn sdl_GetAudioStreamFrequencyRatio(SDL_AudioStream) -> Float
+
+fn sdl_GetAudioStreamGain(SDL_AudioStream) -> Float
+
+fn sdl_GetAudioStreamQueued(SDL_AudioStream) -> Int
+
+fn sdl_GetBasePath() -> String
+
+fn sdl_GetCPUCacheLineSize() -> Int
+
+fn sdl_GetCameraDriver(Int) -> String
+
+fn sdl_GetCameraFormat(SDL_Camera, FixedArray[SDL_CameraSpec]) -> Bool
+
+fn sdl_GetCameraID(SDL_Camera) -> UInt
+
+fn sdl_GetCameraName(UInt) -> String
+
+fn sdl_GetCameraPermissionState(SDL_Camera) -> Int
+
+fn sdl_GetCameraPosition(UInt) -> SDL_CameraPosition
+
+fn sdl_GetCameraProperties(SDL_Camera) -> UInt
+
+fn sdl_GetCameraSupportedFormats(UInt, FixedArray[Int]) -> FixedArray[SDL_CameraSpec]
+
+fn sdl_GetCameras(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetClipboardData(String) -> (VoidPtr, Int)
+
+fn sdl_GetClipboardMimeTypes() -> (Array[String], Int)
+
+fn sdl_GetClipboardText() -> String
+
+fn sdl_GetCurrentAudioDriver() -> String
+
+fn sdl_GetCurrentCameraDriver() -> String
+
+fn sdl_GetCurrentDirectory() -> String
+
+fn sdl_GetCurrentDisplayOrientation(UInt) -> SDL_DisplayOrientation
+
+fn sdl_GetCurrentRenderOutputSize(SDL_Renderer, FixedArray[Int], FixedArray[Int]) -> Bool
+
+fn sdl_GetCurrentTime(FixedArray[Int64]) -> Bool
+
+fn sdl_GetCurrentVideoDriver() -> String
+
+fn sdl_GetCursor() -> SDL_Cursor
+
+fn sdl_GetDateTimeLocalePreferences(FixedArray[SDL_DateFormat], FixedArray[SDL_TimeFormat]) -> Bool
+
+fn sdl_GetDayOfWeek(Int, Int, Int) -> Int
+
+fn sdl_GetDayOfYear(Int, Int, Int) -> Int
+
+fn sdl_GetDaysInMonth(Int, Int) -> Int
+
+fn sdl_GetDefaultCursor() -> SDL_Cursor
+
+fn sdl_GetDefaultLogOutputFunction() -> FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes) -> Unit]
+
+fn sdl_GetDisplayBounds(UInt, FixedArray[SDL_Rect]) -> Bool
+
+fn sdl_GetDisplayContentScale(UInt) -> Float
+
+fn sdl_GetDisplayName(UInt) -> String
+
+fn sdl_GetDisplayProperties(UInt) -> UInt
+
+fn sdl_GetDisplayUsableBounds(UInt, FixedArray[SDL_Rect]) -> Bool
+
+fn sdl_GetDisplays(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetError() -> String
+
+fn sdl_GetEventFilter(FixedArray[FuncRef[(VoidPtr, SDL_Event) -> Int]], FixedArray[VoidPtr]) -> Bool
+
+fn sdl_GetGamepadAppleSFSymbolsNameForAxis(SDL_Gamepad, SDL_GamepadAxis) -> String
+
+fn sdl_GetGamepadAppleSFSymbolsNameForButton(SDL_Gamepad, SDL_GamepadButton) -> String
+
+fn sdl_GetGamepadAxis(SDL_Gamepad, SDL_GamepadAxis) -> Int16
+
+fn sdl_GetGamepadAxisFromString(String) -> SDL_GamepadAxis
+
+fn sdl_GetGamepadBindings(SDL_Gamepad) -> (Array[SDL_GamepadBinding], Int)
+
+fn sdl_GetGamepadButton(SDL_Gamepad, SDL_GamepadButton) -> Bool
+
+fn sdl_GetGamepadButtonFromString(String) -> SDL_GamepadButton
+
+fn sdl_GetGamepadButtonLabel(SDL_Gamepad, SDL_GamepadButton) -> SDL_GamepadButtonLabel
+
+fn sdl_GetGamepadButtonLabelForType(SDL_GamepadType, SDL_GamepadButton) -> SDL_GamepadButtonLabel
+
+fn sdl_GetGamepadConnectionState(SDL_Gamepad) -> SDL_JoystickConnectionState
+
+fn sdl_GetGamepadFirmwareVersion(SDL_Gamepad) -> UInt16
+
+fn sdl_GetGamepadFromID(UInt) -> SDL_Gamepad
+
+fn sdl_GetGamepadFromPlayerIndex(Int) -> SDL_Gamepad
+
+fn sdl_GetGamepadGUIDForID(UInt) -> SDL_GUID
+
+fn sdl_GetGamepadID(SDL_Gamepad) -> UInt
+
+fn sdl_GetGamepadJoystick(SDL_Gamepad) -> SDL_Joystick
+
+fn sdl_GetGamepadMapping(SDL_Gamepad) -> String
+
+fn sdl_GetGamepadMappingForGUID(SDL_GUID) -> String
+
+fn sdl_GetGamepadMappingForID(UInt) -> String
+
+fn sdl_GetGamepadMappings() -> (Array[String], Int)
+
+fn sdl_GetGamepadName(SDL_Gamepad) -> String
+
+fn sdl_GetGamepadNameForID(UInt) -> String
+
+fn sdl_GetGamepadPath(SDL_Gamepad) -> String
+
+fn sdl_GetGamepadPathForID(UInt) -> String
+
+fn sdl_GetGamepadPlayerIndex(SDL_Gamepad) -> Int
+
+fn sdl_GetGamepadPlayerIndexForID(UInt) -> Int
+
+fn sdl_GetGamepadPowerInfo(SDL_Gamepad) -> (SDL_PowerState, Int)
+
+fn sdl_GetGamepadProduct(SDL_Gamepad) -> UInt16
+
+fn sdl_GetGamepadProductForID(UInt) -> UInt16
+
+fn sdl_GetGamepadProductVersion(SDL_Gamepad) -> UInt16
+
+fn sdl_GetGamepadProductVersionForID(UInt) -> UInt16
+
+fn sdl_GetGamepadProperties(SDL_Gamepad) -> SDL_PropertiesID
+
+fn sdl_GetGamepadSensorData(SDL_Gamepad, SDL_SensorType, Int) -> (Bool, Array[Float])
+
+fn sdl_GetGamepadSensorDataRate(SDL_Gamepad, SDL_SensorType) -> Float
+
+fn sdl_GetGamepadSerial(SDL_Gamepad) -> String
+
+fn sdl_GetGamepadSteamHandle(SDL_Gamepad) -> UInt64
+
+fn sdl_GetGamepadStringForAxis(SDL_GamepadAxis) -> String
+
+fn sdl_GetGamepadStringForButton(SDL_GamepadButton) -> String
+
+fn sdl_GetGamepadStringForType(SDL_GamepadType) -> String
+
+fn sdl_GetGamepadTouchpadFinger(SDL_Gamepad, Int, Int) -> (Bool, Bool, Float, Float, Float)
+
+fn sdl_GetGamepadType(SDL_Gamepad) -> SDL_GamepadType
+
+fn sdl_GetGamepadTypeForID(UInt) -> SDL_GamepadType
+
+fn sdl_GetGamepadTypeFromString(String) -> SDL_GamepadType
+
+fn sdl_GetGamepadVendor(SDL_Gamepad) -> UInt16
+
+fn sdl_GetGamepadVendorForID(UInt) -> UInt16
+
+fn sdl_GetGamepads() -> (Array[UInt], Int)
+
+fn sdl_GetGlobalMouseState(FixedArray[Float], FixedArray[Float]) -> UInt
+
+fn sdl_GetIOProperties(SDL_IOStream) -> UInt
+
+fn sdl_GetIOSize(SDL_IOStream) -> Int64
+
+fn sdl_GetIOStatus(SDL_IOStream) -> SDL_IOStatus
+
+fn sdl_GetJoystickAxis(SDL_Joystick, Int) -> Int16
+
+fn sdl_GetJoystickAxisInitialState(SDL_Joystick, Int) -> (Bool, Int16)
+
+fn sdl_GetJoystickBall(SDL_Joystick, Int) -> (Bool, Int, Int)
+
+fn sdl_GetJoystickButton(SDL_Joystick, Int) -> Bool
+
+fn sdl_GetJoystickConnectionState(SDL_Joystick) -> SDL_JoystickConnectionState
+
+fn sdl_GetJoystickFirmwareVersion(SDL_Joystick) -> UInt16
+
+fn sdl_GetJoystickFromID(UInt) -> SDL_Joystick
+
+fn sdl_GetJoystickFromPlayerIndex(Int) -> SDL_Joystick
+
+fn sdl_GetJoystickGUID(SDL_Joystick) -> SDL_GUID
+
+fn sdl_GetJoystickGUIDForID(UInt) -> SDL_GUID
+
+fn sdl_GetJoystickGUIDInfo(SDL_GUID) -> (UInt16, UInt16, UInt16, UInt16)
+
+fn sdl_GetJoystickHat(SDL_Joystick, Int) -> Byte
+
+fn sdl_GetJoystickID(SDL_Joystick) -> UInt
+
+fn sdl_GetJoystickName(SDL_Joystick) -> String
+
+fn sdl_GetJoystickNameForID(UInt) -> String
+
+fn sdl_GetJoystickPath(SDL_Joystick) -> String
+
+fn sdl_GetJoystickPathForID(UInt) -> String
+
+fn sdl_GetJoystickPlayerIndex(SDL_Joystick) -> Int
+
+fn sdl_GetJoystickPlayerIndexForID(UInt) -> Int
+
+fn sdl_GetJoystickPowerInfo(SDL_Joystick) -> (SDL_PowerState, Int)
+
+fn sdl_GetJoystickProduct(SDL_Joystick) -> UInt16
+
+fn sdl_GetJoystickProductForID(UInt) -> UInt16
+
+fn sdl_GetJoystickProductVersion(SDL_Joystick) -> UInt16
+
+fn sdl_GetJoystickProductVersionForID(UInt) -> UInt16
+
+fn sdl_GetJoystickProperties(SDL_Joystick) -> SDL_PropertiesID
+
+fn sdl_GetJoystickSerial(SDL_Joystick) -> String
+
+fn sdl_GetJoystickType(SDL_Joystick) -> SDL_JoystickType
+
+fn sdl_GetJoystickTypeForID(UInt) -> SDL_JoystickType
+
+fn sdl_GetJoystickVendor(SDL_Joystick) -> UInt16
+
+fn sdl_GetJoystickVendorForID(UInt) -> UInt16
+
+fn sdl_GetJoysticks() -> (Array[UInt], Int)
+
+fn sdl_GetKeyFromName(String) -> SDL_Keycode
+
+fn sdl_GetKeyFromScancode(SDL_Scancode, SDL_Keymod, Bool) -> SDL_Keycode
+
+fn sdl_GetKeyName(SDL_Keycode) -> String
+
+fn sdl_GetKeyboardFocus() -> SDL_Window
+
+fn sdl_GetKeyboardNameForID(UInt) -> String
+
+fn sdl_GetKeyboardState(FixedArray[Int]) -> FixedArray[Bool]
+
+fn sdl_GetKeyboards(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetLogOutputFunction(FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes) -> Unit], VoidPtr) -> Unit
+
+fn sdl_GetLogPriority(Int) -> SDL_LogPriority
+
+fn sdl_GetMasksForPixelFormat(SDL_PixelFormat, FixedArray[Int], FixedArray[UInt], FixedArray[UInt], FixedArray[UInt], FixedArray[UInt]) -> Bool
+
+fn sdl_GetMice(FixedArray[Int]) -> FixedArray[UInt]
+
+fn sdl_GetModState() -> SDL_Keymod
+
+fn sdl_GetMouseFocus() -> SDL_Window
+
+fn sdl_GetMouseNameForID(UInt) -> String
+
+fn sdl_GetMouseState(FixedArray[Float], FixedArray[Float]) -> UInt
+
+fn sdl_GetNaturalDisplayOrientation(UInt) -> SDL_DisplayOrientation
+
+fn sdl_GetNumAudioDrivers() -> Int
+
+fn sdl_GetNumCameraDrivers() -> Int
+
+fn sdl_GetNumGamepadTouchpadFingers(SDL_Gamepad, Int) -> Int
+
+fn sdl_GetNumGamepadTouchpads(SDL_Gamepad) -> Int
+
+fn sdl_GetNumJoystickAxes(SDL_Joystick) -> Int
+
+fn sdl_GetNumJoystickBalls(SDL_Joystick) -> Int
+
+fn sdl_GetNumJoystickButtons(SDL_Joystick) -> Int
+
+fn sdl_GetNumJoystickHats(SDL_Joystick) -> Int
+
+fn sdl_GetNumLogicalCPUCores() -> Int
+
+fn sdl_GetNumRenderDrivers() -> Int
+
+fn sdl_GetNumVideoDrivers() -> Int
+
+fn sdl_GetPathInfo(String) -> (Bool, SDL_PathInfo)
+
+fn sdl_GetPerformanceCounter() -> UInt64
+
+fn sdl_GetPerformanceFrequency() -> UInt64
+
+fn sdl_GetPixelFormatDetails(SDL_PixelFormat) -> SDL_PixelFormatDetails
+
+fn sdl_GetPixelFormatForMasks(Int, UInt, UInt, UInt, UInt) -> SDL_PixelFormat
+
+fn sdl_GetPixelFormatName(SDL_PixelFormat) -> String
+
+fn sdl_GetPrefPath(String, String) -> String
+
+fn sdl_GetPrimaryDisplay() -> UInt
+
+fn sdl_GetPrimarySelectionText() -> String
+
+fn sdl_GetRGB(UInt, SDL_PixelFormatDetails, SDL_Palette, FixedArray[UInt], FixedArray[UInt], FixedArray[UInt]) -> Unit
+
+fn sdl_GetRGBA(UInt, SDL_PixelFormatDetails, SDL_Palette, FixedArray[UInt], FixedArray[UInt], FixedArray[UInt], FixedArray[UInt]) -> Unit
+
+fn sdl_GetRealGamepadType(SDL_Gamepad) -> SDL_GamepadType
+
+fn sdl_GetRealGamepadTypeForID(UInt) -> SDL_GamepadType
+
+fn sdl_GetRectAndLineIntersection(SDL_Rect, Int, Int, Int, Int) -> (Bool, Int, Int, Int, Int)
+
+fn sdl_GetRectAndLineIntersectionFloat(SDL_FRect, Float, Float, Float, Float) -> (Bool, Float, Float, Float, Float)
+
+fn sdl_GetRectEnclosingPoints(Array[SDL_Point], SDL_Rect) -> (Bool, SDL_Rect)
+
+fn sdl_GetRectEnclosingPointsFloat(Array[SDL_FPoint], SDL_FRect) -> (Bool, SDL_FRect)
+
+fn sdl_GetRectIntersection(SDL_Rect, SDL_Rect) -> (Bool, SDL_Rect)
+
+fn sdl_GetRectIntersectionFloat(SDL_FRect, SDL_FRect) -> (Bool, SDL_FRect)
+
+fn sdl_GetRectUnion(SDL_Rect, SDL_Rect) -> (Bool, SDL_Rect)
+
+fn sdl_GetRectUnionFloat(SDL_FRect, SDL_FRect) -> (Bool, SDL_FRect)
+
+fn sdl_GetRelativeMouseState(FixedArray[Float], FixedArray[Float]) -> UInt
+
+fn sdl_GetRenderClipRect(SDL_Renderer, SDL_Rect) -> Bool
+
+fn sdl_GetRenderColorScale(SDL_Renderer, FixedArray[Float]) -> Bool
+
+fn sdl_GetRenderDrawBlendMode(SDL_Renderer, FixedArray[SDL_BlendMode]) -> Bool
+
+fn sdl_GetRenderDrawColor(SDL_Renderer, Bytes, Bytes, Bytes, Bytes) -> Bool
+
+fn sdl_GetRenderDrawColorFloat(SDL_Renderer, FixedArray[Float], FixedArray[Float], FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_GetRenderDriver(Int) -> String
+
+fn sdl_GetRenderLogicalPresentation(SDL_Renderer, FixedArray[Int], FixedArray[Int], FixedArray[SDL_RendererLogicalPresentation]) -> Bool
+
+fn sdl_GetRenderLogicalPresentationRect(SDL_Renderer, SDL_FRect) -> Bool
+
+fn sdl_GetRenderOutputSize(SDL_Renderer, FixedArray[Int], FixedArray[Int]) -> Bool
+
+fn sdl_GetRenderSafeArea(SDL_Renderer, SDL_Rect) -> Bool
+
+fn sdl_GetRenderScale(SDL_Renderer, FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_GetRenderTarget(SDL_Renderer) -> SDL_Texture
+
+fn sdl_GetRenderVSync(SDL_Renderer, FixedArray[Int]) -> Bool
+
+fn sdl_GetRenderViewport(SDL_Renderer, SDL_Rect) -> Bool
+
+fn sdl_GetRenderWindow(SDL_Renderer) -> SDL_Window
+
+fn sdl_GetRenderer(SDL_Window) -> SDL_Renderer
+
+fn sdl_GetRendererFromTexture(SDL_Texture) -> SDL_Renderer
+
+fn sdl_GetRendererName(SDL_Renderer) -> String
+
+fn sdl_GetRendererProperties(SDL_Renderer) -> SDL_PropertiesID
+
+fn sdl_GetRevision() -> String
+
+fn sdl_GetSIMDAlignment() -> Int
+
+fn sdl_GetScancodeFromKey(SDL_Keycode, FixedArray[SDL_Keymod]) -> SDL_Scancode
+
+fn sdl_GetScancodeFromName(String) -> SDL_Scancode
+
+fn sdl_GetScancodeName(SDL_Scancode) -> String
+
+fn sdl_GetSurfaceColorspace(SDL_Surface) -> SDL_Colorspace
+
+fn sdl_GetSurfaceProperties(SDL_Surface) -> UInt
+
+fn sdl_GetSystemRAM() -> Int
+
+fn sdl_GetSystemTheme() -> SDL_SystemTheme
+
+fn sdl_GetTextInputArea(SDL_Window, FixedArray[SDL_Rect], FixedArray[Int]) -> Bool
+
+fn sdl_GetTextureAlphaMod(SDL_Texture, Bytes) -> Bool
+
+fn sdl_GetTextureAlphaModFloat(SDL_Texture, FixedArray[Float]) -> Bool
+
+fn sdl_GetTextureBlendMode(SDL_Texture, FixedArray[SDL_BlendMode]) -> Bool
+
+fn sdl_GetTextureColorMod(SDL_Texture, Bytes, Bytes, Bytes) -> Bool
+
+fn sdl_GetTextureColorModFloat(SDL_Texture, FixedArray[Float], FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_GetTextureProperties(SDL_Texture) -> SDL_PropertiesID
+
+fn sdl_GetTextureScaleMode(SDL_Texture, FixedArray[SDL_ScaleMode]) -> Bool
+
+fn sdl_GetTextureSize(SDL_Texture, FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_GetTicks() -> UInt64
+
+fn sdl_GetTicksNS() -> UInt64
+
+fn sdl_GetUserFolder(SDL_Folder) -> String
+
+fn sdl_GetVersion() -> Int
+
+fn sdl_GetVideoDriver(Int) -> String
+
+fn sdl_GetWindowFlags(SDL_Window) -> UInt64
+
+fn sdl_GetWindowFromID(UInt) -> SDL_Window
+
+fn sdl_GetWindowID(SDL_Window) -> UInt
+
+fn sdl_GetWindowParent(SDL_Window) -> SDL_Window
+
+fn sdl_GetWindowPosition(SDL_Window, FixedArray[Int], FixedArray[Int]) -> Bool
+
+fn sdl_GetWindowProperties(SDL_Window) -> UInt
+
+fn sdl_GetWindowRelativeMouseMode(SDL_Window) -> Bool
+
+fn sdl_GetWindowSize(SDL_Window, FixedArray[Int], FixedArray[Int]) -> Bool
+
+fn sdl_GetWindowTitle(SDL_Window) -> String
+
+fn sdl_GlobDirectory(String, String, UInt) -> (Array[String], Int)
+
+fn sdl_HasARMSIMD() -> Bool
+
+fn sdl_HasAVX() -> Bool
+
+fn sdl_HasAVX2() -> Bool
+
+fn sdl_HasAVX512F() -> Bool
+
+fn sdl_HasAltiVec() -> Bool
+
+fn sdl_HasClipboardData(String) -> Bool
+
+fn sdl_HasClipboardText() -> Bool
+
+fn sdl_HasEvent(UInt) -> Bool
+
+fn sdl_HasEvents(UInt, UInt) -> Bool
+
+fn sdl_HasGamepad() -> Bool
+
+fn sdl_HasJoystick() -> Bool
+
+fn sdl_HasKeyboard() -> Bool
+
+fn sdl_HasLASX() -> Bool
+
+fn sdl_HasLSX() -> Bool
+
+fn sdl_HasMMX() -> Bool
+
+fn sdl_HasMouse() -> Bool
+
+fn sdl_HasNEON() -> Bool
+
+fn sdl_HasPrimarySelectionText() -> Bool
+
+fn sdl_HasRectIntersection(SDL_Rect, SDL_Rect) -> Bool
+
+fn sdl_HasRectIntersectionFloat(SDL_FRect, SDL_FRect) -> Bool
+
+fn sdl_HasSSE() -> Bool
+
+fn sdl_HasSSE2() -> Bool
+
+fn sdl_HasSSE3() -> Bool
+
+fn sdl_HasSSE41() -> Bool
+
+fn sdl_HasSSE42() -> Bool
+
+fn sdl_HasScreenKeyboardSupport() -> Bool
+
+fn sdl_HideCursor() -> Bool
+
+fn sdl_HideWindow(SDL_Window) -> Bool
+
+fn sdl_IOFromConstMem(VoidPtr, UInt64) -> SDL_IOStream?
+
+fn sdl_IOFromDynamicMem() -> SDL_IOStream?
+
+fn sdl_IOFromFile(String, String) -> SDL_IOStream?
+
+fn sdl_IOFromMem(VoidPtr, UInt64) -> SDL_IOStream?
+
+fn sdl_IOprintf(SDL_IOStream, String) -> UInt64
+
+fn sdl_Init(UInt) -> Bool
+
+fn sdl_InitSubSystem(UInt) -> Bool
+
+fn sdl_InvalidParamError(String) -> Bool
+
+fn sdl_IsGamepad(UInt) -> Bool
+
+fn sdl_IsJoystickVirtual(UInt) -> Bool
+
+fn sdl_IsMainThread() -> Bool
+
+fn sdl_JoystickConnected(SDL_Joystick) -> Bool
+
+fn sdl_JoystickEventsEnabled() -> Bool
+
+fn sdl_LoadBMP(String) -> SDL_Surface
+
+fn sdl_LoadFile(String, FixedArray[UInt64]) -> VoidPtr?
+
+fn sdl_LoadFile_IO(SDL_IOStream, FixedArray[UInt64], Bool) -> VoidPtr?
+
+fn sdl_LoadWAV(String, FixedArray[SDL_AudioSpec], FixedArray[FixedArray[UInt]], FixedArray[UInt]) -> Bool
+
+fn sdl_LockJoysticks() -> Unit
+
+fn sdl_LockTexture(SDL_Texture, SDL_Rect, FixedArray[VoidPtr], FixedArray[Int]) -> Bool
+
+fn sdl_LockTextureToSurface(SDL_Texture, SDL_Rect, FixedArray[SDL_Surface]) -> Bool
+
+fn sdl_Log(String) -> Unit
+
+fn sdl_LogCritical(Int, String) -> Unit
+
+fn sdl_LogDebug(Int, String) -> Unit
+
+fn sdl_LogError(Int, String) -> Unit
+
+fn sdl_LogInfo(Int, String) -> Unit
+
+fn sdl_LogMessage(Int, SDL_LogPriority, String) -> Unit
+
+fn sdl_LogTrace(Int, String) -> Unit
+
+fn sdl_LogVerbose(Int, String) -> Unit
+
+fn sdl_LogWarn(Int, String) -> Unit
+
+fn sdl_MapRGB(SDL_PixelFormatDetails, SDL_Palette, UInt, UInt, UInt) -> UInt
+
+fn sdl_MapRGBA(SDL_PixelFormatDetails, SDL_Palette, UInt, UInt, UInt, UInt) -> UInt
+
+fn sdl_MapSurfaceRGB(SDL_Surface, Byte, Byte, Byte) -> UInt
+
+fn sdl_MapSurfaceRGBA(SDL_Surface, Byte, Byte, Byte, Byte) -> UInt
+
+fn sdl_MaximizeWindow(SDL_Window) -> Bool
+
+fn sdl_MinimizeWindow(SDL_Window) -> Bool
+
+fn sdl_MixAudio(FixedArray[UInt], FixedArray[UInt], SDL_AudioFormat, UInt, Float) -> Bool
+
+fn sdl_OpenAudioDevice(UInt, FixedArray[SDL_AudioSpec]) -> UInt
+
+fn sdl_OpenAudioDeviceStream(UInt, FixedArray[SDL_AudioSpec], FuncRef[(VoidPtr, SDL_AudioStream, Int, Int) -> Unit], VoidPtr) -> SDL_AudioStream
+
+fn sdl_OpenCamera(UInt, FixedArray[SDL_CameraSpec]) -> SDL_Camera
+
+fn sdl_OpenGamepad(UInt) -> SDL_Gamepad
+
+fn sdl_OpenIO(SDL_IOStreamInterface, VoidPtr) -> SDL_IOStream?
+
+fn sdl_OpenJoystick(UInt) -> SDL_Joystick
+
+fn sdl_OpenURL(String) -> Bool
+
+fn sdl_OutOfMemory() -> Bool
+
+fn sdl_PauseAudioDevice(UInt) -> Bool
+
+fn sdl_PeepEvents(FixedArray[SDL_Event], Int, Int, UInt, UInt) -> Int
+
+fn sdl_PointInRect(SDL_Point, SDL_Rect) -> Bool
+
+fn sdl_PointInRectFloat(SDL_FPoint, SDL_FRect) -> Bool
+
+fn sdl_PollEvent(SDL_Event) -> Bool
+
+fn sdl_PumpEvents() -> Unit
+
+fn sdl_PushEvent(SDL_Event) -> Bool
+
+fn sdl_PutAudioStreamData(SDL_AudioStream, VoidPtr, Int) -> Bool
+
+fn sdl_Quit() -> Unit
+
+fn sdl_QuitSubSystem(UInt) -> Unit
+
+fn sdl_RaiseWindow(SDL_Window) -> Bool
+
+fn sdl_ReadIO(SDL_IOStream, VoidPtr, UInt64) -> UInt64
+
+fn sdl_ReadS16BE(SDL_IOStream, FixedArray[Int]) -> Bool
+
+fn sdl_ReadS16LE(SDL_IOStream, FixedArray[Int]) -> Bool
+
+fn sdl_ReadS32BE(SDL_IOStream, FixedArray[Int]) -> Bool
+
+fn sdl_ReadS32LE(SDL_IOStream, FixedArray[Int]) -> Bool
+
+fn sdl_ReadS64BE(SDL_IOStream, FixedArray[Int64]) -> Bool
+
+fn sdl_ReadS64LE(SDL_IOStream, FixedArray[Int64]) -> Bool
+
+fn sdl_ReadS8(SDL_IOStream, FixedArray[Byte]) -> Bool
+
+fn sdl_ReadSurfacePixel(SDL_Surface, Int, Int, FixedArray[Byte], FixedArray[Byte], FixedArray[Byte], FixedArray[Byte]) -> Bool
+
+fn sdl_ReadU16BE(SDL_IOStream, FixedArray[UInt]) -> Bool
+
+fn sdl_ReadU16LE(SDL_IOStream, FixedArray[UInt]) -> Bool
+
+fn sdl_ReadU32BE(SDL_IOStream, FixedArray[UInt]) -> Bool
+
+fn sdl_ReadU32LE(SDL_IOStream, FixedArray[UInt]) -> Bool
+
+fn sdl_ReadU64BE(SDL_IOStream, FixedArray[UInt64]) -> Bool
+
+fn sdl_ReadU64LE(SDL_IOStream, FixedArray[UInt64]) -> Bool
+
+fn sdl_ReadU8(SDL_IOStream, FixedArray[Byte]) -> Bool
+
+fn sdl_RectEmpty(SDL_Rect) -> Bool
+
+fn sdl_RectEmptyFloat(SDL_FRect) -> Bool
+
+fn sdl_RectToFRect(SDL_Rect) -> SDL_FRect
+
+fn sdl_RectsEqual(SDL_Rect, SDL_Rect) -> Bool
+
+fn sdl_RectsEqualEpsilon(SDL_FRect, SDL_FRect, Float) -> Bool
+
+fn sdl_RectsEqualFloat(SDL_FRect, SDL_FRect) -> Bool
+
+fn sdl_RegisterEvents(Int) -> UInt
+
+fn sdl_ReleaseCameraFrame(SDL_Camera, SDL_Surface) -> Unit
+
+fn sdl_ReloadGamepadMappings() -> Bool
+
+fn sdl_RemoveEventWatch(FuncRef[(VoidPtr, SDL_Event) -> Int], VoidPtr) -> Unit
+
+fn sdl_RemovePath(String) -> Bool
+
+fn sdl_RemoveTimer(UInt) -> Bool
+
+fn sdl_RenamePath(String, String) -> Bool
+
+fn sdl_RenderClear(SDL_Renderer) -> Bool
+
+fn sdl_RenderClipEnabled(SDL_Renderer) -> Bool
+
+fn sdl_RenderCoordinatesFromWindow(SDL_Renderer, Float, Float, FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_RenderCoordinatesToWindow(SDL_Renderer, Float, Float, FixedArray[Float], FixedArray[Float]) -> Bool
+
+fn sdl_RenderFillRect(SDL_Renderer, SDL_FRect) -> Bool
+
+fn sdl_RenderFillRects(SDL_Renderer, SDL_FRect, Int) -> Bool
+
+fn sdl_RenderFlush(SDL_Renderer) -> Bool
+
+fn sdl_RenderGeometry(SDL_Renderer, SDL_Texture, SDL_Vertex, Int, FixedArray[Int], Int) -> Bool
+
+fn sdl_RenderGeometryRaw(SDL_Renderer, SDL_Texture, FixedArray[Float], Int, SDL_FColor, Int, FixedArray[Float], Int, Int, VoidPtr, Int, Int) -> Bool
+
+fn sdl_RenderLine(SDL_Renderer, Float, Float, Float, Float) -> Bool
+
+fn sdl_RenderLines(SDL_Renderer, SDL_FPoint, Int) -> Bool
+
+fn sdl_RenderPoint(SDL_Renderer, Float, Float) -> Bool
+
+fn sdl_RenderPoints(SDL_Renderer, SDL_FPoint, Int) -> Bool
+
+fn sdl_RenderPresent(SDL_Renderer) -> Bool
+
+fn sdl_RenderRect(SDL_Renderer, SDL_FRect) -> Bool
+
+fn sdl_RenderRects(SDL_Renderer, SDL_FRect, Int) -> Bool
+
+fn sdl_RenderTexture(SDL_Renderer, SDL_Texture, SDL_FRect, SDL_FRect) -> Bool
+
+fn sdl_RenderTextureRotated(SDL_Renderer, SDL_Texture, SDL_FRect, SDL_FRect, Double, SDL_FPoint, SDL_FlipMode) -> Bool
+
+fn sdl_RenderViewportSet(SDL_Renderer) -> Bool
+
+fn sdl_ResetKeyboard() -> Unit
+
+fn sdl_ResetLogPriorities() -> Unit
+
+fn sdl_RestoreWindow(SDL_Window) -> Bool
+
+fn sdl_ResumeAudioDevice(UInt) -> Bool
+
+fn sdl_RumbleGamepad(SDL_Gamepad, UInt16, UInt16, UInt) -> Bool
+
+fn sdl_RumbleGamepadTriggers(SDL_Gamepad, UInt16, UInt16, UInt) -> Bool
+
+fn sdl_RumbleJoystick(SDL_Joystick, UInt16, UInt16, UInt) -> Bool
+
+fn sdl_RumbleJoystickTriggers(SDL_Joystick, UInt16, UInt16, UInt) -> Bool
+
+fn sdl_RunOnMainThread(FuncRef[(VoidPtr) -> Unit], VoidPtr, Bool) -> Bool
+
+fn sdl_SaveBMP(SDL_Surface, String) -> Bool
+
+fn sdl_SaveFile(String, VoidPtr, UInt64) -> Bool
+
+fn sdl_SaveFile_IO(SDL_IOStream, VoidPtr, UInt64, Bool) -> Bool
+
+fn sdl_ScreenKeyboardShown(SDL_Window) -> Bool
+
+fn sdl_SeekIO(SDL_IOStream, Int64, SDL_IOWhence) -> Int64
+
+fn sdl_SendGamepadEffect(SDL_Gamepad, VoidPtr, Int) -> Bool
+
+fn sdl_SendJoystickEffect(SDL_Joystick, VoidPtr, Int) -> Bool
+
+fn sdl_SendJoystickVirtualSensorData(SDL_Joystick, SDL_SensorType, UInt64, Array[Float]) -> Bool
+
+fn sdl_SetAppMetadata(String, String, String) -> Bool
+
+fn sdl_SetAppMetadataProperty(String, String) -> Bool
+
+fn sdl_SetAudioDeviceGain(UInt, Float) -> Bool
+
+fn sdl_SetAudioStreamFormat(SDL_AudioStream, FixedArray[SDL_AudioSpec], FixedArray[SDL_AudioSpec]) -> Bool
+
+fn sdl_SetAudioStreamFrequencyRatio(SDL_AudioStream, Float) -> Bool
+
+fn sdl_SetAudioStreamGain(SDL_AudioStream, Float) -> Bool
+
+fn sdl_SetAudioStreamGetCallback(SDL_AudioStream, FuncRef[(VoidPtr, SDL_AudioStream, Int, Int) -> Unit], VoidPtr) -> Bool
+
+fn sdl_SetAudioStreamPutCallback(SDL_AudioStream, FuncRef[(VoidPtr, SDL_AudioStream, Int, Int) -> Unit], VoidPtr) -> Bool
+
+fn sdl_SetClipboardData(FuncRef[(VoidPtr, CStr, FixedArray[Int]) -> VoidPtr], FuncRef[(VoidPtr) -> Unit], VoidPtr, Array[String]) -> Bool
+
+fn sdl_SetClipboardText(String) -> Bool
+
+fn sdl_SetCursor(SDL_Cursor) -> Bool
+
+fn sdl_SetError(String) -> Bool
+
+fn sdl_SetEventEnabled(UInt, Bool) -> Unit
+
+fn sdl_SetEventFilter(FuncRef[(VoidPtr, SDL_Event) -> Int], VoidPtr) -> Unit
+
+fn sdl_SetGamepadEventsEnabled(Bool) -> Unit
+
+fn sdl_SetGamepadLED(SDL_Gamepad, Byte, Byte, Byte) -> Bool
+
+fn sdl_SetGamepadMapping(UInt, String) -> Bool
+
+fn sdl_SetGamepadPlayerIndex(SDL_Gamepad, Int) -> Bool
+
+fn sdl_SetGamepadSensorEnabled(SDL_Gamepad, SDL_SensorType, Bool) -> Bool
+
+fn sdl_SetJoystickEventsEnabled(Bool) -> Unit
+
+fn sdl_SetJoystickLED(SDL_Joystick, Byte, Byte, Byte) -> Bool
+
+fn sdl_SetJoystickPlayerIndex(SDL_Joystick, Int) -> Bool
+
+fn sdl_SetJoystickVirtualAxis(SDL_Joystick, Int, Int16) -> Bool
+
+fn sdl_SetJoystickVirtualBall(SDL_Joystick, Int, Int16, Int16) -> Bool
+
+fn sdl_SetJoystickVirtualButton(SDL_Joystick, Int, Bool) -> Bool
+
+fn sdl_SetJoystickVirtualHat(SDL_Joystick, Int, Byte) -> Bool
+
+fn sdl_SetJoystickVirtualTouchpad(SDL_Joystick, Int, Int, Bool, Float, Float, Float) -> Bool
+
+fn sdl_SetLogOutputFunction(FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes) -> Unit], VoidPtr) -> Unit
+
+fn sdl_SetLogPriorities(SDL_LogPriority) -> Unit
+
+fn sdl_SetLogPriority(Int, SDL_LogPriority) -> Unit
+
+fn sdl_SetLogPriorityPrefix(SDL_LogPriority, String) -> Bool
+
+fn sdl_SetModState(SDL_Keymod) -> Unit
+
+fn sdl_SetPaletteColors(SDL_Palette, FixedArray[SDL_Color], Int, Int) -> Bool
+
+fn sdl_SetPrimarySelectionText(String) -> Bool
+
+fn sdl_SetRelativeMouseTransform(FuncRef[(VoidPtr, UInt64, SDL_Window, UInt, FixedArray[Float], FixedArray[Float]) -> Unit], VoidPtr) -> Bool
+
+fn sdl_SetRenderClipRect(SDL_Renderer, SDL_Rect) -> Bool
+
+fn sdl_SetRenderColorScale(SDL_Renderer, Float) -> Bool
+
+fn sdl_SetRenderDrawBlendMode(SDL_Renderer, SDL_BlendMode) -> Bool
+
+fn sdl_SetRenderDrawColor(SDL_Renderer, Byte, Byte, Byte, Byte) -> Bool
+
+fn sdl_SetRenderDrawColorFloat(SDL_Renderer, Float, Float, Float, Float) -> Bool
+
+fn sdl_SetRenderLogicalPresentation(SDL_Renderer, Int, Int, SDL_RendererLogicalPresentation) -> Bool
+
+fn sdl_SetRenderScale(SDL_Renderer, Float, Float) -> Bool
+
+fn sdl_SetRenderTarget(SDL_Renderer, SDL_Texture) -> Bool
+
+fn sdl_SetRenderVSync(SDL_Renderer, Int) -> Bool
+
+fn sdl_SetRenderViewport(SDL_Renderer, SDL_Rect) -> Bool
+
+fn sdl_SetScancodeName(SDL_Scancode, String) -> Bool
+
+fn sdl_SetSurfaceColorspace(SDL_Surface, SDL_Colorspace) -> Bool
+
+fn sdl_SetTextInputArea(SDL_Window, FixedArray[SDL_Rect], Int) -> Bool
+
+fn sdl_SetTextureAlphaMod(SDL_Texture, Byte) -> Bool
+
+fn sdl_SetTextureAlphaModFloat(SDL_Texture, Float) -> Bool
+
+fn sdl_SetTextureBlendMode(SDL_Texture, SDL_BlendMode) -> Bool
+
+fn sdl_SetTextureColorMod(SDL_Texture, Byte, Byte, Byte) -> Bool
+
+fn sdl_SetTextureColorModFloat(SDL_Texture, Float, Float, Float) -> Bool
+
+fn sdl_SetTextureScaleMode(SDL_Texture, SDL_ScaleMode) -> Bool
+
+fn sdl_SetWindowFullscreen(SDL_Window, Bool) -> Bool
+
+fn sdl_SetWindowIcon(SDL_Window, SDL_Surface) -> Bool
+
+fn sdl_SetWindowPosition(SDL_Window, Int, Int) -> Bool
+
+fn sdl_SetWindowRelativeMouseMode(SDL_Window, Bool) -> Bool
+
+fn sdl_SetWindowSize(SDL_Window, Int, Int) -> Bool
+
+fn sdl_SetWindowTitle(SDL_Window, String) -> Bool
+
+fn sdl_ShowCursor() -> Bool
+
+fn sdl_ShowMessageBox(SDL_MessageBoxData) -> (Bool, Int)
+
+fn sdl_ShowSimpleMessageBox(UInt, String, String, SDL_Window) -> Bool
+
+fn sdl_ShowWindow(SDL_Window) -> Bool
+
+fn sdl_StartTextInput(SDL_Window) -> Bool
+
+fn sdl_StartTextInputWithProperties(SDL_Window, UInt) -> Bool
+
+fn sdl_StopTextInput(SDL_Window) -> Bool
+
+fn sdl_SyncWindow(SDL_Window) -> Bool
+
+fn sdl_TellIO(SDL_IOStream) -> Int64
+
+fn sdl_TextInputActive(SDL_Window) -> Bool
+
+fn sdl_TimeFromWindows(UInt, UInt) -> Int64
+
+fn sdl_TimeToDateTime(Int64, FixedArray[SDL_DateTime], Bool) -> Bool
+
+fn sdl_TimeToWindows(Int64, FixedArray[UInt], FixedArray[UInt]) -> Unit
+
+fn sdl_UnbindAudioStream(SDL_AudioStream) -> Unit
+
+fn sdl_UnlockJoysticks() -> Unit
+
+fn sdl_UnlockTexture(SDL_Texture) -> Unit
+
+fn sdl_Unsupported() -> Bool
+
+fn sdl_UpdateGamepads() -> Unit
+
+fn sdl_UpdateJoysticks() -> Unit
+
+fn sdl_UpdateNVTexture(SDL_Texture, SDL_Rect, FixedArray[Byte], Int, FixedArray[Byte], Int) -> Bool
+
+fn sdl_UpdateTexture(SDL_Texture, SDL_Rect, VoidPtr, Int) -> Bool
+
+fn sdl_UpdateYUVTexture(SDL_Texture, SDL_Rect, FixedArray[Byte], Int, FixedArray[Byte], Int, FixedArray[Byte], Int) -> Bool
+
+fn sdl_VERSIONNUM(Int, Int, Int) -> Int
+
+fn sdl_VERSIONNUM_MAJOR(Int) -> Int
+
+fn sdl_VERSIONNUM_MICRO(Int) -> Int
+
+fn sdl_VERSIONNUM_MINOR(Int) -> Int
+
+fn sdl_VERSION_ATLEAST(Int, Int, Int) -> Bool
+
+fn sdl_WaitEvent(SDL_Event) -> Bool
+
+fn sdl_WaitEventTimeout(SDL_Event, Int) -> Bool
+
+fn sdl_WarpMouseGlobal(Float, Float) -> Bool
+
+fn sdl_WarpMouseInWindow(SDL_Window, Float, Float) -> Unit
+
+fn sdl_WasInit(UInt) -> UInt
+
+fn sdl_WriteIO(SDL_IOStream, VoidPtr, UInt64) -> UInt64
+
+fn sdl_WriteS16BE(SDL_IOStream, Int) -> Bool
+
+fn sdl_WriteS16LE(SDL_IOStream, Int) -> Bool
+
+fn sdl_WriteS32BE(SDL_IOStream, Int) -> Bool
+
+fn sdl_WriteS32LE(SDL_IOStream, Int) -> Bool
+
+fn sdl_WriteS64BE(SDL_IOStream, Int64) -> Bool
+
+fn sdl_WriteS64LE(SDL_IOStream, Int64) -> Bool
+
+fn sdl_WriteS8(SDL_IOStream, Byte) -> Bool
+
+fn sdl_WriteSurfacePixel(SDL_Surface, Int, Int, Byte, Byte, Byte, Byte) -> Bool
+
+fn sdl_WriteU16BE(SDL_IOStream, UInt) -> Bool
+
+fn sdl_WriteU16LE(SDL_IOStream, UInt) -> Bool
+
+fn sdl_WriteU32BE(SDL_IOStream, UInt) -> Bool
+
+fn sdl_WriteU32LE(SDL_IOStream, UInt) -> Bool
+
+fn sdl_WriteU64BE(SDL_IOStream, UInt64) -> Bool
+
+fn sdl_WriteU64LE(SDL_IOStream, UInt64) -> Bool
+
+fn sdl_WriteU8(SDL_IOStream, Byte) -> Bool
+
+fn ttf_CloseFont(TTF_Font) -> Unit
+
+fn ttf_FontHasGlyph(TTF_Font, UInt) -> Bool
+
+fn ttf_FontIsFixedWidth(TTF_Font) -> Bool
+
+fn ttf_GetFontAscent(TTF_Font) -> Int
+
+fn ttf_GetFontDescent(TTF_Font) -> Int
+
+fn ttf_GetFontFamilyName(TTF_Font) -> String
+
+fn ttf_GetFontHeight(TTF_Font) -> Int
+
+fn ttf_GetFontKerning(TTF_Font) -> Bool
+
+fn ttf_GetFontSize(TTF_Font) -> Float
+
+fn ttf_GetFontStyle(TTF_Font) -> UInt
+
+fn ttf_GetFontStyleName(TTF_Font) -> String
+
+fn ttf_GetFreeTypeVersion() -> (Int, Int, Int)
+
+fn ttf_GetHarfBuzzVersion() -> (Int, Int, Int)
+
+fn ttf_GetStringSize(TTF_Font, String) -> (Bool, Int, Int)
+
+fn ttf_Init() -> Bool
+
+fn ttf_OpenFont(String, Float) -> TTF_Font
+
+fn ttf_OpenFontIO(SDL_IOStream, Bool, Float) -> TTF_Font
+
+fn ttf_Quit() -> Unit
+
+fn ttf_RenderText_Blended(TTF_Font, String, SDL_Color) -> SDL_Surface
+
+fn ttf_RenderText_Solid(TTF_Font, String, SDL_Color) -> SDL_Surface
+
+fn ttf_SetFontSize(TTF_Font, Float) -> Bool
+
+fn ttf_SetFontStyle(TTF_Font, UInt) -> Unit
+
+fn ttf_Version() -> Int
+
+fn voidptr_is_null(VoidPtr) -> Bool
+
+// Errors
+
+// Types and methods
+#external
+pub type CStr
+
+#external
+pub type IMG_Animation
+
+pub(all) enum SDL_AppResult {
+  SDL_APP_CONTINUE
+  SDL_APP_SUCCESS
+  SDL_APP_FAILURE
+}
+
+pub(all) enum SDL_ArrayOrder {
+  SDL_ARRAYORDER_NONE
+  SDL_ARRAYORDER_RGB
+  SDL_ARRAYORDER_RGBA
+  SDL_ARRAYORDER_ARGB
+  SDL_ARRAYORDER_BGR
+  SDL_ARRAYORDER_BGRA
+  SDL_ARRAYORDER_ABGR
+}
+
+pub(all) enum SDL_AudioFormat {
+  SDL_AUDIO_UNKNOWN
+  SDL_AUDIO_U8
+  SDL_AUDIO_S8
+  SDL_AUDIO_S16LE
+  SDL_AUDIO_S16BE
+  SDL_AUDIO_S32LE
+  SDL_AUDIO_S32BE
+  SDL_AUDIO_F32LE
+  SDL_AUDIO_F32BE
+}
+
+pub(all) struct SDL_AudioSpec {
+  format : SDL_AudioFormat
+  channels : Int
+  freq : Int
+}
+
+#external
+pub type SDL_AudioStream
+
+pub(all) enum SDL_BitmapOrder {
+  SDL_BITMAPORDER_NONE
+  SDL_BITMAPORDER_4321
+  SDL_BITMAPORDER_1234
+}
+
+pub(all) enum SDL_BlendFactor {
+  SDL_BLENDFACTOR_ZERO
+  SDL_BLENDFACTOR_ONE
+  SDL_BLENDFACTOR_SRC_COLOR
+  SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR
+  SDL_BLENDFACTOR_SRC_ALPHA
+  SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA
+  SDL_BLENDFACTOR_DST_COLOR
+  SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR
+  SDL_BLENDFACTOR_DST_ALPHA
+  SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA
+}
+
+pub(all) enum SDL_BlendMode {
+  SDL_BLENDMODE_NONE
+  SDL_BLENDMODE_BLEND
+  SDL_BLENDMODE_BLEND_PREMULTIPLIED
+  SDL_BLENDMODE_ADD
+  SDL_BLENDMODE_ADD_PREMULTIPLIED
+  SDL_BLENDMODE_MOD
+  SDL_BLENDMODE_MUL
+  SDL_BLENDMODE_INVALID
+}
+
+pub(all) enum SDL_BlendOperation {
+  SDL_BLENDOPERATION_ADD
+  SDL_BLENDOPERATION_SUBTRACT
+  SDL_BLENDOPERATION_REV_SUBTRACT
+  SDL_BLENDOPERATION_MINIMUM
+  SDL_BLENDOPERATION_MAXIMUM
+}
+
+#external
+pub type SDL_Camera
+
+pub(all) enum SDL_CameraPosition {
+  SDL_CAMERA_POSITION_UNKNOWN
+  SDL_CAMERA_POSITION_FRONT_FACING
+  SDL_CAMERA_POSITION_BACK_FACING
+}
+
+pub(all) struct SDL_CameraSpec {
+  format : Int
+  colorspace : Int
+  width : Int
+  height : Int
+  framerate_numerator : Int
+  framerate_denominator : Int
+}
+
+pub(all) enum SDL_Capitalization {
+  SDL_CAPITALIZE_NONE
+  SDL_CAPITALIZE_SENTENCES
+  SDL_CAPITALIZE_WORDS
+  SDL_CAPITALIZE_LETTERS
+}
+
+pub(all) enum SDL_ChromaLocation {
+  SDL_CHROMA_LOCATION_NONE
+  SDL_CHROMA_LOCATION_LEFT
+  SDL_CHROMA_LOCATION_CENTER
+  SDL_CHROMA_LOCATION_TOPLEFT
+}
+
+pub(all) struct SDL_Color {
+  r : UInt
+  g : UInt
+  b : UInt
+  a : UInt
+}
+
+pub(all) enum SDL_ColorPrimaries {
+  SDL_COLOR_PRIMARIES_UNKNOWN
+  SDL_COLOR_PRIMARIES_BT709
+  SDL_COLOR_PRIMARIES_UNSPECIFIED
+  SDL_COLOR_PRIMARIES_BT470M
+  SDL_COLOR_PRIMARIES_BT470BG
+  SDL_COLOR_PRIMARIES_BT601
+  SDL_COLOR_PRIMARIES_SMPTE240
+  SDL_COLOR_PRIMARIES_GENERIC_FILM
+  SDL_COLOR_PRIMARIES_BT2020
+  SDL_COLOR_PRIMARIES_XYZ
+  SDL_COLOR_PRIMARIES_SMPTE431
+  SDL_COLOR_PRIMARIES_SMPTE432
+  SDL_COLOR_PRIMARIES_EBU3213
+  SDL_COLOR_PRIMARIES_CUSTOM
+}
+
+pub(all) enum SDL_ColorRange {
+  SDL_COLOR_RANGE_UNKNOWN
+  SDL_COLOR_RANGE_LIMITED
+  SDL_COLOR_RANGE_FULL
+}
+
+pub(all) enum SDL_ColorType {
+  SDL_COLOR_TYPE_UNKNOWN
+  SDL_COLOR_TYPE_RGB
+  SDL_COLOR_TYPE_YCBCR
+}
+
+pub(all) enum SDL_Colorspace {
+  SDL_COLORSPACE_UNKNOWN
+  SDL_COLORSPACE_SRGB
+  SDL_COLORSPACE_SRGB_LINEAR
+  SDL_COLORSPACE_HDR10
+  SDL_COLORSPACE_JPEG
+  SDL_COLORSPACE_BT601_LIMITED
+  SDL_COLORSPACE_BT601_FULL
+  SDL_COLORSPACE_BT709_LIMITED
+  SDL_COLORSPACE_BT709_FULL
+  SDL_COLORSPACE_BT2020_LIMITED
+  SDL_COLORSPACE_BT2020_FULL
+}
+
+#external
+pub type SDL_Cursor
+
+pub(all) enum SDL_DateFormat {
+  SDL_DATE_FORMAT_YYYYMMDD
+  SDL_DATE_FORMAT_DDMMYYYY
+  SDL_DATE_FORMAT_MMDDYYYY
+}
+
+pub(all) struct SDL_DateTime {
+  year : Int
+  month : Int
+  day : Int
+  hour : Int
+  minute : Int
+  second : Int
+  nanosecond : Int
+  day_of_week : Int
+  utc_offset : Int
+}
+
+pub(all) struct SDL_DisplayMode {
+  displayID : UInt
+  format : UInt
+  w : Int
+  h : Int
+  pixel_density : Float
+  refresh_rate : Float
+  refresh_rate_numerator : Int
+  refresh_rate_denominator : Int
+  internal : SDL_DisplayModeData
+}
+
+#external
+pub type SDL_DisplayModeData
+
+pub(all) enum SDL_DisplayOrientation {
+  SDL_ORIENTATION_UNKNOWN
+  SDL_ORIENTATION_LANDSCAPE
+  SDL_ORIENTATION_LANDSCAPE_FLIPPED
+  SDL_ORIENTATION_PORTRAIT
+  SDL_ORIENTATION_PORTRAIT_FLIPPED
+}
+
+pub(all) enum SDL_EnumerationResult {
+  SDL_ENUM_CONTINUE
+  SDL_ENUM_SUCCESS
+  SDL_ENUM_FAILURE
+}
+
+#external
+pub type SDL_Event
+fn SDL_Event::get_type(Self) -> SDL_EventType
+fn SDL_Event::is_null(Self) -> Bool
+
+pub(all) enum SDL_EventType {
+  SDL_EVENT_FIRST
+  SDL_EVENT_QUIT
+  SDL_EVENT_TERMINATING
+  SDL_EVENT_LOW_MEMORY
+  SDL_EVENT_WILL_ENTER_BACKGROUND
+  SDL_EVENT_DID_ENTER_BACKGROUND
+  SDL_EVENT_WILL_ENTER_FOREGROUND
+  SDL_EVENT_DID_ENTER_FOREGROUND
+  SDL_EVENT_LOCALE_CHANGED
+  SDL_EVENT_SYSTEM_THEME_CHANGED
+  SDL_EVENT_DISPLAY_ORIENTATION
+  SDL_EVENT_DISPLAY_ADDED
+  SDL_EVENT_DISPLAY_REMOVED
+  SDL_EVENT_DISPLAY_MOVED
+  SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED
+  SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED
+  SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED
+  SDL_EVENT_WINDOW_SHOWN
+  SDL_EVENT_WINDOW_HIDDEN
+  SDL_EVENT_WINDOW_EXPOSED
+  SDL_EVENT_WINDOW_MOVED
+  SDL_EVENT_WINDOW_RESIZED
+  SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED
+  SDL_EVENT_WINDOW_METAL_VIEW_RESIZED
+  SDL_EVENT_WINDOW_MINIMIZED
+  SDL_EVENT_WINDOW_MAXIMIZED
+  SDL_EVENT_WINDOW_RESTORED
+  SDL_EVENT_WINDOW_MOUSE_ENTER
+  SDL_EVENT_WINDOW_MOUSE_LEAVE
+  SDL_EVENT_WINDOW_FOCUS_GAINED
+  SDL_EVENT_WINDOW_FOCUS_LOST
+  SDL_EVENT_WINDOW_CLOSE_REQUESTED
+  SDL_EVENT_WINDOW_HIT_TEST
+  SDL_EVENT_WINDOW_ICCPROF_CHANGED
+  SDL_EVENT_WINDOW_DISPLAY_CHANGED
+  SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED
+  SDL_EVENT_WINDOW_SAFE_AREA_CHANGED
+  SDL_EVENT_WINDOW_OCCLUDED
+  SDL_EVENT_WINDOW_ENTER_FULLSCREEN
+  SDL_EVENT_WINDOW_LEAVE_FULLSCREEN
+  SDL_EVENT_WINDOW_DESTROYED
+  SDL_EVENT_WINDOW_HDR_STATE_CHANGED
+  SDL_EVENT_KEY_DOWN
+  SDL_EVENT_KEY_UP
+  SDL_EVENT_TEXT_EDITING
+  SDL_EVENT_TEXT_INPUT
+  SDL_EVENT_KEYMAP_CHANGED
+  SDL_EVENT_KEYBOARD_ADDED
+  SDL_EVENT_KEYBOARD_REMOVED
+  SDL_EVENT_TEXT_EDITING_CANDIDATES
+  SDL_EVENT_MOUSE_MOTION
+  SDL_EVENT_MOUSE_BUTTON_DOWN
+  SDL_EVENT_MOUSE_BUTTON_UP
+  SDL_EVENT_MOUSE_WHEEL
+  SDL_EVENT_MOUSE_ADDED
+  SDL_EVENT_MOUSE_REMOVED
+  SDL_EVENT_JOYSTICK_AXIS_MOTION
+  SDL_EVENT_JOYSTICK_BALL_MOTION
+  SDL_EVENT_JOYSTICK_HAT_MOTION
+  SDL_EVENT_JOYSTICK_BUTTON_DOWN
+  SDL_EVENT_JOYSTICK_BUTTON_UP
+  SDL_EVENT_JOYSTICK_ADDED
+  SDL_EVENT_JOYSTICK_REMOVED
+  SDL_EVENT_JOYSTICK_BATTERY_UPDATED
+  SDL_EVENT_JOYSTICK_UPDATE_COMPLETE
+  SDL_EVENT_GAMEPAD_AXIS_MOTION
+  SDL_EVENT_GAMEPAD_BUTTON_DOWN
+  SDL_EVENT_GAMEPAD_BUTTON_UP
+  SDL_EVENT_GAMEPAD_ADDED
+  SDL_EVENT_GAMEPAD_REMOVED
+  SDL_EVENT_GAMEPAD_REMAPPED
+  SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN
+  SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION
+  SDL_EVENT_GAMEPAD_TOUCHPAD_UP
+  SDL_EVENT_GAMEPAD_SENSOR_UPDATE
+  SDL_EVENT_GAMEPAD_UPDATE_COMPLETE
+  SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED
+  SDL_EVENT_FINGER_DOWN
+  SDL_EVENT_FINGER_UP
+  SDL_EVENT_FINGER_MOTION
+  SDL_EVENT_FINGER_CANCELED
+  SDL_EVENT_CLIPBOARD_UPDATE
+  SDL_EVENT_DROP_FILE
+  SDL_EVENT_DROP_TEXT
+  SDL_EVENT_DROP_BEGIN
+  SDL_EVENT_DROP_COMPLETE
+  SDL_EVENT_DROP_POSITION
+  SDL_EVENT_AUDIO_DEVICE_ADDED
+  SDL_EVENT_AUDIO_DEVICE_REMOVED
+  SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED
+  SDL_EVENT_SENSOR_UPDATE
+  SDL_EVENT_PEN_PROXIMITY_IN
+  SDL_EVENT_PEN_PROXIMITY_OUT
+  SDL_EVENT_PEN_DOWN
+  SDL_EVENT_PEN_UP
+  SDL_EVENT_PEN_BUTTON_DOWN
+  SDL_EVENT_PEN_BUTTON_UP
+  SDL_EVENT_PEN_MOTION
+  SDL_EVENT_PEN_AXIS
+  SDL_EVENT_CAMERA_DEVICE_ADDED
+  SDL_EVENT_CAMERA_DEVICE_REMOVED
+  SDL_EVENT_CAMERA_DEVICE_APPROVED
+  SDL_EVENT_CAMERA_DEVICE_DENIED
+  SDL_EVENT_RENDER_TARGETS_RESET
+  SDL_EVENT_RENDER_DEVICE_RESET
+  SDL_EVENT_RENDER_DEVICE_LOST
+  SDL_EVENT_PRIVATE0
+  SDL_EVENT_PRIVATE1
+  SDL_EVENT_PRIVATE2
+  SDL_EVENT_PRIVATE3
+  SDL_EVENT_POLL_SENTINEL
+  SDL_EVENT_USER
+  SDL_EVENT_LAST
+}
+impl Eq for SDL_EventType
+
+pub(all) struct SDL_FColor {
+  r : Float
+  g : Float
+  b : Float
+  a : Float
+}
+
+pub(all) struct SDL_FPoint {
+  x : Float
+  y : Float
+}
+
+pub(all) struct SDL_FRect {
+  x : Float
+  y : Float
+  w : Float
+  h : Float
+}
+
+pub(all) enum SDL_FlashOperation {
+  SDL_FLASH_CANCEL
+  SDL_FLASH_BRIEFLY
+  SDL_FLASH_UNTIL_FOCUSED
+}
+
+pub(all) enum SDL_FlipMode {
+  SDL_FLIP_NONE
+  SDL_FLIP_HORIZONTAL
+  SDL_FLIP_VERTICAL
+}
+
+pub(all) enum SDL_Folder {
+  SDL_FOLDER_HOME
+  SDL_FOLDER_DESKTOP
+  SDL_FOLDER_DOCUMENTS
+  SDL_FOLDER_DOWNLOADS
+  SDL_FOLDER_MUSIC
+  SDL_FOLDER_PICTURES
+  SDL_FOLDER_PUBLICSHARE
+  SDL_FOLDER_SAVEDGAMES
+  SDL_FOLDER_SCREENSHOTS
+  SDL_FOLDER_TEMPLATES
+  SDL_FOLDER_VIDEOS
+  SDL_FOLDER_COUNT
+}
+
+pub(all) enum SDL_GLAttr {
+  SDL_GL_RED_SIZE
+  SDL_GL_GREEN_SIZE
+  SDL_GL_BLUE_SIZE
+  SDL_GL_ALPHA_SIZE
+  SDL_GL_BUFFER_SIZE
+  SDL_GL_DOUBLEBUFFER
+  SDL_GL_DEPTH_SIZE
+  SDL_GL_STENCIL_SIZE
+  SDL_GL_ACCUM_RED_SIZE
+  SDL_GL_ACCUM_GREEN_SIZE
+  SDL_GL_ACCUM_BLUE_SIZE
+  SDL_GL_ACCUM_ALPHA_SIZE
+  SDL_GL_STEREO
+  SDL_GL_MULTISAMPLEBUFFERS
+  SDL_GL_MULTISAMPLESAMPLES
+  SDL_GL_ACCELERATED_VISUAL
+  SDL_GL_RETAINED_BACKING
+  SDL_GL_CONTEXT_MAJOR_VERSION
+  SDL_GL_CONTEXT_MINOR_VERSION
+  SDL_GL_CONTEXT_FLAGS
+  SDL_GL_CONTEXT_PROFILE_MASK
+  SDL_GL_SHARE_WITH_CURRENT_CONTEXT
+  SDL_GL_FRAMEBUFFER_SRGB_CAPABLE
+  SDL_GL_CONTEXT_RELEASE_BEHAVIOR
+  SDL_GL_CONTEXT_RESET_NOTIFICATION
+  SDL_GL_CONTEXT_NO_ERROR
+  SDL_GL_FLOATBUFFERS
+  SDL_GL_EGL_PLATFORM
+}
+
+#external
+pub type SDL_GLContext
+fn SDL_GLContext::is_null(Self) -> Bool
+
+#external
+pub type SDL_GPUDevice
+
+#external
+pub type SDL_GPUShaderFormat
+
+#external
+pub type SDL_GUID
+
+#external
+pub type SDL_Gamepad
+
+pub(all) enum SDL_GamepadAxis {
+  SDL_GAMEPAD_AXIS_LEFTX
+  SDL_GAMEPAD_AXIS_LEFTY
+  SDL_GAMEPAD_AXIS_RIGHTX
+  SDL_GAMEPAD_AXIS_RIGHTY
+  SDL_GAMEPAD_AXIS_LEFT_TRIGGER
+  SDL_GAMEPAD_AXIS_RIGHT_TRIGGER
+  SDL_GAMEPAD_AXIS_COUNT
+  SDL_GAMEPAD_AXIS_INVALID
+}
+
+pub(all) struct SDL_GamepadBinding {
+}
+
+pub(all) enum SDL_GamepadBindingType {
+  SDL_GAMEPAD_BINDTYPE_NONE
+  SDL_GAMEPAD_BINDTYPE_BUTTON
+  SDL_GAMEPAD_BINDTYPE_AXIS
+  SDL_GAMEPAD_BINDTYPE_HAT
+}
+
+pub(all) enum SDL_GamepadButton {
+  SDL_GAMEPAD_BUTTON_SOUTH
+  SDL_GAMEPAD_BUTTON_EAST
+  SDL_GAMEPAD_BUTTON_WEST
+  SDL_GAMEPAD_BUTTON_NORTH
+  SDL_GAMEPAD_BUTTON_BACK
+  SDL_GAMEPAD_BUTTON_GUIDE
+  SDL_GAMEPAD_BUTTON_START
+  SDL_GAMEPAD_BUTTON_LEFT_STICK
+  SDL_GAMEPAD_BUTTON_RIGHT_STICK
+  SDL_GAMEPAD_BUTTON_LEFT_SHOULDER
+  SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER
+  SDL_GAMEPAD_BUTTON_DPAD_UP
+  SDL_GAMEPAD_BUTTON_DPAD_DOWN
+  SDL_GAMEPAD_BUTTON_DPAD_LEFT
+  SDL_GAMEPAD_BUTTON_DPAD_RIGHT
+  SDL_GAMEPAD_BUTTON_MISC1
+  SDL_GAMEPAD_BUTTON_RIGHT_PADDLE1
+  SDL_GAMEPAD_BUTTON_LEFT_PADDLE1
+  SDL_GAMEPAD_BUTTON_RIGHT_PADDLE2
+  SDL_GAMEPAD_BUTTON_LEFT_PADDLE2
+  SDL_GAMEPAD_BUTTON_TOUCHPAD
+  SDL_GAMEPAD_BUTTON_MISC2
+  SDL_GAMEPAD_BUTTON_MISC3
+  SDL_GAMEPAD_BUTTON_MISC4
+  SDL_GAMEPAD_BUTTON_MISC5
+  SDL_GAMEPAD_BUTTON_MISC6
+  SDL_GAMEPAD_BUTTON_COUNT
+  SDL_GAMEPAD_BUTTON_INVALID
+}
+
+pub(all) enum SDL_GamepadButtonLabel {
+  SDL_GAMEPAD_BUTTON_LABEL_UNKNOWN
+  SDL_GAMEPAD_BUTTON_LABEL_A
+  SDL_GAMEPAD_BUTTON_LABEL_B
+  SDL_GAMEPAD_BUTTON_LABEL_X
+  SDL_GAMEPAD_BUTTON_LABEL_Y
+  SDL_GAMEPAD_BUTTON_LABEL_CROSS
+  SDL_GAMEPAD_BUTTON_LABEL_CIRCLE
+  SDL_GAMEPAD_BUTTON_LABEL_SQUARE
+  SDL_GAMEPAD_BUTTON_LABEL_TRIANGLE
+}
+
+pub(all) enum SDL_GamepadType {
+  SDL_GAMEPAD_TYPE_UNKNOWN
+  SDL_GAMEPAD_TYPE_STANDARD
+  SDL_GAMEPAD_TYPE_XBOX360
+  SDL_GAMEPAD_TYPE_XBOXONE
+  SDL_GAMEPAD_TYPE_PS3
+  SDL_GAMEPAD_TYPE_PS4
+  SDL_GAMEPAD_TYPE_PS5
+  SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_PRO
+  SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_LEFT
+  SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT
+  SDL_GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_PAIR
+  SDL_GAMEPAD_TYPE_GAMECUBE
+  SDL_GAMEPAD_TYPE_COUNT
+}
+
+pub(all) enum SDL_IOStatus {
+  SDL_IO_STATUS_READY
+  SDL_IO_STATUS_ERROR
+  SDL_IO_STATUS_EOF
+  SDL_IO_STATUS_NOT_READY
+  SDL_IO_STATUS_READONLY
+  SDL_IO_STATUS_WRITEONLY
+}
+
+#external
+pub type SDL_IOStream
+
+#external
+pub type SDL_IOStreamInterface
+
+pub(all) enum SDL_IOWhence {
+  SDL_IO_SEEK_SET
+  SDL_IO_SEEK_CUR
+  SDL_IO_SEEK_END
+}
+
+#external
+pub type SDL_Joystick
+
+pub(all) enum SDL_JoystickConnectionState {
+  SDL_JOYSTICK_CONNECTION_UNKNOWN
+  SDL_JOYSTICK_CONNECTION_WIRED
+  SDL_JOYSTICK_CONNECTION_WIRELESS
+  SDL_JOYSTICK_CONNECTION_INVALID
+}
+
+pub(all) enum SDL_JoystickType {
+  SDL_JOYSTICK_TYPE_UNKNOWN
+  SDL_JOYSTICK_TYPE_GAMEPAD
+  SDL_JOYSTICK_TYPE_WHEEL
+  SDL_JOYSTICK_TYPE_ARCADE_STICK
+  SDL_JOYSTICK_TYPE_FLIGHT_STICK
+  SDL_JOYSTICK_TYPE_DANCE_PAD
+  SDL_JOYSTICK_TYPE_GUITAR
+  SDL_JOYSTICK_TYPE_DRUM_KIT
+  SDL_JOYSTICK_TYPE_ARCADE_PAD
+  SDL_JOYSTICK_TYPE_THROTTLE
+  SDL_JOYSTICK_TYPE_COUNT
+}
+
+#external
+pub type SDL_Keycode
+
+#external
+pub type SDL_Keymod
+
+pub(all) enum SDL_LogCategory {
+  SDL_LOG_CATEGORY_APPLICATION
+  SDL_LOG_CATEGORY_ERROR
+  SDL_LOG_CATEGORY_ASSERT
+  SDL_LOG_CATEGORY_SYSTEM
+  SDL_LOG_CATEGORY_AUDIO
+  SDL_LOG_CATEGORY_VIDEO
+  SDL_LOG_CATEGORY_RENDER
+  SDL_LOG_CATEGORY_INPUT
+  SDL_LOG_CATEGORY_TEST
+  SDL_LOG_CATEGORY_GPU
+}
+
+pub(all) enum SDL_LogPriority {
+  SDL_LOG_PRIORITY_INVALID
+  SDL_LOG_PRIORITY_TRACE
+  SDL_LOG_PRIORITY_VERBOSE
+  SDL_LOG_PRIORITY_DEBUG
+  SDL_LOG_PRIORITY_INFO
+  SDL_LOG_PRIORITY_WARN
+  SDL_LOG_PRIORITY_ERROR
+  SDL_LOG_PRIORITY_CRITICAL
+  SDL_LOG_PRIORITY_COUNT
+}
+
+pub(all) enum SDL_MatrixCoefficients {
+  SDL_MATRIX_COEFFICIENTS_IDENTITY
+  SDL_MATRIX_COEFFICIENTS_BT709
+  SDL_MATRIX_COEFFICIENTS_UNSPECIFIED
+  SDL_MATRIX_COEFFICIENTS_FCC
+  SDL_MATRIX_COEFFICIENTS_BT470BG
+  SDL_MATRIX_COEFFICIENTS_BT601
+  SDL_MATRIX_COEFFICIENTS_SMPTE240
+  SDL_MATRIX_COEFFICIENTS_YCGCO
+  SDL_MATRIX_COEFFICIENTS_BT2020_NCL
+  SDL_MATRIX_COEFFICIENTS_BT2020_CL
+  SDL_MATRIX_COEFFICIENTS_SMPTE2085
+  SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_NCL
+  SDL_MATRIX_COEFFICIENTS_CHROMA_DERIVED_CL
+  SDL_MATRIX_COEFFICIENTS_ICTCP
+  SDL_MATRIX_COEFFICIENTS_CUSTOM
+}
+
+pub(all) struct SDL_MessageBoxButtonData {
+  flags : UInt
+  buttonID : Int
+  text : String
+}
+
+pub(all) struct SDL_MessageBoxColor {
+  r : Byte
+  g : Byte
+  b : Byte
+}
+
+pub(all) struct SDL_MessageBoxColorScheme {
+  colors : FixedArray[SDL_MessageBoxColor]
+}
+
+pub(all) enum SDL_MessageBoxColorType {
+  SDL_MESSAGEBOX_COLOR_BACKGROUND
+  SDL_MESSAGEBOX_COLOR_TEXT
+  SDL_MESSAGEBOX_COLOR_BUTTON_BORDER
+  SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND
+  SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED
+  SDL_MESSAGEBOX_COLOR_COUNT
+}
+
+pub(all) struct SDL_MessageBoxData {
+  flags : UInt
+  window : SDL_Window?
+  title : String
+  message : String
+  numbuttons : Int
+  buttons : FixedArray[SDL_MessageBoxButtonData]
+  colorScheme : SDL_MessageBoxColorScheme?
+}
+
+pub(all) enum SDL_MouseWheelDirection {
+  SDL_MOUSEWHEEL_NORMAL
+  SDL_MOUSEWHEEL_FLIPPED
+}
+
+pub(all) enum SDL_PackedLayout {
+  SDL_PACKEDLAYOUT_NONE
+  SDL_PACKEDLAYOUT_332
+  SDL_PACKEDLAYOUT_4444
+  SDL_PACKEDLAYOUT_1555
+  SDL_PACKEDLAYOUT_5551
+  SDL_PACKEDLAYOUT_565
+  SDL_PACKEDLAYOUT_8888
+  SDL_PACKEDLAYOUT_2101010
+  SDL_PACKEDLAYOUT_1010102
+}
+
+pub(all) enum SDL_PackedOrder {
+  SDL_PACKEDORDER_NONE
+  SDL_PACKEDORDER_XRGB
+  SDL_PACKEDORDER_RGBX
+  SDL_PACKEDORDER_ARGB
+  SDL_PACKEDORDER_RGBA
+  SDL_PACKEDORDER_XBGR
+  SDL_PACKEDORDER_BGRX
+  SDL_PACKEDORDER_ABGR
+  SDL_PACKEDORDER_BGRA
+}
+
+#external
+pub type SDL_Palette
+
+pub(all) struct SDL_PathInfo {
+  type_ : SDL_PathType
+  size : UInt64
+  create_time : Int64
+  modify_time : Int64
+  access_time : Int64
+}
+
+pub(all) enum SDL_PathType {
+  SDL_PATHTYPE_NONE
+  SDL_PATHTYPE_FILE
+  SDL_PATHTYPE_DIRECTORY
+  SDL_PATHTYPE_OTHER
+}
+
+pub(all) enum SDL_PenAxis {
+  SDL_PEN_AXIS_PRESSURE
+  SDL_PEN_AXIS_XTILT
+  SDL_PEN_AXIS_YTILT
+  SDL_PEN_AXIS_DISTANCE
+  SDL_PEN_AXIS_ROTATION
+  SDL_PEN_AXIS_SLIDER
+  SDL_PEN_AXIS_TANGENTIAL_PRESSURE
+  SDL_PEN_AXIS_COUNT
+}
+
+pub(all) enum SDL_PenInputFlags {
+  SDL_PEN_INPUT_DOWN
+  SDL_PEN_INPUT_BUTTON_1
+  SDL_PEN_INPUT_BUTTON_2
+  SDL_PEN_INPUT_BUTTON_3
+  SDL_PEN_INPUT_BUTTON_4
+  SDL_PEN_INPUT_BUTTON_5
+  SDL_PEN_INPUT_ERASER_TIP
+}
+
+pub(all) enum SDL_PixelFormat {
+  SDL_PIXELFORMAT_UNKNOWN
+  SDL_PIXELFORMAT_INDEX1LSB
+  SDL_PIXELFORMAT_INDEX1MSB
+  SDL_PIXELFORMAT_INDEX2LSB
+  SDL_PIXELFORMAT_INDEX2MSB
+  SDL_PIXELFORMAT_INDEX4LSB
+  SDL_PIXELFORMAT_INDEX4MSB
+  SDL_PIXELFORMAT_INDEX8
+  SDL_PIXELFORMAT_RGB332
+  SDL_PIXELFORMAT_XRGB4444
+  SDL_PIXELFORMAT_XBGR4444
+  SDL_PIXELFORMAT_XRGB1555
+  SDL_PIXELFORMAT_XBGR1555
+  SDL_PIXELFORMAT_ARGB4444
+  SDL_PIXELFORMAT_RGBA4444
+  SDL_PIXELFORMAT_ABGR4444
+  SDL_PIXELFORMAT_BGRA4444
+  SDL_PIXELFORMAT_ARGB1555
+  SDL_PIXELFORMAT_RGBA5551
+  SDL_PIXELFORMAT_ABGR1555
+  SDL_PIXELFORMAT_BGRA5551
+  SDL_PIXELFORMAT_RGB565
+  SDL_PIXELFORMAT_BGR565
+  SDL_PIXELFORMAT_RGB24
+  SDL_PIXELFORMAT_BGR24
+  SDL_PIXELFORMAT_XRGB8888
+  SDL_PIXELFORMAT_RGBX8888
+  SDL_PIXELFORMAT_XBGR8888
+  SDL_PIXELFORMAT_BGRX8888
+  SDL_PIXELFORMAT_ARGB8888
+  SDL_PIXELFORMAT_RGBA8888
+  SDL_PIXELFORMAT_ABGR8888
+  SDL_PIXELFORMAT_BGRA8888
+  SDL_PIXELFORMAT_XRGB2101010
+  SDL_PIXELFORMAT_XBGR2101010
+  SDL_PIXELFORMAT_ARGB2101010
+  SDL_PIXELFORMAT_ABGR2101010
+  SDL_PIXELFORMAT_RGB48
+  SDL_PIXELFORMAT_BGR48
+  SDL_PIXELFORMAT_RGBA64
+  SDL_PIXELFORMAT_ARGB64
+  SDL_PIXELFORMAT_BGRA64
+  SDL_PIXELFORMAT_ABGR64
+  SDL_PIXELFORMAT_RGB48_FLOAT
+  SDL_PIXELFORMAT_BGR48_FLOAT
+  SDL_PIXELFORMAT_RGBA64_FLOAT
+  SDL_PIXELFORMAT_ARGB64_FLOAT
+  SDL_PIXELFORMAT_BGRA64_FLOAT
+  SDL_PIXELFORMAT_ABGR64_FLOAT
+  SDL_PIXELFORMAT_RGB96_FLOAT
+  SDL_PIXELFORMAT_BGR96_FLOAT
+  SDL_PIXELFORMAT_RGBA128_FLOAT
+  SDL_PIXELFORMAT_ARGB128_FLOAT
+  SDL_PIXELFORMAT_BGRA128_FLOAT
+  SDL_PIXELFORMAT_ABGR128_FLOAT
+  SDL_PIXELFORMAT_YV12
+  SDL_PIXELFORMAT_IYUV
+  SDL_PIXELFORMAT_YUY2
+  SDL_PIXELFORMAT_UYVY
+  SDL_PIXELFORMAT_YVYU
+  SDL_PIXELFORMAT_NV12
+  SDL_PIXELFORMAT_NV21
+  SDL_PIXELFORMAT_P010
+  SDL_PIXELFORMAT_EXTERNAL_OES
+  SDL_PIXELFORMAT_MJPG
+}
+
+#external
+pub type SDL_PixelFormatDetails
+
+pub(all) enum SDL_PixelType {
+  SDL_PIXELTYPE_UNKNOWN
+  SDL_PIXELTYPE_INDEX1
+  SDL_PIXELTYPE_INDEX4
+  SDL_PIXELTYPE_INDEX8
+  SDL_PIXELTYPE_PACKED8
+  SDL_PIXELTYPE_PACKED16
+  SDL_PIXELTYPE_PACKED32
+  SDL_PIXELTYPE_ARRAYU8
+  SDL_PIXELTYPE_ARRAYU16
+  SDL_PIXELTYPE_ARRAYU32
+  SDL_PIXELTYPE_ARRAYF16
+  SDL_PIXELTYPE_ARRAYF32
+  SDL_PIXELTYPE_INDEX2
+}
+
+pub(all) struct SDL_Point {
+  x : Int
+  y : Int
+}
+
+#external
+pub type SDL_PowerState
+
+pub(all) enum SDL_ProgressState {
+  SDL_PROGRESS_STATE_INVALID
+  SDL_PROGRESS_STATE_NONE
+  SDL_PROGRESS_STATE_INDETERMINATE
+  SDL_PROGRESS_STATE_NORMAL
+  SDL_PROGRESS_STATE_PAUSED
+  SDL_PROGRESS_STATE_ERROR
+}
+
+#external
+pub type SDL_PropertiesID
+
+pub(all) struct SDL_Rect {
+  x : Int
+  y : Int
+  w : Int
+  h : Int
+}
+
+#external
+pub type SDL_Renderer
+fn SDL_Renderer::is_null(Self) -> Bool
+
+pub(all) enum SDL_RendererLogicalPresentation {
+  SDL_LOGICAL_PRESENTATION_DISABLED
+  SDL_LOGICAL_PRESENTATION_STRETCH
+  SDL_LOGICAL_PRESENTATION_LETTERBOX
+  SDL_LOGICAL_PRESENTATION_OVERSCAN
+  SDL_LOGICAL_PRESENTATION_INTEGER_SCALE
+}
+
+pub(all) enum SDL_ScaleMode {
+  SDL_SCALEMODE_NEAREST
+  SDL_SCALEMODE_LINEAR
+  SDL_SCALEMODE_PIXELART
+}
+
+#external
+pub type SDL_Scancode
+
+#external
+pub type SDL_SensorType
+
+#external
+pub type SDL_Surface
+
+pub(all) enum SDL_SystemCursor {
+  SDL_SYSTEM_CURSOR_DEFAULT
+  SDL_SYSTEM_CURSOR_TEXT
+  SDL_SYSTEM_CURSOR_WAIT
+  SDL_SYSTEM_CURSOR_CROSSHAIR
+  SDL_SYSTEM_CURSOR_PROGRESS
+  SDL_SYSTEM_CURSOR_NWSE_RESIZE
+  SDL_SYSTEM_CURSOR_NESW_RESIZE
+  SDL_SYSTEM_CURSOR_EW_RESIZE
+  SDL_SYSTEM_CURSOR_NS_RESIZE
+  SDL_SYSTEM_CURSOR_MOVE
+  SDL_SYSTEM_CURSOR_NOT_ALLOWED
+  SDL_SYSTEM_CURSOR_POINTER
+  SDL_SYSTEM_CURSOR_NW_RESIZE
+  SDL_SYSTEM_CURSOR_N_RESIZE
+  SDL_SYSTEM_CURSOR_NE_RESIZE
+  SDL_SYSTEM_CURSOR_E_RESIZE
+  SDL_SYSTEM_CURSOR_SE_RESIZE
+  SDL_SYSTEM_CURSOR_S_RESIZE
+  SDL_SYSTEM_CURSOR_SW_RESIZE
+  SDL_SYSTEM_CURSOR_W_RESIZE
+  SDL_SYSTEM_CURSOR_COUNT
+}
+
+pub(all) enum SDL_SystemTheme {
+  SDL_SYSTEM_THEME_UNKNOWN
+  SDL_SYSTEM_THEME_LIGHT
+  SDL_SYSTEM_THEME_DARK
+}
+
+pub(all) enum SDL_TextInputType {
+  SDL_TEXTINPUT_TYPE_TEXT
+  SDL_TEXTINPUT_TYPE_TEXT_NAME
+  SDL_TEXTINPUT_TYPE_TEXT_EMAIL
+  SDL_TEXTINPUT_TYPE_TEXT_USERNAME
+  SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN
+  SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE
+  SDL_TEXTINPUT_TYPE_NUMBER
+  SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN
+  SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE
+}
+
+#external
+pub type SDL_Texture
+
+pub(all) enum SDL_TextureAccess {
+  SDL_TEXTUREACCESS_STATIC
+  SDL_TEXTUREACCESS_STREAMING
+  SDL_TEXTUREACCESS_TARGET
+}
+
+pub(all) enum SDL_TextureAddressMode {
+  SDL_TEXTURE_ADDRESS_AUTO
+  SDL_TEXTURE_ADDRESS_CLAMP
+  SDL_TEXTURE_ADDRESS_WRAP
+  SDL_TEXTURE_ADDRESS_INVALID
+}
+
+pub(all) enum SDL_TimeFormat {
+  SDL_TIME_FORMAT_24HR
+  SDL_TIME_FORMAT_12HR
+}
+
+pub(all) enum SDL_TransferCharacteristics {
+  SDL_TRANSFER_CHARACTERISTICS_UNKNOWN
+  SDL_TRANSFER_CHARACTERISTICS_BT709
+  SDL_TRANSFER_CHARACTERISTICS_UNSPECIFIED
+  SDL_TRANSFER_CHARACTERISTICS_GAMMA22
+  SDL_TRANSFER_CHARACTERISTICS_GAMMA28
+  SDL_TRANSFER_CHARACTERISTICS_BT601
+  SDL_TRANSFER_CHARACTERISTICS_SMPTE240
+  SDL_TRANSFER_CHARACTERISTICS_LINEAR
+  SDL_TRANSFER_CHARACTERISTICS_LOG100
+  SDL_TRANSFER_CHARACTERISTICS_LOG100_SQRT10
+  SDL_TRANSFER_CHARACTERISTICS_IEC61966
+  SDL_TRANSFER_CHARACTERISTICS_BT1361
+  SDL_TRANSFER_CHARACTERISTICS_SRGB
+  SDL_TRANSFER_CHARACTERISTICS_BT2020_10BIT
+  SDL_TRANSFER_CHARACTERISTICS_BT2020_12BIT
+  SDL_TRANSFER_CHARACTERISTICS_PQ
+  SDL_TRANSFER_CHARACTERISTICS_SMPTE428
+  SDL_TRANSFER_CHARACTERISTICS_HLG
+  SDL_TRANSFER_CHARACTERISTICS_CUSTOM
+}
+
+pub(all) struct SDL_Vertex {
+  position : SDL_FPoint
+  color : SDL_FColor
+  tex_coord : SDL_FPoint
+}
+
+pub(all) struct SDL_VirtualJoystickDesc {
+}
+
+pub(all) struct SDL_VirtualJoystickSensorDesc {
+  type_ : SDL_SensorType
+  rate : Float
+}
+
+pub(all) struct SDL_VirtualJoystickTouchpadDesc {
+  nfingers : UInt16
+}
+
+#external
+pub type SDL_Window
+fn SDL_Window::is_null(Self) -> Bool
+
+pub(all) enum TTF_Direction {
+  TTF_DIRECTION_INVALID
+  TTF_DIRECTION_LTR
+  TTF_DIRECTION_RTL
+  TTF_DIRECTION_TTB
+  TTF_DIRECTION_BTT
+}
+
+#external
+pub type TTF_Font
+
+pub(all) enum TTF_HintingFlags {
+  TTF_HINTING_NORMAL
+  TTF_HINTING_LIGHT
+  TTF_HINTING_MONO
+  TTF_HINTING_NONE
+  TTF_HINTING_LIGHT_SUBPIXEL
+  TTF_HINTING_INVALID
+}
+
+pub(all) enum TTF_HorizontalAlignment {
+  TTF_HORIZONTAL_ALIGN_LEFT
+  TTF_HORIZONTAL_ALIGN_CENTER
+  TTF_HORIZONTAL_ALIGN_RIGHT
+  TTF_HORIZONTAL_ALIGN_INVALID
+}
+
+pub(all) enum TTF_ImageType {
+  TTF_IMAGE_INVALID
+  TTF_IMAGE_ALPHA
+  TTF_IMAGE_COLOR
+  TTF_IMAGE_SDF
+}
+
+#external
+pub type VoidPtr
+
+// Type aliases
+pub typealias FuncRef[(VoidPtr, VoidPtr) -> SDL_AppResult] as SDL_AppEvent_func
+
+pub typealias FuncRef[(VoidPtr, Int, VoidPtr) -> SDL_AppResult] as SDL_AppInit_func
+
+pub typealias FuncRef[(VoidPtr) -> SDL_AppResult] as SDL_AppIterate_func
+
+pub typealias FuncRef[(VoidPtr, SDL_AppResult) -> Unit] as SDL_AppQuit_func
+
+pub typealias UInt as SDL_AudioDeviceID
+
+pub typealias FuncRef[(VoidPtr, SDL_AudioSpec, FixedArray[Float], Int) -> Unit] as SDL_AudioPostmixCallback
+
+pub typealias FuncRef[(VoidPtr, SDL_AudioStream, Int, Int) -> Unit] as SDL_AudioStreamCallback
+
+pub typealias UInt as SDL_CameraID
+
+pub typealias UInt as SDL_DisplayID
+
+pub typealias Int64 as SDL_EGLAttrib
+
+pub typealias FuncRef[(VoidPtr) -> FixedArray[Int64]] as SDL_EGLAttribArrayCallback
+
+pub typealias VoidPtr as SDL_EGLConfig
+
+pub typealias VoidPtr as SDL_EGLDisplay
+
+pub typealias FuncRef[(VoidPtr, VoidPtr, VoidPtr) -> FixedArray[Int]] as SDL_EGLIntArrayCallback
+
+pub typealias VoidPtr as SDL_EGLSurface
+
+pub typealias Int as SDL_EGLint
+
+pub typealias FuncRef[(VoidPtr, SDL_Event) -> Int] as SDL_EventFilter
+
+pub typealias UInt as SDL_GLContextFlag
+
+pub typealias UInt as SDL_GLContextReleaseFlag
+
+pub typealias UInt as SDL_GLContextResetNotification
+
+pub typealias UInt as SDL_GLProfile
+
+pub typealias UInt as SDL_InitFlags
+
+pub typealias UInt as SDL_JoystickID
+
+pub typealias UInt as SDL_KeyboardID
+
+pub typealias FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes) -> Unit] as SDL_LogOutputFunction
+
+pub typealias FuncRef[(VoidPtr) -> Unit] as SDL_MainThreadCallback
+
+pub typealias UInt as SDL_MessageBoxButtonFlags
+
+pub typealias UInt as SDL_MessageBoxFlags
+
+pub typealias UInt as SDL_MouseButtonFlags
+
+pub typealias UInt as SDL_MouseID
+
+pub typealias FuncRef[(VoidPtr, UInt64, SDL_Window, UInt, FixedArray[Float], FixedArray[Float]) -> Unit] as SDL_MouseMotionTransformCallback
+
+pub typealias FuncRef[(VoidPtr, UInt, UInt64) -> UInt64] as SDL_NSTimerCallback
+
+pub typealias UInt as SDL_PenID
+
+pub typealias UInt as SDL_SurfaceFlags
+
+pub typealias FuncRef[(VoidPtr, UInt, UInt) -> UInt] as SDL_TimerCallback
+
+pub typealias UInt as SDL_TimerID
+
+pub typealias UInt64 as SDL_TouchID
+
+pub typealias UInt64 as SDL_WindowFlags
+
+pub typealias UInt as SDL_WindowID
+
+pub typealias UInt as TTF_FontStyleFlags
+
+// Traits
+
