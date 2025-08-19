@@ -352,6 +352,84 @@ pub fn Renderer::drawTriangle(
   }
 }
 
-pub fn Renderer::drawCircle(self: Self, center: (Double, Double), radius: Double, color?: Color, alpha?: Int) -> Unit raise {
-  ...
+pub suberror DrawGeometryError String derive(Show)
+
+pub fn Renderer::drawGeometry(
+  self: Self,
+  vertexes: Array[(Double, Double)],
+  color_alpha?: Array[(Color, Int)] = [],
+  texture_coords?: Array[(Double, Double)] = [],
+  indices?: Array[Int] = [],
+) -> Unit raise {
+  if vertexes.length() < 3 {
+    raise DrawGeometryError("At least 3 vertexes are required to draw a geometry.")
+  }
+  if not(color_alpha.length() is (0 | 1)) && color_alpha.length() != vertexes.length() {
+    raise DrawGeometryError("color_alpha length must be 0, 1, or equal to vertexes length.")
+  }
+  if not(texture_coords.length() is (0 | 1)) && texture_coords.length() != vertexes.length() {
+    raise DrawGeometryError("texture_coords length must be 0, 1, or equal to vertexes length.")
+  }
+  if indices.length() != 0 && indices.length() != vertexes.length() {
+    raise DrawGeometryError("indices length must be 0, or equal to vertexes length.")
+  }
+
+  let len_of_vertexes = vertexes.length()
+  let sdl_vertexes_data : FixedArray[Float] = FixedArray::make(len_of_vertexes * 8, 0.0)
+  let mut idx = 0
+  for i, v in vertexes {
+    let (x, y) = v
+    sdl_vertexes_data[idx] = x.to_float()
+    sdl_vertexes_data[idx + 1] = y.to_float()
+    let (r, g, b, a) = match color_alpha {
+      [] => {
+        let { r, g, b, a, ..} = self
+        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+      }
+      [c] => {
+        let (color, alpha) = c
+        let (r, g, b) = color.to_rgb()
+        let a = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
+        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+      }
+      _ => {
+        let (color, alpha) = color_alpha[i]
+        let (r, g, b) = color.to_rgb()
+        let a = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
+        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+      }
+    }
+    sdl_vertexes_data[idx + 2] = r
+    sdl_vertexes_data[idx + 3] = g
+    sdl_vertexes_data[idx + 4] = b
+    sdl_vertexes_data[idx + 5] = a
+    let (tx, ty) = match texture_coords {
+      [] => (0.0, 0.0)
+      [c] => c
+      _ => texture_coords[i]
+    }
+    sdl_vertexes_data[idx + 6] = tx.to_float()
+    sdl_vertexes_data[idx + 7] = ty.to_float()
+    idx += 8
+  }
+
+  let indices_data : FixedArray[Int] = if indices.length() == 0 {
+    @lib.nullptr()
+  } else {
+    FixedArray::from_array(indices)
+  }
+  let indices_len = indices.length()
+  let texture : @lib.SDL_Texture = @lib.nullptr() // No texture used
+
+  let res = @lib.sdl_RenderGeometry(
+    self.inner(),
+    texture,
+    sdl_vertexes_data, len_of_vertexes,
+    indices_data, indices_len
+  )
+
+  if !res {
+    let msg = @lib.sdl_GetError()
+    raise DrawGeometryError(msg)
+  }
 }
