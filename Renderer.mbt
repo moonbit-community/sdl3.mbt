@@ -139,15 +139,19 @@ pub fn Renderer::drawLines(self: Self, lines: Array[Line]) -> Unit raise {
   lines.each(l => self.drawLine(l))
 }
 
-pub fn Renderer::drawRect(self: Self, rect: Rect) -> Unit raise {
-  let res = @lib.sdl_RenderRect(self.inner(), rect.to_sdl_frect())
+pub fn Renderer::drawRect(self: Self, rect: Rect, fill?: Bool = false) -> Unit raise {
+  let res = if fill {
+    @lib.sdl_RenderFillRect(self.inner(), rect.to_sdl_frect())
+  } else {
+    @lib.sdl_RenderRect(self.inner(), rect.to_sdl_frect())
+  }
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)
   }
 }
 
-pub fn Renderer::drawRects(self: Self, rects: Array[Rect]) -> Unit raise {
+pub fn Renderer::drawRects(self: Self, rects: Array[Rect], fill?: Bool = false) -> Unit raise {
   let len = rects.length();
   let sdl_rects : FixedArray[Float] = FixedArray::make(len * 4, 0)
   let mut i = 0;
@@ -158,7 +162,11 @@ pub fn Renderer::drawRects(self: Self, rects: Array[Rect]) -> Unit raise {
     sdl_rects[i + 3] = r.height.to_float()
     i += 4;
   }
-  let res = @lib.sdl_RenderRects(self.inner(), sdl_rects, len)
+  let res = if fill {
+    @lib.sdl_RenderFillRects(self.inner(), sdl_rects, len)
+  } else {
+    @lib.sdl_RenderRects(self.inner(), sdl_rects, len)
+  }
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)

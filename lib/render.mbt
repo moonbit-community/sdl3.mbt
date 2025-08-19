@@ -2376,9 +2376,9 @@ pub extern "C" fn sdl_RenderTextureRotated(renderer: SDL_Renderer, texture: SDL_
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderGeometry(SDL_Renderer *renderer,
-///                                                SDL_Texture *texture,
-///                                                const SDL_Vertex *vertices, int num_vertices,
-///                                                const int *indices, int num_indices);
+///                                                     SDL_Texture *texture,
+///                                                     const SDL_Vertex *vertices, int num_vertices,
+///                                                     const int *indices, int num_indices);
 /// ```
 pub extern "C" fn sdl_RenderGeometry(renderer: SDL_Renderer, texture: SDL_Texture, vertices: SDL_Vertex, num_vertices: Int, indices: FixedArray[Int], num_indices: Int) -> Bool = "SDL_RenderGeometry"
 
@@ -2534,4 +2534,4 @@ pub extern "C" fn sdl_SetRenderVSync(renderer: SDL_Renderer, vsync: Int) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderVSync(SDL_Renderer *renderer, int *vsync);
 /// ```
-pub extern "C" fn sdl_GetRenderVSync(renderer: SDL_Renderer, vsync: FixedArray[Int]) -> Bool = "SDL_GetRenderVSync"
+pub extern "C" fn sdl_GetRenderVSync(renderer: SDL_Renderer, vsync: Ref[Int]) -> Bool = "SDL_GetRenderVSync"

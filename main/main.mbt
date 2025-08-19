@@ -19,7 +19,7 @@ fn main_err() -> Unit raise {
     renderer.setDrawColor(Red)
     renderer.lines([(100, 100), (100, 500), (500, 500), (500, 100), (100, 100)])
     let rect = ctx.createRect(anchor=(200, 200), width=300, height=300)
-    renderer.drawRect(rect)
+    renderer.drawRect(rect, fill=true)
     //renderer.rect(@sdl3.Rect::)
     renderer.present()
     renderer.clear()
