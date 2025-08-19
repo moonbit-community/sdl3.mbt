@@ -2380,7 +2380,7 @@ pub extern "C" fn sdl_RenderTextureRotated(renderer: SDL_Renderer, texture: SDL_
 ///                                                     const SDL_Vertex *vertices, int num_vertices,
 ///                                                     const int *indices, int num_indices);
 /// ```
-pub extern "C" fn sdl_RenderGeometry(renderer: SDL_Renderer, texture: SDL_Texture, vertices: SDL_Vertex, num_vertices: Int, indices: FixedArray[Int], num_indices: Int) -> Bool = "SDL_RenderGeometry"
+pub extern "C" fn sdl_RenderGeometry(renderer: SDL_Renderer, texture: SDL_Texture, vertices: FixedArray[Float], num_vertices: Int, indices: FixedArray[Int], num_indices: Int) -> Bool = "SDL_RenderGeometry"
 
 ///| Render a list of triangles.
 ///

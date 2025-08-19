@@ -6,7 +6,9 @@ pub suberror SetDrawColorError String derive(Show)
 
 ///|
 /// Set the draw color for the renderer.
+///
 /// ## Parameters
+///
 /// - `color`: The color to set.
 /// - `alpha`: The alpha value of the color.
 pub fn Renderer::setDrawColor(
@@ -68,35 +70,29 @@ pub fn Renderer::drawPoint(self: Self, p: Point) -> Unit raise {
   }
 }
 
-pub fn Renderer::points(self: Self, points: Array[(Double, Double)]) -> Unit raise {
+pub fn Renderer::drawPoints(self: Self, points: Array[Point], connect?: Bool = false) -> Unit raise {
+  //points.each(p => self.drawPoint(p))
   let len = points.length();
   let pts : FixedArray[Float] = FixedArray::make(len * 2, 0)
   let mut i = 0;
   for p in points {
-    pts[i] = p.0.to_float()
-    pts[i + 1] = p.1.to_float()
+    pts[i] = p.x.to_float()
+    pts[i + 1] = p.y.to_float()
     i += 2;
   }
-  let res = @lib.sdl_RenderPoints(
-    self.inner(),
-    pts, len
-  )
-  if !res {
-    let msg = @lib.sdl_GetError()
-    raise RenderRendError(msg)
+  let res = if connect {
+    @lib.sdl_RenderLines(
+      self.inner(),
+      pts,
+      len
+    )
+  } else {
+    @lib.sdl_RenderPoints(
+      self.inner(),
+      pts,
+      len
+    )
   }
-}
-
-pub fn Renderer::drawPoints(self: Self, points: Array[Point]) -> Unit raise {
-  points.each(p => self.drawPoint(p))
-}
-
-pub fn Renderer::line(self: Self, start: (Double, Double), end: (Double, Double)) -> Unit raise {
-  let res = @lib.sdl_RenderLine(
-    self.inner(),
-    start.0.to_float(), start.1.to_float(),
-    end.0.to_float(), end.1.to_float()
-  )
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)
@@ -167,6 +163,30 @@ pub fn Renderer::drawRects(self: Self, rects: Array[Rect], fill?: Bool = false) 
   } else {
     @lib.sdl_RenderRects(self.inner(), sdl_rects, len)
   }
+  if !res {
+    let msg = @lib.sdl_GetError()
+    raise RenderRendError(msg)
+  }
+}
+
+pub fn Renderer::drawTriangle(self: Self, tri: Triangle, fill?: Bool = false) -> Unit raise {
+  // if not fill, just draw three lines
+  if !fill {
+    let (p1, p2, p3) = (tri.v1.pos, tri.v2.pos, tri.v3.pos)
+    let p1 = Point::{ x: p1.0, y: p1.1 }
+    let p2 = Point::{ x: p2.0, y: p2.1 }
+    let p3 = Point::{ x: p3.0, y: p3.1 }
+    self.drawPoints([p1, p2, p3, p1], connect=true)
+    return
+  }
+  let texture : @lib.SDL_Texture = @lib.nullptr()
+  let indices : FixedArray[Int] = @lib.nullptr()
+  let data = tri.to_float_array()
+  let res = @lib.sdl_RenderGeometry(
+    self.inner(),
+    texture,
+    data, 3, indices, 0
+  )
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)

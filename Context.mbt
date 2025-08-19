@@ -96,3 +96,20 @@ pub fn Context::createRect(self: Self, anchor~: (Double, Double), width~: Double
   Rect::{ anchor, width, height }
 }
 
+pub fn Context::createVertex(self: Self, pos: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double) = (0, 0)) -> Vertex {
+  ignore(self)
+  Vertex::{
+    pos,
+    color,
+    tex_coord,
+  }
+}
+
+pub fn Context::createTriangle(self: Self, p1: (Double, Double), p2: (Double, Double), p3: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double)=(0, 0)) -> Triangle {
+  ignore(self)
+  Triangle::{
+    v1: self.createVertex(p1, color~, tex_coord~),
+    v2: self.createVertex(p2, color~, tex_coord~),
+    v3: self.createVertex(p3, color~, tex_coord~)
+  }
+}

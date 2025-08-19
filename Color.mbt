@@ -128,7 +128,7 @@ pub(all) enum Color {
   Transparent
   RGB(Int, Int, Int)
   RGBA(Int, Int, Int, Int)
-}
+} derive(Eq, Show)
 
 ///|
 /// Convert color to RGB bytes (red, green, blue)
@@ -321,17 +321,4 @@ pub fn Color::from_rgba32(rgba : Int) -> Color {
   let b = (rgba >> 8) & 0xFF
   let a = rgba & 0xFF
   RGBA(r, g, b, a)
-}
-
-///|
-/// Convert color to string representation
-pub fn Color::to_string(self : Color) -> String {
-  match self {
-    RGB(r, g, b) => "RGB(\{r}, \{g}, \{b})"
-    RGBA(r, g, b, a) => "RGBA(\{r}, \{g}, \{b}, \{a})"
-    _ => {
-      let (r, g, b) = self.to_rgb()
-      "RGB(\{r}, \{g}, \{b})"
-    }
-  }
 }
