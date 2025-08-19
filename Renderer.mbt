@@ -74,6 +74,17 @@ pub fn Renderer::setDrawAlpha(
 ///|
 pub suberror ClearRendererError String derive(Show)
 
+pub fn Renderer::refreshBackGround(self: Self, color: Color) -> Unit raise {
+  let { r, g, b, a, .. } = self
+  self.setDrawColor(color)
+  let res = @lib.sdl_RenderClear(self.inner())
+  if !res {
+    let msg = @lib.sdl_GetError()
+    raise ClearRendererError(msg)
+  }
+  self.setRGBA(r, g, b, a)
+}
+
 ///|
 /// Clear the renderer.
 pub fn Renderer::clear(self : Renderer) -> Unit raise ClearRendererError {
@@ -326,7 +337,7 @@ pub fn Renderer::drawTriangle(
   data[21] = alpha.to_float()
   data[22] = tx.to_float()
   data[23] = ty.to_float()
-  
+
   let texture : @lib.SDL_Texture = @lib.nullptr() // No texture used
   let indices : FixedArray[Int] = @lib.nullptr()
   let res = @lib.sdl_RenderGeometry(
@@ -334,9 +345,13 @@ pub fn Renderer::drawTriangle(
     texture,
     data, 3, indices, 0
   )
-  
+
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)
   }
+}
+
+pub fn Renderer::drawCircle(self: Self, center: (Double, Double), radius: Double, color?: Color, alpha?: Int) -> Unit raise {
+  ...
 }

@@ -6,13 +6,15 @@ fn main_err() -> Unit raise {
   let timer = ctx.getTimer()
   println("window and renderer created successfully")
   let mut quit = false
-  while !quit {
+  fn check_quit() {
     let events = ctx.getEvents()
     if events.iter().any(e => e.getType() is Quit) {
       quit = true
     }
-    renderer.setDrawColor(White)
-    renderer.clear()
+  }
+  while !quit {
+    check_quit()
+    renderer.refreshBackGround(White)
     renderer.setDrawColor(Red)
     renderer.drawPoint(400, 300, color=Black)
     renderer.drawLine((100, 100), (700, 500))
@@ -24,6 +26,9 @@ fn main_err() -> Unit raise {
     renderer.drawTriangle(
       (400, 100), (300, 500), (500, 500), color=Yellow, fill=true
     )
+    //renderer.drawPolygon([
+    //  (600, 100), (700, 200), (800, 100), (800, 300), (700, 400), (600, 300)
+    //], color=Blue, fill=true)
     renderer.present()
     timer.delay(16)
   }
