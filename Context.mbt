@@ -39,6 +39,7 @@ pub fn Context::createWindow(
   if window.is_null() {
     raise CreateWindowError("Failed to create SDL window")
   }
+  let window = Window::{ base: window, renderer: None }
   self.windows.push(window)
   window
 }
@@ -82,34 +83,34 @@ pub fn Context::quit(self : Self) -> Unit {
   @lib.sdl_Quit()
 }
 
-pub fn Context::createPoint(x: Double, y: Double) -> Point {
-  Point::{ x, y }
-}
-
-pub fn Context::createLine(start: Point, end: Point) -> Line {
-  Line::{ start, end }
-}
-
-pub fn Context::createRect(self: Self, anchor~: (Double, Double), width~: Double, height~: Double) -> Rect {
-  ignore(self)
-  let anchor = Point::{ x: anchor.0, y: anchor.1 }
-  Rect::{ anchor, width, height }
-}
-
-pub fn Context::createVertex(self: Self, pos: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double) = (0, 0)) -> Vertex {
-  ignore(self)
-  Vertex::{
-    pos,
-    color,
-    tex_coord,
-  }
-}
-
-pub fn Context::createTriangle(self: Self, p1: (Double, Double), p2: (Double, Double), p3: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double)=(0, 0)) -> Triangle {
-  ignore(self)
-  Triangle::{
-    v1: self.createVertex(p1, color~, tex_coord~),
-    v2: self.createVertex(p2, color~, tex_coord~),
-    v3: self.createVertex(p3, color~, tex_coord~)
-  }
-}
+//pub fn Context::createPoint(x: Double, y: Double) -> Point {
+//  Point::{ x, y }
+//}
+//
+//pub fn Context::createLine(start: Point, end: Point) -> Line {
+//  Line::{ start, end }
+//}
+//
+//pub fn Context::createRect(self: Self, anchor~: (Double, Double), width~: Double, height~: Double) -> Rect {
+//  ignore(self)
+//  let anchor = Point::{ x: anchor.0, y: anchor.1 }
+//  Rect::{ anchor, width, height }
+//}
+//
+//pub fn Context::createVertex(self: Self, pos: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double) = (0, 0)) -> Vertex {
+//  ignore(self)
+//  Vertex::{
+//    pos,
+//    color,
+//    tex_coord,
+//  }
+//}
+//
+//pub fn Context::createTriangle(self: Self, p1: (Double, Double), p2: (Double, Double), p3: (Double, Double), color~: Color = Black, tex_coord~: (Double, Double)=(0, 0)) -> Triangle {
+//  ignore(self)
+//  Triangle::{
+//    v1: self.createVertex(p1, color~, tex_coord~),
+//    v2: self.createVertex(p2, color~, tex_coord~),
+//    v3: self.createVertex(p3, color~, tex_coord~)
+//  }
+//}

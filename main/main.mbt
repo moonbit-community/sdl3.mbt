@@ -13,20 +13,18 @@ fn main_err() -> Unit raise {
     }
     renderer.setDrawColor(White)
     renderer.clear()
-    renderer.setDrawColor(Black)
-    //renderer.point(400, 300)
-    //renderer.line((100, 100), (700, 500))
     renderer.setDrawColor(Red)
-    //renderer.lines([(100, 100), (100, 500), (500, 500), (500, 100), (100, 100)])
-    //let rect = ctx.createRect(anchor=(200, 200), width=300, height=300)
-    //renderer.drawRect(rect, fill=true)
-    //renderer.rect(@sdl3.Rect::)
-    let tri = ctx.createTriangle(
-      (400, 100), (300, 500), (500, 500), color=Green
+    renderer.drawPoint(400, 300, color=Black)
+    renderer.drawLine((100, 100), (700, 500))
+    renderer.drawLines([
+      (100, 100), (100, 500), (500, 500), (500, 100), (100, 100)
+    ])
+    renderer.setDrawColor(Lime)
+    renderer.drawRect((200, 200), 300, 300, fill=true)
+    renderer.drawTriangle(
+      (400, 100), (300, 500), (500, 500), color=Yellow, fill=true
     )
-    renderer.drawTriangle(tri)
     renderer.present()
-    renderer.clear()
     timer.delay(16)
   }
   println("loop finished, cleaning up resources...")

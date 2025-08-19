@@ -127,7 +127,6 @@ pub(all) enum Color {
   Honeydew
   Transparent
   RGB(Int, Int, Int)
-  RGBA(Int, Int, Int, Int)
 } derive(Eq, Show)
 
 ///|
@@ -260,65 +259,5 @@ pub fn Color::to_rgb(self : Color) -> (Byte, Byte, Byte) {
     Honeydew => (240, 255, 240)
     Transparent => (0, 0, 0)
     RGB(r, g, b) => (r.to_byte(), g.to_byte(), b.to_byte())
-    RGBA(r, g, b, _) => (r.to_byte(), g.to_byte(), b.to_byte())
   }
-}
-
-///|
-/// Convert color to RGBA bytes (red, green, blue, alpha)
-pub fn Color::to_rgba(self : Color) -> (Byte, Byte, Byte, Byte) {
-  match self {
-    Transparent => (0, 0, 0, 0)
-    RGBA(r, g, b, a) => (r.to_byte(), g.to_byte(), b.to_byte(), a.to_byte())
-    _ => {
-      let (r, g, b) = self.to_rgb()
-      (r, g, b, 255)
-    }
-  }
-}
-
-///|
-/// Convert color to a 32-bit integer representation (ARGB format)
-pub fn Color::to_argb32(self : Color) -> Int {
-  let (r, g, b, a) = self.to_rgba()
-  (a.to_int() << 24) | (r.to_int() << 16) | (g.to_int() << 8) | b.to_int()
-}
-
-///|
-/// Convert color to a 32-bit integer representation (RGBA format)
-pub fn Color::to_rgba32(self : Color) -> Int {
-  let (r, g, b, a) = self.to_rgba()
-  (r.to_int() << 24) | (g.to_int() << 16) | (b.to_int() << 8) | a.to_int()
-}
-
-///|
-/// Create a color from RGB values (0-255)
-pub fn Color::from_rgb(r : Int, g : Int, b : Int) -> Color {
-  RGB(r, g, b)
-}
-
-///|
-/// Create a color from RGBA values (0-255)
-pub fn Color::from_rgba(r : Int, g : Int, b : Int, a : Int) -> Color {
-  RGBA(r, g, b, a)
-}
-
-///|
-/// Create a color from a 32-bit ARGB integer
-pub fn Color::from_argb32(argb : Int) -> Color {
-  let a = (argb >> 24) & 0xFF
-  let r = (argb >> 16) & 0xFF
-  let g = (argb >> 8) & 0xFF
-  let b = argb & 0xFF
-  RGBA(r, g, b, a)
-}
-
-///|
-/// Create a color from a 32-bit RGBA integer
-pub fn Color::from_rgba32(rgba : Int) -> Color {
-  let r = (rgba >> 24) & 0xFF
-  let g = (rgba >> 16) & 0xFF
-  let b = (rgba >> 8) & 0xFF
-  let a = rgba & 0xFF
-  RGBA(r, g, b, a)
 }
