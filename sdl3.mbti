@@ -14,6 +14,9 @@ impl Show for ClearRendererError
 pub suberror CreateWindowError String
 impl Show for CreateWindowError
 
+pub suberror DrawGeometryError String
+impl Show for DrawGeometryError
+
 pub suberror InitializeSDLError String
 impl Show for InitializeSDLError
 
@@ -32,17 +35,136 @@ pub(all) enum Color {
   Green
   Blue
   Yellow
+  Cyan
+  Magenta
   Black
   White
-  RGB(Int, Int, Int)
+  Gray
+  LightGray
+  DarkGray
+  Orange
+  Purple
+  Pink
+  Brown
+  Lime
+  Navy
+  Maroon
+  Olive
+  Teal
+  Silver
+  Crimson
+  FireBrick
+  DarkRed
+  LightPink
+  HotPink
+  DeepPink
+  MediumVioletRed
+  PaleVioletRed
+  DarkOrange
+  OrangeRed
+  Tomato
+  Coral
+  LightSalmon
+  Salmon
+  DarkSalmon
+  LightCoral
+  Gold
+  LightYellow
+  LemonChiffon
+  LightGoldenrodYellow
+  PapayaWhip
+  Moccasin
+  PeachPuff
+  PaleGoldenrod
+  Khaki
+  DarkKhaki
+  LightGreen
+  DarkGreen
+  ForestGreen
+  SeaGreen
+  MediumSeaGreen
+  LightSeaGreen
+  DarkSeaGreen
+  YellowGreen
+  OliveDrab
+  LawnGreen
+  Chartreuse
+  GreenYellow
+  SpringGreen
+  MediumSpringGreen
+  LimeGreen
+  LightBlue
+  DarkBlue
+  MediumBlue
+  SkyBlue
+  LightSkyBlue
+  DeepSkyBlue
+  DodgerBlue
+  CornflowerBlue
+  SteelBlue
+  LightSteelBlue
+  PowderBlue
+  LightCyan
+  CadetBlue
+  Turquoise
+  DarkTurquoise
+  MediumTurquoise
+  PaleTurquoise
+  Aqua
+  DarkCyan
+  Violet
+  Plum
+  Thistle
+  Lavender
+  MediumOrchid
+  MediumPurple
+  BlueViolet
+  DarkViolet
+  DarkOrchid
+  DarkMagenta
+  Indigo
+  SlateBlue
+  DarkSlateBlue
+  MediumSlateBlue
+  SaddleBrown
+  Sienna
+  Chocolate
+  Peru
+  SandyBrown
+  BurlyWood
+  Tan
+  RosyBrown
+  Goldenrod
+  DarkGoldenrod
+  Gainsboro
+  DimGray
+  SlateGray
+  LightSlateGray
+  DarkSlateGray
+  Beige
+  Bisque
+  BlanchedAlmond
+  Cornsilk
+  Ivory
+  FloralWhite
+  Snow
+  GhostWhite
+  MintCream
+  Azure
+  AliceBlue
+  Lavenderblush
+  Seashell
+  Honeydew
+  Transparent
+  RGB(Byte, Byte, Byte)
 }
+fn Color::to_rgb(Self) -> (Byte, Byte, Byte)
+impl Eq for Color
+impl Show for Color
 
 pub struct Context {
   windows : Array[Window]
 }
-fn Context::createLine(Point, Point) -> Line
-fn Context::createPoint(Double, Double) -> Point
-fn Context::createRect(Self, anchor~ : (Double, Double), width~ : Double, height~ : Double) -> Rect
 fn Context::createWindow(Self, String, width~ : Int, height~ : Int) -> Window raise
 fn Context::getEvents(Self) -> Array[Event]
 fn Context::getTimer(Self) -> Timer
@@ -168,56 +290,39 @@ pub(all) enum EventType {
   InValidEventType
 }
 
-pub struct Line {
-  start : Point
-  end : Point
+pub struct Renderer {
+  base : @lib.SDL_Renderer
+  mut r : Byte
+  mut g : Byte
+  mut b : Byte
+  mut a : Byte
 }
-impl Eq for Line
-impl Show for Line
-
-pub struct Point {
-  x : Double
-  y : Double
-}
-impl Eq for Point
-impl Show for Point
-
-pub struct Rect {
-  anchor : Point
-  width : Double
-  height : Double
-}
-impl Eq for Rect
-impl Show for Rect
-
-pub struct Renderer(@lib.SDL_Renderer)
 fn Renderer::clear(Self) -> Unit raise ClearRendererError
-fn[T : Geometry] Renderer::draw(Self, T) -> Unit raise
-fn Renderer::drawLine(Self, Line) -> Unit raise
-fn Renderer::drawLines(Self, Array[Line]) -> Unit raise
-fn Renderer::drawPoint(Self, Point) -> Unit raise
-fn Renderer::drawPoints(Self, Array[Point]) -> Unit raise
-fn Renderer::drawRect(Self, Rect) -> Unit raise
-fn Renderer::drawRects(Self, Array[Rect]) -> Unit raise
-fn Renderer::inner(Self) -> @lib.SDL_Renderer
-fn Renderer::line(Self, (Double, Double), (Double, Double)) -> Unit raise
-fn Renderer::lines(Self, Array[(Double, Double)]) -> Unit raise
-fn Renderer::point(Self, Double, Double) -> Unit raise
-fn Renderer::points(Self, Array[(Double, Double)]) -> Unit raise
+fn Renderer::drawGeometry(Self, Array[(Double, Double)], color_alpha? : Array[(Color, Byte)], texture_coords? : Array[(Double, Double)], indices? : Array[Int]) -> Unit raise
+fn Renderer::drawLine(Self, (Double, Double), (Double, Double), color? : Color, alpha? : Int) -> Unit raise
+fn Renderer::drawLines(Self, Array[(Double, Double)], color? : Color, alpha? : Int) -> Unit raise
+fn Renderer::drawPoint(Self, Double, Double, color? : Color, alpha? : Int) -> Unit raise
+fn Renderer::drawPoints(Self, Array[(Double, Double)], color? : Color, alpha? : Int) -> Unit raise
+fn Renderer::drawRect(Self, (Double, Double), Double, Double, color? : Color, alpha? : Int, fill? : Bool) -> Unit raise
+fn Renderer::drawRects(Self, Array[((Double, Double), Double, Double)], color? : Color, alpha? : Int, fill? : Bool) -> Unit raise
 fn Renderer::present(Self) -> Unit raise RenderPresentError
+fn Renderer::refreshBackGround(Self, Color) -> Unit raise
+fn Renderer::setDefaultColor(Self) -> Unit
+fn Renderer::setDrawAlpha(Self, Int) -> Unit raise SetDrawColorError
 fn Renderer::setDrawColor(Self, Color, alpha? : Int) -> Unit raise SetDrawColorError
 
 pub struct Timer {
 }
 fn Timer::delay(Self, Int) -> Unit
 
-pub struct Window(@lib.SDL_Window)
+pub struct Window {
+  base : @lib.SDL_Window
+  mut renderer : Renderer?
+}
 fn Window::createRenderer(Self) -> Renderer raise
 fn Window::getRenderer(Self) -> Renderer?
-fn Window::inner(Self) -> @lib.SDL_Window
 
 // Type aliases
 
 // Traits
-trait Geometry
 

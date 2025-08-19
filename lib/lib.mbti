@@ -1164,7 +1164,7 @@ fn sdl_GetRenderScale(SDL_Renderer, FixedArray[Float], FixedArray[Float]) -> Boo
 
 fn sdl_GetRenderTarget(SDL_Renderer) -> SDL_Texture
 
-fn sdl_GetRenderVSync(SDL_Renderer, FixedArray[Int]) -> Bool
+fn sdl_GetRenderVSync(SDL_Renderer, Ref[Int]) -> Bool
 
 fn sdl_GetRenderViewport(SDL_Renderer, SDL_Rect) -> Bool
 
@@ -1482,7 +1482,7 @@ fn sdl_RenderFillRects(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 fn sdl_RenderFlush(SDL_Renderer) -> Bool
 
-fn sdl_RenderGeometry(SDL_Renderer, SDL_Texture, SDL_Vertex, Int, FixedArray[Int], Int) -> Bool
+fn sdl_RenderGeometry(SDL_Renderer, SDL_Texture, FixedArray[Float], Int, FixedArray[Int], Int) -> Bool
 
 fn sdl_RenderGeometryRaw(SDL_Renderer, SDL_Texture, FixedArray[Float], Int, SDL_FColor, Int, FixedArray[Float], Int, Int, VoidPtr, Int, Int) -> Bool
 

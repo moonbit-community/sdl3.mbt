@@ -23,9 +23,10 @@ fn main_err() -> Unit raise {
     ])
     renderer.setDrawColor(Lime)
     renderer.drawRect((200, 200), 300, 300, fill=true)
-    renderer.drawTriangle(
-      (400, 100), (300, 500), (500, 500), color=Yellow, fill=true
-    )
+    //renderer.drawTriangle(
+    //  (400, 100), (300, 500), (500, 500), color=Yellow, fill=true
+    //)
+    //renderer.drawCircle((400, 300), 100, color=Blue)
     //renderer.drawPolygon([
     //  (600, 100), (700, 200), (800, 100), (800, 300), (700, 400), (600, 300)
     //], color=Blue, fill=true)

@@ -286,78 +286,12 @@ pub fn Renderer::drawRects(
   self.setRGBA(r, g, b, a)
 }
 
-pub fn Renderer::drawTriangle(
-  self: Self,
-  v1: (Double, Double),
-  v2: (Double, Double),
-  v3: (Double, Double),
-  color?: Color, alpha?: Int,
-  fill~: Bool = false
-) -> Unit raise {
-  if !fill {
-    self.drawLines([v1, v2, v3, v1], color?=color)
-    return
-  }
-  let (r, g, b) = match color {
-    Some(c) => c.to_rgb()
-    None => (0, 0, 0) // Default to black with full opacity
-  }
-  let alpha = match alpha {
-    Some(a) => if a < 0 { 0 } else if a > 255 { 255 } else { a }
-    None => 255 // Default to full opacity
-  }
-  let (tx, ty) = (0.0, 0.0) // Texture coordinates, not used here
-  let (v1x, v1y) = v1
-  let (v2x, v2y) = v2
-  let (v3x, v3y) = v3
-  let data : FixedArray[Float] = FixedArray::make(24, 0.0)
-  data[0] = v1x.to_float()
-  data[1] = v1y.to_float()
-  data[2] = r.to_float()
-  data[3] = g.to_float()
-  data[4] = b.to_float()
-  data[5] = alpha.to_float()
-  data[6] = tx.to_float()
-  data[7] = ty.to_float()
-
-  data[8] = v2x.to_float()
-  data[9] = v2y.to_float()
-  data[10] = r.to_float()
-  data[11] = g.to_float()
-  data[12] = b.to_float()
-  data[13] = alpha.to_float()
-  data[14] = tx.to_float()
-  data[15] = ty.to_float()
-
-  data[16] = v3x.to_float()
-  data[17] = v3y.to_float()
-  data[18] = r.to_float()
-  data[19] = g.to_float()
-  data[20] = b.to_float()
-  data[21] = alpha.to_float()
-  data[22] = tx.to_float()
-  data[23] = ty.to_float()
-
-  let texture : @lib.SDL_Texture = @lib.nullptr() // No texture used
-  let indices : FixedArray[Int] = @lib.nullptr()
-  let res = @lib.sdl_RenderGeometry(
-    self.inner(),
-    texture,
-    data, 3, indices, 0
-  )
-
-  if !res {
-    let msg = @lib.sdl_GetError()
-    raise RenderRendError(msg)
-  }
-}
-
 pub suberror DrawGeometryError String derive(Show)
 
 pub fn Renderer::drawGeometry(
   self: Self,
   vertexes: Array[(Double, Double)],
-  color_alpha?: Array[(Color, Int)] = [],
+  color_alpha?: Array[(Color, Byte)] = [],
   texture_coords?: Array[(Double, Double)] = [],
   indices?: Array[Int] = [],
 ) -> Unit raise {
@@ -373,6 +307,9 @@ pub fn Renderer::drawGeometry(
   if indices.length() != 0 && indices.length() != vertexes.length() {
     raise DrawGeometryError("indices length must be 0, or equal to vertexes length.")
   }
+  if vertexes.length() % 3 != 0 {
+    raise DrawGeometryError("vertexes length must be a multiple of 3.")
+  }
 
   let len_of_vertexes = vertexes.length()
   let sdl_vertexes_data : FixedArray[Float] = FixedArray::make(len_of_vertexes * 8, 0.0)
@@ -387,15 +324,13 @@ pub fn Renderer::drawGeometry(
         (r.to_float(), g.to_float(), b.to_float(), a.to_float())
       }
       [c] => {
-        let (color, alpha) = c
+        let (color, a) = c
         let (r, g, b) = color.to_rgb()
-        let a = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
         (r.to_float(), g.to_float(), b.to_float(), a.to_float())
       }
       _ => {
-        let (color, alpha) = color_alpha[i]
+        let (color, a) = color_alpha[i]
         let (r, g, b) = color.to_rgb()
-        let a = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
         (r.to_float(), g.to_float(), b.to_float(), a.to_float())
       }
     }
@@ -433,3 +368,91 @@ pub fn Renderer::drawGeometry(
     raise DrawGeometryError(msg)
   }
 }
+
+//pub fn Renderer::drawTriangle(
+//  self: Self,
+//  v1: (Double, Double),
+//  v2: (Double, Double),
+//  v3: (Double, Double),
+//  color?: Color, alpha?: Int,
+//  fill~: Bool = false
+//) -> Unit raise {
+//  if !fill {
+//    self.drawLines([v1, v2, v3, v1], color?=color)
+//    return
+//  }
+//  let vertexes: Array[(Double, Double)] = Array::new()
+//  vertexes..push(v1) .. push(v2) .. push(v3)
+//  let color = match color {
+//    Some(c) => c
+//    None => Color::RGB(self.r, self.g, self.b)
+//  }
+//  let alpha = match alpha {
+//    Some(a) => if a < 0 { 0 } else if a > 255 { 255 } else { a }
+//    None => self.a.to_int()
+//  }
+//  let alpha = alpha.to_byte()
+//  let color_alpha = [(color, alpha)]
+//  self.drawGeometry(
+//    vertexes,
+//    color_alpha=color_alpha
+//  )
+//}
+
+//// draw a circle, use drawGeometry
+//pub fn Renderer::drawCircle(
+//  self: Self,
+//  center: (Double, Double),
+//  radius: Double,
+//  color?: Color, alpha?: Int, fill~: Bool = false
+//) -> Unit raise {
+//  let segments = match radius.to_int() {
+//    _..<10 => 8 // For small circles, use fewer segments
+//    10..<20 => 16 // For medium circles, use more segments
+//    20..=50 => 32 // For larger circles, use even more segments
+//    50..<100 => 64 // For very large circles, use the maximum segments
+//    100..<200 => 128 // For extremely large circles, use even more segments
+//    200..<500 => 256 // For huge circles, use a very high number of segments
+//    500..<_ => 512
+//  }
+//  // if not fill, use draw lines
+//  if !fill {
+//    let angle_step = (2.0 * @math.PI) / segments.to_double()
+//    let vertexes: Array[(Double, Double)] = Array::new()
+//    for i in 0..<segments {
+//      let angle = i.to_double() * angle_step
+//      let x = center.0 + radius * @math.cos(angle)
+//      let y = center.1 + radius * @math.sin(angle)
+//      vertexes.push((x, y))
+//    }
+//    vertexes.push(vertexes[0]) // Close the circle
+//    self.drawLines(vertexes, color?=color, alpha?=alpha)
+//    return
+//  }
+//  let angle_step = (2.0 * @math.PI) / segments.to_double()
+//  let vertexes: Array[(Double, Double)] = Array::new()
+//  vertexes.push(center)
+//  vertexes.push((center.0 + radius, center.1)) // Start point on the right side of the circle
+//  vertexes.push((center.0 + radius * @math.cos(angle_step), center.1 + @math.sin(angle_step))) // Start point on the right side of the circle
+//  for i in 2..<(segments + 1) {
+//    let last = vertexes.last().unwrap()
+//    let angle = i.to_double() * angle_step
+//    let x = center.0 + radius * @math.cos(angle)
+//    let y = center.1 + radius * @math.sin(angle)
+//    vertexes.push(center)
+//    vertexes.push(last)
+//    vertexes.push((x, y))
+//  }
+//  let color = match color {
+//    Some(c) => c
+//    None => Color::RGB(self.r, self.g, self.b)
+//  }
+//  let alpha = match alpha {
+//    Some(a) => if a < 0 { 0 } else if a > 255 { 255 } else { a }
+//    None => self.a.to_int()
+//  }
+//  let alpha = alpha.to_byte()
+//  let color_alpha = [(color, alpha)]
+//
+//  self.drawGeometry(vertexes, color_alpha=color_alpha)
+//}

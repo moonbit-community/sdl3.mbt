@@ -126,7 +126,7 @@ pub(all) enum Color {
   Seashell
   Honeydew
   Transparent
-  RGB(Int, Int, Int)
+  RGB(Byte, Byte, Byte)
 } derive(Eq, Show)
 
 ///|
@@ -258,6 +258,6 @@ pub fn Color::to_rgb(self : Color) -> (Byte, Byte, Byte) {
     Seashell => (255, 245, 238)
     Honeydew => (240, 255, 240)
     Transparent => (0, 0, 0)
-    RGB(r, g, b) => (r.to_byte(), g.to_byte(), b.to_byte())
+    RGB(r, g, b) => (r, g, b)
   }
 }
