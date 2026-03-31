@@ -61,7 +61,8 @@
 /// drop the first several frames (if not the first several _seconds_ worth of
 /// frames!) before using images from a camera.
 
-///| This is a unique ID for a camera device for the time it is connected to the
+///|
+/// This is a unique ID for a camera device for the time it is connected to the
 /// system, and is never reused for the lifetime of the application.
 /// 
 /// If the device is disconnected and reconnected, it will get a new ID.
@@ -75,9 +76,10 @@
 /// ```c
 /// typedef Uint32 SDL_CameraID;
 /// ```
-pub typealias UInt as SDL_CameraID
+pub type SDL_CameraID = UInt
 
-///| The opaque structure used to identify an opened SDL camera.
+///|
+/// The opaque structure used to identify an opened SDL camera.
 /// 
 /// @since This struct is available since SDL 3.2.0.
 /// 
@@ -87,7 +89,8 @@ pub typealias UInt as SDL_CameraID
 #external
 pub type SDL_Camera
 
-///| The details of an output format for a camera device.
+///|
+/// The details of an output format for a camera device.
 /// 
 /// Cameras often support multiple formats; each one will be encapsulated in
 /// this struct.
@@ -110,15 +113,16 @@ pub type SDL_Camera
 /// ```
 #internal(unsafe, "Some fields are not correct")
 pub(all) struct SDL_CameraSpec {
-  format: Int // SDL_PixelFormat
-  colorspace: Int // SDL_Colorspace  
-  width: Int
-  height: Int
-  framerate_numerator: Int
-  framerate_denominator: Int
+  format : Int // SDL_PixelFormat
+  colorspace : Int // SDL_Colorspace  
+  width : Int
+  height : Int
+  framerate_numerator : Int
+  framerate_denominator : Int
 }
 
-///| The position of camera in relation to system device.
+///|
+/// The position of camera in relation to system device.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -138,7 +142,8 @@ pub(all) enum SDL_CameraPosition {
   SDL_CAMERA_POSITION_BACK_FACING
 }
 
-///| Use this function to get the number of built-in camera drivers.
+///|
+/// Use this function to get the number of built-in camera drivers.
 /// 
 /// This function returns a hardcoded number. This never returns a negative
 /// value; if there are no drivers compiled into this build of SDL, this
@@ -161,9 +166,10 @@ pub(all) enum SDL_CameraPosition {
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetNumCameraDrivers(void);
 /// ```
-pub extern "C" fn sdl_GetNumCameraDrivers() -> Int = "SDL_GetNumCameraDrivers";
+pub extern "C" fn sdl_GetNumCameraDrivers() -> Int = "SDL_GetNumCameraDrivers"
 
-///| Use this function to get the name of a built in camera driver.
+///|
+/// Use this function to get the name of a built in camera driver.
 /// 
 /// The list of camera drivers is given in the order that they are normally
 /// initialized by default; the drivers that seem more reasonable to choose
@@ -187,16 +193,18 @@ pub extern "C" fn sdl_GetNumCameraDrivers() -> Int = "SDL_GetNumCameraDrivers";
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetCameraDriver(int index);
 /// ```
-pub fn sdl_GetCameraDriver(index: Int) -> String {
-  let cres = __sdl_GetCameraDriver(index);
-  let res = cres.to_string();
+pub fn sdl_GetCameraDriver(index : Int) -> String {
+  let cres = __sdl_GetCameraDriver(index)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetCameraDriver(index: Int) -> CStr = "SDL_GetCameraDriver";
+///|
+extern "C" fn __sdl_GetCameraDriver(index : Int) -> CStr = "SDL_GetCameraDriver"
 
-///| Get the name of the current camera driver.
+///|
+/// Get the name of the current camera driver.
 /// 
 /// The names of drivers are all simple, low-ASCII identifiers, like "v4l2",
 /// "coremedia" or "android". These never have Unicode characters, and are not
@@ -213,15 +221,17 @@ extern "C" fn __sdl_GetCameraDriver(index: Int) -> CStr = "SDL_GetCameraDriver";
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetCurrentCameraDriver(void);
 /// ```
 pub fn sdl_GetCurrentCameraDriver() -> String {
-  let cres = __sdl_GetCurrentCameraDriver();
-  let res = cres.to_string();
+  let cres = __sdl_GetCurrentCameraDriver()
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetCurrentCameraDriver() -> CStr = "SDL_GetCurrentCameraDriver";
+///|
+extern "C" fn __sdl_GetCurrentCameraDriver() -> CStr = "SDL_GetCurrentCameraDriver"
 
-///| Get a list of currently connected camera devices.
+///|
+/// Get a list of currently connected camera devices.
 /// 
 /// @param count a pointer filled in with the number of cameras returned, may
 ///              be NULL.
@@ -238,9 +248,13 @@ extern "C" fn __sdl_GetCurrentCameraDriver() -> CStr = "SDL_GetCurrentCameraDriv
 /// ```c
 /// extern SDL_DECLSPEC SDL_CameraID * SDLCALL SDL_GetCameras(int *count);
 /// ```
-pub extern "C" fn sdl_GetCameras(count: FixedArray[Int]) -> FixedArray[SDL_CameraID] = "SDL_GetCameras";
+#owned(count)
+pub extern "C" fn sdl_GetCameras(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_CameraID] = "SDL_GetCameras"
 
-///| Get the list of native formats/sizes a camera supports.
+///|
+/// Get the list of native formats/sizes a camera supports.
 /// 
 /// This returns a list of all formats and frame sizes that a specific camera
 /// can offer. This is useful if your app can accept a variety of image formats
@@ -279,9 +293,14 @@ pub extern "C" fn sdl_GetCameras(count: FixedArray[Int]) -> FixedArray[SDL_Camer
 /// ```c
 /// extern SDL_DECLSPEC SDL_CameraSpec ** SDLCALL SDL_GetCameraSupportedFormats(SDL_CameraID instance_id, int *count);
 /// ```
-pub extern "C" fn sdl_GetCameraSupportedFormats(instance_id: SDL_CameraID, count: FixedArray[Int]) -> FixedArray[SDL_CameraSpec] = "SDL_GetCameraSupportedFormats";
+#owned(count)
+pub extern "C" fn sdl_GetCameraSupportedFormats(
+  instance_id : SDL_CameraID,
+  count : FixedArray[Int],
+) -> FixedArray[SDL_CameraSpec] = "SDL_GetCameraSupportedFormats"
 
-///| Get the human-readable device name for a camera.
+///|
+/// Get the human-readable device name for a camera.
 /// 
 /// @param instance_id the camera device instance ID.
 /// @return a human-readable device name or NULL on failure; call
@@ -296,16 +315,18 @@ pub extern "C" fn sdl_GetCameraSupportedFormats(instance_id: SDL_CameraID, count
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetCameraName(SDL_CameraID instance_id);
 /// ```
-pub fn sdl_GetCameraName(instance_id: SDL_CameraID) -> String {
-  let cres = __sdl_GetCameraName(instance_id);
-  let res = cres.to_string();
+pub fn sdl_GetCameraName(instance_id : SDL_CameraID) -> String {
+  let cres = __sdl_GetCameraName(instance_id)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetCameraName(instance_id: SDL_CameraID) -> CStr = "SDL_GetCameraName";
+///|
+extern "C" fn __sdl_GetCameraName(instance_id : SDL_CameraID) -> CStr = "SDL_GetCameraName"
 
-///| Get the position of the camera in relation to the system.
+///|
+/// Get the position of the camera in relation to the system.
 /// 
 /// Most platforms will report UNKNOWN, but mobile devices, like phones, can
 /// often make a distinction between cameras on the front of the device (that
@@ -324,9 +345,12 @@ extern "C" fn __sdl_GetCameraName(instance_id: SDL_CameraID) -> CStr = "SDL_GetC
 /// ```c
 /// extern SDL_DECLSPEC SDL_CameraPosition SDLCALL SDL_GetCameraPosition(SDL_CameraID instance_id);
 /// ```
-pub extern "C" fn sdl_GetCameraPosition(instance_id: SDL_CameraID) -> SDL_CameraPosition = "SDL_GetCameraPosition";
+pub extern "C" fn sdl_GetCameraPosition(
+  instance_id : SDL_CameraID,
+) -> SDL_CameraPosition = "SDL_GetCameraPosition"
 
-///| Open a video recording device (a "camera").
+///|
+/// Open a video recording device (a "camera").
 /// 
 /// You can open the device with any reasonable spec, and if the hardware can't
 /// directly support it, it will convert data seamlessly to the requested
@@ -373,9 +397,14 @@ pub extern "C" fn sdl_GetCameraPosition(instance_id: SDL_CameraID) -> SDL_Camera
 /// ```c
 /// extern SDL_DECLSPEC SDL_Camera * SDLCALL SDL_OpenCamera(SDL_CameraID instance_id, const SDL_CameraSpec *spec);
 /// ```
-pub extern "C" fn sdl_OpenCamera(instance_id: SDL_CameraID, spec: FixedArray[SDL_CameraSpec]) -> SDL_Camera = "SDL_OpenCamera";
+#owned(spec)
+pub extern "C" fn sdl_OpenCamera(
+  instance_id : SDL_CameraID,
+  spec : FixedArray[SDL_CameraSpec],
+) -> SDL_Camera = "SDL_OpenCamera"
 
-///| Query if camera access has been approved by the user.
+///|
+/// Query if camera access has been approved by the user.
 /// 
 /// Cameras will not function between when the device is opened by the app and
 /// when the user permits access to the hardware. On some platforms, this
@@ -408,9 +437,10 @@ pub extern "C" fn sdl_OpenCamera(instance_id: SDL_CameraID, spec: FixedArray[SDL
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetCameraPermissionState(SDL_Camera *camera);
 /// ```
-pub extern "C" fn sdl_GetCameraPermissionState(camera: SDL_Camera) -> Int = "SDL_GetCameraPermissionState";
+pub extern "C" fn sdl_GetCameraPermissionState(camera : SDL_Camera) -> Int = "SDL_GetCameraPermissionState"
 
-///| Get the instance ID of an opened camera.
+///|
+/// Get the instance ID of an opened camera.
 /// 
 /// @param camera an SDL_Camera to query.
 /// @return the instance ID of the specified camera on success or 0 on
@@ -425,9 +455,10 @@ pub extern "C" fn sdl_GetCameraPermissionState(camera: SDL_Camera) -> Int = "SDL
 /// ```c
 /// extern SDL_DECLSPEC SDL_CameraID SDLCALL SDL_GetCameraID(SDL_Camera *camera);
 /// ```
-pub extern "C" fn sdl_GetCameraID(camera: SDL_Camera) -> SDL_CameraID = "SDL_GetCameraID";
+pub extern "C" fn sdl_GetCameraID(camera : SDL_Camera) -> SDL_CameraID = "SDL_GetCameraID"
 
-///| Get the properties associated with an opened camera.
+///|
+/// Get the properties associated with an opened camera.
 /// 
 /// @param camera the SDL_Camera obtained from SDL_OpenCamera().
 /// @return a valid property ID on success or 0 on failure; call
@@ -440,9 +471,10 @@ pub extern "C" fn sdl_GetCameraID(camera: SDL_Camera) -> SDL_CameraID = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetCameraProperties(SDL_Camera *camera);
 /// ```
-pub extern "C" fn sdl_GetCameraProperties(camera: SDL_Camera) -> UInt = "SDL_GetCameraProperties"; // SDL_PropertiesID is Uint32
+pub extern "C" fn sdl_GetCameraProperties(camera : SDL_Camera) -> UInt = "SDL_GetCameraProperties" // SDL_PropertiesID is Uint32
 
-///| Get the spec that a camera is using when generating images.
+///|
+/// Get the spec that a camera is using when generating images.
 /// 
 /// Note that this might not be the native format of the hardware, as SDL might
 /// be converting to this format behind the scenes.
@@ -468,9 +500,14 @@ pub extern "C" fn sdl_GetCameraProperties(camera: SDL_Camera) -> UInt = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetCameraFormat(SDL_Camera *camera, SDL_CameraSpec *spec);
 /// ```
-pub extern "C" fn sdl_GetCameraFormat(camera: SDL_Camera, spec: FixedArray[SDL_CameraSpec]) -> Bool = "SDL_GetCameraFormat";
+#owned(spec)
+pub extern "C" fn sdl_GetCameraFormat(
+  camera : SDL_Camera,
+  spec : FixedArray[SDL_CameraSpec],
+) -> Bool = "SDL_GetCameraFormat"
 
-///| Acquire a frame.
+///|
+/// Acquire a frame.
 /// 
 /// The frame is a memory pointer to the image data, whose size and format are
 /// given by the spec requested when opening the device.
@@ -513,9 +550,14 @@ pub extern "C" fn sdl_GetCameraFormat(camera: SDL_Camera, spec: FixedArray[SDL_C
 /// ```c
 /// extern SDL_DECLSPEC SDL_Surface * SDLCALL SDL_AcquireCameraFrame(SDL_Camera *camera, Uint64 *timestampNS);
 /// ```
-pub extern "C" fn sdl_AcquireCameraFrame(camera: SDL_Camera, timestampNS: FixedArray[UInt64]) -> SDL_Surface = "SDL_AcquireCameraFrame";
+#owned(timestampNS)
+pub extern "C" fn sdl_AcquireCameraFrame(
+  camera : SDL_Camera,
+  timestampNS : FixedArray[UInt64],
+) -> SDL_Surface = "SDL_AcquireCameraFrame"
 
-///| Release a frame of video acquired from a camera.
+///|
+/// Release a frame of video acquired from a camera.
 /// 
 /// Let the back-end re-use the internal buffer for camera.
 /// 
@@ -543,9 +585,13 @@ pub extern "C" fn sdl_AcquireCameraFrame(camera: SDL_Camera, timestampNS: FixedA
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_ReleaseCameraFrame(SDL_Camera *camera, SDL_Surface *frame);
 /// ```
-pub extern "C" fn sdl_ReleaseCameraFrame(camera: SDL_Camera, frame: SDL_Surface) = "SDL_ReleaseCameraFrame";
+pub extern "C" fn sdl_ReleaseCameraFrame(
+  camera : SDL_Camera,
+  frame : SDL_Surface,
+) = "SDL_ReleaseCameraFrame"
 
-///| Use this function to shut down camera processing and close the camera
+///|
+/// Use this function to shut down camera processing and close the camera
 /// device.
 /// 
 /// @param camera opened camera device.
@@ -560,4 +606,4 @@ pub extern "C" fn sdl_ReleaseCameraFrame(camera: SDL_Camera, frame: SDL_Surface)
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_CloseCamera(SDL_Camera *camera);
 /// ```
-pub extern "C" fn sdl_CloseCamera(camera: SDL_Camera) = "SDL_CloseCamera";
+pub extern "C" fn sdl_CloseCamera(camera : SDL_Camera) = "SDL_CloseCamera"

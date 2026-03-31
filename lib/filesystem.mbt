@@ -23,13 +23,15 @@
 ///
 /// SDL offers an API for examining and manipulating the system's filesystem.
 
-///| Get the directory where the application was run from.
+///|
+/// Get the directory where the application was run from.
 ///
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetBasePath(void);
 /// ```
 extern "C" fn __sdl_GetBasePath() -> CStr = "SDL_GetBasePath"
 
+///|
 pub fn sdl_GetBasePath() -> String {
   let cstr = __sdl_GetBasePath()
   let res = cstr.to_string()
@@ -37,14 +39,17 @@ pub fn sdl_GetBasePath() -> String {
   res
 }
 
-///| Get the user-and-app-specific path where files can be written.
+///|
+/// Get the user-and-app-specific path where files can be written.
 ///
 /// ```c
 /// extern SDL_DECLSPEC char * SDLCALL SDL_GetPrefPath(const char *org, const char *app);
 /// ```
-extern "C" fn __sdl_GetPrefPath(org: Bytes, app: Bytes) -> CStr = "SDL_GetPrefPath"
+#owned(org, app)
+extern "C" fn __sdl_GetPrefPath(org : Bytes, app : Bytes) -> CStr = "SDL_GetPrefPath"
 
-pub fn sdl_GetPrefPath(org: String, app: String) -> String {
+///|
+pub fn sdl_GetPrefPath(org : String, app : String) -> String {
   let c_org = string_to_cbytes(org)
   let c_app = string_to_cbytes(app)
   let cstr = __sdl_GetPrefPath(c_org, c_app)
@@ -53,7 +58,8 @@ pub fn sdl_GetPrefPath(org: String, app: String) -> String {
   res
 }
 
-///| The type of the OS-provided default folder for a specific purpose.
+///|
+/// The type of the OS-provided default folder for a specific purpose.
 ///
 /// ```c
 /// typedef enum SDL_Folder
@@ -87,21 +93,24 @@ pub(all) enum SDL_Folder {
   SDL_FOLDER_COUNT
 }
 
-///| Finds the most suitable user folder for a specific purpose.
+///|
+/// Finds the most suitable user folder for a specific purpose.
 ///
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetUserFolder(SDL_Folder folder);
 /// ```
-extern "C" fn __sdl_GetUserFolder(folder: SDL_Folder) -> CStr = "SDL_GetUserFolder"
+extern "C" fn __sdl_GetUserFolder(folder : SDL_Folder) -> CStr = "SDL_GetUserFolder"
 
-pub fn sdl_GetUserFolder(folder: SDL_Folder) -> String {
+///|
+pub fn sdl_GetUserFolder(folder : SDL_Folder) -> String {
   let cstr = __sdl_GetUserFolder(folder)
   let res = cstr.to_string()
   // Do not free cstr, it's a pointer to internal SDL memory
   res
 }
 
-///| Types of filesystem entries.
+///|
+/// Types of filesystem entries.
 ///
 /// ```c
 /// typedef enum SDL_PathType
@@ -119,7 +128,8 @@ pub(all) enum SDL_PathType {
   SDL_PATHTYPE_OTHER
 }
 
-///| Information about a path on the filesystem.
+///|
+/// Information about a path on the filesystem.
 ///
 /// ```c
 /// typedef struct SDL_PathInfo
@@ -132,35 +142,42 @@ pub(all) enum SDL_PathType {
 /// } SDL_PathInfo;
 /// ```
 pub(all) struct SDL_PathInfo {
-  type_: SDL_PathType
-  size: UInt64
-  create_time: Int64
-  modify_time: Int64
-  access_time: Int64
+  type_ : SDL_PathType
+  size : UInt64
+  create_time : Int64
+  modify_time : Int64
+  access_time : Int64
 }
 
-///| Flags for path matching.
+///|
+/// Flags for path matching.
 ///
 /// ```c
 /// typedef Uint32 SDL_GlobFlags;
 /// #define SDL_GLOB_CASEINSENSITIVE (1u << 0)
 /// ```
-typealias UInt as SDL_GlobFlags
-pub const SDL_GLOB_CASEINSENSITIVE: SDL_GlobFlags = 1
+type SDL_GlobFlags = UInt
 
-///| Create a directory, and any missing parent directories.
+///|
+pub const SDL_GLOB_CASEINSENSITIVE : SDL_GlobFlags = 1
+
+///|
+/// Create a directory, and any missing parent directories.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CreateDirectory(const char *path);
 /// ```
-extern "C" fn __sdl_CreateDirectory(path: Bytes) -> Bool = "SDL_CreateDirectory"
+#owned(path)
+extern "C" fn __sdl_CreateDirectory(path : Bytes) -> Bool = "SDL_CreateDirectory"
 
-pub fn sdl_CreateDirectory(path: String) -> Bool {
+///|
+pub fn sdl_CreateDirectory(path : String) -> Bool {
   let c_path = string_to_cbytes(path)
   __sdl_CreateDirectory(c_path)
 }
 
-///| Possible results from an enumeration callback.
+///|
+/// Possible results from an enumeration callback.
 ///
 /// ```c
 /// typedef enum SDL_EnumerationResult
@@ -176,85 +193,132 @@ pub(all) enum SDL_EnumerationResult {
   SDL_ENUM_FAILURE
 }
 
-///| Callback for directory enumeration.
+///|
+/// Callback for directory enumeration.
 ///
 /// ```c
 /// typedef SDL_EnumerationResult (SDLCALL *SDL_EnumerateDirectoryCallback)(void *userdata, const char *dirname, const char *fname);
 /// ```
-typealias FuncRef[(VoidPtr, CStr, CStr) -> SDL_EnumerationResult] as SDL_EnumerateDirectoryCallback
+type SDL_EnumerateDirectoryCallback = FuncRef[
+  (VoidPtr, CStr, CStr) -> SDL_EnumerationResult,
+]
 
-///| Enumerate a directory through a callback function.
+///|
+/// Enumerate a directory through a callback function.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_EnumerateDirectory(const char *path, SDL_EnumerateDirectoryCallback callback, void *userdata);
 /// ```
-extern "C" fn __sdl_EnumerateDirectory(path: Bytes, callback: SDL_EnumerateDirectoryCallback, userdata: VoidPtr) -> Bool = "SDL_EnumerateDirectory"
+#owned(path)
+extern "C" fn __sdl_EnumerateDirectory(
+  path : Bytes,
+  callback : SDL_EnumerateDirectoryCallback,
+  userdata : VoidPtr,
+) -> Bool = "SDL_EnumerateDirectory"
 
-pub fn sdl_EnumerateDirectory(path: String, callback: SDL_EnumerateDirectoryCallback, userdata: VoidPtr) -> Bool {
+///|
+pub fn sdl_EnumerateDirectory(
+  path : String,
+  callback : SDL_EnumerateDirectoryCallback,
+  userdata : VoidPtr,
+) -> Bool {
   let c_path = string_to_cbytes(path)
   __sdl_EnumerateDirectory(c_path, callback, userdata)
 }
 
-///| Remove a file or an empty directory.
+///|
+/// Remove a file or an empty directory.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RemovePath(const char *path);
 /// ```
-extern "C" fn __sdl_RemovePath(path: Bytes) -> Bool = "SDL_RemovePath"
+#owned(path)
+extern "C" fn __sdl_RemovePath(path : Bytes) -> Bool = "SDL_RemovePath"
 
-pub fn sdl_RemovePath(path: String) -> Bool {
+///|
+pub fn sdl_RemovePath(path : String) -> Bool {
   let c_path = string_to_cbytes(path)
   __sdl_RemovePath(c_path)
 }
 
-///| Rename a file or directory.
+///|
+/// Rename a file or directory.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenamePath(const char *oldpath, const char *newpath);
 /// ```
-extern "C" fn __sdl_RenamePath(oldpath: Bytes, newpath: Bytes) -> Bool = "SDL_RenamePath"
+#owned(oldpath, newpath)
+extern "C" fn __sdl_RenamePath(oldpath : Bytes, newpath : Bytes) -> Bool = "SDL_RenamePath"
 
-pub fn sdl_RenamePath(oldpath: String, newpath: String) -> Bool {
+///|
+pub fn sdl_RenamePath(oldpath : String, newpath : String) -> Bool {
   let c_oldpath = string_to_cbytes(oldpath)
   let c_newpath = string_to_cbytes(newpath)
   __sdl_RenamePath(c_oldpath, c_newpath)
 }
 
-///| Copy a file.
+///|
+/// Copy a file.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CopyFile(const char *oldpath, const char *newpath);
 /// ```
-extern "C" fn __sdl_CopyFile(oldpath: Bytes, newpath: Bytes) -> Bool = "SDL_CopyFile"
+#owned(oldpath, newpath)
+extern "C" fn __sdl_CopyFile(oldpath : Bytes, newpath : Bytes) -> Bool = "SDL_CopyFile"
 
-pub fn sdl_CopyFile(oldpath: String, newpath: String) -> Bool {
+///|
+pub fn sdl_CopyFile(oldpath : String, newpath : String) -> Bool {
   let c_oldpath = string_to_cbytes(oldpath)
   let c_newpath = string_to_cbytes(newpath)
   __sdl_CopyFile(c_oldpath, c_newpath)
 }
 
-///| Get information about a filesystem path.
+///|
+/// Get information about a filesystem path.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetPathInfo(const char *path, SDL_PathInfo *info);
 /// ```
-extern "C" fn __sdl_GetPathInfo(path: Bytes, info: FixedArray[SDL_PathInfo]) -> Bool = "SDL_GetPathInfo"
+#owned(path, info)
+extern "C" fn __sdl_GetPathInfo(
+  path : Bytes,
+  info : FixedArray[SDL_PathInfo],
+) -> Bool = "SDL_GetPathInfo"
 
-pub fn sdl_GetPathInfo(path: String) -> (Bool, SDL_PathInfo) {
+///|
+pub fn sdl_GetPathInfo(path : String) -> (Bool, SDL_PathInfo) {
   let c_path = string_to_cbytes(path)
-  let info = FixedArray::make(1, {type_: SDL_PATHTYPE_NONE, size: 0, create_time: 0L, modify_time: 0L, access_time: 0L})
+  let info = FixedArray::make(1, {
+    type_: SDL_PATHTYPE_NONE,
+    size: 0,
+    create_time: 0L,
+    modify_time: 0L,
+    access_time: 0L,
+  })
   let success = __sdl_GetPathInfo(c_path, info)
   (success, info[0])
 }
 
-///| Enumerate a directory tree, filtered by pattern, and return a list.
+///|
+/// Enumerate a directory tree, filtered by pattern, and return a list.
 ///
 /// ```c
 /// extern SDL_DECLSPEC char ** SDLCALL SDL_GlobDirectory(const char *path, const char *pattern, SDL_GlobFlags flags, int *count);
 /// ```
-extern "C" fn __sdl_GlobDirectory(path: Bytes, pattern: Bytes, flags: SDL_GlobFlags, count: FixedArray[Int]) -> FixedArray[CStr] = "SDL_GlobDirectory"
+#owned(path, pattern, count)
+extern "C" fn __sdl_GlobDirectory(
+  path : Bytes,
+  pattern : Bytes,
+  flags : SDL_GlobFlags,
+  count : FixedArray[Int],
+) -> FixedArray[CStr] = "SDL_GlobDirectory"
 
-pub fn sdl_GlobDirectory(path: String, pattern: String, flags: SDL_GlobFlags) -> (Array[String], Int) {
+///|
+pub fn sdl_GlobDirectory(
+  path : String,
+  pattern : String,
+  flags : SDL_GlobFlags,
+) -> (Array[String], Int) {
   let c_path = string_to_cbytes(path)
   let c_pattern = string_to_cbytes(pattern)
   let count = FixedArray::make(1, 0)
@@ -266,13 +330,15 @@ pub fn sdl_GlobDirectory(path: String, pattern: String, flags: SDL_GlobFlags) ->
   (strs, count[0])
 }
 
-///| Get what the system believes is the "current working directory."
+///|
+/// Get what the system believes is the "current working directory."
 ///
 /// ```c
 /// extern SDL_DECLSPEC char * SDLCALL SDL_GetCurrentDirectory(void);
 /// ```
 extern "C" fn __sdl_GetCurrentDirectory() -> CStr = "SDL_GetCurrentDirectory"
 
+///|
 pub fn sdl_GetCurrentDirectory() -> String {
   let cstr = __sdl_GetCurrentDirectory()
   let res = cstr.to_string()

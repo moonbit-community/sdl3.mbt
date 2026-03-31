@@ -63,8 +63,8 @@
 /// Each log call is atomic, so you won't see log messages cut off one another
 /// when logging from multiple threads.
 
-
-///| The predefined log categories
+///|
+/// The predefined log categories
 /// 
 /// By default the application and gpu categories are enabled at the INFO
 /// level, the assert category is enabled at the WARN level, test is enabled at
@@ -108,21 +108,21 @@
 ///     SDL_LOG_CATEGORY_CUSTOM
 /// } SDL_LogCategory;
 /// ```
-
 pub(all) enum SDL_LogCategory {
-    SDL_LOG_CATEGORY_APPLICATION
-    SDL_LOG_CATEGORY_ERROR
-    SDL_LOG_CATEGORY_ASSERT
-    SDL_LOG_CATEGORY_SYSTEM
-    SDL_LOG_CATEGORY_AUDIO
-    SDL_LOG_CATEGORY_VIDEO
-    SDL_LOG_CATEGORY_RENDER
-    SDL_LOG_CATEGORY_INPUT
-    SDL_LOG_CATEGORY_TEST
-    SDL_LOG_CATEGORY_GPU
+  SDL_LOG_CATEGORY_APPLICATION
+  SDL_LOG_CATEGORY_ERROR
+  SDL_LOG_CATEGORY_ASSERT
+  SDL_LOG_CATEGORY_SYSTEM
+  SDL_LOG_CATEGORY_AUDIO
+  SDL_LOG_CATEGORY_VIDEO
+  SDL_LOG_CATEGORY_RENDER
+  SDL_LOG_CATEGORY_INPUT
+  SDL_LOG_CATEGORY_TEST
+  SDL_LOG_CATEGORY_GPU
 }
 
-///| The predefined log priorities
+///|
+/// The predefined log priorities
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -141,18 +141,19 @@ pub(all) enum SDL_LogCategory {
 /// } SDL_LogPriority;
 /// ```
 pub(all) enum SDL_LogPriority {
-    SDL_LOG_PRIORITY_INVALID
-    SDL_LOG_PRIORITY_TRACE
-    SDL_LOG_PRIORITY_VERBOSE
-    SDL_LOG_PRIORITY_DEBUG
-    SDL_LOG_PRIORITY_INFO
-    SDL_LOG_PRIORITY_WARN
-    SDL_LOG_PRIORITY_ERROR
-    SDL_LOG_PRIORITY_CRITICAL
-    SDL_LOG_PRIORITY_COUNT
+  SDL_LOG_PRIORITY_INVALID
+  SDL_LOG_PRIORITY_TRACE
+  SDL_LOG_PRIORITY_VERBOSE
+  SDL_LOG_PRIORITY_DEBUG
+  SDL_LOG_PRIORITY_INFO
+  SDL_LOG_PRIORITY_WARN
+  SDL_LOG_PRIORITY_ERROR
+  SDL_LOG_PRIORITY_CRITICAL
+  SDL_LOG_PRIORITY_COUNT
 }
 
-///| Set the priority of all log categories.
+///|
+/// Set the priority of all log categories.
 /// 
 /// @param priority the SDL_LogPriority to assign.
 /// 
@@ -166,9 +167,10 @@ pub(all) enum SDL_LogPriority {
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetLogPriorities(SDL_LogPriority priority);
 /// ```
-pub extern "C" fn sdl_SetLogPriorities(priority: SDL_LogPriority) = "SDL_SetLogPriorities";
+pub extern "C" fn sdl_SetLogPriorities(priority : SDL_LogPriority) = "SDL_SetLogPriorities"
 
-///| Set the priority of a particular log category.
+///|
+/// Set the priority of a particular log category.
 /// 
 /// @param category the category to assign a priority to.
 /// @param priority the SDL_LogPriority to assign.
@@ -184,9 +186,13 @@ pub extern "C" fn sdl_SetLogPriorities(priority: SDL_LogPriority) = "SDL_SetLogP
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetLogPriority(int category, SDL_LogPriority priority);
 /// ```
-pub extern "C" fn sdl_SetLogPriority(category: Int, priority: SDL_LogPriority) = "SDL_SetLogPriority";
+pub extern "C" fn sdl_SetLogPriority(
+  category : Int,
+  priority : SDL_LogPriority,
+) = "SDL_SetLogPriority"
 
-///| Get the priority of a particular log category.
+///|
+/// Get the priority of a particular log category.
 /// 
 /// @param category the category to query.
 /// @return the SDL_LogPriority for the requested category.
@@ -200,10 +206,10 @@ pub extern "C" fn sdl_SetLogPriority(category: Int, priority: SDL_LogPriority) =
 /// ```c
 /// extern SDL_DECLSPEC SDL_LogPriority SDLCALL SDL_GetLogPriority(int category);
 /// ```
-pub extern "C" fn sdl_GetLogPriority(category: Int) -> SDL_LogPriority = "SDL_GetLogPriority";
+pub extern "C" fn sdl_GetLogPriority(category : Int) -> SDL_LogPriority = "SDL_GetLogPriority"
 
-
-///| Reset all priorities to default.
+///|
+/// Reset all priorities to default.
 /// 
 /// This is called by SDL_Quit().
 /// 
@@ -217,10 +223,10 @@ pub extern "C" fn sdl_GetLogPriority(category: Int) -> SDL_LogPriority = "SDL_Ge
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_ResetLogPriorities(void);
 /// ```
-pub extern "C" fn sdl_ResetLogPriorities() = "SDL_ResetLogPriorities";
+pub extern "C" fn sdl_ResetLogPriorities() = "SDL_ResetLogPriorities"
 
-
-///| Set the text prepended to log messages of a given priority.
+///|
+/// Set the text prepended to log messages of a given priority.
 /// 
 /// By default SDL_LOG_PRIORITY_INFO and below have no prefix, and
 /// SDL_LOG_PRIORITY_WARN and higher have a prefix showing their priority, e.g.
@@ -245,13 +251,22 @@ pub extern "C" fn sdl_ResetLogPriorities() = "SDL_ResetLogPriorities";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetLogPriorityPrefix(SDL_LogPriority priority, const char *prefix);
 /// ```
-pub fn sdl_SetLogPriorityPrefix(priority: SDL_LogPriority, prefix: String) -> Bool {
-    __sdl_SetLogPriorityPrefix(priority, string_to_cbytes(prefix))
+pub fn sdl_SetLogPriorityPrefix(
+  priority : SDL_LogPriority,
+  prefix : String,
+) -> Bool {
+  __sdl_SetLogPriorityPrefix(priority, string_to_cbytes(prefix))
 }
 
-extern "C" fn __sdl_SetLogPriorityPrefix(priority: SDL_LogPriority, prefix: Bytes) -> Bool = "SDL_SetLogPriorityPrefix";
+///|
+#owned(prefix)
+extern "C" fn __sdl_SetLogPriorityPrefix(
+  priority : SDL_LogPriority,
+  prefix : Bytes,
+) -> Bool = "SDL_SetLogPriorityPrefix"
 
-///| Log a message with SDL_LOG_CATEGORY_APPLICATION and SDL_LOG_PRIORITY_INFO.
+///|
+/// Log a message with SDL_LOG_CATEGORY_APPLICATION and SDL_LOG_PRIORITY_INFO.
 /// 
 /// @param fmt a printf() style message format string.
 /// @param ... additional parameters matching % tokens in the `fmt` string, if
@@ -274,13 +289,16 @@ extern "C" fn __sdl_SetLogPriorityPrefix(priority: SDL_LogPriority, prefix: Byte
 ///  ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_Log(SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(1);
 /// ```
-pub fn sdl_Log(fmt: String) -> Unit {
-    __sdl_Log(string_to_cbytes(fmt));
+pub fn sdl_Log(fmt : String) -> Unit {
+  __sdl_Log(string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_Log(fmt: Bytes) = "SDL_Log";
+///|
+#owned(fmt)
+extern "C" fn __sdl_Log(fmt : Bytes) = "SDL_Log"
 
-///| Log a message with SDL_LOG_PRIORITY_TRACE.
+///|
+/// Log a message with SDL_LOG_PRIORITY_TRACE.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -305,13 +323,16 @@ extern "C" fn __sdl_Log(fmt: Bytes) = "SDL_Log";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogTrace(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogTrace(category: Int, fmt: String) -> Unit {
-    __sdl_LogTrace(category, string_to_cbytes(fmt));
+pub fn sdl_LogTrace(category : Int, fmt : String) -> Unit {
+  __sdl_LogTrace(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogTrace(category: Int, fmt: Bytes) = "SDL_LogTrace";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogTrace(category : Int, fmt : Bytes) = "SDL_LogTrace"
 
-///| Log a message with SDL_LOG_PRIORITY_VERBOSE.
+///|
+/// Log a message with SDL_LOG_PRIORITY_VERBOSE.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -334,13 +355,16 @@ extern "C" fn __sdl_LogTrace(category: Int, fmt: Bytes) = "SDL_LogTrace";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogVerbose(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogVerbose(category: Int, fmt: String) -> Unit {
-    __sdl_LogVerbose(category, string_to_cbytes(fmt));
+pub fn sdl_LogVerbose(category : Int, fmt : String) -> Unit {
+  __sdl_LogVerbose(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogVerbose(category: Int, fmt: Bytes) = "SDL_LogVerbose";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogVerbose(category : Int, fmt : Bytes) = "SDL_LogVerbose"
 
-///| Log a message with SDL_LOG_PRIORITY_DEBUG.
+///|
+/// Log a message with SDL_LOG_PRIORITY_DEBUG.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -364,13 +388,16 @@ extern "C" fn __sdl_LogVerbose(category: Int, fmt: Bytes) = "SDL_LogVerbose";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogDebug(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogDebug(category: Int, fmt: String) -> Unit {
-    __sdl_LogDebug(category, string_to_cbytes(fmt));
+pub fn sdl_LogDebug(category : Int, fmt : String) -> Unit {
+  __sdl_LogDebug(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogDebug(category: Int, fmt: Bytes) = "SDL_LogDebug";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogDebug(category : Int, fmt : Bytes) = "SDL_LogDebug"
 
-///| Log a message with SDL_LOG_PRIORITY_INFO.
+///|
+/// Log a message with SDL_LOG_PRIORITY_INFO.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -394,13 +421,16 @@ extern "C" fn __sdl_LogDebug(category: Int, fmt: Bytes) = "SDL_LogDebug";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogInfo(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogInfo(category: Int, fmt: String) -> Unit {
-    __sdl_LogInfo(category, string_to_cbytes(fmt));
+pub fn sdl_LogInfo(category : Int, fmt : String) -> Unit {
+  __sdl_LogInfo(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogInfo(category: Int, fmt: Bytes) = "SDL_LogInfo";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogInfo(category : Int, fmt : Bytes) = "SDL_LogInfo"
 
-///| Log a message with SDL_LOG_PRIORITY_WARN.
+///|
+/// Log a message with SDL_LOG_PRIORITY_WARN.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -424,13 +454,16 @@ extern "C" fn __sdl_LogInfo(category: Int, fmt: Bytes) = "SDL_LogInfo";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogWarn(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogWarn(category: Int, fmt: String) -> Unit {
-    __sdl_LogWarn(category, string_to_cbytes(fmt));
+pub fn sdl_LogWarn(category : Int, fmt : String) -> Unit {
+  __sdl_LogWarn(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogWarn(category: Int, fmt: Bytes) = "SDL_LogWarn";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogWarn(category : Int, fmt : Bytes) = "SDL_LogWarn"
 
-///| Log a message with SDL_LOG_PRIORITY_ERROR.
+///|
+/// Log a message with SDL_LOG_PRIORITY_ERROR.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -454,14 +487,16 @@ extern "C" fn __sdl_LogWarn(category: Int, fmt: Bytes) = "SDL_LogWarn";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogError(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogError(category: Int, fmt: String) -> Unit {
-  __sdl_LogError(category, string_to_cbytes(fmt));
+pub fn sdl_LogError(category : Int, fmt : String) -> Unit {
+  __sdl_LogError(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogError(category: Int, fmt: Bytes) = "SDL_LogError";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogError(category : Int, fmt : Bytes) = "SDL_LogError"
 
-
-///| Log a message with SDL_LOG_PRIORITY_CRITICAL.
+///|
+/// Log a message with SDL_LOG_PRIORITY_CRITICAL.
 /// 
 /// @param category the category of the message.
 /// @param fmt a printf() style message format string.
@@ -485,13 +520,16 @@ extern "C" fn __sdl_LogError(category: Int, fmt: Bytes) = "SDL_LogError";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_LogCritical(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_LogCritical(category: Int, fmt: String) -> Unit {
-    __sdl_LogCritical(category, string_to_cbytes(fmt));
+pub fn sdl_LogCritical(category : Int, fmt : String) -> Unit {
+  __sdl_LogCritical(category, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogCritical(category: Int, fmt: Bytes) = "SDL_LogCritical";
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogCritical(category : Int, fmt : Bytes) = "SDL_LogCritical"
 
-///| Log a message with the specified category and priority.
+///|
+/// Log a message with the specified category and priority.
 /// 
 /// @param category the category of the message.
 /// @param priority the priority of the message.
@@ -518,12 +556,21 @@ extern "C" fn __sdl_LogCritical(category: Int, fmt: Bytes) = "SDL_LogCritical";
 ///                                             SDL_LogPriority priority,
 ///                                             SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(3);
 /// ```
-pub fn sdl_LogMessage(category: Int, priority: SDL_LogPriority, fmt: String) -> Unit {
-    __sdl_LogMessage(category, priority, string_to_cbytes(fmt));
+pub fn sdl_LogMessage(
+  category : Int,
+  priority : SDL_LogPriority,
+  fmt : String,
+) -> Unit {
+  __sdl_LogMessage(category, priority, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_LogMessage(category: Int, priority: SDL_LogPriority, fmt: Bytes) = "SDL_LogMessage";
-
+///|
+#owned(fmt)
+extern "C" fn __sdl_LogMessage(
+  category : Int,
+  priority : SDL_LogPriority,
+  fmt : Bytes,
+) = "SDL_LogMessage"
 
 ///| Log a message with the specified category and priority.
 /// 
@@ -553,8 +600,8 @@ extern "C" fn __sdl_LogMessage(category: Int, priority: SDL_LogPriority, fmt: By
 /// ```
 /// -- va_list cannot be used in Moonbit, no c-ffi temporary for it.
 
-
-///| The prototype for the log output callback function.
+///|
+/// The prototype for the log output callback function.
 /// 
 /// This function is called by SDL when there is new text to be logged. A mutex
 /// is held so that this function is never called by more than one thread at
@@ -571,9 +618,12 @@ extern "C" fn __sdl_LogMessage(category: Int, priority: SDL_LogPriority, fmt: By
 /// ```c
 /// typedef void (SDLCALL *SDL_LogOutputFunction)(void *userdata, int category, SDL_LogPriority priority, const char *message);
 /// ```
-pub typealias FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes)-> Unit] as SDL_LogOutputFunction ;
+pub type SDL_LogOutputFunction = FuncRef[
+  (VoidPtr, Int, SDL_LogPriority, Bytes) -> Unit,
+]
 
-///| Get the default log output function.
+///|
+/// Get the default log output function.
 /// 
 /// @return the default log output callback.
 /// 
@@ -587,9 +637,10 @@ pub typealias FuncRef[(VoidPtr, Int, SDL_LogPriority, Bytes)-> Unit] as SDL_LogO
 /// ```c
 /// extern SDL_DECLSPEC SDL_LogOutputFunction SDLCALL SDL_GetDefaultLogOutputFunction(void);
 /// ```
-pub extern "C" fn sdl_GetDefaultLogOutputFunction() -> SDL_LogOutputFunction = "SDL_GetDefaultLogOutputFunction";
+pub extern "C" fn sdl_GetDefaultLogOutputFunction() -> SDL_LogOutputFunction = "SDL_GetDefaultLogOutputFunction"
 
-///| Get the current log output function.
+///|
+/// Get the current log output function.
 /// 
 /// @param callback an SDL_LogOutputFunction filled in with the current log
 ///                 callback.
@@ -606,9 +657,13 @@ pub extern "C" fn sdl_GetDefaultLogOutputFunction() -> SDL_LogOutputFunction = "
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_GetLogOutputFunction(SDL_LogOutputFunction *callback, void **userdata);
 /// ```
-pub extern "C" fn sdl_GetLogOutputFunction(callback: SDL_LogOutputFunction, userdata: VoidPtr) = "SDL_GetLogOutputFunction";
+pub extern "C" fn sdl_GetLogOutputFunction(
+  callback : SDL_LogOutputFunction,
+  userdata : VoidPtr,
+) = "SDL_GetLogOutputFunction"
 
-///| Replace the default log output function with one of your own.
+///|
+/// Replace the default log output function with one of your own.
 /// 
 /// @param callback an SDL_LogOutputFunction to call instead of the default.
 /// @param userdata a pointer that is passed to `callback`.
@@ -623,4 +678,7 @@ pub extern "C" fn sdl_GetLogOutputFunction(callback: SDL_LogOutputFunction, user
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetLogOutputFunction(SDL_LogOutputFunction callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_SetLogOutputFunction(callback: SDL_LogOutputFunction, userdata: VoidPtr) = "SDL_SetLogOutputFunction";
+pub extern "C" fn sdl_SetLogOutputFunction(
+  callback : SDL_LogOutputFunction,
+  userdata : VoidPtr,
+) = "SDL_SetLogOutputFunction"

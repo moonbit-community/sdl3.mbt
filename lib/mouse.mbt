@@ -50,7 +50,8 @@
 /// care about touch/pen separately from mouse input should filter out events
 /// with a `which` field of SDL_TOUCH_MOUSEID/SDL_PEN_MOUSEID.
 
-///| This is a unique ID for a mouse for the time it is connected to the system,
+///|
+/// This is a unique ID for a mouse for the time it is connected to the system,
 /// and is never reused for the lifetime of the application.
 /// 
 /// If the mouse is disconnected and reconnected, it will get a new ID.
@@ -62,9 +63,10 @@
 /// ```c
 /// typedef Uint32 SDL_MouseID;
 /// ```
-pub typealias UInt as SDL_MouseID
+pub type SDL_MouseID = UInt
 
-///| The structure used to identify an SDL cursor.
+///|
+/// The structure used to identify an SDL cursor.
 /// 
 /// This is opaque data.
 /// 
@@ -76,7 +78,8 @@ pub typealias UInt as SDL_MouseID
 #external
 pub type SDL_Cursor
 
-///| Cursor types for SDL_CreateSystemCursor().
+///|
+/// Cursor types for SDL_CreateSystemCursor().
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -130,7 +133,8 @@ pub(all) enum SDL_SystemCursor {
   SDL_SYSTEM_CURSOR_COUNT
 }
 
-///| Scroll direction types for the Scroll event
+///|
+/// Scroll direction types for the Scroll event
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -146,7 +150,8 @@ pub(all) enum SDL_MouseWheelDirection {
   SDL_MOUSEWHEEL_FLIPPED
 }
 
-///| A bitmask of pressed mouse buttons, as reported by SDL_GetMouseState, etc.
+///|
+/// A bitmask of pressed mouse buttons, as reported by SDL_GetMouseState, etc.
 /// 
 /// - Button 1: Left mouse button
 /// - Button 2: Middle mouse button
@@ -163,23 +168,44 @@ pub(all) enum SDL_MouseWheelDirection {
 /// ```c
 /// typedef Uint32 SDL_MouseButtonFlags;
 /// ```
-pub typealias UInt as SDL_MouseButtonFlags
+pub type SDL_MouseButtonFlags = UInt
 
 // 鼠标按钮常量
+
+///|
 pub const SDL_BUTTON_LEFT : Int = 1
+
+///|
 pub const SDL_BUTTON_MIDDLE : Int = 2
+
+///|
 pub const SDL_BUTTON_RIGHT : Int = 3
+
+///|
 pub const SDL_BUTTON_X1 : Int = 4
+
+///|
 pub const SDL_BUTTON_X2 : Int = 5
 
 // 鼠标按钮掩码常量
+
+///|
 pub const SDL_BUTTON_LMASK : UInt = 1U
+
+///|
 pub const SDL_BUTTON_MMASK : UInt = 2U
+
+///|
 pub const SDL_BUTTON_RMASK : UInt = 4U
+
+///|
 pub const SDL_BUTTON_X1MASK : UInt = 8U
+
+///|
 pub const SDL_BUTTON_X2MASK : UInt = 16U
 
-///| A callback used to transform mouse motion delta from raw values.
+///|
+/// A callback used to transform mouse motion delta from raw values.
 /// 
 /// This is called during SDL's handling of platform mouse events to scale the
 /// values of the resulting motion delta.
@@ -218,11 +244,21 @@ pub const SDL_BUTTON_X2MASK : UInt = 16U
 ///     float *x, float *y
 /// );
 /// ```
-pub typealias FuncRef[(VoidPtr, UInt64, SDL_Window, SDL_MouseID, FixedArray[Float], FixedArray[Float]) -> Unit] as SDL_MouseMotionTransformCallback
+pub type SDL_MouseMotionTransformCallback = FuncRef[
+  (
+    VoidPtr,
+    UInt64,
+    SDL_Window,
+    SDL_MouseID,
+    FixedArray[Float],
+    FixedArray[Float],
+  ) -> Unit,
+]
 
 // Function prototypes
 
-///| Return whether a mouse is currently connected.
+///|
+/// Return whether a mouse is currently connected.
 /// 
 /// @return true if a mouse is connected, false otherwise.
 /// 
@@ -235,9 +271,10 @@ pub typealias FuncRef[(VoidPtr, UInt64, SDL_Window, SDL_MouseID, FixedArray[Floa
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HasMouse(void);
 /// ```
-pub extern "C" fn sdl_HasMouse() -> Bool = "SDL_HasMouse";
+pub extern "C" fn sdl_HasMouse() -> Bool = "SDL_HasMouse"
 
-///| Get a list of currently connected mice.
+///|
+/// Get a list of currently connected mice.
 /// 
 /// Note that this will include any device or virtual driver that includes
 /// mouse functionality, including some game controllers, KVM switches, etc.
@@ -260,9 +297,13 @@ pub extern "C" fn sdl_HasMouse() -> Bool = "SDL_HasMouse";
 /// ```c
 /// extern SDL_DECLSPEC SDL_MouseID * SDLCALL SDL_GetMice(int *count);
 /// ```
-pub extern "C" fn sdl_GetMice(count: FixedArray[Int]) -> FixedArray[SDL_MouseID] = "SDL_GetMice";
+#owned(count)
+pub extern "C" fn sdl_GetMice(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_MouseID] = "SDL_GetMice"
 
-///| Get the name of a mouse.
+///|
+/// Get the name of a mouse.
 /// 
 /// This function returns "" if the mouse doesn't have a name.
 /// 
@@ -279,16 +320,18 @@ pub extern "C" fn sdl_GetMice(count: FixedArray[Int]) -> FixedArray[SDL_MouseID]
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetMouseNameForID(SDL_MouseID instance_id);
 /// ```
-pub fn sdl_GetMouseNameForID(instance_id: SDL_MouseID) -> String {
-  let cres = __sdl_GetMouseNameForID(instance_id);
-  let res = cres.to_string();
+pub fn sdl_GetMouseNameForID(instance_id : SDL_MouseID) -> String {
+  let cres = __sdl_GetMouseNameForID(instance_id)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetMouseNameForID(instance_id: SDL_MouseID) -> CStr = "SDL_GetMouseNameForID";
+///|
+extern "C" fn __sdl_GetMouseNameForID(instance_id : SDL_MouseID) -> CStr = "SDL_GetMouseNameForID"
 
-///| Get the window which currently has mouse focus.
+///|
+/// Get the window which currently has mouse focus.
 /// 
 /// @return the window with mouse focus.
 /// 
@@ -299,9 +342,10 @@ extern "C" fn __sdl_GetMouseNameForID(instance_id: SDL_MouseID) -> CStr = "SDL_G
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetMouseFocus(void);
 /// ```
-pub extern "C" fn sdl_GetMouseFocus() -> SDL_Window = "SDL_GetMouseFocus";
+pub extern "C" fn sdl_GetMouseFocus() -> SDL_Window = "SDL_GetMouseFocus"
 
-///| Query SDL's cache for the synchronous mouse button state and the
+///|
+/// Query SDL's cache for the synchronous mouse button state and the
 /// window-relative SDL-cursor position.
 /// 
 /// This function returns the cached synchronous state as SDL understands it
@@ -334,9 +378,14 @@ pub extern "C" fn sdl_GetMouseFocus() -> SDL_Window = "SDL_GetMouseFocus";
 /// ```c
 /// extern SDL_DECLSPEC SDL_MouseButtonFlags SDLCALL SDL_GetMouseState(float *x, float *y);
 /// ```
-pub extern "C" fn sdl_GetMouseState(x: FixedArray[Float], y: FixedArray[Float]) -> SDL_MouseButtonFlags = "SDL_GetMouseState";
+#owned(x, y)
+pub extern "C" fn sdl_GetMouseState(
+  x : FixedArray[Float],
+  y : FixedArray[Float],
+) -> SDL_MouseButtonFlags = "SDL_GetMouseState"
 
-///| Query the platform for the asynchronous mouse button state and the
+///|
+/// Query the platform for the asynchronous mouse button state and the
 /// desktop-relative platform-cursor position.
 /// 
 /// This function immediately queries the platform for the most recent
@@ -373,9 +422,14 @@ pub extern "C" fn sdl_GetMouseState(x: FixedArray[Float], y: FixedArray[Float]) 
 /// ```c
 /// extern SDL_DECLSPEC SDL_MouseButtonFlags SDLCALL SDL_GetGlobalMouseState(float *x, float *y);
 /// ```
-pub extern "C" fn sdl_GetGlobalMouseState(x: FixedArray[Float], y: FixedArray[Float]) -> SDL_MouseButtonFlags = "SDL_GetGlobalMouseState";
+#owned(x, y)
+pub extern "C" fn sdl_GetGlobalMouseState(
+  x : FixedArray[Float],
+  y : FixedArray[Float],
+) -> SDL_MouseButtonFlags = "SDL_GetGlobalMouseState"
 
-///| Query SDL's cache for the synchronous mouse button state and accumulated
+///|
+/// Query SDL's cache for the synchronous mouse button state and accumulated
 /// mouse delta since last call.
 /// 
 /// This function returns the cached synchronous state as SDL understands it
@@ -410,9 +464,14 @@ pub extern "C" fn sdl_GetGlobalMouseState(x: FixedArray[Float], y: FixedArray[Fl
 /// ```c
 /// extern SDL_DECLSPEC SDL_MouseButtonFlags SDLCALL SDL_GetRelativeMouseState(float *x, float *y);
 /// ```
-pub extern "C" fn sdl_GetRelativeMouseState(x: FixedArray[Float], y: FixedArray[Float]) -> SDL_MouseButtonFlags = "SDL_GetRelativeMouseState";
+#owned(x, y)
+pub extern "C" fn sdl_GetRelativeMouseState(
+  x : FixedArray[Float],
+  y : FixedArray[Float],
+) -> SDL_MouseButtonFlags = "SDL_GetRelativeMouseState"
 
-///| Move the mouse cursor to the given position within the window.
+///|
+/// Move the mouse cursor to the given position within the window.
 /// 
 /// This function generates a mouse motion event if relative mode is not
 /// enabled. If relative mode is enabled, you can force mouse events for the
@@ -436,9 +495,14 @@ pub extern "C" fn sdl_GetRelativeMouseState(x: FixedArray[Float], y: FixedArray[
 /// extern SDL_DECLSPEC void SDLCALL SDL_WarpMouseInWindow(SDL_Window *window,
 ///                                                    float x, float y);
 /// ```
-pub extern "C" fn sdl_WarpMouseInWindow(window: SDL_Window, x: Float, y: Float) = "SDL_WarpMouseInWindow";
+pub extern "C" fn sdl_WarpMouseInWindow(
+  window : SDL_Window,
+  x : Float,
+  y : Float,
+) = "SDL_WarpMouseInWindow"
 
-///| Move the mouse to the given position in global screen space.
+///|
+/// Move the mouse to the given position in global screen space.
 /// 
 /// This function generates a mouse motion event.
 /// 
@@ -462,9 +526,10 @@ pub extern "C" fn sdl_WarpMouseInWindow(window: SDL_Window, x: Float, y: Float) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WarpMouseGlobal(float x, float y);
 /// ```
-pub extern "C" fn sdl_WarpMouseGlobal(x: Float, y: Float) -> Bool = "SDL_WarpMouseGlobal";
+pub extern "C" fn sdl_WarpMouseGlobal(x : Float, y : Float) -> Bool = "SDL_WarpMouseGlobal"
 
-///| Set a user-defined function by which to transform relative mouse inputs.
+///|
+/// Set a user-defined function by which to transform relative mouse inputs.
 /// 
 /// This overrides the relative system scale and relative speed scale hints.
 /// Should be called prior to enabling relative mouse mode, fails otherwise.
@@ -482,9 +547,13 @@ pub extern "C" fn sdl_WarpMouseGlobal(x: Float, y: Float) -> Bool = "SDL_WarpMou
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRelativeMouseTransform(SDL_MouseMotionTransformCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_SetRelativeMouseTransform(callback: SDL_MouseMotionTransformCallback, userdata: VoidPtr) -> Bool = "SDL_SetRelativeMouseTransform";
+pub extern "C" fn sdl_SetRelativeMouseTransform(
+  callback : SDL_MouseMotionTransformCallback,
+  userdata : VoidPtr,
+) -> Bool = "SDL_SetRelativeMouseTransform"
 
-///| Set relative mouse mode for a window.
+///|
+/// Set relative mouse mode for a window.
 /// 
 /// While the window has focus and relative mouse mode is enabled, the cursor
 /// is hidden, the mouse position is constrained to the window, and SDL will
@@ -512,9 +581,13 @@ pub extern "C" fn sdl_SetRelativeMouseTransform(callback: SDL_MouseMotionTransfo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled);
 /// ```
-pub extern "C" fn sdl_SetWindowRelativeMouseMode(window: SDL_Window, enabled: Bool) -> Bool = "SDL_SetWindowRelativeMouseMode";
+pub extern "C" fn sdl_SetWindowRelativeMouseMode(
+  window : SDL_Window,
+  enabled : Bool,
+) -> Bool = "SDL_SetWindowRelativeMouseMode"
 
-///| Query whether relative mouse mode is enabled for a window.
+///|
+/// Query whether relative mouse mode is enabled for a window.
 /// 
 /// @param window the window to query.
 /// @return true if relative mode is enabled for a window or false otherwise.
@@ -528,9 +601,10 @@ pub extern "C" fn sdl_SetWindowRelativeMouseMode(window: SDL_Window, enabled: Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetWindowRelativeMouseMode(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetWindowRelativeMouseMode(window: SDL_Window) -> Bool = "SDL_GetWindowRelativeMouseMode";
+pub extern "C" fn sdl_GetWindowRelativeMouseMode(window : SDL_Window) -> Bool = "SDL_GetWindowRelativeMouseMode"
 
-///| Capture the mouse and to track input outside an SDL window.
+///|
+/// Capture the mouse and to track input outside an SDL window.
 /// 
 /// Capturing enables your app to obtain mouse events globally, instead of just
 /// within your window. Not all video targets support this function. When
@@ -578,9 +652,10 @@ pub extern "C" fn sdl_GetWindowRelativeMouseMode(window: SDL_Window) -> Bool = "
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CaptureMouse(bool enabled);
 /// ```
-pub extern "C" fn sdl_CaptureMouse(enabled: Bool) -> Bool = "SDL_CaptureMouse";
+pub extern "C" fn sdl_CaptureMouse(enabled : Bool) -> Bool = "SDL_CaptureMouse"
 
-///| Create a cursor using the specified bitmap data and mask (in MSB format).
+///|
+/// Create a cursor using the specified bitmap data and mask (in MSB format).
 /// 
 /// `mask` has to be in MSB (Most Significant Bit) format.
 /// 
@@ -629,9 +704,18 @@ pub extern "C" fn sdl_CaptureMouse(enabled: Bool) -> Bool = "SDL_CaptureMouse";
 ///                                                      int w, int h, int hot_x,
 ///                                                      int hot_y);
 /// ```
-pub extern "C" fn sdl_CreateCursor(data: FixedArray[UInt], mask: FixedArray[UInt], w: Int, h: Int, hot_x: Int, hot_y: Int) -> SDL_Cursor = "SDL_CreateCursor";
+#owned(data, mask)
+pub extern "C" fn sdl_CreateCursor(
+  data : FixedArray[UInt],
+  mask : FixedArray[UInt],
+  w : Int,
+  h : Int,
+  hot_x : Int,
+  hot_y : Int,
+) -> SDL_Cursor = "SDL_CreateCursor"
 
-///| Create a color cursor.
+///|
+/// Create a color cursor.
 /// 
 /// If this function is passed a surface with alternate representations added
 /// with SDL_AddSurfaceAlternateImage(), the surface will be interpreted as the
@@ -665,9 +749,14 @@ pub extern "C" fn sdl_CreateCursor(data: FixedArray[UInt], mask: FixedArray[UInt
 ///                                                           int hot_x,
 ///                                                           int hot_y);
 /// ```
-pub extern "C" fn sdl_CreateColorCursor(surface: SDL_Surface, hot_x: Int, hot_y: Int) -> SDL_Cursor = "SDL_CreateColorCursor";
+pub extern "C" fn sdl_CreateColorCursor(
+  surface : SDL_Surface,
+  hot_x : Int,
+  hot_y : Int,
+) -> SDL_Cursor = "SDL_CreateColorCursor"
 
-///| Create a system cursor.
+///|
+/// Create a system cursor.
 /// 
 /// @param id an SDL_SystemCursor enum value.
 /// @return a cursor on success or NULL on failure; call SDL_GetError() for
@@ -682,9 +771,10 @@ pub extern "C" fn sdl_CreateColorCursor(surface: SDL_Surface, hot_x: Int, hot_y:
 /// ```c
 /// extern SDL_DECLSPEC SDL_Cursor * SDLCALL SDL_CreateSystemCursor(SDL_SystemCursor id);
 /// ```
-pub extern "C" fn sdl_CreateSystemCursor(id: SDL_SystemCursor) -> SDL_Cursor = "SDL_CreateSystemCursor";
+pub extern "C" fn sdl_CreateSystemCursor(id : SDL_SystemCursor) -> SDL_Cursor = "SDL_CreateSystemCursor"
 
-///| Set the active cursor.
+///|
+/// Set the active cursor.
 /// 
 /// This function sets the currently active cursor to the specified one. If the
 /// cursor is currently visible, the change will be immediately represented on
@@ -704,9 +794,10 @@ pub extern "C" fn sdl_CreateSystemCursor(id: SDL_SystemCursor) -> SDL_Cursor = "
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetCursor(SDL_Cursor *cursor);
 /// ```
-pub extern "C" fn sdl_SetCursor(cursor: SDL_Cursor) -> Bool = "SDL_SetCursor";
+pub extern "C" fn sdl_SetCursor(cursor : SDL_Cursor) -> Bool = "SDL_SetCursor"
 
-///| Get the active cursor.
+///|
+/// Get the active cursor.
 /// 
 /// This function returns a pointer to the current cursor which is owned by the
 /// library. It is not necessary to free the cursor with SDL_DestroyCursor().
@@ -722,9 +813,10 @@ pub extern "C" fn sdl_SetCursor(cursor: SDL_Cursor) -> Bool = "SDL_SetCursor";
 /// ```c
 /// extern SDL_DECLSPEC SDL_Cursor * SDLCALL SDL_GetCursor(void);
 /// ```
-pub extern "C" fn sdl_GetCursor() -> SDL_Cursor = "SDL_GetCursor";
+pub extern "C" fn sdl_GetCursor() -> SDL_Cursor = "SDL_GetCursor"
 
-///| Get the default cursor.
+///|
+/// Get the default cursor.
 /// 
 /// You do not have to call SDL_DestroyCursor() on the return value, but it is
 /// safe to do so.
@@ -739,9 +831,10 @@ pub extern "C" fn sdl_GetCursor() -> SDL_Cursor = "SDL_GetCursor";
 /// ```c
 /// extern SDL_DECLSPEC SDL_Cursor * SDLCALL SDL_GetDefaultCursor(void);
 /// ```
-pub extern "C" fn sdl_GetDefaultCursor() -> SDL_Cursor = "SDL_GetDefaultCursor";
+pub extern "C" fn sdl_GetDefaultCursor() -> SDL_Cursor = "SDL_GetDefaultCursor"
 
-///| Free a previously-created cursor.
+///|
+/// Free a previously-created cursor.
 /// 
 /// Use this function to free cursor resources created with SDL_CreateCursor(),
 /// SDL_CreateColorCursor() or SDL_CreateSystemCursor().
@@ -759,9 +852,10 @@ pub extern "C" fn sdl_GetDefaultCursor() -> SDL_Cursor = "SDL_GetDefaultCursor";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroyCursor(SDL_Cursor *cursor);
 /// ```
-pub extern "C" fn sdl_DestroyCursor(cursor: SDL_Cursor) = "SDL_DestroyCursor";
+pub extern "C" fn sdl_DestroyCursor(cursor : SDL_Cursor) = "SDL_DestroyCursor"
 
-///| Show the cursor.
+///|
+/// Show the cursor.
 /// 
 /// @return true on success or false on failure; call SDL_GetError() for more
 ///          information.
@@ -776,9 +870,10 @@ pub extern "C" fn sdl_DestroyCursor(cursor: SDL_Cursor) = "SDL_DestroyCursor";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ShowCursor(void);
 /// ```
-pub extern "C" fn sdl_ShowCursor() -> Bool = "SDL_ShowCursor";
+pub extern "C" fn sdl_ShowCursor() -> Bool = "SDL_ShowCursor"
 
-///| Hide the cursor.
+///|
+/// Hide the cursor.
 /// 
 /// @return true on success or false on failure; call SDL_GetError() for more
 ///          information.
@@ -793,9 +888,10 @@ pub extern "C" fn sdl_ShowCursor() -> Bool = "SDL_ShowCursor";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HideCursor(void);
 /// ```
-pub extern "C" fn sdl_HideCursor() -> Bool = "SDL_HideCursor";
+pub extern "C" fn sdl_HideCursor() -> Bool = "SDL_HideCursor"
 
-///| Return whether the cursor is currently being shown.
+///|
+/// Return whether the cursor is currently being shown.
 /// 
 /// @return `true` if the cursor is being shown, or `false` if the cursor is
 ///          hidden.
@@ -810,4 +906,4 @@ pub extern "C" fn sdl_HideCursor() -> Bool = "SDL_HideCursor";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CursorVisible(void);
 /// ```
-pub extern "C" fn sdl_CursorVisible() -> Bool = "SDL_CursorVisible";
+pub extern "C" fn sdl_CursorVisible() -> Bool = "SDL_CursorVisible"

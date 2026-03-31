@@ -1,0 +1,343 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Kaida-Amethyst/sdl3"
+
+import {
+  "Kaida-Amethyst/sdl3/lib",
+}
+
+// Values
+
+// Errors
+pub suberror ClearRendererError {
+  ClearRendererError(String)
+}
+pub impl Show for ClearRendererError
+
+pub suberror CreateWindowError {
+  CreateWindowError(String)
+}
+pub impl Show for CreateWindowError
+
+pub suberror DrawGeometryError {
+  DrawGeometryError(String)
+}
+pub impl Show for DrawGeometryError
+
+pub suberror InitializeSDLError {
+  InitializeSDLError(String)
+}
+pub impl Show for InitializeSDLError
+
+pub suberror RenderPresentError {
+  RenderPresentError(String)
+}
+pub impl Show for RenderPresentError
+
+pub suberror RenderRendError {
+  RenderRendError(String)
+}
+pub impl Show for RenderRendError
+
+pub suberror SetDrawColorError {
+  SetDrawColorError(String)
+}
+pub impl Show for SetDrawColorError
+
+// Types and methods
+pub(all) enum Color {
+  Red
+  Green
+  Blue
+  Yellow
+  Cyan
+  Magenta
+  Black
+  White
+  Gray
+  LightGray
+  DarkGray
+  Orange
+  Purple
+  Pink
+  Brown
+  Lime
+  Navy
+  Maroon
+  Olive
+  Teal
+  Silver
+  Crimson
+  FireBrick
+  DarkRed
+  LightPink
+  HotPink
+  DeepPink
+  MediumVioletRed
+  PaleVioletRed
+  DarkOrange
+  OrangeRed
+  Tomato
+  Coral
+  LightSalmon
+  Salmon
+  DarkSalmon
+  LightCoral
+  Gold
+  LightYellow
+  LemonChiffon
+  LightGoldenrodYellow
+  PapayaWhip
+  Moccasin
+  PeachPuff
+  PaleGoldenrod
+  Khaki
+  DarkKhaki
+  LightGreen
+  DarkGreen
+  ForestGreen
+  SeaGreen
+  MediumSeaGreen
+  LightSeaGreen
+  DarkSeaGreen
+  YellowGreen
+  OliveDrab
+  LawnGreen
+  Chartreuse
+  GreenYellow
+  SpringGreen
+  MediumSpringGreen
+  LimeGreen
+  LightBlue
+  DarkBlue
+  MediumBlue
+  SkyBlue
+  LightSkyBlue
+  DeepSkyBlue
+  DodgerBlue
+  CornflowerBlue
+  SteelBlue
+  LightSteelBlue
+  PowderBlue
+  LightCyan
+  CadetBlue
+  Turquoise
+  DarkTurquoise
+  MediumTurquoise
+  PaleTurquoise
+  Aqua
+  DarkCyan
+  Violet
+  Plum
+  Thistle
+  Lavender
+  MediumOrchid
+  MediumPurple
+  BlueViolet
+  DarkViolet
+  DarkOrchid
+  DarkMagenta
+  Indigo
+  SlateBlue
+  DarkSlateBlue
+  MediumSlateBlue
+  SaddleBrown
+  Sienna
+  Chocolate
+  Peru
+  SandyBrown
+  BurlyWood
+  Tan
+  RosyBrown
+  Goldenrod
+  DarkGoldenrod
+  Gainsboro
+  DimGray
+  SlateGray
+  LightSlateGray
+  DarkSlateGray
+  Beige
+  Bisque
+  BlanchedAlmond
+  Cornsilk
+  Ivory
+  FloralWhite
+  Snow
+  GhostWhite
+  MintCream
+  Azure
+  AliceBlue
+  Lavenderblush
+  Seashell
+  Honeydew
+  Transparent
+  RGB(Byte, Byte, Byte)
+}
+pub fn Color::to_rgb(Self) -> (Byte, Byte, Byte)
+pub impl Eq for Color
+pub impl Show for Color
+
+pub struct Context {
+  windows : Array[Window]
+}
+pub fn Context::createWindow(Self, String, width~ : Int, height~ : Int) -> Window raise
+pub fn Context::getEvents(Self) -> Array[Event]
+pub fn Context::getTimer(Self) -> Timer
+pub fn Context::new() -> Self raise
+pub fn Context::quit(Self) -> Unit
+
+pub struct Event(@lib.SDL_Event)
+pub fn Event::getType(Self) -> EventType
+#deprecated
+pub fn Event::inner(Self) -> @lib.SDL_Event
+
+pub(all) enum EventType {
+  Quit
+  Terminating
+  LowMemory
+  WILL_ENTER_BACKGROUND
+  DID_ENTER_BACKGROUND
+  WILL_ENTER_FOREGROUND
+  DID_ENTER_FOREGROUND
+  LOCALE_CHANGED
+  SYSTEM_THEME_CHANGED
+  DISPLAY_ORIENTATION
+  DISPLAY_ADDED
+  DISPLAY_REMOVED
+  DISPLAY_MOVED
+  DISPLAY_DESKTOP_MODE_CHANGED
+  DISPLAY_CURRENT_MODE_CHANGED
+  DISPLAY_CONTENT_SCALE_CHANGED
+  WINDOW_SHOWN
+  WINDOW_HIDDEN
+  WINDOW_EXPOSED
+  WINDOW_MOVED
+  WINDOW_RESIZED
+  WINDOW_PIXEL_SIZE_CHANGED
+  WINDOW_METAL_VIEW_RESIZED
+  WINDOW_MINIMIZED
+  WINDOW_MAXIMIZED
+  WINDOW_RESTORED
+  WINDOW_MOUSE_ENTER
+  WINDOW_MOUSE_LEAVE
+  WINDOW_FOCUS_GAINED
+  WINDOW_FOCUS_LOST
+  WINDOW_CLOSE_REQUESTED
+  WINDOW_HIT_TEST
+  WINDOW_ICCPROF_CHANGED
+  WINDOW_DISPLAY_CHANGED
+  WINDOW_DISPLAY_SCALE_CHANGED
+  WINDOW_SAFE_AREA_CHANGED
+  WINDOW_OCCLUDED
+  WINDOW_ENTER_FULLSCREEN
+  WINDOW_LEAVE_FULLSCREEN
+  WINDOW_DESTROYED
+  WINDOW_HDR_STATE_CHANGED
+  KEY_DOWN
+  KEY_UP
+  TEXT_EDITING
+  TEXT_INPUT
+  KEYMAP_CHANGED
+  KEYBOARD_ADDED
+  KEYBOARD_REMOVED
+  TEXT_EDITING_CANDIDATES
+  MOUSE_MOTION
+  MOUSE_BUTTON_DOWN
+  MOUSE_BUTTON_UP
+  MOUSE_WHEEL
+  MOUSE_ADDED
+  MOUSE_REMOVED
+  JOYSTICK_AXIS_MOTION
+  JOYSTICK_BALL_MOTION
+  JOYSTICK_HAT_MOTION
+  JOYSTICK_BUTTON_DOWN
+  JOYSTICK_BUTTON_UP
+  JOYSTICK_ADDED
+  JOYSTICK_REMOVED
+  JOYSTICK_BATTERY_UPDATED
+  JOYSTICK_UPDATE_COMPLETE
+  GAMEPAD_AXIS_MOTION
+  GAMEPAD_BUTTON_DOWN
+  GAMEPAD_BUTTON_UP
+  GAMEPAD_ADDED
+  GAMEPAD_REMOVED
+  GAMEPAD_REMAPPED
+  GAMEPAD_TOUCHPAD_DOWN
+  GAMEPAD_TOUCHPAD_MOTION
+  GAMEPAD_TOUCHPAD_UP
+  GAMEPAD_SENSOR_UPDATE
+  GAMEPAD_UPDATE_COMPLETE
+  GAMEPAD_STEAM_HANDLE_UPDATED
+  FINGER_DOWN
+  FINGER_UP
+  FINGER_MOTION
+  FINGER_CANCELED
+  CLIPBOARD_UPDATE
+  DROP_FILE
+  DROP_TEXT
+  DROP_BEGIN
+  DROP_COMPLETE
+  DROP_POSITION
+  AUDIO_DEVICE_ADDED
+  AUDIO_DEVICE_REMOVED
+  AUDIO_DEVICE_FORMAT_CHANGED
+  SENSOR_UPDATE
+  PEN_PROXIMITY_IN
+  PEN_PROXIMITY_OUT
+  PEN_DOWN
+  PEN_UP
+  PEN_BUTTON_DOWN
+  PEN_BUTTON_UP
+  PEN_MOTION
+  PEN_AXIS
+  CAMERA_DEVICE_ADDED
+  CAMERA_DEVICE_REMOVED
+  CAMERA_DEVICE_APPROVED
+  CAMERA_DEVICE_DENIED
+  RENDER_TARGETS_RESET
+  RENDER_DEVICE_RESET
+  RENDER_DEVICE_LOST
+  PRIVATE0
+  PRIVATE1
+  PRIVATE2
+  PRIVATE3
+  POLL_SENTINEL
+  USER
+  InValidEventType
+}
+
+pub struct Renderer {
+  base : @lib.SDL_Renderer
+  mut r : Byte
+  mut g : Byte
+  mut b : Byte
+  mut a : Byte
+}
+pub fn Renderer::clear(Self) -> Unit raise ClearRendererError
+pub fn Renderer::drawGeometry(Self, Array[(Double, Double)], color_alpha? : Array[(Color, Byte)], texture_coords? : Array[(Double, Double)], indices? : Array[Int]) -> Unit raise
+pub fn Renderer::drawLine(Self, (Double, Double), (Double, Double), color? : Color, alpha? : Int) -> Unit raise
+pub fn Renderer::drawLines(Self, Array[(Double, Double)], color? : Color, alpha? : Int) -> Unit raise
+pub fn Renderer::drawPoint(Self, Double, Double, color? : Color, alpha? : Int) -> Unit raise
+pub fn Renderer::drawPoints(Self, Array[(Double, Double)], color? : Color, alpha? : Int) -> Unit raise
+pub fn Renderer::drawRect(Self, (Double, Double), Double, Double, color? : Color, alpha? : Int, fill? : Bool) -> Unit raise
+pub fn Renderer::drawRects(Self, Array[((Double, Double), Double, Double)], color? : Color, alpha? : Int, fill? : Bool) -> Unit raise
+pub fn Renderer::present(Self) -> Unit raise RenderPresentError
+pub fn Renderer::refreshBackGround(Self, Color) -> Unit raise
+pub fn Renderer::setDefaultColor(Self) -> Unit
+pub fn Renderer::setDrawAlpha(Self, Int) -> Unit raise SetDrawColorError
+pub fn Renderer::setDrawColor(Self, Color, alpha? : Int) -> Unit raise SetDrawColorError
+
+pub struct Timer {
+}
+pub fn Timer::delay(Self, Int) -> Unit
+
+pub struct Window {
+  base : @lib.SDL_Window
+  mut renderer : Renderer?
+}
+pub fn Window::createRenderer(Self) -> Renderer raise
+pub fn Window::getRenderer(Self) -> Renderer?
+
+// Type aliases
+
+// Traits
+

@@ -22,35 +22,42 @@
 /// Functionality to query the current SDL version, both as headers the app was
 /// compiled against, and a library the app is linked to.
 
-///| The current major version of SDL headers.
+///|
+/// The current major version of SDL headers.
 /// 
 /// If this were SDL version 3.2.1, this value would be 3.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_MAJOR_VERSION: Int = 3
+pub const SDL_MAJOR_VERSION : Int = 3
 
-///| The current minor version of the SDL headers.
+///|
+/// The current minor version of the SDL headers.
 /// 
 /// If this were SDL version 3.2.1, this value would be 2.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_MINOR_VERSION: Int = 3
+pub const SDL_MINOR_VERSION : Int = 3
 
-///| The current micro (or patchlevel) version of the SDL headers.
+///|
+/// The current micro (or patchlevel) version of the SDL headers.
 /// 
 /// If this were SDL version 3.2.1, this value would be 1.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_MICRO_VERSION: Int = 0
+pub const SDL_MICRO_VERSION : Int = 0
 
-///| This is the version number macro for the current SDL version.
+///|
+/// This is the version number macro for the current SDL version.
 /// 
 /// @since This macro is available since SDL 3.2.0.
 /// 
 /// @see SDL_GetVersion
-pub const SDL_VERSION: Int = SDL_MAJOR_VERSION * 1000000 + SDL_MINOR_VERSION * 1000 + SDL_MICRO_VERSION
+pub const SDL_VERSION : Int = SDL_MAJOR_VERSION * 1000000 +
+  SDL_MINOR_VERSION * 1000 +
+  SDL_MICRO_VERSION
 
-///| This macro turns the version numbers into a numeric value.
+///|
+/// This macro turns the version numbers into a numeric value.
 /// 
 /// (1,2,3) becomes 1002003.
 /// 
@@ -64,11 +71,12 @@ pub const SDL_VERSION: Int = SDL_MAJOR_VERSION * 1000000 + SDL_MINOR_VERSION * 1
 /// #define SDL_VERSIONNUM(major, minor, patch) \
 ///     ((major) * 1000000 + (minor) * 1000 + (patch))
 /// ```
-pub fn sdl_VERSIONNUM(major: Int, minor: Int, patch: Int) -> Int {
-    major * 1000000 + minor * 1000 + patch
+pub fn sdl_VERSIONNUM(major : Int, minor : Int, patch : Int) -> Int {
+  major * 1000000 + minor * 1000 + patch
 }
 
-///| This macro extracts the major version from a version number
+///|
+/// This macro extracts the major version from a version number
 /// 
 /// 1002003 becomes 1.
 /// 
@@ -79,11 +87,12 @@ pub fn sdl_VERSIONNUM(major: Int, minor: Int, patch: Int) -> Int {
 /// ```c
 /// #define SDL_VERSIONNUM_MAJOR(version) ((version) / 1000000)
 /// ```
-pub fn sdl_VERSIONNUM_MAJOR(version: Int) -> Int {
-    version / 1000000
+pub fn sdl_VERSIONNUM_MAJOR(version : Int) -> Int {
+  version / 1000000
 }
 
-///| This macro extracts the minor version from a version number
+///|
+/// This macro extracts the minor version from a version number
 /// 
 /// 1002003 becomes 2.
 /// 
@@ -94,11 +103,12 @@ pub fn sdl_VERSIONNUM_MAJOR(version: Int) -> Int {
 /// ```c
 /// #define SDL_VERSIONNUM_MINOR(version) (((version) / 1000) % 1000)
 /// ```
-pub fn sdl_VERSIONNUM_MINOR(version: Int) -> Int {
-    (version / 1000) % 1000
+pub fn sdl_VERSIONNUM_MINOR(version : Int) -> Int {
+  version / 1000 % 1000
 }
 
-///| This macro extracts the micro version from a version number
+///|
+/// This macro extracts the micro version from a version number
 /// 
 /// 1002003 becomes 3.
 /// 
@@ -109,11 +119,12 @@ pub fn sdl_VERSIONNUM_MINOR(version: Int) -> Int {
 /// ```c
 /// #define SDL_VERSIONNUM_MICRO(version) ((version) % 1000)
 /// ```
-pub fn sdl_VERSIONNUM_MICRO(version: Int) -> Int {
-    version % 1000
+pub fn sdl_VERSIONNUM_MICRO(version : Int) -> Int {
+  version % 1000
 }
 
-///| This macro will evaluate to true if compiled with SDL at least X.Y.Z.
+///|
+/// This macro will evaluate to true if compiled with SDL at least X.Y.Z.
 /// 
 /// @since This macro is available since SDL 3.2.0.
 /// 
@@ -121,11 +132,12 @@ pub fn sdl_VERSIONNUM_MICRO(version: Int) -> Int {
 /// #define SDL_VERSION_ATLEAST(X, Y, Z) \
 ///     (SDL_VERSION >= SDL_VERSIONNUM(X, Y, Z))
 /// ```
-pub fn sdl_VERSION_ATLEAST(x: Int, y: Int, z: Int) -> Bool {
-    SDL_VERSION >= sdl_VERSIONNUM(x, y, z)
+pub fn sdl_VERSION_ATLEAST(x : Int, y : Int, z : Int) -> Bool {
+  SDL_VERSION >= sdl_VERSIONNUM(x, y, z)
 }
 
-///| Get the version of SDL that is linked against your program.
+///|
+/// Get the version of SDL that is linked against your program.
 /// 
 /// If you are linking to SDL dynamically, then it is possible that the current
 /// version will be different than the version you compiled against. This
@@ -145,7 +157,8 @@ pub fn sdl_VERSION_ATLEAST(x: Int, y: Int, z: Int) -> Bool {
 /// ```
 pub extern "C" fn sdl_GetVersion() -> Int = "SDL_GetVersion"
 
-///| Get the code revision of the SDL library that is linked against your
+///|
+/// Get the code revision of the SDL library that is linked against your
 /// program.
 /// 
 /// This value is the revision of the code you are linking against and may be
@@ -173,10 +186,11 @@ pub extern "C" fn sdl_GetVersion() -> Int = "SDL_GetVersion"
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetRevision(void);
 /// ```
 pub fn sdl_GetRevision() -> String {
-    let cstr = __sdl_GetRevision()
-    let res = cstr.to_string()
-    free_cstr(cstr)
-    res
+  let cstr = __sdl_GetRevision()
+  let res = cstr.to_string()
+  free_cstr(cstr)
+  res
 }
 
+///|
 extern "C" fn __sdl_GetRevision() -> CStr = "SDL_GetRevision"

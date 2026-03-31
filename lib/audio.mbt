@@ -31,7 +31,8 @@
 /// time, in any supported format, and output it as needed in any other format,
 /// even if the data format changes on either side halfway through.
 
-///| Audio format.
+///|
+/// Audio format.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -61,7 +62,8 @@ pub(all) enum SDL_AudioFormat {
   SDL_AUDIO_F32BE = 0x9120
 }
 
-///| SDL Audio Device instance IDs.
+///|
+/// SDL Audio Device instance IDs.
 /// 
 /// Zero is used to signify an invalid/null device.
 /// 
@@ -70,13 +72,18 @@ pub(all) enum SDL_AudioFormat {
 /// ```c
 /// typedef Uint32 SDL_AudioDeviceID;
 /// ```
-pub typealias UInt as SDL_AudioDeviceID
+pub type SDL_AudioDeviceID = UInt
 
 // Audio device constants
+
+///|
 pub const SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK : SDL_AudioDeviceID = 0xFFFFFFFFU
+
+///|
 pub const SDL_AUDIO_DEVICE_DEFAULT_RECORDING : SDL_AudioDeviceID = 0xFFFFFFFEU
 
-///| Format specifier for audio data.
+///|
+/// Format specifier for audio data.
 /// 
 /// @since This struct is available since SDL 3.2.0.
 /// 
@@ -89,12 +96,13 @@ pub const SDL_AUDIO_DEVICE_DEFAULT_RECORDING : SDL_AudioDeviceID = 0xFFFFFFFEU
 /// } SDL_AudioSpec;
 /// ```
 pub(all) struct SDL_AudioSpec {
-  format: SDL_AudioFormat
-  channels: Int
-  freq: Int
+  format : SDL_AudioFormat
+  channels : Int
+  freq : Int
 }
 
-///| The opaque handle that represents an audio stream.
+///|
+/// The opaque handle that represents an audio stream.
 /// 
 /// SDL_AudioStream is an audio conversion interface.
 /// 
@@ -106,25 +114,32 @@ pub(all) struct SDL_AudioSpec {
 #external
 pub type SDL_AudioStream
 
-///| A callback that fires when data passes through an SDL_AudioStream.
+///|
+/// A callback that fires when data passes through an SDL_AudioStream.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef void (SDLCALL *SDL_AudioStreamCallback)(void *userdata, SDL_AudioStream *stream, int additional_amount, int total_amount);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_AudioStream, Int, Int) -> Unit] as SDL_AudioStreamCallback
+pub type SDL_AudioStreamCallback = FuncRef[
+  (VoidPtr, SDL_AudioStream, Int, Int) -> Unit,
+]
 
-///| A callback that fires when data is about to be fed to an audio device.
+///|
+/// A callback that fires when data is about to be fed to an audio device.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef void (SDLCALL *SDL_AudioPostmixCallback)(void *userdata, const SDL_AudioSpec *spec, float *buffer, int buflen);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_AudioSpec, FixedArray[Float], Int) -> Unit] as SDL_AudioPostmixCallback
+pub type SDL_AudioPostmixCallback = FuncRef[
+  (VoidPtr, SDL_AudioSpec, FixedArray[Float], Int) -> Unit,
+]
 
-///| Use this function to get the number of built-in audio drivers.
+///|
+/// Use this function to get the number of built-in audio drivers.
 /// 
 /// This function returns a hardcoded number. This never returns a negative
 /// value; if there are no drivers compiled into this build of SDL, this
@@ -141,9 +156,10 @@ pub typealias FuncRef[(VoidPtr, SDL_AudioSpec, FixedArray[Float], Int) -> Unit] 
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetNumAudioDrivers(void);
 /// ```
-pub extern "C" fn sdl_GetNumAudioDrivers() -> Int = "SDL_GetNumAudioDrivers";
+pub extern "C" fn sdl_GetNumAudioDrivers() -> Int = "SDL_GetNumAudioDrivers"
 
-///| Use this function to get the name of a built in audio driver.
+///|
+/// Use this function to get the name of a built in audio driver.
 /// 
 /// The list of audio drivers is given in the order that they are normally
 /// initialized by default.
@@ -161,16 +177,18 @@ pub extern "C" fn sdl_GetNumAudioDrivers() -> Int = "SDL_GetNumAudioDrivers";
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetAudioDriver(int index);
 /// ```
-pub fn sdl_GetAudioDriver(index: Int) -> String {
-  let cres = __sdl_GetAudioDriver(index);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetAudioDriver(index : Int) -> String {
+  let cres = __sdl_GetAudioDriver(index)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetAudioDriver(index: Int) -> CStr = "SDL_GetAudioDriver";
+///|
+extern "C" fn __sdl_GetAudioDriver(index : Int) -> CStr = "SDL_GetAudioDriver"
 
-///| Get the name of the current audio driver.
+///|
+/// Get the name of the current audio driver.
 /// 
 /// @return the name of the current audio driver or NULL if no driver has been
 ///          initialized.
@@ -183,15 +201,17 @@ extern "C" fn __sdl_GetAudioDriver(index: Int) -> CStr = "SDL_GetAudioDriver";
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetCurrentAudioDriver(void);
 /// ```
 pub fn sdl_GetCurrentAudioDriver() -> String {
-  let cres = __sdl_GetCurrentAudioDriver();
-  let res = cres.to_string();
-  free_cstr(cres);
+  let cres = __sdl_GetCurrentAudioDriver()
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetCurrentAudioDriver() -> CStr = "SDL_GetCurrentAudioDriver";
+///|
+extern "C" fn __sdl_GetCurrentAudioDriver() -> CStr = "SDL_GetCurrentAudioDriver"
 
-///| Get a list of currently-connected audio playback devices.
+///|
+/// Get a list of currently-connected audio playback devices.
 /// 
 /// This returns of list of available devices that play sound, perhaps to
 /// speakers or headphones ("playback" devices).
@@ -210,9 +230,13 @@ extern "C" fn __sdl_GetCurrentAudioDriver() -> CStr = "SDL_GetCurrentAudioDriver
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioDeviceID * SDLCALL SDL_GetAudioPlaybackDevices(int *count);
 /// ```
-pub extern "C" fn sdl_GetAudioPlaybackDevices(count: FixedArray[Int]) -> FixedArray[SDL_AudioDeviceID] = "SDL_GetAudioPlaybackDevices";
+#owned(count)
+pub extern "C" fn sdl_GetAudioPlaybackDevices(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_AudioDeviceID] = "SDL_GetAudioPlaybackDevices"
 
-///| Get a list of currently-connected audio recording devices.
+///|
+/// Get a list of currently-connected audio recording devices.
 /// 
 /// This returns of list of available devices that record audio, like a
 /// microphone ("recording" devices).
@@ -231,9 +255,13 @@ pub extern "C" fn sdl_GetAudioPlaybackDevices(count: FixedArray[Int]) -> FixedAr
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioDeviceID * SDLCALL SDL_GetAudioRecordingDevices(int *count);
 /// ```
-pub extern "C" fn sdl_GetAudioRecordingDevices(count: FixedArray[Int]) -> FixedArray[SDL_AudioDeviceID] = "SDL_GetAudioRecordingDevices";
+#owned(count)
+pub extern "C" fn sdl_GetAudioRecordingDevices(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_AudioDeviceID] = "SDL_GetAudioRecordingDevices"
 
-///| Get the human-readable name of a specific audio device.
+///|
+/// Get the human-readable name of a specific audio device.
 /// 
 /// @param devid the instance ID of the device to query.
 /// @return the name of the audio device, or NULL on failure.
@@ -248,16 +276,18 @@ pub extern "C" fn sdl_GetAudioRecordingDevices(count: FixedArray[Int]) -> FixedA
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetAudioDeviceName(SDL_AudioDeviceID devid);
 /// ```
-pub fn sdl_GetAudioDeviceName(devid: SDL_AudioDeviceID) -> String {
-  let cres = __sdl_GetAudioDeviceName(devid);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetAudioDeviceName(devid : SDL_AudioDeviceID) -> String {
+  let cres = __sdl_GetAudioDeviceName(devid)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetAudioDeviceName(devid: SDL_AudioDeviceID) -> CStr = "SDL_GetAudioDeviceName";
+///|
+extern "C" fn __sdl_GetAudioDeviceName(devid : SDL_AudioDeviceID) -> CStr = "SDL_GetAudioDeviceName"
 
-///| Get the current audio format of a specific audio device.
+///|
+/// Get the current audio format of a specific audio device.
 /// 
 /// For an opened device, this will report the format the device is currently
 /// using. If the device isn't yet opened, this will report the device's
@@ -276,9 +306,15 @@ extern "C" fn __sdl_GetAudioDeviceName(devid: SDL_AudioDeviceID) -> CStr = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetAudioDeviceFormat(SDL_AudioDeviceID devid, SDL_AudioSpec *spec, int *sample_frames);
 /// ```
-pub extern "C" fn sdl_GetAudioDeviceFormat(devid: SDL_AudioDeviceID, spec: FixedArray[SDL_AudioSpec], sample_frames: FixedArray[Int]) -> Bool = "SDL_GetAudioDeviceFormat";
+#owned(spec, sample_frames)
+pub extern "C" fn sdl_GetAudioDeviceFormat(
+  devid : SDL_AudioDeviceID,
+  spec : FixedArray[SDL_AudioSpec],
+  sample_frames : FixedArray[Int],
+) -> Bool = "SDL_GetAudioDeviceFormat"
 
-///| Open a specific audio device.
+///|
+/// Open a specific audio device.
 /// 
 /// You can open both playback and recording devices through this function.
 /// Playback devices will take data from bound audio streams, mix it, and send
@@ -303,9 +339,14 @@ pub extern "C" fn sdl_GetAudioDeviceFormat(devid: SDL_AudioDeviceID, spec: Fixed
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioDeviceID SDLCALL SDL_OpenAudioDevice(SDL_AudioDeviceID devid, const SDL_AudioSpec *spec);
 /// ```
-pub extern "C" fn sdl_OpenAudioDevice(devid: SDL_AudioDeviceID, spec: FixedArray[SDL_AudioSpec]) -> SDL_AudioDeviceID = "SDL_OpenAudioDevice";
+#owned(spec)
+pub extern "C" fn sdl_OpenAudioDevice(
+  devid : SDL_AudioDeviceID,
+  spec : FixedArray[SDL_AudioSpec],
+) -> SDL_AudioDeviceID = "SDL_OpenAudioDevice"
 
-///| Use this function to pause audio playback on a specified device.
+///|
+/// Use this function to pause audio playback on a specified device.
 /// 
 /// This function pauses audio processing for a given device. Any bound audio
 /// streams will not progress, and no audio will be generated.
@@ -326,9 +367,10 @@ pub extern "C" fn sdl_OpenAudioDevice(devid: SDL_AudioDeviceID, spec: FixedArray
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_PauseAudioDevice(SDL_AudioDeviceID devid);
 /// ```
-pub extern "C" fn sdl_PauseAudioDevice(devid: SDL_AudioDeviceID) -> Bool = "SDL_PauseAudioDevice";
+pub extern "C" fn sdl_PauseAudioDevice(devid : SDL_AudioDeviceID) -> Bool = "SDL_PauseAudioDevice"
 
-///| Use this function to unpause audio playback on a specified device.
+///|
+/// Use this function to unpause audio playback on a specified device.
 /// 
 /// This function unpauses audio processing for a given device that has
 /// previously been paused with SDL_PauseAudioDevice().
@@ -349,9 +391,10 @@ pub extern "C" fn sdl_PauseAudioDevice(devid: SDL_AudioDeviceID) -> Bool = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ResumeAudioDevice(SDL_AudioDeviceID devid);
 /// ```
-pub extern "C" fn sdl_ResumeAudioDevice(devid: SDL_AudioDeviceID) -> Bool = "SDL_ResumeAudioDevice";
+pub extern "C" fn sdl_ResumeAudioDevice(devid : SDL_AudioDeviceID) -> Bool = "SDL_ResumeAudioDevice"
 
-///| Use this function to query if an audio device is paused.
+///|
+/// Use this function to query if an audio device is paused.
 /// 
 /// Physical devices can not be paused or unpaused, only logical devices
 /// created through SDL_OpenAudioDevice() can be. Physical and invalid device
@@ -370,9 +413,10 @@ pub extern "C" fn sdl_ResumeAudioDevice(devid: SDL_AudioDeviceID) -> Bool = "SDL
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_AudioDevicePaused(SDL_AudioDeviceID devid);
 /// ```
-pub extern "C" fn sdl_AudioDevicePaused(devid: SDL_AudioDeviceID) -> Bool = "SDL_AudioDevicePaused";
+pub extern "C" fn sdl_AudioDevicePaused(devid : SDL_AudioDeviceID) -> Bool = "SDL_AudioDevicePaused"
 
-///| Get the gain of an audio device.
+///|
+/// Get the gain of an audio device.
 /// 
 /// The gain of a device is its volume; a larger gain means a louder output,
 /// with a gain of zero being silence.
@@ -391,9 +435,10 @@ pub extern "C" fn sdl_AudioDevicePaused(devid: SDL_AudioDeviceID) -> Bool = "SDL
 /// ```c
 /// extern SDL_DECLSPEC float SDLCALL SDL_GetAudioDeviceGain(SDL_AudioDeviceID devid);
 /// ```
-pub extern "C" fn sdl_GetAudioDeviceGain(devid: SDL_AudioDeviceID) -> Float = "SDL_GetAudioDeviceGain";
+pub extern "C" fn sdl_GetAudioDeviceGain(devid : SDL_AudioDeviceID) -> Float = "SDL_GetAudioDeviceGain"
 
-///| Change the gain of an audio device.
+///|
+/// Change the gain of an audio device.
 /// 
 /// The gain of a device is its volume; a larger gain means a louder output,
 /// with a gain of zero being silence.
@@ -413,9 +458,13 @@ pub extern "C" fn sdl_GetAudioDeviceGain(devid: SDL_AudioDeviceID) -> Float = "S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioDeviceGain(SDL_AudioDeviceID devid, float gain);
 /// ```
-pub extern "C" fn sdl_SetAudioDeviceGain(devid: SDL_AudioDeviceID, gain: Float) -> Bool = "SDL_SetAudioDeviceGain";
+pub extern "C" fn sdl_SetAudioDeviceGain(
+  devid : SDL_AudioDeviceID,
+  gain : Float,
+) -> Bool = "SDL_SetAudioDeviceGain"
 
-///| Close a previously-opened audio device.
+///|
+/// Close a previously-opened audio device.
 /// 
 /// The application should close open audio devices once they are no longer
 /// needed.
@@ -432,9 +481,10 @@ pub extern "C" fn sdl_SetAudioDeviceGain(devid: SDL_AudioDeviceID, gain: Float) 
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_CloseAudioDevice(SDL_AudioDeviceID devid);
 /// ```
-pub extern "C" fn sdl_CloseAudioDevice(devid: SDL_AudioDeviceID) = "SDL_CloseAudioDevice";
+pub extern "C" fn sdl_CloseAudioDevice(devid : SDL_AudioDeviceID) = "SDL_CloseAudioDevice"
 
-///| Bind a single audio stream to an audio device.
+///|
+/// Bind a single audio stream to an audio device.
 /// 
 /// @param devid an audio device to bind a stream to.
 /// @param stream an audio stream to bind to a device.
@@ -451,9 +501,13 @@ pub extern "C" fn sdl_CloseAudioDevice(devid: SDL_AudioDeviceID) = "SDL_CloseAud
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_BindAudioStream(SDL_AudioDeviceID devid, SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_BindAudioStream(devid: SDL_AudioDeviceID, stream: SDL_AudioStream) -> Bool = "SDL_BindAudioStream";
+pub extern "C" fn sdl_BindAudioStream(
+  devid : SDL_AudioDeviceID,
+  stream : SDL_AudioStream,
+) -> Bool = "SDL_BindAudioStream"
 
-///| Unbind a single audio stream from its audio device.
+///|
+/// Unbind a single audio stream from its audio device.
 /// 
 /// @param stream an audio stream to unbind from a device. Can be NULL.
 /// 
@@ -466,9 +520,10 @@ pub extern "C" fn sdl_BindAudioStream(devid: SDL_AudioDeviceID, stream: SDL_Audi
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_UnbindAudioStream(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_UnbindAudioStream(stream: SDL_AudioStream) = "SDL_UnbindAudioStream";
+pub extern "C" fn sdl_UnbindAudioStream(stream : SDL_AudioStream) = "SDL_UnbindAudioStream"
 
-///| Query an audio stream for its currently-bound device.
+///|
+/// Query an audio stream for its currently-bound device.
 /// 
 /// This reports the logical audio device that an audio stream is currently
 /// bound to.
@@ -489,9 +544,12 @@ pub extern "C" fn sdl_UnbindAudioStream(stream: SDL_AudioStream) = "SDL_UnbindAu
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioDeviceID SDLCALL SDL_GetAudioStreamDevice(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamDevice(stream: SDL_AudioStream) -> SDL_AudioDeviceID = "SDL_GetAudioStreamDevice";
+pub extern "C" fn sdl_GetAudioStreamDevice(
+  stream : SDL_AudioStream,
+) -> SDL_AudioDeviceID = "SDL_GetAudioStreamDevice"
 
-///| Create a new audio stream.
+///|
+/// Create a new audio stream.
 /// 
 /// @param src_spec the format details of the input audio.
 /// @param dst_spec the format details of the output audio.
@@ -512,9 +570,14 @@ pub extern "C" fn sdl_GetAudioStreamDevice(stream: SDL_AudioStream) -> SDL_Audio
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioStream * SDLCALL SDL_CreateAudioStream(const SDL_AudioSpec *src_spec, const SDL_AudioSpec *dst_spec);
 /// ```
-pub extern "C" fn sdl_CreateAudioStream(src_spec: FixedArray[SDL_AudioSpec], dst_spec: FixedArray[SDL_AudioSpec]) -> SDL_AudioStream = "SDL_CreateAudioStream";
+#owned(src_spec, dst_spec)
+pub extern "C" fn sdl_CreateAudioStream(
+  src_spec : FixedArray[SDL_AudioSpec],
+  dst_spec : FixedArray[SDL_AudioSpec],
+) -> SDL_AudioStream = "SDL_CreateAudioStream"
 
-///| Query the current format of an audio stream.
+///|
+/// Query the current format of an audio stream.
 /// 
 /// @param stream the SDL_AudioStream to query.
 /// @param src_spec where to store the input audio format; ignored if NULL.
@@ -530,9 +593,15 @@ pub extern "C" fn sdl_CreateAudioStream(src_spec: FixedArray[SDL_AudioSpec], dst
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetAudioStreamFormat(SDL_AudioStream *stream, SDL_AudioSpec *src_spec, SDL_AudioSpec *dst_spec);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamFormat(stream: SDL_AudioStream, src_spec: FixedArray[SDL_AudioSpec], dst_spec: FixedArray[SDL_AudioSpec]) -> Bool = "SDL_GetAudioStreamFormat";
+#owned(src_spec, dst_spec)
+pub extern "C" fn sdl_GetAudioStreamFormat(
+  stream : SDL_AudioStream,
+  src_spec : FixedArray[SDL_AudioSpec],
+  dst_spec : FixedArray[SDL_AudioSpec],
+) -> Bool = "SDL_GetAudioStreamFormat"
 
-///| Change the input and output formats of an audio stream.
+///|
+/// Change the input and output formats of an audio stream.
 /// 
 /// @param stream the stream the format is being changed.
 /// @param src_spec the new format of the audio input; if NULL, it is not
@@ -551,9 +620,15 @@ pub extern "C" fn sdl_GetAudioStreamFormat(stream: SDL_AudioStream, src_spec: Fi
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioStreamFormat(SDL_AudioStream *stream, const SDL_AudioSpec *src_spec, const SDL_AudioSpec *dst_spec);
 /// ```
-pub extern "C" fn sdl_SetAudioStreamFormat(stream: SDL_AudioStream, src_spec: FixedArray[SDL_AudioSpec], dst_spec: FixedArray[SDL_AudioSpec]) -> Bool = "SDL_SetAudioStreamFormat";
+#owned(src_spec, dst_spec)
+pub extern "C" fn sdl_SetAudioStreamFormat(
+  stream : SDL_AudioStream,
+  src_spec : FixedArray[SDL_AudioSpec],
+  dst_spec : FixedArray[SDL_AudioSpec],
+) -> Bool = "SDL_SetAudioStreamFormat"
 
-///| Get the frequency ratio of an audio stream.
+///|
+/// Get the frequency ratio of an audio stream.
 /// 
 /// @param stream the SDL_AudioStream to query.
 /// @return the frequency ratio of the stream or 0.0 on failure.
@@ -567,9 +642,12 @@ pub extern "C" fn sdl_SetAudioStreamFormat(stream: SDL_AudioStream, src_spec: Fi
 /// ```c
 /// extern SDL_DECLSPEC float SDLCALL SDL_GetAudioStreamFrequencyRatio(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamFrequencyRatio(stream: SDL_AudioStream) -> Float = "SDL_GetAudioStreamFrequencyRatio";
+pub extern "C" fn sdl_GetAudioStreamFrequencyRatio(
+  stream : SDL_AudioStream,
+) -> Float = "SDL_GetAudioStreamFrequencyRatio"
 
-///| Change the frequency ratio of an audio stream.
+///|
+/// Change the frequency ratio of an audio stream.
 /// 
 /// The frequency ratio is used to adjust the rate at which input data is
 /// consumed. Changing this effectively modifies the speed and pitch of the
@@ -590,9 +668,13 @@ pub extern "C" fn sdl_GetAudioStreamFrequencyRatio(stream: SDL_AudioStream) -> F
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioStreamFrequencyRatio(SDL_AudioStream *stream, float ratio);
 /// ```
-pub extern "C" fn sdl_SetAudioStreamFrequencyRatio(stream: SDL_AudioStream, ratio: Float) -> Bool = "SDL_SetAudioStreamFrequencyRatio";
+pub extern "C" fn sdl_SetAudioStreamFrequencyRatio(
+  stream : SDL_AudioStream,
+  ratio : Float,
+) -> Bool = "SDL_SetAudioStreamFrequencyRatio"
 
-///| Get the gain of an audio stream.
+///|
+/// Get the gain of an audio stream.
 /// 
 /// The gain of a stream is its volume; a larger gain means a louder output,
 /// with a gain of zero being silence.
@@ -611,9 +693,10 @@ pub extern "C" fn sdl_SetAudioStreamFrequencyRatio(stream: SDL_AudioStream, rati
 /// ```c
 /// extern SDL_DECLSPEC float SDLCALL SDL_GetAudioStreamGain(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamGain(stream: SDL_AudioStream) -> Float = "SDL_GetAudioStreamGain";
+pub extern "C" fn sdl_GetAudioStreamGain(stream : SDL_AudioStream) -> Float = "SDL_GetAudioStreamGain"
 
-///| Change the gain of an audio stream.
+///|
+/// Change the gain of an audio stream.
 /// 
 /// The gain of a stream is its volume; a larger gain means a louder output,
 /// with a gain of zero being silence.
@@ -633,9 +716,13 @@ pub extern "C" fn sdl_GetAudioStreamGain(stream: SDL_AudioStream) -> Float = "SD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioStreamGain(SDL_AudioStream *stream, float gain);
 /// ```
-pub extern "C" fn sdl_SetAudioStreamGain(stream: SDL_AudioStream, gain: Float) -> Bool = "SDL_SetAudioStreamGain";
+pub extern "C" fn sdl_SetAudioStreamGain(
+  stream : SDL_AudioStream,
+  gain : Float,
+) -> Bool = "SDL_SetAudioStreamGain"
 
-///| Add data to the stream.
+///|
+/// Add data to the stream.
 /// 
 /// This data must match the format/channels/samplerate specified in the latest
 /// call to SDL_SetAudioStreamFormat, or the format specified when creating the
@@ -658,9 +745,14 @@ pub extern "C" fn sdl_SetAudioStreamGain(stream: SDL_AudioStream, gain: Float) -
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_PutAudioStreamData(SDL_AudioStream *stream, const void *buf, int len);
 /// ```
-pub extern "C" fn sdl_PutAudioStreamData(stream: SDL_AudioStream, buf: VoidPtr, len: Int) -> Bool = "SDL_PutAudioStreamData";
+pub extern "C" fn sdl_PutAudioStreamData(
+  stream : SDL_AudioStream,
+  buf : VoidPtr,
+  len : Int,
+) -> Bool = "SDL_PutAudioStreamData"
 
-///| Get converted/resampled data from the stream.
+///|
+/// Get converted/resampled data from the stream.
 /// 
 /// The input/output data format/channels/samplerate is specified when creating
 /// the stream, and can be changed after creation by calling
@@ -682,9 +774,14 @@ pub extern "C" fn sdl_PutAudioStreamData(stream: SDL_AudioStream, buf: VoidPtr, 
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetAudioStreamData(SDL_AudioStream *stream, void *buf, int len);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamData(stream: SDL_AudioStream, buf: VoidPtr, len: Int) -> Int = "SDL_GetAudioStreamData";
+pub extern "C" fn sdl_GetAudioStreamData(
+  stream : SDL_AudioStream,
+  buf : VoidPtr,
+  len : Int,
+) -> Int = "SDL_GetAudioStreamData"
 
-///| Get the number of converted/resampled bytes available.
+///|
+/// Get the number of converted/resampled bytes available.
 /// 
 /// The stream may be buffering data behind the scenes until it has enough to
 /// resample correctly, so this number might be lower than what you expect, or
@@ -704,9 +801,10 @@ pub extern "C" fn sdl_GetAudioStreamData(stream: SDL_AudioStream, buf: VoidPtr, 
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetAudioStreamAvailable(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamAvailable(stream: SDL_AudioStream) -> Int = "SDL_GetAudioStreamAvailable";
+pub extern "C" fn sdl_GetAudioStreamAvailable(stream : SDL_AudioStream) -> Int = "SDL_GetAudioStreamAvailable"
 
-///| Get the number of bytes currently queued.
+///|
+/// Get the number of bytes currently queued.
 /// 
 /// This is the number of bytes put into a stream as input, not the number that
 /// can be retrieved as output.
@@ -724,9 +822,10 @@ pub extern "C" fn sdl_GetAudioStreamAvailable(stream: SDL_AudioStream) -> Int = 
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetAudioStreamQueued(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_GetAudioStreamQueued(stream: SDL_AudioStream) -> Int = "SDL_GetAudioStreamQueued";
+pub extern "C" fn sdl_GetAudioStreamQueued(stream : SDL_AudioStream) -> Int = "SDL_GetAudioStreamQueued"
 
-///| Tell the stream that you're done sending data, and anything being buffered
+///|
+/// Tell the stream that you're done sending data, and anything being buffered
 /// should be converted/resampled and made available immediately.
 /// 
 /// It is legal to add more data to a stream after flushing, but there may be
@@ -744,9 +843,10 @@ pub extern "C" fn sdl_GetAudioStreamQueued(stream: SDL_AudioStream) -> Int = "SD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_FlushAudioStream(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_FlushAudioStream(stream: SDL_AudioStream) -> Bool = "SDL_FlushAudioStream";
+pub extern "C" fn sdl_FlushAudioStream(stream : SDL_AudioStream) -> Bool = "SDL_FlushAudioStream"
 
-///| Clear any pending data in the stream.
+///|
+/// Clear any pending data in the stream.
 /// 
 /// This drops any queued data, so there will be nothing to read from the
 /// stream until more is added.
@@ -766,9 +866,10 @@ pub extern "C" fn sdl_FlushAudioStream(stream: SDL_AudioStream) -> Bool = "SDL_F
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ClearAudioStream(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_ClearAudioStream(stream: SDL_AudioStream) -> Bool = "SDL_ClearAudioStream";
+pub extern "C" fn sdl_ClearAudioStream(stream : SDL_AudioStream) -> Bool = "SDL_ClearAudioStream"
 
-///| Set a callback that runs when data is requested from an audio stream.
+///|
+/// Set a callback that runs when data is requested from an audio stream.
 /// 
 /// This callback is called _before_ data is obtained from the stream, giving
 /// the callback the chance to add more on-demand.
@@ -789,9 +890,14 @@ pub extern "C" fn sdl_ClearAudioStream(stream: SDL_AudioStream) -> Bool = "SDL_C
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioStreamGetCallback(SDL_AudioStream *stream, SDL_AudioStreamCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_SetAudioStreamGetCallback(stream: SDL_AudioStream, callback: SDL_AudioStreamCallback, userdata: VoidPtr) -> Bool = "SDL_SetAudioStreamGetCallback";
+pub extern "C" fn sdl_SetAudioStreamGetCallback(
+  stream : SDL_AudioStream,
+  callback : SDL_AudioStreamCallback,
+  userdata : VoidPtr,
+) -> Bool = "SDL_SetAudioStreamGetCallback"
 
-///| Set a callback that runs when data is added to an audio stream.
+///|
+/// Set a callback that runs when data is added to an audio stream.
 /// 
 /// This callback is called _after_ the data is added to the stream, giving the
 /// callback the chance to obtain it immediately.
@@ -812,9 +918,14 @@ pub extern "C" fn sdl_SetAudioStreamGetCallback(stream: SDL_AudioStream, callbac
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAudioStreamPutCallback(SDL_AudioStream *stream, SDL_AudioStreamCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_SetAudioStreamPutCallback(stream: SDL_AudioStream, callback: SDL_AudioStreamCallback, userdata: VoidPtr) -> Bool = "SDL_SetAudioStreamPutCallback";
+pub extern "C" fn sdl_SetAudioStreamPutCallback(
+  stream : SDL_AudioStream,
+  callback : SDL_AudioStreamCallback,
+  userdata : VoidPtr,
+) -> Bool = "SDL_SetAudioStreamPutCallback"
 
-///| Free an audio stream.
+///|
+/// Free an audio stream.
 /// 
 /// This will release all allocated data, including any audio that is still
 /// queued. You do not need to manually clear the stream first.
@@ -830,9 +941,10 @@ pub extern "C" fn sdl_SetAudioStreamPutCallback(stream: SDL_AudioStream, callbac
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroyAudioStream(SDL_AudioStream *stream);
 /// ```
-pub extern "C" fn sdl_DestroyAudioStream(stream: SDL_AudioStream) = "SDL_DestroyAudioStream";
+pub extern "C" fn sdl_DestroyAudioStream(stream : SDL_AudioStream) = "SDL_DestroyAudioStream"
 
-///| Convenience function for straightforward audio init for the common case.
+///|
+/// Convenience function for straightforward audio init for the common case.
 /// 
 /// If all your app intends to do is provide a single source of PCM audio, this
 /// function allows you to do all your audio setup in a single call.
@@ -855,9 +967,16 @@ pub extern "C" fn sdl_DestroyAudioStream(stream: SDL_AudioStream) = "SDL_Destroy
 /// ```c
 /// extern SDL_DECLSPEC SDL_AudioStream * SDLCALL SDL_OpenAudioDeviceStream(SDL_AudioDeviceID devid, const SDL_AudioSpec *spec, SDL_AudioStreamCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_OpenAudioDeviceStream(devid: SDL_AudioDeviceID, spec: FixedArray[SDL_AudioSpec], callback: SDL_AudioStreamCallback, userdata: VoidPtr) -> SDL_AudioStream = "SDL_OpenAudioDeviceStream";
+#owned(spec)
+pub extern "C" fn sdl_OpenAudioDeviceStream(
+  devid : SDL_AudioDeviceID,
+  spec : FixedArray[SDL_AudioSpec],
+  callback : SDL_AudioStreamCallback,
+  userdata : VoidPtr,
+) -> SDL_AudioStream = "SDL_OpenAudioDeviceStream"
 
-///| Load the audio data of a WAVE file into memory.
+///|
+/// Load the audio data of a WAVE file into memory.
 /// 
 /// @param path the file path of the WAV file to open.
 /// @param spec a pointer to an SDL_AudioSpec that will be set to the WAVE
@@ -878,13 +997,26 @@ pub extern "C" fn sdl_OpenAudioDeviceStream(devid: SDL_AudioDeviceID, spec: Fixe
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_LoadWAV(const char *path, SDL_AudioSpec *spec, Uint8 **audio_buf, Uint32 *audio_len);
 /// ```
-pub fn sdl_LoadWAV(path: String, spec: FixedArray[SDL_AudioSpec], audio_buf: FixedArray[FixedArray[UInt]], audio_len: FixedArray[UInt]) -> Bool {
+pub fn sdl_LoadWAV(
+  path : String,
+  spec : FixedArray[SDL_AudioSpec],
+  audio_buf : FixedArray[FixedArray[UInt]],
+  audio_len : FixedArray[UInt],
+) -> Bool {
   __sdl_LoadWAV(string_to_cbytes(path), spec, audio_buf, audio_len)
 }
 
-extern "C" fn __sdl_LoadWAV(path: Bytes, spec: FixedArray[SDL_AudioSpec], audio_buf: FixedArray[FixedArray[UInt]], audio_len: FixedArray[UInt]) -> Bool = "SDL_LoadWAV";
+///|
+#owned(path, spec, audio_buf, audio_len)
+extern "C" fn __sdl_LoadWAV(
+  path : Bytes,
+  spec : FixedArray[SDL_AudioSpec],
+  audio_buf : FixedArray[FixedArray[UInt]],
+  audio_len : FixedArray[UInt],
+) -> Bool = "SDL_LoadWAV"
 
-///| Mix audio data in a specified format.
+///|
+/// Mix audio data in a specified format.
 /// 
 /// This takes an audio buffer `src` of `len` bytes of `format` data and mixes
 /// it into `dst`, performing addition, volume adjustment, and overflow
@@ -906,9 +1038,17 @@ extern "C" fn __sdl_LoadWAV(path: Bytes, spec: FixedArray[SDL_AudioSpec], audio_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_MixAudio(Uint8 *dst, const Uint8 *src, SDL_AudioFormat format, Uint32 len, float volume);
 /// ```
-pub extern "C" fn sdl_MixAudio(dst: FixedArray[UInt], src: FixedArray[UInt], format: SDL_AudioFormat, len: UInt, volume: Float) -> Bool = "SDL_MixAudio";
+#owned(dst, src)
+pub extern "C" fn sdl_MixAudio(
+  dst : FixedArray[UInt],
+  src : FixedArray[UInt],
+  format : SDL_AudioFormat,
+  len : UInt,
+  volume : Float,
+) -> Bool = "SDL_MixAudio"
 
-///| Convert some audio data of one format to another format.
+///|
+/// Convert some audio data of one format to another format.
 /// 
 /// @param src_spec the format details of the input audio.
 /// @param src_data the audio data to be converted.
@@ -927,9 +1067,18 @@ pub extern "C" fn sdl_MixAudio(dst: FixedArray[UInt], src: FixedArray[UInt], for
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ConvertAudioSamples(const SDL_AudioSpec *src_spec, const Uint8 *src_data, int src_len, const SDL_AudioSpec *dst_spec, Uint8 **dst_data, int *dst_len);
 /// ```
-pub extern "C" fn sdl_ConvertAudioSamples(src_spec: FixedArray[SDL_AudioSpec], src_data: FixedArray[UInt], src_len: Int, dst_spec: FixedArray[SDL_AudioSpec], dst_data: FixedArray[FixedArray[UInt]], dst_len: FixedArray[Int]) -> Bool = "SDL_ConvertAudioSamples";
+#owned(src_spec, src_data, dst_spec, dst_data, dst_len)
+pub extern "C" fn sdl_ConvertAudioSamples(
+  src_spec : FixedArray[SDL_AudioSpec],
+  src_data : FixedArray[UInt],
+  src_len : Int,
+  dst_spec : FixedArray[SDL_AudioSpec],
+  dst_data : FixedArray[FixedArray[UInt]],
+  dst_len : FixedArray[Int],
+) -> Bool = "SDL_ConvertAudioSamples"
 
-///| Get the human readable name of an audio format.
+///|
+/// Get the human readable name of an audio format.
 /// 
 /// @param format the audio format to query.
 /// @return the human readable name of the specified audio format or
@@ -942,11 +1091,12 @@ pub extern "C" fn sdl_ConvertAudioSamples(src_spec: FixedArray[SDL_AudioSpec], s
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetAudioFormatName(SDL_AudioFormat format);
 /// ```
-pub fn sdl_GetAudioFormatName(format: SDL_AudioFormat) -> String {
-  let cres = __sdl_GetAudioFormatName(format);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetAudioFormatName(format : SDL_AudioFormat) -> String {
+  let cres = __sdl_GetAudioFormatName(format)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetAudioFormatName(format: SDL_AudioFormat) -> CStr = "SDL_GetAudioFormatName";
+///|
+extern "C" fn __sdl_GetAudioFormatName(format : SDL_AudioFormat) -> CStr = "SDL_GetAudioFormatName"

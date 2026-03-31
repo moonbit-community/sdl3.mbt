@@ -41,7 +41,8 @@
 /// It's also common to just return `false` in this case if the failing thing
 /// is known to call SDL_SetError(), so errors simply propagate through.
 
-///| Set the SDL error message for the current thread.
+///|
+/// Set the SDL error message for the current thread.
 /// 
 /// Calling this function will replace any previous error message that was set.
 /// 
@@ -70,14 +71,17 @@
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetError(SDL_PRINTF_FORMAT_STRING const char *fmt, ...) SDL_PRINTF_VARARG_FUNC(1);
 /// ```
-pub fn sdl_SetError(fmt: String) -> Bool {
-    let fmt_bytes = string_to_cbytes(fmt)
-    __sdl_SetError(fmt_bytes)
+pub fn sdl_SetError(fmt : String) -> Bool {
+  let fmt_bytes = string_to_cbytes(fmt)
+  __sdl_SetError(fmt_bytes)
 }
 
-extern "C" fn __sdl_SetError(fmt: Bytes) -> Bool = "SDL_SetError"
+///|
+#owned(fmt)
+extern "C" fn __sdl_SetError(fmt : Bytes) -> Bool = "SDL_SetError"
 
-///| Set an error indicating that memory allocation failed.
+///|
+/// Set an error indicating that memory allocation failed.
 /// 
 /// This function does not do any memory allocation.
 /// 
@@ -92,7 +96,8 @@ extern "C" fn __sdl_SetError(fmt: Bytes) -> Bool = "SDL_SetError"
 /// ```
 pub extern "C" fn sdl_OutOfMemory() -> Bool = "SDL_OutOfMemory"
 
-///| Retrieve a message about the last error that occurred on the current
+///|
+/// Retrieve a message about the last error that occurred on the current
 /// thread.
 /// 
 /// It is possible for multiple errors to occur before calling SDL_GetError().
@@ -130,16 +135,18 @@ pub extern "C" fn sdl_OutOfMemory() -> Bool = "SDL_OutOfMemory"
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetError(void);
 /// ```
 pub fn sdl_GetError() -> String {
-    let cstr = __sdl_GetError()
-    let res = cstr.to_string()
-    // use SDL_ClearError()
-    //free_cstr(cstr)
-    res
+  let cstr = __sdl_GetError()
+  let res = cstr.to_string()
+  // use SDL_ClearError()
+  //free_cstr(cstr)
+  res
 }
 
+///|
 extern "C" fn __sdl_GetError() -> CStr = "SDL_GetError"
 
-///| Clear any previous error message for this thread.
+///|
+/// Clear any previous error message for this thread.
 /// 
 /// @return true.
 /// 
@@ -155,7 +162,8 @@ extern "C" fn __sdl_GetError() -> CStr = "SDL_GetError"
 /// ```
 pub extern "C" fn sdl_ClearError() -> Bool = "SDL_ClearError"
 
-///| A macro to standardize error reporting on unsupported operations.
+///|
+/// A macro to standardize error reporting on unsupported operations.
 /// 
 /// This simply calls SDL_SetError() with a standardized error string, for
 /// convenience, consistency, and clarity.
@@ -168,10 +176,11 @@ pub extern "C" fn sdl_ClearError() -> Bool = "SDL_ClearError"
 /// #define SDL_Unsupported()               SDL_SetError("That operation is not supported")
 /// ```
 pub fn sdl_Unsupported() -> Bool {
-    sdl_SetError("That operation is not supported")
+  sdl_SetError("That operation is not supported")
 }
 
-///| A macro to standardize error reporting on invalid parameters.
+///|
+/// A macro to standardize error reporting on invalid parameters.
 /// 
 /// This simply calls SDL_SetError() with a standardized error string, for
 /// convenience, consistency, and clarity.
@@ -198,6 +207,6 @@ pub fn sdl_Unsupported() -> Bool {
 /// ```c
 /// #define SDL_InvalidParamError(param)    SDL_SetError("Parameter '%s' is invalid", (param))
 /// ```
-pub fn sdl_InvalidParamError(param: String) -> Bool {
-    sdl_SetError("Parameter '" + param + "' is invalid")
-} 
+pub fn sdl_InvalidParamError(param : String) -> Bool {
+  sdl_SetError("Parameter '" + param + "' is invalid")
+}

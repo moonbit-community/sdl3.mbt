@@ -25,7 +25,8 @@
 /// standard modes for basic needs and a means to create custom modes,
 /// dictating what sort of math to do on what color components.
 
-///| A set of blend modes used in drawing operations.
+///|
+/// A set of blend modes used in drawing operations.
 ///
 /// ```c
 /// typedef Uint32 SDL_BlendMode;
@@ -51,7 +52,9 @@ pub(all) enum SDL_BlendMode {
 }
 
 ///| The blend operation used when combining source and destination pixel
-///| components.
+
+///|
+/// components.
 ///
 /// ```c
 /// typedef enum SDL_BlendOperation
@@ -71,7 +74,8 @@ pub(all) enum SDL_BlendOperation {
   SDL_BLENDOPERATION_MAXIMUM = 5
 }
 
-///| The normalized factor used to multiply pixel components.
+///|
+/// The normalized factor used to multiply pixel components.
 ///
 /// ```c
 /// typedef enum SDL_BlendFactor
@@ -101,7 +105,8 @@ pub(all) enum SDL_BlendFactor {
   SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10
 }
 
-///| Compose a custom blend mode for renderers.
+///|
+/// Compose a custom blend mode for renderers.
 ///
 /// ```c
 /// extern SDL_DECLSPEC SDL_BlendMode SDLCALL SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor,
@@ -111,4 +116,11 @@ pub(all) enum SDL_BlendFactor {
 ///                                                                  SDL_BlendFactor dstAlphaFactor,
 ///                                                                  SDL_BlendOperation alphaOperation);
 /// ```
-pub extern "C" fn sdl_ComposeCustomBlendMode(srcColorFactor: SDL_BlendFactor, dstColorFactor: SDL_BlendFactor, colorOperation: SDL_BlendOperation, srcAlphaFactor: SDL_BlendFactor, dstAlphaFactor: SDL_BlendFactor, alphaOperation: SDL_BlendOperation) -> SDL_BlendMode = "SDL_ComposeCustomBlendMode"
+pub extern "C" fn sdl_ComposeCustomBlendMode(
+  srcColorFactor : SDL_BlendFactor,
+  dstColorFactor : SDL_BlendFactor,
+  colorOperation : SDL_BlendOperation,
+  srcAlphaFactor : SDL_BlendFactor,
+  dstAlphaFactor : SDL_BlendFactor,
+  alphaOperation : SDL_BlendOperation,
+) -> SDL_BlendMode = "SDL_ComposeCustomBlendMode"

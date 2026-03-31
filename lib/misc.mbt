@@ -23,14 +23,17 @@
 ///
 /// SDL API functions that don't fit elsewhere.
 
-///| Open a URL/URI in the browser or other appropriate external application.
+///|
+/// Open a URL/URI in the browser or other appropriate external application.
 ///
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_OpenURL(const char *url);
 /// ```
-extern "C" fn __sdl_OpenURL(url: Bytes) -> Bool = "SDL_OpenURL"
+#owned(url)
+extern "C" fn __sdl_OpenURL(url : Bytes) -> Bool = "SDL_OpenURL"
 
-pub fn sdl_OpenURL(url: String) -> Bool {
+///|
+pub fn sdl_OpenURL(url : String) -> Bool {
   let c_url = string_to_cbytes(url)
   __sdl_OpenURL(c_url)
 }

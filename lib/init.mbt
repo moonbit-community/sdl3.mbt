@@ -42,7 +42,8 @@
 /// provide a _lot_ of information should look at the more-detailed
 /// SDL_SetAppMetadataProperty().
 
-///| Initialization flags for SDL_Init and/or SDL_InitSubSystem
+///|
+/// Initialization flags for SDL_Init and/or SDL_InitSubSystem
 /// 
 /// These are the flags which may be passed to SDL_Init(). You should specify
 /// the subsystems which you will be using in your application.
@@ -58,31 +59,40 @@
 /// ```c
 /// typedef Uint32 SDL_InitFlags;
 /// ```
-pub typealias UInt as SDL_InitFlags
+pub type SDL_InitFlags = UInt
 
-///| `SDL_INIT_AUDIO` implies `SDL_INIT_EVENTS`
-pub const SDL_INIT_AUDIO: UInt = 0x00000010
+///|
+/// `SDL_INIT_AUDIO` implies `SDL_INIT_EVENTS`
+pub const SDL_INIT_AUDIO : UInt = 0x00000010
 
-///| `SDL_INIT_VIDEO` implies `SDL_INIT_EVENTS`, should be initialized on the main thread
-pub const SDL_INIT_VIDEO: UInt = 0x00000020
+///|
+/// `SDL_INIT_VIDEO` implies `SDL_INIT_EVENTS`, should be initialized on the main thread
+pub const SDL_INIT_VIDEO : UInt = 0x00000020
 
-///| `SDL_INIT_JOYSTICK` implies `SDL_INIT_EVENTS`
-pub const SDL_INIT_JOYSTICK: UInt = 0x00000200
+///|
+/// `SDL_INIT_JOYSTICK` implies `SDL_INIT_EVENTS`
+pub const SDL_INIT_JOYSTICK : UInt = 0x00000200
 
-pub const SDL_INIT_HAPTIC: UInt = 0x00001000
+///|
+pub const SDL_INIT_HAPTIC : UInt = 0x00001000
 
-///| `SDL_INIT_GAMEPAD` implies `SDL_INIT_JOYSTICK`
-pub const SDL_INIT_GAMEPAD: UInt = 0x00002000
+///|
+/// `SDL_INIT_GAMEPAD` implies `SDL_INIT_JOYSTICK`
+pub const SDL_INIT_GAMEPAD : UInt = 0x00002000
 
-pub const SDL_INIT_EVENTS: UInt = 0x00004000
+///|
+pub const SDL_INIT_EVENTS : UInt = 0x00004000
 
-///| `SDL_INIT_SENSOR` implies `SDL_INIT_EVENTS`
-pub const SDL_INIT_SENSOR: UInt = 0x00008000
+///|
+/// `SDL_INIT_SENSOR` implies `SDL_INIT_EVENTS`
+pub const SDL_INIT_SENSOR : UInt = 0x00008000
 
-///| `SDL_INIT_CAMERA` implies `SDL_INIT_EVENTS`
-pub const SDL_INIT_CAMERA: UInt = 0x00010000
+///|
+/// `SDL_INIT_CAMERA` implies `SDL_INIT_EVENTS`
+pub const SDL_INIT_CAMERA : UInt = 0x00010000
 
-///| Return values for optional main callbacks.
+///|
+/// Return values for optional main callbacks.
 /// 
 /// Returning SDL_APP_SUCCESS or SDL_APP_FAILURE from SDL_AppInit,
 /// SDL_AppEvent, or SDL_AppIterate will terminate the program and report
@@ -110,12 +120,16 @@ pub const SDL_INIT_CAMERA: UInt = 0x00010000
 /// } SDL_AppResult;
 /// ```
 pub(all) enum SDL_AppResult {
-    SDL_APP_CONTINUE    ///< Value that requests that the app continue from the main callbacks.
-    SDL_APP_SUCCESS     ///< Value that requests termination with success from the main callbacks.
-    SDL_APP_FAILURE     ///< Value that requests termination with error from the main callbacks.
+  ///< Value that requests that the app continue from the main callbacks.
+  ///< Value that requests termination with success from the main callbacks.
+  ///< Value that requests termination with error from the main callbacks.
+  SDL_APP_CONTINUE
+  SDL_APP_SUCCESS
+  SDL_APP_FAILURE
 }
 
-///| Function pointer typedef for SDL_AppInit.
+///|
+/// Function pointer typedef for SDL_AppInit.
 /// 
 /// These are used by SDL_EnterAppMainCallbacks. This mechanism operates behind
 /// the scenes for apps using the optional main callbacks. Apps that want to
@@ -134,9 +148,10 @@ pub(all) enum SDL_AppResult {
 /// ```c
 /// typedef SDL_AppResult (SDLCALL *SDL_AppInit_func)(void **appstate, int argc, char *argv[]);
 /// ```
-pub typealias FuncRef[(VoidPtr, Int, VoidPtr) -> SDL_AppResult] as SDL_AppInit_func
+pub type SDL_AppInit_func = FuncRef[(VoidPtr, Int, VoidPtr) -> SDL_AppResult]
 
-///| Function pointer typedef for SDL_AppIterate.
+///|
+/// Function pointer typedef for SDL_AppIterate.
 /// 
 /// These are used by SDL_EnterAppMainCallbacks. This mechanism operates behind
 /// the scenes for apps using the optional main callbacks. Apps that want to
@@ -151,9 +166,10 @@ pub typealias FuncRef[(VoidPtr, Int, VoidPtr) -> SDL_AppResult] as SDL_AppInit_f
 /// ```c
 /// typedef SDL_AppResult (SDLCALL *SDL_AppIterate_func)(void *appstate);
 /// ```
-pub typealias FuncRef[(VoidPtr) -> SDL_AppResult] as SDL_AppIterate_func
+pub type SDL_AppIterate_func = FuncRef[(VoidPtr) -> SDL_AppResult]
 
-///| Function pointer typedef for SDL_AppEvent.
+///|
+/// Function pointer typedef for SDL_AppEvent.
 /// 
 /// These are used by SDL_EnterAppMainCallbacks. This mechanism operates behind
 /// the scenes for apps using the optional main callbacks. Apps that want to
@@ -169,9 +185,10 @@ pub typealias FuncRef[(VoidPtr) -> SDL_AppResult] as SDL_AppIterate_func
 /// ```c
 /// typedef SDL_AppResult (SDLCALL *SDL_AppEvent_func)(void *appstate, SDL_Event *event);
 /// ```
-pub typealias FuncRef[(VoidPtr, VoidPtr) -> SDL_AppResult] as SDL_AppEvent_func
+pub type SDL_AppEvent_func = FuncRef[(VoidPtr, VoidPtr) -> SDL_AppResult]
 
-///| Function pointer typedef for SDL_AppQuit.
+///|
+/// Function pointer typedef for SDL_AppQuit.
 /// 
 /// These are used by SDL_EnterAppMainCallbacks. This mechanism operates behind
 /// the scenes for apps using the optional main callbacks. Apps that want to
@@ -185,9 +202,10 @@ pub typealias FuncRef[(VoidPtr, VoidPtr) -> SDL_AppResult] as SDL_AppEvent_func
 /// ```c
 /// typedef void (SDLCALL *SDL_AppQuit_func)(void *appstate, SDL_AppResult result);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_AppResult) -> Unit] as SDL_AppQuit_func
+pub type SDL_AppQuit_func = FuncRef[(VoidPtr, SDL_AppResult) -> Unit]
 
-///| Initialize the SDL library.
+///|
+/// Initialize the SDL library.
 /// 
 /// SDL_Init() simply forwards to calling SDL_InitSubSystem(). Therefore, the
 /// two may be used interchangeably. Though for readability of your code
@@ -244,9 +262,10 @@ pub typealias FuncRef[(VoidPtr, SDL_AppResult) -> Unit] as SDL_AppQuit_func
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_Init(SDL_InitFlags flags);
 /// ```
-pub extern "C" fn sdl_Init(flags: SDL_InitFlags) -> Bool = "SDL_Init"
+pub extern "C" fn sdl_Init(flags : SDL_InitFlags) -> Bool = "SDL_Init"
 
-///| Compatibility function to initialize the SDL library.
+///|
+/// Compatibility function to initialize the SDL library.
 /// 
 /// This function and SDL_Init() are interchangeable.
 /// 
@@ -263,9 +282,10 @@ pub extern "C" fn sdl_Init(flags: SDL_InitFlags) -> Bool = "SDL_Init"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_InitSubSystem(SDL_InitFlags flags);
 /// ```
-pub extern "C" fn sdl_InitSubSystem(flags: SDL_InitFlags) -> Bool = "SDL_InitSubSystem"
+pub extern "C" fn sdl_InitSubSystem(flags : SDL_InitFlags) -> Bool = "SDL_InitSubSystem"
 
-///| Shut down specific SDL subsystems.
+///|
+/// Shut down specific SDL subsystems.
 /// 
 /// You still need to call SDL_Quit() even if you close all open subsystems
 /// with SDL_QuitSubSystem().
@@ -280,9 +300,10 @@ pub extern "C" fn sdl_InitSubSystem(flags: SDL_InitFlags) -> Bool = "SDL_InitSub
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_QuitSubSystem(SDL_InitFlags flags);
 /// ```
-pub extern "C" fn sdl_QuitSubSystem(flags: SDL_InitFlags) = "SDL_QuitSubSystem"
+pub extern "C" fn sdl_QuitSubSystem(flags : SDL_InitFlags) = "SDL_QuitSubSystem"
 
-///| Get a mask of the specified subsystems which are currently initialized.
+///|
+/// Get a mask of the specified subsystems which are currently initialized.
 /// 
 /// @param flags any of the flags used by SDL_Init(); see SDL_Init for details.
 /// @return a mask of all initialized subsystems if `flags` is 0, otherwise it
@@ -296,9 +317,10 @@ pub extern "C" fn sdl_QuitSubSystem(flags: SDL_InitFlags) = "SDL_QuitSubSystem"
 /// ```c
 /// extern SDL_DECLSPEC SDL_InitFlags SDLCALL SDL_WasInit(SDL_InitFlags flags);
 /// ```
-pub extern "C" fn sdl_WasInit(flags: SDL_InitFlags) -> SDL_InitFlags = "SDL_WasInit"
+pub extern "C" fn sdl_WasInit(flags : SDL_InitFlags) -> SDL_InitFlags = "SDL_WasInit"
 
-///| Clean up all initialized subsystems.
+///|
+/// Clean up all initialized subsystems.
 /// 
 /// You should call this function even if you have already shutdown each
 /// initialized subsystem with SDL_QuitSubSystem(). It is safe to call this
@@ -318,7 +340,8 @@ pub extern "C" fn sdl_WasInit(flags: SDL_InitFlags) -> SDL_InitFlags = "SDL_WasI
 /// ```
 pub extern "C" fn sdl_Quit() = "SDL_Quit"
 
-///| Return whether this is the main thread.
+///|
+/// Return whether this is the main thread.
 /// 
 /// On Apple platforms, the main thread is the thread that runs your program's
 /// main() entry point. On other platforms, the main thread is the one that
@@ -340,7 +363,8 @@ pub extern "C" fn sdl_Quit() = "SDL_Quit"
 /// ```
 pub extern "C" fn sdl_IsMainThread() -> Bool = "SDL_IsMainThread"
 
-///| Callback run on the main thread.
+///|
+/// Callback run on the main thread.
 /// 
 /// @param userdata an app-controlled pointer that is passed to the callback.
 /// 
@@ -351,9 +375,10 @@ pub extern "C" fn sdl_IsMainThread() -> Bool = "SDL_IsMainThread"
 /// ```c
 /// typedef void (SDLCALL *SDL_MainThreadCallback)(void *userdata);
 /// ```
-pub typealias FuncRef[(VoidPtr) -> Unit] as SDL_MainThreadCallback
+pub type SDL_MainThreadCallback = FuncRef[(VoidPtr) -> Unit]
 
-///| Call a function on the main thread during event processing.
+///|
+/// Call a function on the main thread during event processing.
 /// 
 /// If this is called on the main thread, the callback is executed immediately.
 /// If this is called on another thread, this callback is queued for execution
@@ -379,9 +404,14 @@ pub typealias FuncRef[(VoidPtr) -> Unit] as SDL_MainThreadCallback
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RunOnMainThread(SDL_MainThreadCallback callback, void *userdata, bool wait_complete);
 /// ```
-pub extern "C" fn sdl_RunOnMainThread(callback: SDL_MainThreadCallback, userdata: VoidPtr, wait_complete: Bool) -> Bool = "SDL_RunOnMainThread"
+pub extern "C" fn sdl_RunOnMainThread(
+  callback : SDL_MainThreadCallback,
+  userdata : VoidPtr,
+  wait_complete : Bool,
+) -> Bool = "SDL_RunOnMainThread"
 
-///| Specify basic metadata about your app.
+///|
+/// Specify basic metadata about your app.
 /// 
 /// You can optionally provide metadata about your app to SDL. This is not
 /// required, but strongly encouraged.
@@ -419,16 +449,27 @@ pub extern "C" fn sdl_RunOnMainThread(callback: SDL_MainThreadCallback, userdata
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAppMetadata(const char *appname, const char *appversion, const char *appidentifier);
 /// ```
-pub fn sdl_SetAppMetadata(appname: String, appversion: String, appidentifier: String) -> Bool {
-    let appname_bytes = string_to_cbytes(appname)
-    let appversion_bytes = string_to_cbytes(appversion)
-    let appidentifier_bytes = string_to_cbytes(appidentifier)
-    __sdl_SetAppMetadata(appname_bytes, appversion_bytes, appidentifier_bytes)
+pub fn sdl_SetAppMetadata(
+  appname : String,
+  appversion : String,
+  appidentifier : String,
+) -> Bool {
+  let appname_bytes = string_to_cbytes(appname)
+  let appversion_bytes = string_to_cbytes(appversion)
+  let appidentifier_bytes = string_to_cbytes(appidentifier)
+  __sdl_SetAppMetadata(appname_bytes, appversion_bytes, appidentifier_bytes)
 }
 
-extern "C" fn __sdl_SetAppMetadata(appname: Bytes, appversion: Bytes, appidentifier: Bytes) -> Bool = "SDL_SetAppMetadata"
+///|
+#owned(appname, appversion, appidentifier)
+extern "C" fn __sdl_SetAppMetadata(
+  appname : Bytes,
+  appversion : Bytes,
+  appidentifier : Bytes,
+) -> Bool = "SDL_SetAppMetadata"
 
-///| Specify metadata about your app through a set of properties.
+///|
+/// Specify metadata about your app through a set of properties.
 /// 
 /// You can optionally provide metadata about your app to SDL. This is not
 /// required, but strongly encouraged.
@@ -491,23 +532,39 @@ extern "C" fn __sdl_SetAppMetadata(appname: Bytes, appversion: Bytes, appidentif
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetAppMetadataProperty(const char *name, const char *value);
 /// ```
-pub fn sdl_SetAppMetadataProperty(name: String, value: String) -> Bool {
-    let name_bytes = string_to_cbytes(name)
-    let value_bytes = string_to_cbytes(value)
-    __sdl_SetAppMetadataProperty(name_bytes, value_bytes)
+pub fn sdl_SetAppMetadataProperty(name : String, value : String) -> Bool {
+  let name_bytes = string_to_cbytes(name)
+  let value_bytes = string_to_cbytes(value)
+  __sdl_SetAppMetadataProperty(name_bytes, value_bytes)
 }
 
-extern "C" fn __sdl_SetAppMetadataProperty(name: Bytes, value: Bytes) -> Bool = "SDL_SetAppMetadataProperty"
+///|
+#owned(name, value)
+extern "C" fn __sdl_SetAppMetadataProperty(name : Bytes, value : Bytes) -> Bool = "SDL_SetAppMetadataProperty"
 
-pub const SDL_PROP_APP_METADATA_NAME_STRING: String = "SDL.app.metadata.name"
-pub const SDL_PROP_APP_METADATA_VERSION_STRING: String = "SDL.app.metadata.version"
-pub const SDL_PROP_APP_METADATA_IDENTIFIER_STRING: String = "SDL.app.metadata.identifier"
-pub const SDL_PROP_APP_METADATA_CREATOR_STRING: String = "SDL.app.metadata.creator"
-pub const SDL_PROP_APP_METADATA_COPYRIGHT_STRING: String = "SDL.app.metadata.copyright"
-pub const SDL_PROP_APP_METADATA_URL_STRING: String = "SDL.app.metadata.url"
-pub const SDL_PROP_APP_METADATA_TYPE_STRING: String = "SDL.app.metadata.type"
+///|
+pub const SDL_PROP_APP_METADATA_NAME_STRING : String = "SDL.app.metadata.name"
 
-///| Get metadata about your app.
+///|
+pub const SDL_PROP_APP_METADATA_VERSION_STRING : String = "SDL.app.metadata.version"
+
+///|
+pub const SDL_PROP_APP_METADATA_IDENTIFIER_STRING : String = "SDL.app.metadata.identifier"
+
+///|
+pub const SDL_PROP_APP_METADATA_CREATOR_STRING : String = "SDL.app.metadata.creator"
+
+///|
+pub const SDL_PROP_APP_METADATA_COPYRIGHT_STRING : String = "SDL.app.metadata.copyright"
+
+///|
+pub const SDL_PROP_APP_METADATA_URL_STRING : String = "SDL.app.metadata.url"
+
+///|
+pub const SDL_PROP_APP_METADATA_TYPE_STRING : String = "SDL.app.metadata.type"
+
+///|
+/// Get metadata about your app.
 /// 
 /// This returns metadata previously set using SDL_SetAppMetadata() or
 /// SDL_SetAppMetadataProperty(). See SDL_SetAppMetadataProperty() for the list
@@ -530,12 +587,14 @@ pub const SDL_PROP_APP_METADATA_TYPE_STRING: String = "SDL.app.metadata.type"
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetAppMetadataProperty(const char *name);
 /// ```
-pub fn sdl_GetAppMetadataProperty(name: String) -> String {
-    let name_bytes = string_to_cbytes(name)
-    let cstr = __sdl_GetAppMetadataProperty(name_bytes)
-    let res = cstr.to_string()
-    free_cstr(cstr)
-    res
+pub fn sdl_GetAppMetadataProperty(name : String) -> String {
+  let name_bytes = string_to_cbytes(name)
+  let cstr = __sdl_GetAppMetadataProperty(name_bytes)
+  let res = cstr.to_string()
+  free_cstr(cstr)
+  res
 }
 
-extern "C" fn __sdl_GetAppMetadataProperty(name: Bytes) -> CStr = "SDL_GetAppMetadataProperty" 
+///|
+#owned(name)
+extern "C" fn __sdl_GetAppMetadataProperty(name : Bytes) -> CStr = "SDL_GetAppMetadataProperty"

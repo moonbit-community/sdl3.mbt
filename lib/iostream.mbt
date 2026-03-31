@@ -26,7 +26,8 @@
 /// SDL_IOStream is not related to the standard C++ iostream class, other than
 /// both are abstract interfaces to read/write data.
 
-///| SDL_IOStream status, set by a read or write operation.
+///|
+/// SDL_IOStream status, set by a read or write operation.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -42,15 +43,16 @@
 /// } SDL_IOStatus;
 /// ```
 pub(all) enum SDL_IOStatus {
-    SDL_IO_STATUS_READY
-    SDL_IO_STATUS_ERROR
-    SDL_IO_STATUS_EOF
-    SDL_IO_STATUS_NOT_READY
-    SDL_IO_STATUS_READONLY
-    SDL_IO_STATUS_WRITEONLY
+  SDL_IO_STATUS_READY
+  SDL_IO_STATUS_ERROR
+  SDL_IO_STATUS_EOF
+  SDL_IO_STATUS_NOT_READY
+  SDL_IO_STATUS_READONLY
+  SDL_IO_STATUS_WRITEONLY
 }
 
-///| Possible `whence` values for SDL_IOStream seeking.
+///|
+/// Possible `whence` values for SDL_IOStream seeking.
 /// 
 /// These map to the same "whence" concept that `fseek` or `lseek` use in the
 /// standard C runtime.
@@ -66,12 +68,13 @@ pub(all) enum SDL_IOStatus {
 /// } SDL_IOWhence;
 /// ```
 pub(all) enum SDL_IOWhence {
-    SDL_IO_SEEK_SET
-    SDL_IO_SEEK_CUR
-    SDL_IO_SEEK_END
+  SDL_IO_SEEK_SET
+  SDL_IO_SEEK_CUR
+  SDL_IO_SEEK_END
 }
 
-///| The function pointers that drive an SDL_IOStream.
+///|
+/// The function pointers that drive an SDL_IOStream.
 /// 
 /// Applications can provide this struct to SDL_OpenIO() to create their own
 /// implementation of SDL_IOStream. This is not necessarily required, as SDL
@@ -158,7 +161,8 @@ pub(all) enum SDL_IOWhence {
 #external
 pub type SDL_IOStreamInterface
 
-///| The read/write operation structure.
+///|
+/// The read/write operation structure.
 /// 
 /// This operates as an opaque handle. There are several APIs to create various
 /// types of I/O streams, or an app can supply an SDL_IOStreamInterface to
@@ -173,7 +177,8 @@ pub type SDL_IOStreamInterface
 #external
 pub type SDL_IOStream
 
-///| Use this function to create a new SDL_IOStream structure for reading from
+///|
+/// Use this function to create a new SDL_IOStream structure for reading from
 /// and/or writing to a named file.
 /// 
 /// The `mode` string is treated roughly the same as in a call to the C
@@ -231,13 +236,16 @@ pub type SDL_IOStream
 /// ```c
 /// extern SDL_DECLSPEC SDL_IOStream * SDLCALL SDL_IOFromFile(const char *file, const char *mode);
 /// ```
-pub fn sdl_IOFromFile(file: String, mode: String) -> SDL_IOStream? {
-    __sdl_IOFromFile(string_to_cbytes(file), string_to_cbytes(mode))
+pub fn sdl_IOFromFile(file : String, mode : String) -> SDL_IOStream? {
+  __sdl_IOFromFile(string_to_cbytes(file), string_to_cbytes(mode))
 }
 
-extern "C" fn __sdl_IOFromFile(file: Bytes, mode: Bytes) -> SDL_IOStream? = "SDL_IOFromFile"
+///|
+#owned(file, mode)
+extern "C" fn __sdl_IOFromFile(file : Bytes, mode : Bytes) -> SDL_IOStream? = "SDL_IOFromFile"
 
-///| Use this function to prepare a read-write memory buffer for use with
+///|
+/// Use this function to prepare a read-write memory buffer for use with
 /// SDL_IOStream.
 /// 
 /// This function sets up an SDL_IOStream struct based on a memory area of a
@@ -270,9 +278,10 @@ extern "C" fn __sdl_IOFromFile(file: Bytes, mode: Bytes) -> SDL_IOStream? = "SDL
 /// ```c
 /// extern SDL_DECLSPEC SDL_IOStream * SDLCALL SDL_IOFromMem(void *mem, size_t size);
 /// ```
-pub extern "C" fn sdl_IOFromMem(mem: VoidPtr, size: UInt64) -> SDL_IOStream? = "SDL_IOFromMem"
+pub extern "C" fn sdl_IOFromMem(mem : VoidPtr, size : UInt64) -> SDL_IOStream? = "SDL_IOFromMem"
 
-///| Use this function to prepare a read-only memory buffer for use with
+///|
+/// Use this function to prepare a read-only memory buffer for use with
 /// SDL_IOStream.
 /// 
 /// This function sets up an SDL_IOStream struct based on a memory area of a
@@ -305,9 +314,13 @@ pub extern "C" fn sdl_IOFromMem(mem: VoidPtr, size: UInt64) -> SDL_IOStream? = "
 /// ```c
 /// extern SDL_DECLSPEC SDL_IOStream * SDLCALL SDL_IOFromConstMem(const void *mem, size_t size);
 /// ```
-pub extern "C" fn sdl_IOFromConstMem(mem: VoidPtr, size: UInt64) -> SDL_IOStream? = "SDL_IOFromConstMem"
+pub extern "C" fn sdl_IOFromConstMem(
+  mem : VoidPtr,
+  size : UInt64,
+) -> SDL_IOStream? = "SDL_IOFromConstMem"
 
-///| Use this function to create an SDL_IOStream that is backed by dynamically
+///|
+/// Use this function to create an SDL_IOStream that is backed by dynamically
 /// allocated memory.
 /// 
 /// This supports the following properties to provide access to the memory and
@@ -339,7 +352,8 @@ pub extern "C" fn sdl_IOFromConstMem(mem: VoidPtr, size: UInt64) -> SDL_IOStream
 /// ```
 pub extern "C" fn sdl_IOFromDynamicMem() -> SDL_IOStream? = "SDL_IOFromDynamicMem"
 
-///| Create a custom SDL_IOStream.
+///|
+/// Create a custom SDL_IOStream.
 /// 
 /// Applications do not need to use this function unless they are providing
 /// their own SDL_IOStream implementation. If you just need an SDL_IOStream to
@@ -368,9 +382,13 @@ pub extern "C" fn sdl_IOFromDynamicMem() -> SDL_IOStream? = "SDL_IOFromDynamicMe
 /// ```c
 /// extern SDL_DECLSPEC SDL_IOStream * SDLCALL SDL_OpenIO(const SDL_IOStreamInterface *iface, void *userdata);
 /// ```
-pub extern "C" fn sdl_OpenIO(iface: SDL_IOStreamInterface, userdata: VoidPtr) -> SDL_IOStream? = "SDL_OpenIO"
+pub extern "C" fn sdl_OpenIO(
+  iface : SDL_IOStreamInterface,
+  userdata : VoidPtr,
+) -> SDL_IOStream? = "SDL_OpenIO"
 
-///| Close and free an allocated SDL_IOStream structure.
+///|
+/// Close and free an allocated SDL_IOStream structure.
 /// 
 /// SDL_CloseIO() closes and cleans up the SDL_IOStream stream. It releases any
 /// resources used by the stream and frees the SDL_IOStream itself. This
@@ -402,9 +420,10 @@ pub extern "C" fn sdl_OpenIO(iface: SDL_IOStreamInterface, userdata: VoidPtr) ->
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CloseIO(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_CloseIO(context: SDL_IOStream) -> Bool = "SDL_CloseIO"
+pub extern "C" fn sdl_CloseIO(context : SDL_IOStream) -> Bool = "SDL_CloseIO"
 
-///| Get the properties associated with an SDL_IOStream.
+///|
+/// Get the properties associated with an SDL_IOStream.
 /// 
 /// @param context a pointer to an SDL_IOStream structure.
 /// @return a valid property ID on success or 0 on failure; call
@@ -417,9 +436,10 @@ pub extern "C" fn sdl_CloseIO(context: SDL_IOStream) -> Bool = "SDL_CloseIO"
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetIOProperties(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_GetIOProperties(context: SDL_IOStream) -> UInt = "SDL_GetIOProperties"
+pub extern "C" fn sdl_GetIOProperties(context : SDL_IOStream) -> UInt = "SDL_GetIOProperties"
 
-///| Query the stream status of an SDL_IOStream.
+///|
+/// Query the stream status of an SDL_IOStream.
 /// 
 /// This information can be useful to decide if a short read or write was due
 /// to an error, an EOF, or a non-blocking operation that isn't yet ready to
@@ -439,9 +459,10 @@ pub extern "C" fn sdl_GetIOProperties(context: SDL_IOStream) -> UInt = "SDL_GetI
 /// ```c
 /// extern SDL_DECLSPEC SDL_IOStatus SDLCALL SDL_GetIOStatus(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_GetIOStatus(context: SDL_IOStream) -> SDL_IOStatus = "SDL_GetIOStatus"
+pub extern "C" fn sdl_GetIOStatus(context : SDL_IOStream) -> SDL_IOStatus = "SDL_GetIOStatus"
 
-///| Use this function to get the size of the data stream in an SDL_IOStream.
+///|
+/// Use this function to get the size of the data stream in an SDL_IOStream.
 /// 
 /// @param context the SDL_IOStream to get the size of the data stream from.
 /// @return the size of the data stream in the SDL_IOStream on success or a
@@ -455,9 +476,10 @@ pub extern "C" fn sdl_GetIOStatus(context: SDL_IOStream) -> SDL_IOStatus = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC Sint64 SDLCALL SDL_GetIOSize(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_GetIOSize(context: SDL_IOStream) -> Int64 = "SDL_GetIOSize"
+pub extern "C" fn sdl_GetIOSize(context : SDL_IOStream) -> Int64 = "SDL_GetIOSize"
 
-///| Seek within an SDL_IOStream data stream.
+///|
+/// Seek within an SDL_IOStream data stream.
 /// 
 /// This function seeks to byte `offset`, relative to `whence`.
 /// 
@@ -486,9 +508,14 @@ pub extern "C" fn sdl_GetIOSize(context: SDL_IOStream) -> Int64 = "SDL_GetIOSize
 /// ```c
 /// extern SDL_DECLSPEC Sint64 SDLCALL SDL_SeekIO(SDL_IOStream *context, Sint64 offset, SDL_IOWhence whence);
 /// ```
-pub extern "C" fn sdl_SeekIO(context: SDL_IOStream, offset: Int64, whence: SDL_IOWhence) -> Int64 = "SDL_SeekIO"
+pub extern "C" fn sdl_SeekIO(
+  context : SDL_IOStream,
+  offset : Int64,
+  whence : SDL_IOWhence,
+) -> Int64 = "SDL_SeekIO"
 
-///| Determine the current read/write offset in an SDL_IOStream data stream.
+///|
+/// Determine the current read/write offset in an SDL_IOStream data stream.
 /// 
 /// SDL_TellIO is actually a wrapper function that calls the SDL_IOStream's
 /// `seek` method, with an offset of 0 bytes from `SDL_IO_SEEK_CUR`, to
@@ -508,9 +535,10 @@ pub extern "C" fn sdl_SeekIO(context: SDL_IOStream, offset: Int64, whence: SDL_I
 /// ```c
 /// extern SDL_DECLSPEC Sint64 SDLCALL SDL_TellIO(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_TellIO(context: SDL_IOStream) -> Int64 = "SDL_TellIO"
+pub extern "C" fn sdl_TellIO(context : SDL_IOStream) -> Int64 = "SDL_TellIO"
 
-///| Read from a data source.
+///|
+/// Read from a data source.
 /// 
 /// This function reads up `size` bytes from the data source to the area
 /// pointed at by `ptr`. This function may read less bytes than requested.
@@ -536,9 +564,14 @@ pub extern "C" fn sdl_TellIO(context: SDL_IOStream) -> Int64 = "SDL_TellIO"
 /// ```c
 /// extern SDL_DECLSPEC size_t SDLCALL SDL_ReadIO(SDL_IOStream *context, void *ptr, size_t size);
 /// ```
-pub extern "C" fn sdl_ReadIO(context: SDL_IOStream, ptr: VoidPtr, size: UInt64) -> UInt64 = "SDL_ReadIO"
+pub extern "C" fn sdl_ReadIO(
+  context : SDL_IOStream,
+  ptr : VoidPtr,
+  size : UInt64,
+) -> UInt64 = "SDL_ReadIO"
 
-///| Write to an SDL_IOStream data stream.
+///|
+/// Write to an SDL_IOStream data stream.
 /// 
 /// This function writes exactly `size` bytes from the area pointed at by `ptr`
 /// to the stream. If this fails for any reason, it'll return less than `size`
@@ -570,9 +603,14 @@ pub extern "C" fn sdl_ReadIO(context: SDL_IOStream, ptr: VoidPtr, size: UInt64) 
 /// ```c
 /// extern SDL_DECLSPEC size_t SDLCALL SDL_WriteIO(SDL_IOStream *context, const void *ptr, size_t size);
 /// ```
-pub extern "C" fn sdl_WriteIO(context: SDL_IOStream, ptr: VoidPtr, size: UInt64) -> UInt64 = "SDL_WriteIO"
+pub extern "C" fn sdl_WriteIO(
+  context : SDL_IOStream,
+  ptr : VoidPtr,
+  size : UInt64,
+) -> UInt64 = "SDL_WriteIO"
 
-///| Print to an SDL_IOStream data stream.
+///|
+/// Print to an SDL_IOStream data stream.
 /// 
 /// This function does formatted printing to the stream.
 /// 
@@ -593,13 +631,16 @@ pub extern "C" fn sdl_WriteIO(context: SDL_IOStream, ptr: VoidPtr, size: UInt64)
 /// ```c
 /// extern SDL_DECLSPEC size_t SDLCALL SDL_IOprintf(SDL_IOStream *context, SDL_PRINTF_FORMAT_STRING const char *fmt, ...)  SDL_PRINTF_VARARG_FUNC(2);
 /// ```
-pub fn sdl_IOprintf(context: SDL_IOStream, fmt: String) -> UInt64 {
-    __sdl_IOprintf(context, string_to_cbytes(fmt))
+pub fn sdl_IOprintf(context : SDL_IOStream, fmt : String) -> UInt64 {
+  __sdl_IOprintf(context, string_to_cbytes(fmt))
 }
 
-extern "C" fn __sdl_IOprintf(context: SDL_IOStream, fmt: Bytes) -> UInt64 = "SDL_IOprintf"
+///|
+#owned(fmt)
+extern "C" fn __sdl_IOprintf(context : SDL_IOStream, fmt : Bytes) -> UInt64 = "SDL_IOprintf"
 
-///| Flush any buffered data in the stream.
+///|
+/// Flush any buffered data in the stream.
 /// 
 /// This function makes sure that any buffered data is written to the stream.
 /// Normally this isn't necessary but if the stream is a pipe or socket it
@@ -619,9 +660,10 @@ extern "C" fn __sdl_IOprintf(context: SDL_IOStream, fmt: Bytes) -> UInt64 = "SDL
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_FlushIO(SDL_IOStream *context);
 /// ```
-pub extern "C" fn sdl_FlushIO(context: SDL_IOStream) -> Bool = "SDL_FlushIO"
+pub extern "C" fn sdl_FlushIO(context : SDL_IOStream) -> Bool = "SDL_FlushIO"
 
-///| Load all the data from an SDL data stream.
+///|
+/// Load all the data from an SDL data stream.
 /// 
 /// The data is allocated with a zero byte at the end (null terminated) for
 /// convenience. This extra byte is not included in the value reported via
@@ -647,9 +689,15 @@ pub extern "C" fn sdl_FlushIO(context: SDL_IOStream) -> Bool = "SDL_FlushIO"
 /// ```c
 /// extern SDL_DECLSPEC void * SDLCALL SDL_LoadFile_IO(SDL_IOStream *src, size_t *datasize, bool closeio);
 /// ```
-pub extern "C" fn sdl_LoadFile_IO(src: SDL_IOStream, datasize: FixedArray[UInt64], closeio: Bool) -> VoidPtr? = "SDL_LoadFile_IO"
+#owned(datasize)
+pub extern "C" fn sdl_LoadFile_IO(
+  src : SDL_IOStream,
+  datasize : FixedArray[UInt64],
+  closeio : Bool,
+) -> VoidPtr? = "SDL_LoadFile_IO"
 
-///| Load all the data from a file path.
+///|
+/// Load all the data from a file path.
 /// 
 /// The data is allocated with a zero byte at the end (null terminated) for
 /// convenience. This extra byte is not included in the value reported via
@@ -672,13 +720,19 @@ pub extern "C" fn sdl_LoadFile_IO(src: SDL_IOStream, datasize: FixedArray[UInt64
 /// ```c
 /// extern SDL_DECLSPEC void * SDLCALL SDL_LoadFile(const char *file, size_t *datasize);
 /// ```
-pub fn sdl_LoadFile(file: String, datasize: FixedArray[UInt64]) -> VoidPtr? {
-    __sdl_LoadFile(string_to_cbytes(file), datasize)
+pub fn sdl_LoadFile(file : String, datasize : FixedArray[UInt64]) -> VoidPtr? {
+  __sdl_LoadFile(string_to_cbytes(file), datasize)
 }
 
-extern "C" fn __sdl_LoadFile(file: Bytes, datasize: FixedArray[UInt64]) -> VoidPtr? = "SDL_LoadFile"
+///|
+#owned(file, datasize)
+extern "C" fn __sdl_LoadFile(
+  file : Bytes,
+  datasize : FixedArray[UInt64],
+) -> VoidPtr? = "SDL_LoadFile"
 
-///| Save all the data into an SDL data stream.
+///|
+/// Save all the data into an SDL data stream.
 /// 
 /// @param src the SDL_IOStream to write all data to.
 /// @param data the data to be written. If datasize is 0, may be NULL or a
@@ -699,9 +753,15 @@ extern "C" fn __sdl_LoadFile(file: Bytes, datasize: FixedArray[UInt64]) -> VoidP
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SaveFile_IO(SDL_IOStream *src, const void *data, size_t datasize, bool closeio);
 /// ```
-pub extern "C" fn sdl_SaveFile_IO(src: SDL_IOStream, data: VoidPtr, datasize: UInt64, closeio: Bool) -> Bool = "SDL_SaveFile_IO"
+pub extern "C" fn sdl_SaveFile_IO(
+  src : SDL_IOStream,
+  data : VoidPtr,
+  datasize : UInt64,
+  closeio : Bool,
+) -> Bool = "SDL_SaveFile_IO"
 
-///| Save all the data into a file path.
+///|
+/// Save all the data into a file path.
 /// 
 /// @param file the path to write all available data into.
 /// @param data the data to be written. If datasize is 0, may be NULL or a
@@ -720,15 +780,22 @@ pub extern "C" fn sdl_SaveFile_IO(src: SDL_IOStream, data: VoidPtr, datasize: UI
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SaveFile(const char *file, const void *data, size_t datasize);
 /// ```
-pub fn sdl_SaveFile(file: String, data: VoidPtr, datasize: UInt64) -> Bool {
-    __sdl_SaveFile(string_to_cbytes(file), data, datasize)
+pub fn sdl_SaveFile(file : String, data : VoidPtr, datasize : UInt64) -> Bool {
+  __sdl_SaveFile(string_to_cbytes(file), data, datasize)
 }
 
-extern "C" fn __sdl_SaveFile(file: Bytes, data: VoidPtr, datasize: UInt64) -> Bool = "SDL_SaveFile"
+///|
+#owned(file)
+extern "C" fn __sdl_SaveFile(
+  file : Bytes,
+  data : VoidPtr,
+  datasize : UInt64,
+) -> Bool = "SDL_SaveFile"
 
 /// Read endian functions
 
-///| Use this function to read a byte from an SDL_IOStream.
+///|
+/// Use this function to read a byte from an SDL_IOStream.
 /// 
 /// This function will return false when the data stream is completely read,
 /// and SDL_GetIOStatus() will return SDL_IO_STATUS_EOF. If false is returned
@@ -747,9 +814,14 @@ extern "C" fn __sdl_SaveFile(file: Bytes, data: VoidPtr, datasize: UInt64) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU8(SDL_IOStream *src, Uint8 *value);
 /// ```
-pub extern "C" fn sdl_ReadU8(src: SDL_IOStream, value: FixedArray[Byte]) -> Bool = "SDL_ReadU8"
+#owned(value)
+pub extern "C" fn sdl_ReadU8(
+  src : SDL_IOStream,
+  value : FixedArray[Byte],
+) -> Bool = "SDL_ReadU8"
 
-///| Use this function to read a signed byte from an SDL_IOStream.
+///|
+/// Use this function to read a signed byte from an SDL_IOStream.
 /// 
 /// This function will return false when the data stream is completely read,
 /// and SDL_GetIOStatus() will return SDL_IO_STATUS_EOF. If false is returned
@@ -768,9 +840,14 @@ pub extern "C" fn sdl_ReadU8(src: SDL_IOStream, value: FixedArray[Byte]) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS8(SDL_IOStream *src, Sint8 *value);
 /// ```
-pub extern "C" fn sdl_ReadS8(src: SDL_IOStream, value: FixedArray[Byte]) -> Bool = "SDL_ReadS8"
+#owned(value)
+pub extern "C" fn sdl_ReadS8(
+  src : SDL_IOStream,
+  value : FixedArray[Byte],
+) -> Bool = "SDL_ReadS8"
 
-///| Use this function to read 16 bits of little-endian data from an
+///|
+/// Use this function to read 16 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -793,9 +870,14 @@ pub extern "C" fn sdl_ReadS8(src: SDL_IOStream, value: FixedArray[Byte]) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU16LE(SDL_IOStream *src, Uint16 *value);
 /// ```
-pub extern "C" fn sdl_ReadU16LE(src: SDL_IOStream, value: FixedArray[UInt]) -> Bool = "SDL_ReadU16LE"
+#owned(value)
+pub extern "C" fn sdl_ReadU16LE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt],
+) -> Bool = "SDL_ReadU16LE"
 
-///| Use this function to read 16 bits of little-endian data from an
+///|
+/// Use this function to read 16 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -818,9 +900,14 @@ pub extern "C" fn sdl_ReadU16LE(src: SDL_IOStream, value: FixedArray[UInt]) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS16LE(SDL_IOStream *src, Sint16 *value);
 /// ```
-pub extern "C" fn sdl_ReadS16LE(src: SDL_IOStream, value: FixedArray[Int]) -> Bool = "SDL_ReadS16LE"
+#owned(value)
+pub extern "C" fn sdl_ReadS16LE(
+  src : SDL_IOStream,
+  value : FixedArray[Int],
+) -> Bool = "SDL_ReadS16LE"
 
-///| Use this function to read 16 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 16 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -843,9 +930,14 @@ pub extern "C" fn sdl_ReadS16LE(src: SDL_IOStream, value: FixedArray[Int]) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU16BE(SDL_IOStream *src, Uint16 *value);
 /// ```
-pub extern "C" fn sdl_ReadU16BE(src: SDL_IOStream, value: FixedArray[UInt]) -> Bool = "SDL_ReadU16BE"
+#owned(value)
+pub extern "C" fn sdl_ReadU16BE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt],
+) -> Bool = "SDL_ReadU16BE"
 
-///| Use this function to read 16 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 16 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -868,9 +960,14 @@ pub extern "C" fn sdl_ReadU16BE(src: SDL_IOStream, value: FixedArray[UInt]) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS16BE(SDL_IOStream *src, Sint16 *value);
 /// ```
-pub extern "C" fn sdl_ReadS16BE(src: SDL_IOStream, value: FixedArray[Int]) -> Bool = "SDL_ReadS16BE"
+#owned(value)
+pub extern "C" fn sdl_ReadS16BE(
+  src : SDL_IOStream,
+  value : FixedArray[Int],
+) -> Bool = "SDL_ReadS16BE"
 
-///| Use this function to read 32 bits of little-endian data from an
+///|
+/// Use this function to read 32 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -893,9 +990,14 @@ pub extern "C" fn sdl_ReadS16BE(src: SDL_IOStream, value: FixedArray[Int]) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU32LE(SDL_IOStream *src, Uint32 *value);
 /// ```
-pub extern "C" fn sdl_ReadU32LE(src: SDL_IOStream, value: FixedArray[UInt]) -> Bool = "SDL_ReadU32LE"
+#owned(value)
+pub extern "C" fn sdl_ReadU32LE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt],
+) -> Bool = "SDL_ReadU32LE"
 
-///| Use this function to read 32 bits of little-endian data from an
+///|
+/// Use this function to read 32 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -918,9 +1020,14 @@ pub extern "C" fn sdl_ReadU32LE(src: SDL_IOStream, value: FixedArray[UInt]) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS32LE(SDL_IOStream *src, Sint32 *value);
 /// ```
-pub extern "C" fn sdl_ReadS32LE(src: SDL_IOStream, value: FixedArray[Int]) -> Bool = "SDL_ReadS32LE"
+#owned(value)
+pub extern "C" fn sdl_ReadS32LE(
+  src : SDL_IOStream,
+  value : FixedArray[Int],
+) -> Bool = "SDL_ReadS32LE"
 
-///| Use this function to read 32 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 32 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -943,9 +1050,14 @@ pub extern "C" fn sdl_ReadS32LE(src: SDL_IOStream, value: FixedArray[Int]) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU32BE(SDL_IOStream *src, Uint32 *value);
 /// ```
-pub extern "C" fn sdl_ReadU32BE(src: SDL_IOStream, value: FixedArray[UInt]) -> Bool = "SDL_ReadU32BE"
+#owned(value)
+pub extern "C" fn sdl_ReadU32BE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt],
+) -> Bool = "SDL_ReadU32BE"
 
-///| Use this function to read 32 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 32 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -968,9 +1080,14 @@ pub extern "C" fn sdl_ReadU32BE(src: SDL_IOStream, value: FixedArray[UInt]) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS32BE(SDL_IOStream *src, Sint32 *value);
 /// ```
-pub extern "C" fn sdl_ReadS32BE(src: SDL_IOStream, value: FixedArray[Int]) -> Bool = "SDL_ReadS32BE"
+#owned(value)
+pub extern "C" fn sdl_ReadS32BE(
+  src : SDL_IOStream,
+  value : FixedArray[Int],
+) -> Bool = "SDL_ReadS32BE"
 
-///| Use this function to read 64 bits of little-endian data from an
+///|
+/// Use this function to read 64 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -993,9 +1110,14 @@ pub extern "C" fn sdl_ReadS32BE(src: SDL_IOStream, value: FixedArray[Int]) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU64LE(SDL_IOStream *src, Uint64 *value);
 /// ```
-pub extern "C" fn sdl_ReadU64LE(src: SDL_IOStream, value: FixedArray[UInt64]) -> Bool = "SDL_ReadU64LE"
+#owned(value)
+pub extern "C" fn sdl_ReadU64LE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt64],
+) -> Bool = "SDL_ReadU64LE"
 
-///| Use this function to read 64 bits of little-endian data from an
+///|
+/// Use this function to read 64 bits of little-endian data from an
 /// SDL_IOStream and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -1018,9 +1140,14 @@ pub extern "C" fn sdl_ReadU64LE(src: SDL_IOStream, value: FixedArray[UInt64]) ->
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS64LE(SDL_IOStream *src, Sint64 *value);
 /// ```
-pub extern "C" fn sdl_ReadS64LE(src: SDL_IOStream, value: FixedArray[Int64]) -> Bool = "SDL_ReadS64LE"
+#owned(value)
+pub extern "C" fn sdl_ReadS64LE(
+  src : SDL_IOStream,
+  value : FixedArray[Int64],
+) -> Bool = "SDL_ReadS64LE"
 
-///| Use this function to read 64 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 64 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -1043,9 +1170,14 @@ pub extern "C" fn sdl_ReadS64LE(src: SDL_IOStream, value: FixedArray[Int64]) -> 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadU64BE(SDL_IOStream *src, Uint64 *value);
 /// ```
-pub extern "C" fn sdl_ReadU64BE(src: SDL_IOStream, value: FixedArray[UInt64]) -> Bool = "SDL_ReadU64BE"
+#owned(value)
+pub extern "C" fn sdl_ReadU64BE(
+  src : SDL_IOStream,
+  value : FixedArray[UInt64],
+) -> Bool = "SDL_ReadU64BE"
 
-///| Use this function to read 64 bits of big-endian data from an SDL_IOStream
+///|
+/// Use this function to read 64 bits of big-endian data from an SDL_IOStream
 /// and return in native format.
 /// 
 /// SDL byteswaps the data only if necessary, so the data returned will be in
@@ -1068,11 +1200,16 @@ pub extern "C" fn sdl_ReadU64BE(src: SDL_IOStream, value: FixedArray[UInt64]) ->
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadS64BE(SDL_IOStream *src, Sint64 *value);
 /// ```
-pub extern "C" fn sdl_ReadS64BE(src: SDL_IOStream, value: FixedArray[Int64]) -> Bool = "SDL_ReadS64BE"
+#owned(value)
+pub extern "C" fn sdl_ReadS64BE(
+  src : SDL_IOStream,
+  value : FixedArray[Int64],
+) -> Bool = "SDL_ReadS64BE"
 
 /// Write endian functions
 
-///| Use this function to write a byte to an SDL_IOStream.
+///|
+/// Use this function to write a byte to an SDL_IOStream.
 /// 
 /// @param dst the SDL_IOStream to write to.
 /// @param value the byte value to write.
@@ -1086,9 +1223,10 @@ pub extern "C" fn sdl_ReadS64BE(src: SDL_IOStream, value: FixedArray[Int64]) -> 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU8(SDL_IOStream *dst, Uint8 value);
 /// ```
-pub extern "C" fn sdl_WriteU8(dst: SDL_IOStream, value: Byte) -> Bool = "SDL_WriteU8"
+pub extern "C" fn sdl_WriteU8(dst : SDL_IOStream, value : Byte) -> Bool = "SDL_WriteU8"
 
-///| Use this function to write a signed byte to an SDL_IOStream.
+///|
+/// Use this function to write a signed byte to an SDL_IOStream.
 /// 
 /// @param dst the SDL_IOStream to write to.
 /// @param value the byte value to write.
@@ -1102,9 +1240,10 @@ pub extern "C" fn sdl_WriteU8(dst: SDL_IOStream, value: Byte) -> Bool = "SDL_Wri
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS8(SDL_IOStream *dst, Sint8 value);
 /// ```
-pub extern "C" fn sdl_WriteS8(dst: SDL_IOStream, value: Byte) -> Bool = "SDL_WriteS8"
+pub extern "C" fn sdl_WriteS8(dst : SDL_IOStream, value : Byte) -> Bool = "SDL_WriteS8"
 
-///| Use this function to write 16 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 16 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1123,9 +1262,10 @@ pub extern "C" fn sdl_WriteS8(dst: SDL_IOStream, value: Byte) -> Bool = "SDL_Wri
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU16LE(SDL_IOStream *dst, Uint16 value);
 /// ```
-pub extern "C" fn sdl_WriteU16LE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_WriteU16LE"
+pub extern "C" fn sdl_WriteU16LE(dst : SDL_IOStream, value : UInt) -> Bool = "SDL_WriteU16LE"
 
-///| Use this function to write 16 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 16 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1144,9 +1284,10 @@ pub extern "C" fn sdl_WriteU16LE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS16LE(SDL_IOStream *dst, Sint16 value);
 /// ```
-pub extern "C" fn sdl_WriteS16LE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_WriteS16LE"
+pub extern "C" fn sdl_WriteS16LE(dst : SDL_IOStream, value : Int) -> Bool = "SDL_WriteS16LE"
 
-///| Use this function to write 16 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 16 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1164,9 +1305,10 @@ pub extern "C" fn sdl_WriteS16LE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_W
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU16BE(SDL_IOStream *dst, Uint16 value);
 /// ```
-pub extern "C" fn sdl_WriteU16BE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_WriteU16BE"
+pub extern "C" fn sdl_WriteU16BE(dst : SDL_IOStream, value : UInt) -> Bool = "SDL_WriteU16BE"
 
-///| Use this function to write 16 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 16 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1184,9 +1326,10 @@ pub extern "C" fn sdl_WriteU16BE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS16BE(SDL_IOStream *dst, Sint16 value);
 /// ```
-pub extern "C" fn sdl_WriteS16BE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_WriteS16BE"
+pub extern "C" fn sdl_WriteS16BE(dst : SDL_IOStream, value : Int) -> Bool = "SDL_WriteS16BE"
 
-///| Use this function to write 32 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 32 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1205,9 +1348,10 @@ pub extern "C" fn sdl_WriteS16BE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_W
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU32LE(SDL_IOStream *dst, Uint32 value);
 /// ```
-pub extern "C" fn sdl_WriteU32LE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_WriteU32LE"
+pub extern "C" fn sdl_WriteU32LE(dst : SDL_IOStream, value : UInt) -> Bool = "SDL_WriteU32LE"
 
-///| Use this function to write 32 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 32 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1226,9 +1370,10 @@ pub extern "C" fn sdl_WriteU32LE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS32LE(SDL_IOStream *dst, Sint32 value);
 /// ```
-pub extern "C" fn sdl_WriteS32LE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_WriteS32LE"
+pub extern "C" fn sdl_WriteS32LE(dst : SDL_IOStream, value : Int) -> Bool = "SDL_WriteS32LE"
 
-///| Use this function to write 32 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 32 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1246,9 +1391,10 @@ pub extern "C" fn sdl_WriteS32LE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_W
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU32BE(SDL_IOStream *dst, Uint32 value);
 /// ```
-pub extern "C" fn sdl_WriteU32BE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_WriteU32BE"
+pub extern "C" fn sdl_WriteU32BE(dst : SDL_IOStream, value : UInt) -> Bool = "SDL_WriteU32BE"
 
-///| Use this function to write 32 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 32 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1266,9 +1412,10 @@ pub extern "C" fn sdl_WriteU32BE(dst: SDL_IOStream, value: UInt) -> Bool = "SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS32BE(SDL_IOStream *dst, Sint32 value);
 /// ```
-pub extern "C" fn sdl_WriteS32BE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_WriteS32BE"
+pub extern "C" fn sdl_WriteS32BE(dst : SDL_IOStream, value : Int) -> Bool = "SDL_WriteS32BE"
 
-///| Use this function to write 64 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 64 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1287,9 +1434,10 @@ pub extern "C" fn sdl_WriteS32BE(dst: SDL_IOStream, value: Int) -> Bool = "SDL_W
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU64LE(SDL_IOStream *dst, Uint64 value);
 /// ```
-pub extern "C" fn sdl_WriteU64LE(dst: SDL_IOStream, value: UInt64) -> Bool = "SDL_WriteU64LE"
+pub extern "C" fn sdl_WriteU64LE(dst : SDL_IOStream, value : UInt64) -> Bool = "SDL_WriteU64LE"
 
-///| Use this function to write 64 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 64 bits in native format to an SDL_IOStream as
 /// little-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1308,9 +1456,10 @@ pub extern "C" fn sdl_WriteU64LE(dst: SDL_IOStream, value: UInt64) -> Bool = "SD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS64LE(SDL_IOStream *dst, Sint64 value);
 /// ```
-pub extern "C" fn sdl_WriteS64LE(dst: SDL_IOStream, value: Int64) -> Bool = "SDL_WriteS64LE"
+pub extern "C" fn sdl_WriteS64LE(dst : SDL_IOStream, value : Int64) -> Bool = "SDL_WriteS64LE"
 
-///| Use this function to write 64 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 64 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1328,9 +1477,10 @@ pub extern "C" fn sdl_WriteS64LE(dst: SDL_IOStream, value: Int64) -> Bool = "SDL
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteU64BE(SDL_IOStream *dst, Uint64 value);
 /// ```
-pub extern "C" fn sdl_WriteU64BE(dst: SDL_IOStream, value: UInt64) -> Bool = "SDL_WriteU64BE"
+pub extern "C" fn sdl_WriteU64BE(dst : SDL_IOStream, value : UInt64) -> Bool = "SDL_WriteU64BE"
 
-///| Use this function to write 64 bits in native format to an SDL_IOStream as
+///|
+/// Use this function to write 64 bits in native format to an SDL_IOStream as
 /// big-endian data.
 /// 
 /// SDL byteswaps the data only if necessary, so the application always
@@ -1348,4 +1498,4 @@ pub extern "C" fn sdl_WriteU64BE(dst: SDL_IOStream, value: UInt64) -> Bool = "SD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteS64BE(SDL_IOStream *dst, Sint64 value);
 /// ```
-pub extern "C" fn sdl_WriteS64BE(dst: SDL_IOStream, value: Int64) -> Bool = "SDL_WriteS64BE" 
+pub extern "C" fn sdl_WriteS64BE(dst : SDL_IOStream, value : Int64) -> Bool = "SDL_WriteS64BE"

@@ -17,6 +17,7 @@
 ///    misrepresented as being the original software.
 /// 3. This notice may not be removed or altered from any source distribution.
 
+///|
 /// # CategoryRender
 ///
 /// Header file for SDL 2D rendering functions.
@@ -42,20 +43,23 @@
 ///
 /// These functions must be called from the main thread. See this bug for
 /// details: https://github.com/libsdl-org/SDL/issues/986
-
 #external
 pub type SDL_Renderer
 
-pub fn SDL_Renderer::is_null(self: Self) -> Bool {
+///|
+pub fn SDL_Renderer::is_null(self : Self) -> Bool {
   is_nullptr(self)
 }
 
+///|
 #external
 pub type SDL_Texture
 
+///|
 pub const SDL_SOFTWARE_RENDERER = "software"
 
-///| Vertex structure.
+///|
+/// Vertex structure.
 ///
 /// @since This struct is available since SDL 3.2.0.
 ///
@@ -68,12 +72,13 @@ pub const SDL_SOFTWARE_RENDERER = "software"
 /// } SDL_Vertex;
 /// ```
 pub(all) struct SDL_Vertex {
-  position: SDL_FPoint
-  color: SDL_FColor
-  tex_coord: SDL_FPoint
+  position : SDL_FPoint
+  color : SDL_FColor
+  tex_coord : SDL_FPoint
 }
 
-///| The access pattern allowed for a texture.
+///|
+/// The access pattern allowed for a texture.
 ///
 /// @since This enum is available since SDL 3.2.0.
 ///
@@ -91,7 +96,8 @@ pub(all) enum SDL_TextureAccess {
   SDL_TEXTUREACCESS_TARGET
 }
 
-///| The addressing mode for a texture when used in SDL_RenderGeometry().
+///|
+/// The addressing mode for a texture when used in SDL_RenderGeometry().
 ///
 /// This affects how texture coordinates are interpreted outside of [0, 1]
 ///
@@ -113,7 +119,8 @@ pub(all) enum SDL_TextureAddressMode {
   SDL_TEXTURE_ADDRESS_INVALID = 0xffff_ffff
 }
 
-///| How the logical size is mapped to the output.
+///|
+/// How the logical size is mapped to the output.
 ///
 /// @since This enum is available since SDL 3.2.0.
 ///
@@ -135,7 +142,8 @@ pub(all) enum SDL_RendererLogicalPresentation {
   SDL_LOGICAL_PRESENTATION_INTEGER_SCALE
 }
 
-///| Get the number of 2D rendering drivers available for the current display.
+///|
+/// Get the number of 2D rendering drivers available for the current display.
 ///
 /// A render driver is a set of code that handles rendering and texture
 /// management on a particular display. Normally there is only one, but some
@@ -157,7 +165,8 @@ pub(all) enum SDL_RendererLogicalPresentation {
 /// ```
 pub extern "C" fn sdl_GetNumRenderDrivers() -> Int = "SDL_GetNumRenderDrivers"
 
-///| Use this function to get the name of a built in 2D rendering driver.
+///|
+/// Use this function to get the name of a built in 2D rendering driver.
 ///
 /// The list of rendering drivers is given in the order that they are normally
 /// initialized by default; the drivers that seem more reasonable to choose
@@ -181,16 +190,18 @@ pub extern "C" fn sdl_GetNumRenderDrivers() -> Int = "SDL_GetNumRenderDrivers"
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetRenderDriver(int index);
 /// ```
-pub fn sdl_GetRenderDriver(index: Int) -> String {
+pub fn sdl_GetRenderDriver(index : Int) -> String {
   let cstr = __SDL_GetRenderDriver(index)
   let res = cstr.to_string()
   free_cstr(cstr)
   res
 }
 
-pub extern "C" fn __SDL_GetRenderDriver(index: Int) -> CStr = "SDL_GetRenderDriver"
+///|
+pub extern "C" fn __SDL_GetRenderDriver(index : Int) -> CStr = "SDL_GetRenderDriver"
 
-///| Create a window and default renderer.
+///|
+/// Create a window and default renderer.
 ///
 /// @param title the title of the window, in UTF-8 encoding.
 /// @param width the width of the window.
@@ -212,14 +223,33 @@ pub extern "C" fn __SDL_GetRenderDriver(index: Int) -> CStr = "SDL_GetRenderDriv
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_CreateWindowAndRenderer(const char *title, int width, int height, SDL_WindowFlags window_flags, SDL_Window **window, SDL_Renderer **renderer);
 /// ```
-pub fn sdl_CreateWindowAndRenderer(title: String, width: Int, height: Int, window_flags: SDL_WindowFlags, window: FixedArray[SDL_Window], renderer: FixedArray[SDL_Renderer]) -> Bool {
-    let c_title = string_to_cbytes(title)
-    __SDL_CreateWindowAndRenderer(c_title, width, height, window_flags, window, renderer)
+pub fn sdl_CreateWindowAndRenderer(
+  title : String,
+  width : Int,
+  height : Int,
+  window_flags : SDL_WindowFlags,
+  window : FixedArray[SDL_Window],
+  renderer : FixedArray[SDL_Renderer],
+) -> Bool {
+  let c_title = string_to_cbytes(title)
+  __SDL_CreateWindowAndRenderer(
+    c_title, width, height, window_flags, window, renderer,
+  )
 }
 
-pub extern "C" fn __SDL_CreateWindowAndRenderer(title: Bytes, width: Int, height: Int, window_flags: SDL_WindowFlags, window: FixedArray[SDL_Window], renderer: FixedArray[SDL_Renderer]) -> Bool = "SDL_CreateWindowAndRenderer"
+///|
+#owned(title, window, renderer)
+pub extern "C" fn __SDL_CreateWindowAndRenderer(
+  title : Bytes,
+  width : Int,
+  height : Int,
+  window_flags : SDL_WindowFlags,
+  window : FixedArray[SDL_Window],
+  renderer : FixedArray[SDL_Renderer],
+) -> Bool = "SDL_CreateWindowAndRenderer"
 
-///| Create a 2D rendering context for a window.
+///|
+/// Create a 2D rendering context for a window.
 ///
 /// If you want a specific renderer, you can specify its name here. A list of
 /// available renderers can be obtained by calling SDL_GetRenderDriver()
@@ -254,14 +284,20 @@ pub extern "C" fn __SDL_CreateWindowAndRenderer(title: Bytes, width: Int, height
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_CreateRenderer(SDL_Window *window, const char *name);
 /// ```
-pub fn sdl_CreateRenderer(window: SDL_Window, name: String) -> SDL_Renderer {
-    let c_name = string_to_cbytes(name)
-    __SDL_CreateRenderer(window, c_name)
+pub fn sdl_CreateRenderer(window : SDL_Window, name : String) -> SDL_Renderer {
+  let c_name = string_to_cbytes(name)
+  __SDL_CreateRenderer(window, c_name)
 }
 
-pub extern "C" fn __SDL_CreateRenderer(window: SDL_Window, name: Bytes) -> SDL_Renderer = "SDL_CreateRenderer"
+///|
+#owned(name)
+pub extern "C" fn __SDL_CreateRenderer(
+  window : SDL_Window,
+  name : Bytes,
+) -> SDL_Renderer = "SDL_CreateRenderer"
 
-///| Create a 2D rendering context for a window, with the specified properties.
+///|
+/// Create a 2D rendering context for a window, with the specified properties.
 ///
 /// These are the supported properties:
 ///
@@ -323,25 +359,56 @@ pub extern "C" fn __SDL_CreateRenderer(window: SDL_Window, name: Bytes) -> SDL_R
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_CreateRendererWithProperties(SDL_PropertiesID props);
 /// ```
-pub extern "C" fn sdl_CreateRendererWithProperties(props: SDL_PropertiesID) -> SDL_Renderer = "SDL_CreateRendererWithProperties"
+pub extern "C" fn sdl_CreateRendererWithProperties(
+  props : SDL_PropertiesID,
+) -> SDL_Renderer = "SDL_CreateRendererWithProperties"
 
+///|
 pub const SDL_PROP_RENDERER_CREATE_NAME_STRING = "SDL.renderer.create.name"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_WINDOW_POINTER = "SDL.renderer.create.window"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_SURFACE_POINTER = "SDL.renderer.create.surface"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER = "SDL.renderer.create.output_colorspace"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER = "SDL.renderer.create.present_vsync"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN = "SDL.renderer.create.gpu.shaders_spirv"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN = "SDL.renderer.create.gpu.shaders_dxil"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN = "SDL.renderer.create.gpu.shaders_msl"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER = "SDL.renderer.create.vulkan.instance"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER = "SDL.renderer.create.vulkan.surface"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER = "SDL.renderer.create.vulkan.physical_device"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_DEVICE_POINTER = "SDL.renderer.create.vulkan.device"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER = "SDL.renderer.create.vulkan.graphics_queue_family_index"
+
+///|
 pub const SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER = "SDL.renderer.create.vulkan.present_queue_family_index"
 
 ///| Create a 2D GPU rendering context for a window, with support for the
-///| specified shader format.
+
+///|
+/// specified shader format.
 ///
 /// This is a convenience function to create a SDL GPU backed renderer,
 /// intended to be used with SDL_GPURenderState. The resulting renderer will
@@ -371,9 +438,15 @@ pub const SDL_PROP_RENDERER_CREATE_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER = "S
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_CreateGPURenderer(SDL_Window *window, SDL_GPUShaderFormat format_flags, SDL_GPUDevice **device);
 /// ```
-pub extern "C" fn sdl_CreateGPURenderer(window: SDL_Window, format_flags: SDL_GPUShaderFormat, device: FixedArray[SDL_GPUDevice]) -> SDL_Renderer = "SDL_CreateGPURenderer"
+#owned(device)
+pub extern "C" fn sdl_CreateGPURenderer(
+  window : SDL_Window,
+  format_flags : SDL_GPUShaderFormat,
+  device : FixedArray[SDL_GPUDevice],
+) -> SDL_Renderer = "SDL_CreateGPURenderer"
 
-///| Create a 2D software rendering context for a surface.
+///|
+/// Create a 2D software rendering context for a surface.
 ///
 /// Two other API which can be used to create SDL_Renderer:
 /// SDL_CreateRenderer() and SDL_CreateWindowAndRenderer(). These can _also_
@@ -394,9 +467,12 @@ pub extern "C" fn sdl_CreateGPURenderer(window: SDL_Window, format_flags: SDL_GP
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_CreateSoftwareRenderer(SDL_Surface *surface);
 /// ```
-pub extern "C" fn sdl_CreateSoftwareRenderer(surface: SDL_Surface) -> SDL_Renderer = "SDL_CreateSoftwareRenderer"
+pub extern "C" fn sdl_CreateSoftwareRenderer(
+  surface : SDL_Surface,
+) -> SDL_Renderer = "SDL_CreateSoftwareRenderer"
 
-///| Get the renderer associated with a window.
+///|
+/// Get the renderer associated with a window.
 ///
 /// @param window the window to query.
 /// @return the rendering context on success or NULL on failure; call
@@ -409,9 +485,10 @@ pub extern "C" fn sdl_CreateSoftwareRenderer(surface: SDL_Surface) -> SDL_Render
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_GetRenderer(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetRenderer(window: SDL_Window) -> SDL_Renderer = "SDL_GetRenderer"
+pub extern "C" fn sdl_GetRenderer(window : SDL_Window) -> SDL_Renderer = "SDL_GetRenderer"
 
-///| Get the window associated with a renderer.
+///|
+/// Get the window associated with a renderer.
 ///
 /// @param renderer the renderer to query.
 /// @return the window on success or NULL on failure; call SDL_GetError() for
@@ -424,9 +501,10 @@ pub extern "C" fn sdl_GetRenderer(window: SDL_Window) -> SDL_Renderer = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetRenderWindow(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_GetRenderWindow(renderer: SDL_Renderer) -> SDL_Window = "SDL_GetRenderWindow"
+pub extern "C" fn sdl_GetRenderWindow(renderer : SDL_Renderer) -> SDL_Window = "SDL_GetRenderWindow"
 
-///| Get the name of a renderer.
+///|
+/// Get the name of a renderer.
 ///
 /// @param renderer the rendering context.
 /// @return the name of the selected renderer, or NULL on failure; call
@@ -442,16 +520,18 @@ pub extern "C" fn sdl_GetRenderWindow(renderer: SDL_Renderer) -> SDL_Window = "S
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetRendererName(SDL_Renderer *renderer);
 /// ```
-pub fn sdl_GetRendererName(renderer: SDL_Renderer) -> String {
-    let cstr = __SDL_GetRendererName(renderer)
-    let res = cstr.to_string()
-    free_cstr(cstr)
-    res
+pub fn sdl_GetRendererName(renderer : SDL_Renderer) -> String {
+  let cstr = __SDL_GetRendererName(renderer)
+  let res = cstr.to_string()
+  free_cstr(cstr)
+  res
 }
 
-pub extern "C" fn __SDL_GetRendererName(renderer: SDL_Renderer) -> CStr = "SDL_GetRendererName"
+///|
+pub extern "C" fn __SDL_GetRendererName(renderer : SDL_Renderer) -> CStr = "SDL_GetRendererName"
 
-///| Get the properties associated with a renderer.
+///|
+/// Get the properties associated with a renderer.
 ///
 /// The following read-only properties are provided by SDL:
 ///
@@ -537,34 +617,84 @@ pub extern "C" fn __SDL_GetRendererName(renderer: SDL_Renderer) -> CStr = "SDL_G
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetRendererProperties(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_GetRendererProperties(renderer: SDL_Renderer) -> SDL_PropertiesID = "SDL_GetRendererProperties"
+pub extern "C" fn sdl_GetRendererProperties(
+  renderer : SDL_Renderer,
+) -> SDL_PropertiesID = "SDL_GetRendererProperties"
 
+///|
 pub const SDL_PROP_RENDERER_NAME_STRING = "SDL.renderer.name"
+
+///|
 pub const SDL_PROP_RENDERER_WINDOW_POINTER = "SDL.renderer.window"
+
+///|
 pub const SDL_PROP_RENDERER_SURFACE_POINTER = "SDL.renderer.surface"
+
+///|
 pub const SDL_PROP_RENDERER_VSYNC_NUMBER = "SDL.renderer.vsync"
+
+///|
 pub const SDL_PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER = "SDL.renderer.max_texture_size"
+
+///|
 pub const SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER = "SDL.renderer.texture_formats"
+
+///|
 pub const SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER = "SDL.renderer.output_colorspace"
+
+///|
 pub const SDL_PROP_RENDERER_HDR_ENABLED_BOOLEAN = "SDL.renderer.HDR_enabled"
+
+///|
 pub const SDL_PROP_RENDERER_SDR_WHITE_POINT_FLOAT = "SDL.renderer.SDR_white_point"
+
+///|
 pub const SDL_PROP_RENDERER_HDR_HEADROOM_FLOAT = "SDL.renderer.HDR_headroom"
+
+///|
 pub const SDL_PROP_RENDERER_D3D9_DEVICE_POINTER = "SDL.renderer.d3d9.device"
+
+///|
 pub const SDL_PROP_RENDERER_D3D11_DEVICE_POINTER = "SDL.renderer.d3d11.device"
+
+///|
 pub const SDL_PROP_RENDERER_D3D11_SWAPCHAIN_POINTER = "SDL.renderer.d3d11.swap_chain"
+
+///|
 pub const SDL_PROP_RENDERER_D3D12_DEVICE_POINTER = "SDL.renderer.d3d12.device"
+
+///|
 pub const SDL_PROP_RENDERER_D3D12_SWAPCHAIN_POINTER = "SDL.renderer.d3d12.swap_chain"
+
+///|
 pub const SDL_PROP_RENDERER_D3D12_COMMAND_QUEUE_POINTER = "SDL.renderer.d3d12.command_queue"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_INSTANCE_POINTER = "SDL.renderer.vulkan.instance"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_SURFACE_NUMBER = "SDL.renderer.vulkan.surface"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_PHYSICAL_DEVICE_POINTER = "SDL.renderer.vulkan.physical_device"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_DEVICE_POINTER = "SDL.renderer.vulkan.device"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_GRAPHICS_QUEUE_FAMILY_INDEX_NUMBER = "SDL.renderer.vulkan.graphics_queue_family_index"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_PRESENT_QUEUE_FAMILY_INDEX_NUMBER = "SDL.renderer.vulkan.present_queue_family_index"
+
+///|
 pub const SDL_PROP_RENDERER_VULKAN_SWAPCHAIN_IMAGE_COUNT_NUMBER = "SDL.renderer.vulkan.swapchain_image_count"
+
+///|
 pub const SDL_PROP_RENDERER_GPU_DEVICE_POINTER = "SDL.renderer.gpu.device"
 
-///| Get the output size in pixels of a rendering context.
+///|
+/// Get the output size in pixels of a rendering context.
 ///
 /// This returns the true output size in pixels, ignoring any render targets or
 /// logical size and presentation.
@@ -587,9 +717,15 @@ pub const SDL_PROP_RENDERER_GPU_DEVICE_POINTER = "SDL.renderer.gpu.device"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderOutputSize(SDL_Renderer *renderer, int *w, int *h);
 /// ```
-pub extern "C" fn sdl_GetRenderOutputSize(renderer: SDL_Renderer, w: FixedArray[Int], h: FixedArray[Int]) -> Bool = "SDL_GetRenderOutputSize"
+#owned(w, h)
+pub extern "C" fn sdl_GetRenderOutputSize(
+  renderer : SDL_Renderer,
+  w : FixedArray[Int],
+  h : FixedArray[Int],
+) -> Bool = "SDL_GetRenderOutputSize"
 
-///| Get the current output size in pixels of a rendering context.
+///|
+/// Get the current output size in pixels of a rendering context.
 ///
 /// If a rendering target is active, this will return the size of the rendering
 /// target in pixels, otherwise return the value of SDL_GetRenderOutputSize().
@@ -612,9 +748,15 @@ pub extern "C" fn sdl_GetRenderOutputSize(renderer: SDL_Renderer, w: FixedArray[
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetCurrentRenderOutputSize(SDL_Renderer *renderer, int *w, int *h);
 /// ```
-pub extern "C" fn sdl_GetCurrentRenderOutputSize(renderer: SDL_Renderer, w: FixedArray[Int], h: FixedArray[Int]) -> Bool = "SDL_GetCurrentRenderOutputSize"
+#owned(w, h)
+pub extern "C" fn sdl_GetCurrentRenderOutputSize(
+  renderer : SDL_Renderer,
+  w : FixedArray[Int],
+  h : FixedArray[Int],
+) -> Bool = "SDL_GetCurrentRenderOutputSize"
 
-///| Create a texture for a rendering context.
+///|
+/// Create a texture for a rendering context.
 ///
 /// The contents of a texture when first created are not defined.
 ///
@@ -639,9 +781,16 @@ pub extern "C" fn sdl_GetCurrentRenderOutputSize(renderer: SDL_Renderer, w: Fixe
 /// ```c
 /// extern SDL_DECLSPEC SDL_Texture * SDLCALL SDL_CreateTexture(SDL_Renderer *renderer, SDL_PixelFormat format, SDL_TextureAccess access, int w, int h);
 /// ```
-pub extern "C" fn sdl_CreateTexture(renderer: SDL_Renderer, format: SDL_PixelFormat, access: SDL_TextureAccess, w: Int, h: Int) -> SDL_Texture = "SDL_CreateTexture"
+pub extern "C" fn sdl_CreateTexture(
+  renderer : SDL_Renderer,
+  format : SDL_PixelFormat,
+  access : SDL_TextureAccess,
+  w : Int,
+  h : Int,
+) -> SDL_Texture = "SDL_CreateTexture"
 
-///| Create a texture from an existing surface.
+///|
+/// Create a texture from an existing surface.
 ///
 /// The surface is not modified or freed by this function.
 ///
@@ -669,9 +818,13 @@ pub extern "C" fn sdl_CreateTexture(renderer: SDL_Renderer, format: SDL_PixelFor
 /// ```c
 /// extern SDL_DECLSPEC SDL_Texture * SDLCALL SDL_CreateTextureFromSurface(SDL_Renderer *renderer, SDL_Surface *surface);
 /// ```
-pub extern "C" fn sdl_CreateTextureFromSurface(renderer: SDL_Renderer, surface: SDL_Surface) -> SDL_Texture = "SDL_CreateTextureFromSurface"
+pub extern "C" fn sdl_CreateTextureFromSurface(
+  renderer : SDL_Renderer,
+  surface : SDL_Surface,
+) -> SDL_Texture = "SDL_CreateTextureFromSurface"
 
-///| Create a texture for a rendering context with the specified properties.
+///|
+/// Create a texture for a rendering context with the specified properties.
 ///
 /// These are the supported properties:
 ///
@@ -783,33 +936,82 @@ pub extern "C" fn sdl_CreateTextureFromSurface(renderer: SDL_Renderer, surface: 
 /// ```c
 /// extern SDL_DECLSPEC SDL_Texture * SDLCALL SDL_CreateTextureWithProperties(SDL_Renderer *renderer, SDL_PropertiesID props);
 /// ```
-pub extern "C" fn sdl_CreateTextureWithProperties(renderer: SDL_Renderer, props: SDL_PropertiesID) -> SDL_Texture = "SDL_CreateTextureWithProperties"
+pub extern "C" fn sdl_CreateTextureWithProperties(
+  renderer : SDL_Renderer,
+  props : SDL_PropertiesID,
+) -> SDL_Texture = "SDL_CreateTextureWithProperties"
 
+///|
 pub const SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER = "SDL.texture.create.colorspace"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER = "SDL.texture.create.format"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER = "SDL.texture.create.access"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER = "SDL.texture.create.width"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER = "SDL.texture.create.height"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT = "SDL.texture.create.SDR_white_point"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT = "SDL.texture.create.HDR_headroom"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER = "SDL.texture.create.d3d11.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER = "SDL.texture.create.d3d11.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER = "SDL.texture.create.d3d11.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER = "SDL.texture.create.d3d12.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER = "SDL.texture.create.d3d12.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER = "SDL.texture.create.d3d12.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER = "SDL.texture.create.metal.pixelbuffer"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER = "SDL.texture.create.opengl.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER = "SDL.texture.create.opengl.texture_uv"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER = "SDL.texture.create.opengl.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER = "SDL.texture.create.opengl.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER = "SDL.texture.create.opengles2.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER = "SDL.texture.create.opengles2.texture_uv"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER = "SDL.texture.create.opengles2.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER = "SDL.texture.create.opengles2.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER = "SDL.texture.create.vulkan.texture"
 
-///| Get the properties associated with a texture.
+///|
+/// Get the properties associated with a texture.
 ///
 /// The following read-only properties are provided by SDL:
 ///
@@ -897,36 +1099,90 @@ pub const SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER = "SDL.texture.create.vu
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetTextureProperties(SDL_Texture *texture);
 /// ```
-pub extern "C" fn sdl_GetTextureProperties(texture: SDL_Texture) -> SDL_PropertiesID = "SDL_GetTextureProperties"
+pub extern "C" fn sdl_GetTextureProperties(
+  texture : SDL_Texture,
+) -> SDL_PropertiesID = "SDL_GetTextureProperties"
 
+///|
 pub const SDL_PROP_TEXTURE_COLORSPACE_NUMBER = "SDL.texture.colorspace"
+
+///|
 pub const SDL_PROP_TEXTURE_FORMAT_NUMBER = "SDL.texture.format"
+
+///|
 pub const SDL_PROP_TEXTURE_ACCESS_NUMBER = "SDL.texture.access"
+
+///|
 pub const SDL_PROP_TEXTURE_WIDTH_NUMBER = "SDL.texture.width"
+
+///|
 pub const SDL_PROP_TEXTURE_HEIGHT_NUMBER = "SDL.texture.height"
+
+///|
 pub const SDL_PROP_TEXTURE_SDR_WHITE_POINT_FLOAT = "SDL.texture.SDR_white_point"
+
+///|
 pub const SDL_PROP_TEXTURE_HDR_HEADROOM_FLOAT = "SDL.texture.HDR_headroom"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D11_TEXTURE_POINTER = "SDL.texture.d3d11.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D11_TEXTURE_U_POINTER = "SDL.texture.d3d11.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D11_TEXTURE_V_POINTER = "SDL.texture.d3d11.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D12_TEXTURE_POINTER = "SDL.texture.d3d12.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D12_TEXTURE_U_POINTER = "SDL.texture.d3d12.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_D3D12_TEXTURE_V_POINTER = "SDL.texture.d3d12.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEXTURE_NUMBER = "SDL.texture.opengl.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEXTURE_UV_NUMBER = "SDL.texture.opengl.texture_uv"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEXTURE_U_NUMBER = "SDL.texture.opengl.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEXTURE_V_NUMBER = "SDL.texture.opengl.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEXTURE_TARGET_NUMBER = "SDL.texture.opengl.target"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEX_W_FLOAT = "SDL.texture.opengl.tex_w"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGL_TEX_H_FLOAT = "SDL.texture.opengl.tex_h"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_NUMBER = "SDL.texture.opengles2.texture"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_UV_NUMBER = "SDL.texture.opengles2.texture_uv"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_U_NUMBER = "SDL.texture.opengles2.texture_u"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_V_NUMBER = "SDL.texture.opengles2.texture_v"
+
+///|
 pub const SDL_PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER = "SDL.texture.opengles2.target"
+
+///|
 pub const SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER = "SDL.texture.vulkan.texture"
 
-///| Get the renderer that created an SDL_Texture.
+///|
+/// Get the renderer that created an SDL_Texture.
 ///
 /// @param texture the texture to query.
 /// @return a pointer to the SDL_Renderer that created the texture, or NULL on
@@ -939,9 +1195,12 @@ pub const SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER = "SDL.texture.vulkan.texture"
 /// ```c
 /// extern SDL_DECLSPEC SDL_Renderer * SDLCALL SDL_GetRendererFromTexture(SDL_Texture *texture);
 /// ```
-pub extern "C" fn sdl_GetRendererFromTexture(texture: SDL_Texture) -> SDL_Renderer = "SDL_GetRendererFromTexture"
+pub extern "C" fn sdl_GetRendererFromTexture(
+  texture : SDL_Texture,
+) -> SDL_Renderer = "SDL_GetRendererFromTexture"
 
-///| Get the size of a texture, as floating point values.
+///|
+/// Get the size of a texture, as floating point values.
 ///
 /// @param texture the texture to query.
 /// @param w a pointer filled in with the width of the texture in pixels. This
@@ -958,9 +1217,15 @@ pub extern "C" fn sdl_GetRendererFromTexture(texture: SDL_Texture) -> SDL_Render
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureSize(SDL_Texture *texture, float *w, float *h);
 /// ```
-pub extern "C" fn sdl_GetTextureSize(texture: SDL_Texture, w: FixedArray[Float], h: FixedArray[Float]) -> Bool = "SDL_GetTextureSize"
+#owned(w, h)
+pub extern "C" fn sdl_GetTextureSize(
+  texture : SDL_Texture,
+  w : FixedArray[Float],
+  h : FixedArray[Float],
+) -> Bool = "SDL_GetTextureSize"
 
-///| Set an additional color value multiplied into render copy operations.
+///|
+/// Set an additional color value multiplied into render copy operations.
 ///
 /// When this texture is rendered, during the copy operation each source color
 /// channel is modulated by the appropriate color value according to the
@@ -989,9 +1254,15 @@ pub extern "C" fn sdl_GetTextureSize(texture: SDL_Texture, w: FixedArray[Float],
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureColorMod(SDL_Texture *texture, Uint8 r, Uint8 g, Uint8 b);
 /// ```
-pub extern "C" fn sdl_SetTextureColorMod(texture: SDL_Texture, r: Byte, g: Byte, b: Byte) -> Bool = "SDL_SetTextureColorMod"
+pub extern "C" fn sdl_SetTextureColorMod(
+  texture : SDL_Texture,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+) -> Bool = "SDL_SetTextureColorMod"
 
-///| Set an additional color value multiplied into render copy operations.
+///|
+/// Set an additional color value multiplied into render copy operations.
 ///
 /// When this texture is rendered, during the copy operation each source color
 /// channel is modulated by the appropriate color value according to the
@@ -1020,9 +1291,15 @@ pub extern "C" fn sdl_SetTextureColorMod(texture: SDL_Texture, r: Byte, g: Byte,
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureColorModFloat(SDL_Texture *texture, float r, float g, float b);
 /// ```
-pub extern "C" fn sdl_SetTextureColorModFloat(texture: SDL_Texture, r: Float, g: Float, b: Float) -> Bool = "SDL_SetTextureColorModFloat"
+pub extern "C" fn sdl_SetTextureColorModFloat(
+  texture : SDL_Texture,
+  r : Float,
+  g : Float,
+  b : Float,
+) -> Bool = "SDL_SetTextureColorModFloat"
 
-///| Get the additional color value multiplied into render copy operations.
+///|
+/// Get the additional color value multiplied into render copy operations.
 ///
 /// @param texture the texture to query.
 /// @param r a pointer filled in with the current red color value.
@@ -1042,9 +1319,16 @@ pub extern "C" fn sdl_SetTextureColorModFloat(texture: SDL_Texture, r: Float, g:
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureColorMod(SDL_Texture *texture, Uint8 *r, Uint8 *g, Uint8 *b);
 /// ```
-pub extern "C" fn sdl_GetTextureColorMod(texture: SDL_Texture, r: Bytes, g: Bytes, b: Bytes) -> Bool = "SDL_GetTextureColorMod"
+#owned(r, g, b)
+pub extern "C" fn sdl_GetTextureColorMod(
+  texture : SDL_Texture,
+  r : Bytes,
+  g : Bytes,
+  b : Bytes,
+) -> Bool = "SDL_GetTextureColorMod"
 
-///| Get the additional color value multiplied into render copy operations.
+///|
+/// Get the additional color value multiplied into render copy operations.
 ///
 /// @param texture the texture to query.
 /// @param r a pointer filled in with the current red color value.
@@ -1064,9 +1348,16 @@ pub extern "C" fn sdl_GetTextureColorMod(texture: SDL_Texture, r: Bytes, g: Byte
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureColorModFloat(SDL_Texture *texture, float *r, float *g, float *b);
 /// ```
-pub extern "C" fn sdl_GetTextureColorModFloat(texture: SDL_Texture, r: FixedArray[Float], g: FixedArray[Float], b: FixedArray[Float]) -> Bool = "SDL_GetTextureColorModFloat"
+#owned(r, g, b)
+pub extern "C" fn sdl_GetTextureColorModFloat(
+  texture : SDL_Texture,
+  r : FixedArray[Float],
+  g : FixedArray[Float],
+  b : FixedArray[Float],
+) -> Bool = "SDL_GetTextureColorModFloat"
 
-///| Set an additional alpha value multiplied into render copy operations.
+///|
+/// Set an additional alpha value multiplied into render copy operations.
 ///
 /// When this texture is rendered, during the copy operation the source alpha
 /// value is modulated by this alpha value according to the following formula:
@@ -1092,9 +1383,13 @@ pub extern "C" fn sdl_GetTextureColorModFloat(texture: SDL_Texture, r: FixedArra
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureAlphaMod(SDL_Texture *texture, Uint8 alpha);
 /// ```
-pub extern "C" fn sdl_SetTextureAlphaMod(texture: SDL_Texture, alpha: Byte) -> Bool = "SDL_SetTextureAlphaMod"
+pub extern "C" fn sdl_SetTextureAlphaMod(
+  texture : SDL_Texture,
+  alpha : Byte,
+) -> Bool = "SDL_SetTextureAlphaMod"
 
-///| Set an additional alpha value multiplied into render copy operations.
+///|
+/// Set an additional alpha value multiplied into render copy operations.
 ///
 /// When this texture is rendered, during the copy operation the source alpha
 /// value is modulated by this alpha value according to the following formula:
@@ -1120,9 +1415,13 @@ pub extern "C" fn sdl_SetTextureAlphaMod(texture: SDL_Texture, alpha: Byte) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureAlphaModFloat(SDL_Texture *texture, float alpha);
 /// ```
-pub extern "C" fn sdl_SetTextureAlphaModFloat(texture: SDL_Texture, alpha: Float) -> Bool = "SDL_SetTextureAlphaModFloat"
+pub extern "C" fn sdl_SetTextureAlphaModFloat(
+  texture : SDL_Texture,
+  alpha : Float,
+) -> Bool = "SDL_SetTextureAlphaModFloat"
 
-///| Get the additional alpha value multiplied into render copy operations.
+///|
+/// Get the additional alpha value multiplied into render copy operations.
 ///
 /// @param texture the texture to query.
 /// @param alpha a pointer filled in with the current alpha value.
@@ -1140,9 +1439,14 @@ pub extern "C" fn sdl_SetTextureAlphaModFloat(texture: SDL_Texture, alpha: Float
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureAlphaMod(SDL_Texture *texture, Uint8 *alpha);
 /// ```
-pub extern "C" fn sdl_GetTextureAlphaMod(texture: SDL_Texture, alpha: Bytes) -> Bool = "SDL_GetTextureAlphaMod"
+#owned(alpha)
+pub extern "C" fn sdl_GetTextureAlphaMod(
+  texture : SDL_Texture,
+  alpha : Bytes,
+) -> Bool = "SDL_GetTextureAlphaMod"
 
-///| Get the additional alpha value multiplied into render copy operations.
+///|
+/// Get the additional alpha value multiplied into render copy operations.
 ///
 /// @param texture the texture to query.
 /// @param alpha a pointer filled in with the current alpha value.
@@ -1160,9 +1464,14 @@ pub extern "C" fn sdl_GetTextureAlphaMod(texture: SDL_Texture, alpha: Bytes) -> 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureAlphaModFloat(SDL_Texture *texture, float *alpha);
 /// ```
-pub extern "C" fn sdl_GetTextureAlphaModFloat(texture: SDL_Texture, alpha: FixedArray[Float]) -> Bool = "SDL_GetTextureAlphaModFloat"
+#owned(alpha)
+pub extern "C" fn sdl_GetTextureAlphaModFloat(
+  texture : SDL_Texture,
+  alpha : FixedArray[Float],
+) -> Bool = "SDL_GetTextureAlphaModFloat"
 
-///| Set the blend mode for a texture, used by SDL_RenderTexture().
+///|
+/// Set the blend mode for a texture, used by SDL_RenderTexture().
 ///
 /// If the blend mode is not supported, the closest supported mode is chosen
 /// and this function returns false.
@@ -1181,9 +1490,13 @@ pub extern "C" fn sdl_GetTextureAlphaModFloat(texture: SDL_Texture, alpha: Fixed
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureBlendMode(SDL_Texture *texture, SDL_BlendMode blendMode);
 /// ```
-pub extern "C" fn sdl_SetTextureBlendMode(texture: SDL_Texture, blendMode: SDL_BlendMode) -> Bool = "SDL_SetTextureBlendMode"
+pub extern "C" fn sdl_SetTextureBlendMode(
+  texture : SDL_Texture,
+  blendMode : SDL_BlendMode,
+) -> Bool = "SDL_SetTextureBlendMode"
 
-///| Get the blend mode used for texture copy operations.
+///|
+/// Get the blend mode used for texture copy operations.
 ///
 /// @param texture the texture to query.
 /// @param blendMode a pointer filled in with the current SDL_BlendMode.
@@ -1199,9 +1512,14 @@ pub extern "C" fn sdl_SetTextureBlendMode(texture: SDL_Texture, blendMode: SDL_B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureBlendMode(SDL_Texture *texture, SDL_BlendMode *blendMode);
 /// ```
-pub extern "C" fn sdl_GetTextureBlendMode(texture: SDL_Texture, blendMode: FixedArray[SDL_BlendMode]) -> Bool = "SDL_GetTextureBlendMode"
+#owned(blendMode)
+pub extern "C" fn sdl_GetTextureBlendMode(
+  texture : SDL_Texture,
+  blendMode : FixedArray[SDL_BlendMode],
+) -> Bool = "SDL_GetTextureBlendMode"
 
-///| Set the scale mode used for texture scale operations.
+///|
+/// Set the scale mode used for texture scale operations.
 ///
 /// The default texture scale mode is SDL_SCALEMODE_LINEAR.
 ///
@@ -1221,9 +1539,13 @@ pub extern "C" fn sdl_GetTextureBlendMode(texture: SDL_Texture, blendMode: Fixed
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextureScaleMode(SDL_Texture *texture, SDL_ScaleMode scaleMode);
 /// ```
-pub extern "C" fn sdl_SetTextureScaleMode(texture: SDL_Texture, scaleMode: SDL_ScaleMode) -> Bool = "SDL_SetTextureScaleMode"
+pub extern "C" fn sdl_SetTextureScaleMode(
+  texture : SDL_Texture,
+  scaleMode : SDL_ScaleMode,
+) -> Bool = "SDL_SetTextureScaleMode"
 
-///| Get the scale mode used for texture scale operations.
+///|
+/// Get the scale mode used for texture scale operations.
 ///
 /// @param texture the texture to query.
 /// @param scaleMode a pointer filled in with the current scale mode.
@@ -1239,9 +1561,14 @@ pub extern "C" fn sdl_SetTextureScaleMode(texture: SDL_Texture, scaleMode: SDL_S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextureScaleMode(SDL_Texture *texture, SDL_ScaleMode *scaleMode);
 /// ```
-pub extern "C" fn sdl_GetTextureScaleMode(texture: SDL_Texture, scaleMode: FixedArray[SDL_ScaleMode]) -> Bool = "SDL_GetTextureScaleMode"
+#owned(scaleMode)
+pub extern "C" fn sdl_GetTextureScaleMode(
+  texture : SDL_Texture,
+  scaleMode : FixedArray[SDL_ScaleMode],
+) -> Bool = "SDL_GetTextureScaleMode"
 
-///| Update the given texture rectangle with new pixel data.
+///|
+/// Update the given texture rectangle with new pixel data.
 ///
 /// The pixel data must be in the pixel format of the texture, which can be
 /// queried using the SDL_PROP_TEXTURE_FORMAT_NUMBER property.
@@ -1275,10 +1602,18 @@ pub extern "C" fn sdl_GetTextureScaleMode(texture: SDL_Texture, scaleMode: Fixed
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_UpdateTexture(SDL_Texture *texture, const SDL_Rect *rect, const void *pixels, int pitch);
 /// ```
-pub extern "C" fn sdl_UpdateTexture(texture: SDL_Texture, rect: SDL_Rect, pixels: VoidPtr, pitch: Int) -> Bool = "SDL_UpdateTexture"
+#owned(rect)
+pub extern "C" fn sdl_UpdateTexture(
+  texture : SDL_Texture,
+  rect : SDL_Rect,
+  pixels : VoidPtr,
+  pitch : Int,
+) -> Bool = "SDL_UpdateTexture"
 
 ///| Update a rectangle within a planar YV12 or IYUV texture with new pixel
-///| data.
+
+///|
+/// data.
 ///
 /// You can use SDL_UpdateTexture() as long as your pixel data is a contiguous
 /// block of Y and U/V planes in the proper order, but this function is
@@ -1313,9 +1648,20 @@ pub extern "C" fn sdl_UpdateTexture(texture: SDL_Texture, rect: SDL_Rect, pixels
 ///                                                 const Uint8 *Uplane, int Upitch,
 ///                                                 const Uint8 *Vplane, int Vpitch);
 /// ```
-pub extern "C" fn sdl_UpdateYUVTexture(texture: SDL_Texture, rect: SDL_Rect, yplane: FixedArray[Byte], ypitch: Int, uplane: FixedArray[Byte], upitch: Int, vplane: FixedArray[Byte], vpitch: Int) -> Bool = "SDL_UpdateYUVTexture"
+#owned(rect, yplane, uplane, vplane)
+pub extern "C" fn sdl_UpdateYUVTexture(
+  texture : SDL_Texture,
+  rect : SDL_Rect,
+  yplane : FixedArray[Byte],
+  ypitch : Int,
+  uplane : FixedArray[Byte],
+  upitch : Int,
+  vplane : FixedArray[Byte],
+  vpitch : Int,
+) -> Bool = "SDL_UpdateYUVTexture"
 
-///| Update a rectangle within a planar NV12 or NV21 texture with new pixels.
+///|
+/// Update a rectangle within a planar NV12 or NV21 texture with new pixels.
 ///
 /// You can use SDL_UpdateTexture() as long as your pixel data is a contiguous
 /// block of NV12/21 planes in the proper order, but this function is available
@@ -1346,9 +1692,18 @@ pub extern "C" fn sdl_UpdateYUVTexture(texture: SDL_Texture, rect: SDL_Rect, ypl
 ///                                                 const Uint8 *Yplane, int Ypitch,
 ///                                                 const Uint8 *UVplane, int UVpitch);
 /// ```
-pub extern "C" fn sdl_UpdateNVTexture(texture: SDL_Texture, rect: SDL_Rect, yplane: FixedArray[Byte], ypitch: Int, uVplane: FixedArray[Byte], uVpitch: Int) -> Bool = "SDL_UpdateNVTexture"
+#owned(rect, yplane, uVplane)
+pub extern "C" fn sdl_UpdateNVTexture(
+  texture : SDL_Texture,
+  rect : SDL_Rect,
+  yplane : FixedArray[Byte],
+  ypitch : Int,
+  uVplane : FixedArray[Byte],
+  uVpitch : Int,
+) -> Bool = "SDL_UpdateNVTexture"
 
-///| Lock a portion of the texture for **write-only** pixel access.
+///|
+/// Lock a portion of the texture for **write-only** pixel access.
 ///
 /// As an optimization, the pixels made available for editing don't necessarily
 /// contain the old texture data. This is a write-only operation, and if you
@@ -1382,10 +1737,18 @@ pub extern "C" fn sdl_UpdateNVTexture(texture: SDL_Texture, rect: SDL_Rect, ypla
 ///                                            const SDL_Rect *rect,
 ///                                            void **pixels, int *pitch);
 /// ```
-pub extern "C" fn sdl_LockTexture(texture: SDL_Texture, rect: SDL_Rect, pixels: FixedArray[VoidPtr], pitch: FixedArray[Int]) -> Bool = "SDL_LockTexture"
+#owned(rect, pixels, pitch)
+pub extern "C" fn sdl_LockTexture(
+  texture : SDL_Texture,
+  rect : SDL_Rect,
+  pixels : FixedArray[VoidPtr],
+  pitch : FixedArray[Int],
+) -> Bool = "SDL_LockTexture"
 
 ///| Lock a portion of the texture for **write-only** pixel access, and expose
-///| it as a SDL surface.
+
+///|
+/// it as a SDL surface.
 ///
 /// Besides providing an SDL_Surface instead of raw pixel data, this function
 /// operates like SDL_LockTexture.
@@ -1420,9 +1783,15 @@ pub extern "C" fn sdl_LockTexture(texture: SDL_Texture, rect: SDL_Rect, pixels: 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_LockTextureToSurface(SDL_Texture *texture, const SDL_Rect *rect, SDL_Surface **surface);
 /// ```
-pub extern "C" fn sdl_LockTextureToSurface(texture: SDL_Texture, rect: SDL_Rect, surface: FixedArray[SDL_Surface]) -> Bool = "SDL_LockTextureToSurface"
+#owned(rect, surface)
+pub extern "C" fn sdl_LockTextureToSurface(
+  texture : SDL_Texture,
+  rect : SDL_Rect,
+  surface : FixedArray[SDL_Surface],
+) -> Bool = "SDL_LockTextureToSurface"
 
-///| Unlock a texture, uploading the changes to video memory, if needed.
+///|
+/// Unlock a texture, uploading the changes to video memory, if needed.
 ///
 /// **Warning**: Please note that SDL_LockTexture() is intended to be
 /// write-only; it will not guarantee the previous contents of the texture will
@@ -1443,9 +1812,10 @@ pub extern "C" fn sdl_LockTextureToSurface(texture: SDL_Texture, rect: SDL_Rect,
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_UnlockTexture(SDL_Texture *texture);
 /// ```
-pub extern "C" fn sdl_UnlockTexture(texture: SDL_Texture) -> Unit = "SDL_UnlockTexture"
+pub extern "C" fn sdl_UnlockTexture(texture : SDL_Texture) -> Unit = "SDL_UnlockTexture"
 
-///| Set a texture as the current rendering target.
+///|
+/// Set a texture as the current rendering target.
 ///
 /// The default render target is the window for which the renderer was created.
 /// To stop rendering to a texture and render to the window again, call this
@@ -1472,9 +1842,13 @@ pub extern "C" fn sdl_UnlockTexture(texture: SDL_Texture) -> Unit = "SDL_UnlockT
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderTarget(SDL_Renderer *renderer, SDL_Texture *texture);
 /// ```
-pub extern "C" fn sdl_SetRenderTarget(renderer: SDL_Renderer, texture: SDL_Texture) -> Bool = "SDL_SetRenderTarget"
+pub extern "C" fn sdl_SetRenderTarget(
+  renderer : SDL_Renderer,
+  texture : SDL_Texture,
+) -> Bool = "SDL_SetRenderTarget"
 
-///| Get the current render target.
+///|
+/// Get the current render target.
 ///
 /// The default render target is the window for which the renderer was created,
 /// and is reported a NULL here.
@@ -1491,9 +1865,10 @@ pub extern "C" fn sdl_SetRenderTarget(renderer: SDL_Renderer, texture: SDL_Textu
 /// ```c
 /// extern SDL_DECLSPEC SDL_Texture * SDLCALL SDL_GetRenderTarget(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_GetRenderTarget(renderer: SDL_Renderer) -> SDL_Texture = "SDL_GetRenderTarget"
+pub extern "C" fn sdl_GetRenderTarget(renderer : SDL_Renderer) -> SDL_Texture = "SDL_GetRenderTarget"
 
-///| Set a device-independent resolution and presentation mode for rendering.
+///|
+/// Set a device-independent resolution and presentation mode for rendering.
 ///
 /// This function sets the width and height of the logical rendering output.
 /// The renderer will act as if the current render target is always the
@@ -1548,9 +1923,15 @@ pub extern "C" fn sdl_GetRenderTarget(renderer: SDL_Renderer) -> SDL_Texture = "
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderLogicalPresentation(SDL_Renderer *renderer, int w, int h, SDL_RendererLogicalPresentation mode);
 /// ```
-pub extern "C" fn sdl_SetRenderLogicalPresentation(renderer: SDL_Renderer, w: Int, h: Int, mode: SDL_RendererLogicalPresentation) -> Bool = "SDL_SetRenderLogicalPresentation"
+pub extern "C" fn sdl_SetRenderLogicalPresentation(
+  renderer : SDL_Renderer,
+  w : Int,
+  h : Int,
+  mode : SDL_RendererLogicalPresentation,
+) -> Bool = "SDL_SetRenderLogicalPresentation"
 
-///| Get device independent resolution and presentation mode for rendering.
+///|
+/// Get device independent resolution and presentation mode for rendering.
 ///
 /// This function gets the width and height of the logical rendering output, or
 /// the output size in pixels if a logical resolution is not enabled.
@@ -1574,9 +1955,16 @@ pub extern "C" fn sdl_SetRenderLogicalPresentation(renderer: SDL_Renderer, w: In
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderLogicalPresentation(SDL_Renderer *renderer, int *w, int *h, SDL_RendererLogicalPresentation *mode);
 /// ```
-pub extern "C" fn sdl_GetRenderLogicalPresentation(renderer: SDL_Renderer, w: FixedArray[Int], h: FixedArray[Int], mode: FixedArray[SDL_RendererLogicalPresentation]) -> Bool = "SDL_GetRenderLogicalPresentation"
+#owned(w, h, mode)
+pub extern "C" fn sdl_GetRenderLogicalPresentation(
+  renderer : SDL_Renderer,
+  w : FixedArray[Int],
+  h : FixedArray[Int],
+  mode : FixedArray[SDL_RendererLogicalPresentation],
+) -> Bool = "SDL_GetRenderLogicalPresentation"
 
-///| Get the final presentation rectangle for rendering.
+///|
+/// Get the final presentation rectangle for rendering.
 ///
 /// This function returns the calculated rectangle used for logical
 /// presentation, based on the presentation mode and output size. If logical
@@ -1601,9 +1989,14 @@ pub extern "C" fn sdl_GetRenderLogicalPresentation(renderer: SDL_Renderer, w: Fi
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderLogicalPresentationRect(SDL_Renderer *renderer, SDL_FRect *rect);
 /// ```
-pub extern "C" fn sdl_GetRenderLogicalPresentationRect(renderer: SDL_Renderer, rect: SDL_FRect) -> Bool = "SDL_GetRenderLogicalPresentationRect"
+#owned(rect)
+pub extern "C" fn sdl_GetRenderLogicalPresentationRect(
+  renderer : SDL_Renderer,
+  rect : SDL_FRect,
+) -> Bool = "SDL_GetRenderLogicalPresentationRect"
 
-///| Get a point in render coordinates when given a point in window coordinates.
+///|
+/// Get a point in render coordinates when given a point in window coordinates.
 ///
 /// This takes into account several states:
 ///
@@ -1630,9 +2023,17 @@ pub extern "C" fn sdl_GetRenderLogicalPresentationRect(renderer: SDL_Renderer, r
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderCoordinatesFromWindow(SDL_Renderer *renderer, float window_x, float window_y, float *x, float *y);
 /// ```
-pub extern "C" fn sdl_RenderCoordinatesFromWindow(renderer: SDL_Renderer, window_x: Float, window_y: Float, x: FixedArray[Float], y: FixedArray[Float]) -> Bool = "SDL_RenderCoordinatesFromWindow"
+#owned(x, y)
+pub extern "C" fn sdl_RenderCoordinatesFromWindow(
+  renderer : SDL_Renderer,
+  window_x : Float,
+  window_y : Float,
+  x : FixedArray[Float],
+  y : FixedArray[Float],
+) -> Bool = "SDL_RenderCoordinatesFromWindow"
 
-///| Get a point in window coordinates when given a point in render coordinates.
+///|
+/// Get a point in window coordinates when given a point in render coordinates.
 ///
 /// This takes into account several states:
 ///
@@ -1662,9 +2063,17 @@ pub extern "C" fn sdl_RenderCoordinatesFromWindow(renderer: SDL_Renderer, window
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderCoordinatesToWindow(SDL_Renderer *renderer, float x, float y, float *window_x, float *window_y);
 /// ```
-pub extern "C" fn sdl_RenderCoordinatesToWindow(renderer: SDL_Renderer, x: Float, y: Float, window_x: FixedArray[Float], window_y: FixedArray[Float]) -> Bool = "SDL_RenderCoordinatesToWindow"
+#owned(window_x, window_y)
+pub extern "C" fn sdl_RenderCoordinatesToWindow(
+  renderer : SDL_Renderer,
+  x : Float,
+  y : Float,
+  window_x : FixedArray[Float],
+  window_y : FixedArray[Float],
+) -> Bool = "SDL_RenderCoordinatesToWindow"
 
-///| Convert the coordinates in an event to render coordinates.
+///|
+/// Convert the coordinates in an event to render coordinates.
 ///
 /// This takes into account several states:
 ///
@@ -1700,9 +2109,14 @@ pub extern "C" fn sdl_RenderCoordinatesToWindow(renderer: SDL_Renderer, x: Float
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ConvertEventToRenderCoordinates(SDL_Renderer *renderer, SDL_Event *event);
 /// ```
-pub extern "C" fn sdl_ConvertEventToRenderCoordinates(renderer: SDL_Renderer, event: SDL_Event) -> Bool = "SDL_ConvertEventToRenderCoordinates"
+#owned(event)
+pub extern "C" fn sdl_ConvertEventToRenderCoordinates(
+  renderer : SDL_Renderer,
+  event : SDL_Event,
+) -> Bool = "SDL_ConvertEventToRenderCoordinates"
 
-///| Set the drawing area for rendering on the current target.
+///|
+/// Set the drawing area for rendering on the current target.
 ///
 /// Drawing will clip to this area (separately from any clipping done with
 /// SDL_SetRenderClipRect), and the top left of the area will become coordinate
@@ -1729,9 +2143,14 @@ pub extern "C" fn sdl_ConvertEventToRenderCoordinates(renderer: SDL_Renderer, ev
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderViewport(SDL_Renderer *renderer, const SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_SetRenderViewport(renderer: SDL_Renderer, rect: SDL_Rect) -> Bool = "SDL_SetRenderViewport"
+#owned(rect)
+pub extern "C" fn sdl_SetRenderViewport(
+  renderer : SDL_Renderer,
+  rect : SDL_Rect,
+) -> Bool = "SDL_SetRenderViewport"
 
-///| Get the drawing area for the current target.
+///|
+/// Get the drawing area for the current target.
 ///
 /// Each render target has its own viewport. This function gets the viewport
 /// for the current render target.
@@ -1751,9 +2170,14 @@ pub extern "C" fn sdl_SetRenderViewport(renderer: SDL_Renderer, rect: SDL_Rect) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderViewport(SDL_Renderer *renderer, SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_GetRenderViewport(renderer: SDL_Renderer, rect: SDL_Rect) -> Bool = "SDL_GetRenderViewport"
+#owned(rect)
+pub extern "C" fn sdl_GetRenderViewport(
+  renderer : SDL_Renderer,
+  rect : SDL_Rect,
+) -> Bool = "SDL_GetRenderViewport"
 
-///| Return whether an explicit rectangle was set as the viewport.
+///|
+/// Return whether an explicit rectangle was set as the viewport.
 ///
 /// This is useful if you're saving and restoring the viewport and want to know
 /// whether you should restore a specific rectangle or NULL.
@@ -1775,9 +2199,10 @@ pub extern "C" fn sdl_GetRenderViewport(renderer: SDL_Renderer, rect: SDL_Rect) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderViewportSet(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_RenderViewportSet(renderer: SDL_Renderer) -> Bool = "SDL_RenderViewportSet"
+pub extern "C" fn sdl_RenderViewportSet(renderer : SDL_Renderer) -> Bool = "SDL_RenderViewportSet"
 
-///| Get the safe area for rendering within the current viewport.
+///|
+/// Get the safe area for rendering within the current viewport.
 ///
 /// Some devices have portions of the screen which are partially obscured or
 /// not interactive, possibly due to on-screen controls, curved edges, camera
@@ -1799,9 +2224,14 @@ pub extern "C" fn sdl_RenderViewportSet(renderer: SDL_Renderer) -> Bool = "SDL_R
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderSafeArea(SDL_Renderer *renderer, SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_GetRenderSafeArea(renderer: SDL_Renderer, rect: SDL_Rect) -> Bool = "SDL_GetRenderSafeArea"
+#owned(rect)
+pub extern "C" fn sdl_GetRenderSafeArea(
+  renderer : SDL_Renderer,
+  rect : SDL_Rect,
+) -> Bool = "SDL_GetRenderSafeArea"
 
-///| Set the clip rectangle for rendering on the specified target.
+///|
+/// Set the clip rectangle for rendering on the specified target.
 ///
 /// Each render target has its own clip rectangle. This function sets the
 /// cliprect for the current render target.
@@ -1822,9 +2252,14 @@ pub extern "C" fn sdl_GetRenderSafeArea(renderer: SDL_Renderer, rect: SDL_Rect) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderClipRect(SDL_Renderer *renderer, const SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_SetRenderClipRect(renderer: SDL_Renderer, rect: SDL_Rect) -> Bool = "SDL_SetRenderClipRect"
+#owned(rect)
+pub extern "C" fn sdl_SetRenderClipRect(
+  renderer : SDL_Renderer,
+  rect : SDL_Rect,
+) -> Bool = "SDL_SetRenderClipRect"
 
-///| Get the clip rectangle for the current target.
+///|
+/// Get the clip rectangle for the current target.
 ///
 /// Each render target has its own clip rectangle. This function gets the
 /// cliprect for the current render target.
@@ -1845,9 +2280,14 @@ pub extern "C" fn sdl_SetRenderClipRect(renderer: SDL_Renderer, rect: SDL_Rect) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderClipRect(SDL_Renderer *renderer, SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_GetRenderClipRect(renderer: SDL_Renderer, rect: SDL_Rect) -> Bool = "SDL_GetRenderClipRect"
+#owned(rect)
+pub extern "C" fn sdl_GetRenderClipRect(
+  renderer : SDL_Renderer,
+  rect : SDL_Rect,
+) -> Bool = "SDL_GetRenderClipRect"
 
-///| Get whether clipping is enabled on the given render target.
+///|
+/// Get whether clipping is enabled on the given render target.
 ///
 /// Each render target has its own clip rectangle. This function checks the
 /// cliprect for the current render target.
@@ -1866,9 +2306,10 @@ pub extern "C" fn sdl_GetRenderClipRect(renderer: SDL_Renderer, rect: SDL_Rect) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderClipEnabled(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_RenderClipEnabled(renderer: SDL_Renderer) -> Bool = "SDL_RenderClipEnabled"
+pub extern "C" fn sdl_RenderClipEnabled(renderer : SDL_Renderer) -> Bool = "SDL_RenderClipEnabled"
 
-///| Set the drawing scale for rendering on the current target.
+///|
+/// Set the drawing scale for rendering on the current target.
 ///
 /// The drawing coordinates are scaled by the x/y scaling factors before they
 /// are used by the renderer. This allows resolution independent drawing with a
@@ -1896,9 +2337,14 @@ pub extern "C" fn sdl_RenderClipEnabled(renderer: SDL_Renderer) -> Bool = "SDL_R
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderScale(SDL_Renderer *renderer, float scaleX, float scaleY);
 /// ```
-pub extern "C" fn sdl_SetRenderScale(renderer: SDL_Renderer, scaleX: Float, scaleY: Float) -> Bool = "SDL_SetRenderScale"
+pub extern "C" fn sdl_SetRenderScale(
+  renderer : SDL_Renderer,
+  scaleX : Float,
+  scaleY : Float,
+) -> Bool = "SDL_SetRenderScale"
 
-///| Get the drawing scale for the current target.
+///|
+/// Get the drawing scale for the current target.
 ///
 /// Each render target has its own scale. This function gets the scale for the
 /// current render target.
@@ -1918,9 +2364,15 @@ pub extern "C" fn sdl_SetRenderScale(renderer: SDL_Renderer, scaleX: Float, scal
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderScale(SDL_Renderer *renderer, float *scaleX, float *scaleY);
 /// ```
-pub extern "C" fn sdl_GetRenderScale(renderer: SDL_Renderer, scaleX: FixedArray[Float], scaleY: FixedArray[Float]) -> Bool = "SDL_GetRenderScale"
+#owned(scaleX, scaleY)
+pub extern "C" fn sdl_GetRenderScale(
+  renderer : SDL_Renderer,
+  scaleX : FixedArray[Float],
+  scaleY : FixedArray[Float],
+) -> Bool = "SDL_GetRenderScale"
 
-///| Set the color used for drawing operations.
+///|
+/// Set the color used for drawing operations.
 ///
 /// Set the color for drawing or filling rectangles, lines, and points, and for
 /// SDL_RenderClear().
@@ -1945,9 +2397,16 @@ pub extern "C" fn sdl_GetRenderScale(renderer: SDL_Renderer, scaleX: FixedArray[
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderDrawColor(SDL_Renderer *renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 /// ```
-pub extern "C" fn sdl_SetRenderDrawColor(renderer: SDL_Renderer, r: Byte, g: Byte, b: Byte, a: Byte) -> Bool = "SDL_SetRenderDrawColor"
+pub extern "C" fn sdl_SetRenderDrawColor(
+  renderer : SDL_Renderer,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+  a : Byte,
+) -> Bool = "SDL_SetRenderDrawColor"
 
-///| Set the color used for drawing operations (Rect, Line and Clear).
+///|
+/// Set the color used for drawing operations (Rect, Line and Clear).
 ///
 /// Set the color for drawing or filling rectangles, lines, and points, and for
 /// SDL_RenderClear().
@@ -1972,9 +2431,16 @@ pub extern "C" fn sdl_SetRenderDrawColor(renderer: SDL_Renderer, r: Byte, g: Byt
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderDrawColorFloat(SDL_Renderer *renderer, float r, float g, float b, float a);
 /// ```
-pub extern "C" fn sdl_SetRenderDrawColorFloat(renderer: SDL_Renderer, r: Float, g: Float, b: Float, a: Float) -> Bool = "SDL_SetRenderDrawColorFloat"
+pub extern "C" fn sdl_SetRenderDrawColorFloat(
+  renderer : SDL_Renderer,
+  r : Float,
+  g : Float,
+  b : Float,
+  a : Float,
+) -> Bool = "SDL_SetRenderDrawColorFloat"
 
-///| Get the color used for drawing operations (Rect, Line and Clear).
+///|
+/// Get the color used for drawing operations (Rect, Line and Clear).
 ///
 /// @param renderer the rendering context.
 /// @param r a pointer filled in with the red value used to draw on the
@@ -1998,9 +2464,17 @@ pub extern "C" fn sdl_SetRenderDrawColorFloat(renderer: SDL_Renderer, r: Float, 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderDrawColor(SDL_Renderer *renderer, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a);
 /// ```
-pub extern "C" fn sdl_GetRenderDrawColor(renderer: SDL_Renderer, r: Bytes, g: Bytes, b: Bytes, a: Bytes) -> Bool = "SDL_GetRenderDrawColor"
+#owned(r, g, b, a)
+pub extern "C" fn sdl_GetRenderDrawColor(
+  renderer : SDL_Renderer,
+  r : Bytes,
+  g : Bytes,
+  b : Bytes,
+  a : Bytes,
+) -> Bool = "SDL_GetRenderDrawColor"
 
-///| Get the color used for drawing operations (Rect, Line and Clear).
+///|
+/// Get the color used for drawing operations (Rect, Line and Clear).
 ///
 /// @param renderer the rendering context.
 /// @param r a pointer filled in with the red value used to draw on the
@@ -2024,9 +2498,17 @@ pub extern "C" fn sdl_GetRenderDrawColor(renderer: SDL_Renderer, r: Bytes, g: By
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderDrawColorFloat(SDL_Renderer *renderer, float *r, float *g, float *b, float *a);
 /// ```
-pub extern "C" fn sdl_GetRenderDrawColorFloat(renderer: SDL_Renderer, r: FixedArray[Float], g: FixedArray[Float], b: FixedArray[Float], a: FixedArray[Float]) -> Bool = "SDL_GetRenderDrawColorFloat"
+#owned(r, g, b, a)
+pub extern "C" fn sdl_GetRenderDrawColorFloat(
+  renderer : SDL_Renderer,
+  r : FixedArray[Float],
+  g : FixedArray[Float],
+  b : FixedArray[Float],
+  a : FixedArray[Float],
+) -> Bool = "SDL_GetRenderDrawColorFloat"
 
-///| Set the color scale used for render operations.
+///|
+/// Set the color scale used for render operations.
 ///
 /// The color scale is an additional scale multiplied into the pixel color
 /// value while rendering. This can be used to adjust the brightness of colors
@@ -2050,9 +2532,13 @@ pub extern "C" fn sdl_GetRenderDrawColorFloat(renderer: SDL_Renderer, r: FixedAr
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderColorScale(SDL_Renderer *renderer, float scale);
 /// ```
-pub extern "C" fn sdl_SetRenderColorScale(renderer: SDL_Renderer, scale: Float) -> Bool = "SDL_SetRenderColorScale"
+pub extern "C" fn sdl_SetRenderColorScale(
+  renderer : SDL_Renderer,
+  scale : Float,
+) -> Bool = "SDL_SetRenderColorScale"
 
-///| Get the color scale used for render operations.
+///|
+/// Get the color scale used for render operations.
 ///
 /// @param renderer the rendering context.
 /// @param scale a pointer filled in with the current color scale value.
@@ -2068,9 +2554,14 @@ pub extern "C" fn sdl_SetRenderColorScale(renderer: SDL_Renderer, scale: Float) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderColorScale(SDL_Renderer *renderer, float *scale);
 /// ```
-pub extern "C" fn sdl_GetRenderColorScale(renderer: SDL_Renderer, scale: FixedArray[Float]) -> Bool = "SDL_GetRenderColorScale"
+#owned(scale)
+pub extern "C" fn sdl_GetRenderColorScale(
+  renderer : SDL_Renderer,
+  scale : FixedArray[Float],
+) -> Bool = "SDL_GetRenderColorScale"
 
-///| Set the blend mode used for drawing operations (Fill and Line).
+///|
+/// Set the blend mode used for drawing operations (Fill and Line).
 ///
 /// If the blend mode is not supported, the closest supported mode is chosen.
 ///
@@ -2088,9 +2579,13 @@ pub extern "C" fn sdl_GetRenderColorScale(renderer: SDL_Renderer, scale: FixedAr
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderDrawBlendMode(SDL_Renderer *renderer, SDL_BlendMode blendMode);
 /// ```
-pub extern "C" fn sdl_SetRenderDrawBlendMode(renderer: SDL_Renderer, blendMode: SDL_BlendMode) -> Bool = "SDL_SetRenderDrawBlendMode"
+pub extern "C" fn sdl_SetRenderDrawBlendMode(
+  renderer : SDL_Renderer,
+  blendMode : SDL_BlendMode,
+) -> Bool = "SDL_SetRenderDrawBlendMode"
 
-///| Get the blend mode used for drawing operations.
+///|
+/// Get the blend mode used for drawing operations.
 ///
 /// @param renderer the rendering context.
 /// @param blendMode a pointer filled in with the current SDL_BlendMode.
@@ -2106,9 +2601,14 @@ pub extern "C" fn sdl_SetRenderDrawBlendMode(renderer: SDL_Renderer, blendMode: 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderDrawBlendMode(SDL_Renderer *renderer, SDL_BlendMode *blendMode);
 /// ```
-pub extern "C" fn sdl_GetRenderDrawBlendMode(renderer: SDL_Renderer, blendMode: FixedArray[SDL_BlendMode]) -> Bool = "SDL_GetRenderDrawBlendMode"
+#owned(blendMode)
+pub extern "C" fn sdl_GetRenderDrawBlendMode(
+  renderer : SDL_Renderer,
+  blendMode : FixedArray[SDL_BlendMode],
+) -> Bool = "SDL_GetRenderDrawBlendMode"
 
-///| Clear the current rendering target with the drawing color.
+///|
+/// Clear the current rendering target with the drawing color.
 ///
 /// This function clears the entire rendering target, ignoring the viewport and
 /// the clip rectangle. Note, that clearing will also set/fill all pixels of
@@ -2128,9 +2628,10 @@ pub extern "C" fn sdl_GetRenderDrawBlendMode(renderer: SDL_Renderer, blendMode: 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderClear(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_RenderClear(renderer: SDL_Renderer) -> Bool = "SDL_RenderClear"
+pub extern "C" fn sdl_RenderClear(renderer : SDL_Renderer) -> Bool = "SDL_RenderClear"
 
-///| Draw a point on the current rendering target.
+///|
+/// Draw a point on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param x the x coordinate of the point.
@@ -2148,9 +2649,14 @@ pub extern "C" fn sdl_RenderClear(renderer: SDL_Renderer) -> Bool = "SDL_RenderC
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderPoint(SDL_Renderer *renderer, float x, float y);
 /// ```
-pub extern "C" fn sdl_RenderPoint(renderer: SDL_Renderer, x: Float, y: Float) -> Bool = "SDL_RenderPoint"
+pub extern "C" fn sdl_RenderPoint(
+  renderer : SDL_Renderer,
+  x : Float,
+  y : Float,
+) -> Bool = "SDL_RenderPoint"
 
-///| Draw multiple points on the current rendering target.
+///|
+/// Draw multiple points on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param points the points to draw.
@@ -2169,9 +2675,15 @@ pub extern "C" fn sdl_RenderPoint(renderer: SDL_Renderer, x: Float, y: Float) ->
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderPoints(SDL_Renderer *renderer, const SDL_FPoint *points, int count);
 /// ```
 /// Note: the type of points `FixedArray[Float]` is correct, because SDL_FPoint is { Float, Float }
-pub extern "C" fn sdl_RenderPoints(renderer: SDL_Renderer, points: FixedArray[Float], count: Int) -> Bool = "SDL_RenderPoints"
+#owned(points)
+pub extern "C" fn sdl_RenderPoints(
+  renderer : SDL_Renderer,
+  points : FixedArray[Float],
+  count : Int,
+) -> Bool = "SDL_RenderPoints"
 
-///| Draw a line on the current rendering target.
+///|
+/// Draw a line on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param x1 the x coordinate of the start point.
@@ -2191,9 +2703,16 @@ pub extern "C" fn sdl_RenderPoints(renderer: SDL_Renderer, points: FixedArray[Fl
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderLine(SDL_Renderer *renderer, float x1, float y1, float x2, float y2);
 /// ```
-pub extern "C" fn sdl_RenderLine(renderer: SDL_Renderer, x1: Float, y1: Float, x2: Float, y2: Float) -> Bool = "SDL_RenderLine"
+pub extern "C" fn sdl_RenderLine(
+  renderer : SDL_Renderer,
+  x1 : Float,
+  y1 : Float,
+  x2 : Float,
+  y2 : Float,
+) -> Bool = "SDL_RenderLine"
 
-///| Draw a series of connected lines on the current rendering target.
+///|
+/// Draw a series of connected lines on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param points the points along the lines.
@@ -2212,9 +2731,15 @@ pub extern "C" fn sdl_RenderLine(renderer: SDL_Renderer, x1: Float, y1: Float, x
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderLines(SDL_Renderer *renderer, const SDL_FPoint *points, int count);
 /// ```
 /// Note: the type of points `FixedArray[Float]` is correct, because SDL_FPoint is { Float, Float }
-pub extern "C" fn sdl_RenderLines(renderer: SDL_Renderer, points: FixedArray[Float], count: Int) -> Bool = "SDL_RenderLines"
+#owned(points)
+pub extern "C" fn sdl_RenderLines(
+  renderer : SDL_Renderer,
+  points : FixedArray[Float],
+  count : Int,
+) -> Bool = "SDL_RenderLines"
 
-///| Draw a rectangle on the current rendering target.
+///|
+/// Draw a rectangle on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param rect a pointer to the destination rectangle, or NULL to outline the
@@ -2232,9 +2757,14 @@ pub extern "C" fn sdl_RenderLines(renderer: SDL_Renderer, points: FixedArray[Flo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderRect(SDL_Renderer *renderer, const SDL_FRect *rect);
 /// ```
-pub extern "C" fn sdl_RenderRect(renderer: SDL_Renderer, rect: SDL_FRect) -> Bool = "SDL_RenderRect"
+#owned(rect)
+pub extern "C" fn sdl_RenderRect(
+  renderer : SDL_Renderer,
+  rect : SDL_FRect,
+) -> Bool = "SDL_RenderRect"
 
-///| Draw some number of rectangles on the current rendering target.
+///|
+/// Draw some number of rectangles on the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param rects a pointer to an array of destination rectangles.
@@ -2253,9 +2783,15 @@ pub extern "C" fn sdl_RenderRect(renderer: SDL_Renderer, rect: SDL_FRect) -> Boo
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderRects(SDL_Renderer *renderer, const SDL_FRect *rects, int count);
 /// ```
 /// Note: the type of rects `FixedArray[Float]` is correct, because SDL_FRect is { Float, Float, Float, Float }
-pub extern "C" fn sdl_RenderRects(renderer: SDL_Renderer, rects: FixedArray[Float], count: Int) -> Bool = "SDL_RenderRects"
+#owned(rects)
+pub extern "C" fn sdl_RenderRects(
+  renderer : SDL_Renderer,
+  rects : FixedArray[Float],
+  count : Int,
+) -> Bool = "SDL_RenderRects"
 
-///| Fill a rectangle on the current rendering target with the drawing color.
+///|
+/// Fill a rectangle on the current rendering target with the drawing color.
 ///
 /// @param renderer the rendering context.
 /// @param rect a pointer to the destination rectangle, or NULL for the entire
@@ -2273,10 +2809,16 @@ pub extern "C" fn sdl_RenderRects(renderer: SDL_Renderer, rects: FixedArray[Floa
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderFillRect(SDL_Renderer *renderer, const SDL_FRect *rect);
 /// ```
-pub extern "C" fn sdl_RenderFillRect(renderer: SDL_Renderer, rect: SDL_FRect) -> Bool = "SDL_RenderFillRect"
+#owned(rect)
+pub extern "C" fn sdl_RenderFillRect(
+  renderer : SDL_Renderer,
+  rect : SDL_FRect,
+) -> Bool = "SDL_RenderFillRect"
 
 ///| Fill some number of rectangles on the current rendering target with the
-///| drawing color.
+
+///|
+/// drawing color.
 ///
 /// @param renderer the rendering context.
 /// @param rects a pointer to an array of destination rectangles.
@@ -2295,9 +2837,15 @@ pub extern "C" fn sdl_RenderFillRect(renderer: SDL_Renderer, rect: SDL_FRect) ->
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderFillRects(SDL_Renderer *renderer, const SDL_FRect *rects, int count);
 /// ```
 /// Note: the type of rects `FixedArray[Float]` is correct, because SDL_FRect is { Float, Float, Float, Float }
-pub extern "C" fn sdl_RenderFillRects(renderer: SDL_Renderer, rects: FixedArray[Float], count: Int) -> Bool = "SDL_RenderFillRects"
+#owned(rects)
+pub extern "C" fn sdl_RenderFillRects(
+  renderer : SDL_Renderer,
+  rects : FixedArray[Float],
+  count : Int,
+) -> Bool = "SDL_RenderFillRects"
 
-///| Copy a portion of the texture to the current rendering target.
+///|
+/// Copy a portion of the texture to the current rendering target.
 ///
 /// @param renderer the rendering context.
 /// @param texture the source texture.
@@ -2320,11 +2868,20 @@ pub extern "C" fn sdl_RenderFillRects(renderer: SDL_Renderer, rects: FixedArray[
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderTexture(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_FRect *srcrect, const SDL_FRect *dstrect);
 /// ```
-pub extern "C" fn sdl_RenderTexture(renderer: SDL_Renderer, texture: SDL_Texture, srcrect: SDL_FRect, dstrect: SDL_FRect) -> Bool = "SDL_RenderTexture"
+#owned(srcrect, dstrect)
+pub extern "C" fn sdl_RenderTexture(
+  renderer : SDL_Renderer,
+  texture : SDL_Texture,
+  srcrect : SDL_FRect,
+  dstrect : SDL_FRect,
+) -> Bool = "SDL_RenderTexture"
 
 ///| Copy a portion of the texture to the current rendering target, optionally
+
 ///| rotating it by angle around the given center and also flipping it top-bottom
-///| and/or left-right.
+
+///|
+/// and/or left-right.
 ///
 /// @param renderer the rendering context.
 /// @param texture the source texture.
@@ -2354,9 +2911,19 @@ pub extern "C" fn sdl_RenderTexture(renderer: SDL_Renderer, texture: SDL_Texture
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderTextureRotated(SDL_Renderer *renderer, SDL_Texture *texture, const SDL_FRect *srcrect, const SDL_FRect *dstrect, const double angle, const SDL_FPoint *center, const SDL_FlipMode flip);
 /// ```
-pub extern "C" fn sdl_RenderTextureRotated(renderer: SDL_Renderer, texture: SDL_Texture, srcrect: SDL_FRect, dstrect: SDL_FRect, angle: Double, center: SDL_FPoint, flip: SDL_FlipMode) -> Bool = "SDL_RenderTextureRotated"
+#owned(srcrect, dstrect, center)
+pub extern "C" fn sdl_RenderTextureRotated(
+  renderer : SDL_Renderer,
+  texture : SDL_Texture,
+  srcrect : SDL_FRect,
+  dstrect : SDL_FRect,
+  angle : Double,
+  center : SDL_FPoint,
+  flip : SDL_FlipMode,
+) -> Bool = "SDL_RenderTextureRotated"
 
-///| Render a list of triangles, optionally using a texture and indices into the vertex array.
+///|
+/// Render a list of triangles, optionally using a texture and indices into the vertex array.
 ///
 /// @param renderer the rendering context.
 /// @param texture a pointer to the texture to apply to the geometry, or NULL
@@ -2380,9 +2947,18 @@ pub extern "C" fn sdl_RenderTextureRotated(renderer: SDL_Renderer, texture: SDL_
 ///                                                     const SDL_Vertex *vertices, int num_vertices,
 ///                                                     const int *indices, int num_indices);
 /// ```
-pub extern "C" fn sdl_RenderGeometry(renderer: SDL_Renderer, texture: SDL_Texture, vertices: FixedArray[Float], num_vertices: Int, indices: FixedArray[Int], num_indices: Int) -> Bool = "SDL_RenderGeometry"
+#owned(vertices, indices)
+pub extern "C" fn sdl_RenderGeometry(
+  renderer : SDL_Renderer,
+  texture : SDL_Texture,
+  vertices : FixedArray[Float],
+  num_vertices : Int,
+  indices : FixedArray[Int],
+  num_indices : Int,
+) -> Bool = "SDL_RenderGeometry"
 
-///| Render a list of triangles.
+///|
+/// Render a list of triangles.
 ///
 /// Render a list of triangles, optionally using a texture and indices into the
 /// vertex array. This is the same as SDL_RenderGeometry(), but with floating
@@ -2413,9 +2989,24 @@ pub extern "C" fn sdl_RenderGeometry(renderer: SDL_Renderer, texture: SDL_Textur
 ///                                                   int num_vertices,
 ///                                                   const void *indices, int num_indices, int size_indices);
 /// ```
-pub extern "C" fn sdl_RenderGeometryRaw(renderer: SDL_Renderer, texture: SDL_Texture, xy: FixedArray[Float], xy_stride: Int, color: SDL_FColor, color_stride: Int, uv: FixedArray[Float], uv_stride: Int, num_vertices: Int, indices: VoidPtr, num_indices: Int, size_indices: Int) -> Bool = "SDL_RenderGeometryRaw"
+#owned(xy, color, uv)
+pub extern "C" fn sdl_RenderGeometryRaw(
+  renderer : SDL_Renderer,
+  texture : SDL_Texture,
+  xy : FixedArray[Float],
+  xy_stride : Int,
+  color : SDL_FColor,
+  color_stride : Int,
+  uv : FixedArray[Float],
+  uv_stride : Int,
+  num_vertices : Int,
+  indices : VoidPtr,
+  num_indices : Int,
+  size_indices : Int,
+) -> Bool = "SDL_RenderGeometryRaw"
 
-///| Update the screen with rendering performed.
+///|
+/// Update the screen with rendering performed.
 ///
 /// SDL's rendering functions operate on a backbuffer; that is, calling a
 /// rendering function such as SDL_RenderLine() does not directly put a line
@@ -2441,9 +3032,10 @@ pub extern "C" fn sdl_RenderGeometryRaw(renderer: SDL_Renderer, texture: SDL_Tex
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderPresent(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_RenderPresent(renderer: SDL_Renderer) -> Bool = "SDL_RenderPresent"
+pub extern "C" fn sdl_RenderPresent(renderer : SDL_Renderer) -> Bool = "SDL_RenderPresent"
 
-///| Destroy the specified texture.
+///|
+/// Destroy the specified texture.
 ///
 /// @param texture the texture to destroy.
 ///
@@ -2458,9 +3050,10 @@ pub extern "C" fn sdl_RenderPresent(renderer: SDL_Renderer) -> Bool = "SDL_Rende
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroyTexture(SDL_Texture *texture);
 /// ```
-pub extern "C" fn sdl_DestroyTexture(texture: SDL_Texture) -> Unit = "SDL_DestroyTexture"
+pub extern "C" fn sdl_DestroyTexture(texture : SDL_Texture) -> Unit = "SDL_DestroyTexture"
 
-///| Destroy the rendering context for a window and free associated textures.
+///|
+/// Destroy the rendering context for a window and free associated textures.
 ///
 /// @param renderer the rendering context
 ///
@@ -2473,9 +3066,10 @@ pub extern "C" fn sdl_DestroyTexture(texture: SDL_Texture) -> Unit = "SDL_Destro
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroyRenderer(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_DestroyRenderer(renderer: SDL_Renderer) -> Unit = "SDL_DestroyRenderer"
+pub extern "C" fn sdl_DestroyRenderer(renderer : SDL_Renderer) -> Unit = "SDL_DestroyRenderer"
 
-///| Force the rendering context to flush any pending commands to the device.
+///|
+/// Force the rendering context to flush any pending commands to the device.
 ///
 /// You don't normally need to call this function unless you are planning to
 /// escape the SDL render API and render either pure OpenGl / Direct3D or
@@ -2495,9 +3089,10 @@ pub extern "C" fn sdl_DestroyRenderer(renderer: SDL_Renderer) -> Unit = "SDL_Des
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RenderFlush(SDL_Renderer *renderer);
 /// ```
-pub extern "C" fn sdl_RenderFlush(renderer: SDL_Renderer) -> Bool = "SDL_RenderFlush"
+pub extern "C" fn sdl_RenderFlush(renderer : SDL_Renderer) -> Bool = "SDL_RenderFlush"
 
-///| Set the VSync setting for a renderer.
+///|
+/// Set the VSync setting for a renderer.
 ///
 /// @param renderer the renderer to modify.
 /// @param vsync `1` to enable VSync, `0` to disable it, and `-1` for adaptive
@@ -2514,9 +3109,13 @@ pub extern "C" fn sdl_RenderFlush(renderer: SDL_Renderer) -> Bool = "SDL_RenderF
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetRenderVSync(SDL_Renderer *renderer, int vsync);
 /// ```
-pub extern "C" fn sdl_SetRenderVSync(renderer: SDL_Renderer, vsync: Int) -> Bool = "SDL_SetRenderVSync"
+pub extern "C" fn sdl_SetRenderVSync(
+  renderer : SDL_Renderer,
+  vsync : Int,
+) -> Bool = "SDL_SetRenderVSync"
 
-///| Get the VSync setting for a renderer.
+///|
+/// Get the VSync setting for a renderer.
 ///
 /// @param renderer the renderer to query.
 /// @param vsync a pointer filled with the VSync setting; `1` if VSync is
@@ -2534,4 +3133,8 @@ pub extern "C" fn sdl_SetRenderVSync(renderer: SDL_Renderer, vsync: Int) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetRenderVSync(SDL_Renderer *renderer, int *vsync);
 /// ```
-pub extern "C" fn sdl_GetRenderVSync(renderer: SDL_Renderer, vsync: Ref[Int]) -> Bool = "SDL_GetRenderVSync"
+#owned(vsync)
+pub extern "C" fn sdl_GetRenderVSync(
+  renderer : SDL_Renderer,
+  vsync : Ref[Int],
+) -> Bool = "SDL_GetRenderVSync"

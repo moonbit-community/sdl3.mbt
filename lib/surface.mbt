@@ -34,7 +34,8 @@
 /// 
 /// https://github.com/libsdl-org/SDL_image
 
-///| The flags on an SDL_Surface.
+///|
+/// The flags on an SDL_Surface.
 /// 
 /// These are generally considered read-only.
 /// 
@@ -43,23 +44,26 @@
 /// ```c
 /// typedef Uint32 SDL_SurfaceFlags;
 /// ```
-pub typealias UInt as SDL_SurfaceFlags
+pub type SDL_SurfaceFlags = UInt
 
-///| Surface uses preallocated pixel memory
-pub const SDL_SURFACE_PREALLOCATED: UInt = 0x00000001
+///|
+/// Surface uses preallocated pixel memory
+pub const SDL_SURFACE_PREALLOCATED : UInt = 0x00000001
 
-///| Surface needs to be locked to access pixels
-pub const SDL_SURFACE_LOCK_NEEDED: UInt = 0x00000002
+///|
+/// Surface needs to be locked to access pixels
+pub const SDL_SURFACE_LOCK_NEEDED : UInt = 0x00000002
 
-///| Surface is currently locked
-pub const SDL_SURFACE_LOCKED: UInt = 0x00000004
+///|
+/// Surface is currently locked
+pub const SDL_SURFACE_LOCKED : UInt = 0x00000004
 
-///| Surface uses pixel memory allocated with SDL_aligned_alloc()
-pub const SDL_SURFACE_SIMD_ALIGNED: UInt = 0x00000008
+///|
+/// Surface uses pixel memory allocated with SDL_aligned_alloc()
+pub const SDL_SURFACE_SIMD_ALIGNED : UInt = 0x00000008
 
-
-
-///| The scaling mode.
+///|
+/// The scaling mode.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -78,7 +82,8 @@ pub(all) enum SDL_ScaleMode {
   SDL_SCALEMODE_PIXELART
 }
 
-///| The flip mode.
+///|
+/// The flip mode.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -91,11 +96,15 @@ pub(all) enum SDL_ScaleMode {
 /// } SDL_FlipMode;
 /// ```
 pub(all) enum SDL_FlipMode {
-    SDL_FLIP_NONE           ///< Do not flip
-    SDL_FLIP_HORIZONTAL     ///< flip horizontally
-    SDL_FLIP_VERTICAL       ///< flip vertically
+  ///< Do not flip
+  ///< flip horizontally
+  ///< flip vertically
+  SDL_FLIP_NONE
+  SDL_FLIP_HORIZONTAL
+  SDL_FLIP_VERTICAL
 }
 
+///|
 #external
 pub type SDL_Surface
 
@@ -103,7 +112,8 @@ pub type SDL_Surface
 // SDL_Colorspace is defined as external type in video/pixels modules  
 // SDL_PropertiesID is handled as UInt throughout the codebase
 
-///| Allocate a new surface with a specific pixel format.
+///|
+/// Allocate a new surface with a specific pixel format.
 /// 
 /// The pixels of the new surface are initialized to zero.
 /// 
@@ -123,9 +133,14 @@ pub type SDL_Surface
 /// ```c
 /// extern SDL_DECLSPEC SDL_Surface * SDLCALL SDL_CreateSurface(int width, int height, SDL_PixelFormat format);
 /// ```
-pub extern "C" fn sdl_CreateSurface(width: Int, height: Int, format: SDL_PixelFormat) -> SDL_Surface = "SDL_CreateSurface"
+pub extern "C" fn sdl_CreateSurface(
+  width : Int,
+  height : Int,
+  format : SDL_PixelFormat,
+) -> SDL_Surface = "SDL_CreateSurface"
 
-///| Allocate a new surface with a specific pixel format and existing pixel
+///|
+/// Allocate a new surface with a specific pixel format and existing pixel
 /// data.
 /// 
 /// No copy is made of the pixel data. Pixel data is not managed automatically;
@@ -155,9 +170,16 @@ pub extern "C" fn sdl_CreateSurface(width: Int, height: Int, format: SDL_PixelFo
 /// ```c
 /// extern SDL_DECLSPEC SDL_Surface * SDLCALL SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void *pixels, int pitch);
 /// ```
-pub extern "C" fn sdl_CreateSurfaceFrom(width: Int, height: Int, format: SDL_PixelFormat, pixels: VoidPtr, pitch: Int) -> SDL_Surface = "SDL_CreateSurfaceFrom"
+pub extern "C" fn sdl_CreateSurfaceFrom(
+  width : Int,
+  height : Int,
+  format : SDL_PixelFormat,
+  pixels : VoidPtr,
+  pitch : Int,
+) -> SDL_Surface = "SDL_CreateSurfaceFrom"
 
-///| Free a surface.
+///|
+/// Free a surface.
 /// 
 /// It is safe to pass NULL to this function.
 /// 
@@ -173,9 +195,10 @@ pub extern "C" fn sdl_CreateSurfaceFrom(width: Int, height: Int, format: SDL_Pix
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroySurface(SDL_Surface *surface);
 /// ```
-pub extern "C" fn sdl_DestroySurface(surface: SDL_Surface) = "SDL_DestroySurface"
+pub extern "C" fn sdl_DestroySurface(surface : SDL_Surface) = "SDL_DestroySurface"
 
-///| Get the properties associated with a surface.
+///|
+/// Get the properties associated with a surface.
 /// 
 /// The following properties are understood by SDL:
 /// 
@@ -209,15 +232,25 @@ pub extern "C" fn sdl_DestroySurface(surface: SDL_Surface) = "SDL_DestroySurface
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetSurfaceProperties(SDL_Surface *surface);
 /// ```
-pub extern "C" fn sdl_GetSurfaceProperties(surface: SDL_Surface) -> UInt = "SDL_GetSurfaceProperties"
+pub extern "C" fn sdl_GetSurfaceProperties(surface : SDL_Surface) -> UInt = "SDL_GetSurfaceProperties"
 
-pub const SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT: String = "SDL.surface.SDR_white_point"
-pub const SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT: String = "SDL.surface.HDR_headroom"
-pub const SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING: String = "SDL.surface.tonemap"
-pub const SDL_PROP_SURFACE_HOTSPOT_X_NUMBER: String = "SDL.surface.hotspot.x"
-pub const SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER: String = "SDL.surface.hotspot.y"
+///|
+pub const SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT : String = "SDL.surface.SDR_white_point"
 
-///| Set the colorspace used by a surface.
+///|
+pub const SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT : String = "SDL.surface.HDR_headroom"
+
+///|
+pub const SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING : String = "SDL.surface.tonemap"
+
+///|
+pub const SDL_PROP_SURFACE_HOTSPOT_X_NUMBER : String = "SDL.surface.hotspot.x"
+
+///|
+pub const SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER : String = "SDL.surface.hotspot.y"
+
+///|
+/// Set the colorspace used by a surface.
 /// 
 /// Setting the colorspace doesn't change the pixels, only how they are
 /// interpreted in color operations.
@@ -237,9 +270,13 @@ pub const SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER: String = "SDL.surface.hotspot.y"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetSurfaceColorspace(SDL_Surface *surface, SDL_Colorspace colorspace);
 /// ```
-pub extern "C" fn sdl_SetSurfaceColorspace(surface: SDL_Surface, colorspace: SDL_Colorspace) -> Bool = "SDL_SetSurfaceColorspace"
+pub extern "C" fn sdl_SetSurfaceColorspace(
+  surface : SDL_Surface,
+  colorspace : SDL_Colorspace,
+) -> Bool = "SDL_SetSurfaceColorspace"
 
-///| Get the colorspace used by a surface.
+///|
+/// Get the colorspace used by a surface.
 /// 
 /// The colorspace defaults to SDL_COLORSPACE_SRGB_LINEAR for floating point
 /// formats, SDL_COLORSPACE_HDR10 for 10-bit formats, SDL_COLORSPACE_SRGB for
@@ -258,9 +295,12 @@ pub extern "C" fn sdl_SetSurfaceColorspace(surface: SDL_Surface, colorspace: SDL
 /// ```c
 /// extern SDL_DECLSPEC SDL_Colorspace SDLCALL SDL_GetSurfaceColorspace(SDL_Surface *surface);
 /// ```
-pub extern "C" fn sdl_GetSurfaceColorspace(surface: SDL_Surface) -> SDL_Colorspace = "SDL_GetSurfaceColorspace"
+pub extern "C" fn sdl_GetSurfaceColorspace(
+  surface : SDL_Surface,
+) -> SDL_Colorspace = "SDL_GetSurfaceColorspace"
 
-///| Perform a fast blit from the source surface to the destination surface.
+///|
+/// Perform a fast blit from the source surface to the destination surface.
 /// 
 /// @param src the SDL_Surface structure to be copied from.
 /// @param srcrect the SDL_Rect structure representing the rectangle to be
@@ -282,9 +322,16 @@ pub extern "C" fn sdl_GetSurfaceColorspace(surface: SDL_Surface) -> SDL_Colorspa
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect);
 /// ```
-pub extern "C" fn sdl_BlitSurface(src: SDL_Surface, srcrect: FixedArray[SDL_Rect], dst: SDL_Surface, dstrect: FixedArray[SDL_Rect]) -> Bool = "SDL_BlitSurface"
+#owned(srcrect, dstrect)
+pub extern "C" fn sdl_BlitSurface(
+  src : SDL_Surface,
+  srcrect : FixedArray[SDL_Rect],
+  dst : SDL_Surface,
+  dstrect : FixedArray[SDL_Rect],
+) -> Bool = "SDL_BlitSurface"
 
-///| Perform a scaled blit to a destination surface, which may be of a different
+///|
+/// Perform a scaled blit to a destination surface, which may be of a different
 /// format.
 /// 
 /// @param src the SDL_Surface structure to be copied from.
@@ -308,9 +355,17 @@ pub extern "C" fn sdl_BlitSurface(src: SDL_Surface, srcrect: FixedArray[SDL_Rect
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode);
 /// ```
-pub extern "C" fn sdl_BlitSurfaceScaled(src: SDL_Surface, srcrect: FixedArray[SDL_Rect], dst: SDL_Surface, dstrect: FixedArray[SDL_Rect], scaleMode: SDL_ScaleMode) -> Bool = "SDL_BlitSurfaceScaled"
+#owned(srcrect, dstrect)
+pub extern "C" fn sdl_BlitSurfaceScaled(
+  src : SDL_Surface,
+  srcrect : FixedArray[SDL_Rect],
+  dst : SDL_Surface,
+  dstrect : FixedArray[SDL_Rect],
+  scaleMode : SDL_ScaleMode,
+) -> Bool = "SDL_BlitSurfaceScaled"
 
-///| Perform a tiled blit to a destination surface, which may be of a different
+///|
+/// Perform a tiled blit to a destination surface, which may be of a different
 /// format.
 /// 
 /// The pixels in `srcrect` will be repeated as many times as needed to
@@ -335,9 +390,16 @@ pub extern "C" fn sdl_BlitSurfaceScaled(src: SDL_Surface, srcrect: FixedArray[SD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect);
 /// ```
-pub extern "C" fn sdl_BlitSurfaceTiled(src: SDL_Surface, srcrect: FixedArray[SDL_Rect], dst: SDL_Surface, dstrect: FixedArray[SDL_Rect]) -> Bool = "SDL_BlitSurfaceTiled"
+#owned(srcrect, dstrect)
+pub extern "C" fn sdl_BlitSurfaceTiled(
+  src : SDL_Surface,
+  srcrect : FixedArray[SDL_Rect],
+  dst : SDL_Surface,
+  dstrect : FixedArray[SDL_Rect],
+) -> Bool = "SDL_BlitSurfaceTiled"
 
-///| Map an RGB triple to an opaque pixel value for a surface.
+///|
+/// Map an RGB triple to an opaque pixel value for a surface.
 /// 
 /// This function maps the RGB color value to the specified pixel format and
 /// returns the pixel value best approximating the given RGB color value for
@@ -369,9 +431,15 @@ pub extern "C" fn sdl_BlitSurfaceTiled(src: SDL_Surface, srcrect: FixedArray[SDL
 /// ```c
 /// extern SDL_DECLSPEC Uint32 SDLCALL SDL_MapSurfaceRGB(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b);
 /// ```
-pub extern "C" fn sdl_MapSurfaceRGB(surface: SDL_Surface, r: Byte, g: Byte, b: Byte) -> UInt = "SDL_MapSurfaceRGB"
+pub extern "C" fn sdl_MapSurfaceRGB(
+  surface : SDL_Surface,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+) -> UInt = "SDL_MapSurfaceRGB"
 
-///| Map an RGBA quadruple to a pixel value for a surface.
+///|
+/// Map an RGBA quadruple to a pixel value for a surface.
 /// 
 /// This function maps the RGBA color value to the specified pixel format and
 /// returns the pixel value best approximating the given RGBA color value for
@@ -404,9 +472,16 @@ pub extern "C" fn sdl_MapSurfaceRGB(surface: SDL_Surface, r: Byte, g: Byte, b: B
 /// ```c
 /// extern SDL_DECLSPEC Uint32 SDLCALL SDL_MapSurfaceRGBA(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 /// ```
-pub extern "C" fn sdl_MapSurfaceRGBA(surface: SDL_Surface, r: Byte, g: Byte, b: Byte, a: Byte) -> UInt = "SDL_MapSurfaceRGBA"
+pub extern "C" fn sdl_MapSurfaceRGBA(
+  surface : SDL_Surface,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+  a : Byte,
+) -> UInt = "SDL_MapSurfaceRGBA"
 
-///| Retrieves a single pixel from a surface.
+///|
+/// Retrieves a single pixel from a surface.
 /// 
 /// This function prioritizes correctness over speed: it is suitable for unit
 /// tests, but is not intended for use in a game engine.
@@ -435,9 +510,19 @@ pub extern "C" fn sdl_MapSurfaceRGBA(surface: SDL_Surface, r: Byte, g: Byte, b: 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ReadSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a);
 /// ```
-pub extern "C" fn sdl_ReadSurfacePixel(surface: SDL_Surface, x: Int, y: Int, r: FixedArray[Byte], g: FixedArray[Byte], b: FixedArray[Byte], a: FixedArray[Byte]) -> Bool = "SDL_ReadSurfacePixel"
+#owned(r, g, b, a)
+pub extern "C" fn sdl_ReadSurfacePixel(
+  surface : SDL_Surface,
+  x : Int,
+  y : Int,
+  r : FixedArray[Byte],
+  g : FixedArray[Byte],
+  b : FixedArray[Byte],
+  a : FixedArray[Byte],
+) -> Bool = "SDL_ReadSurfacePixel"
 
-///| Writes a single pixel to a surface.
+///|
+/// Writes a single pixel to a surface.
 /// 
 /// This function prioritizes correctness over speed: it is suitable for unit
 /// tests, but is not intended for use in a game engine.
@@ -462,9 +547,18 @@ pub extern "C" fn sdl_ReadSurfacePixel(surface: SDL_Surface, x: Int, y: Int, r: 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 /// ```
-pub extern "C" fn sdl_WriteSurfacePixel(surface: SDL_Surface, x: Int, y: Int, r: Byte, g: Byte, b: Byte, a: Byte) -> Bool = "SDL_WriteSurfacePixel" 
+pub extern "C" fn sdl_WriteSurfacePixel(
+  surface : SDL_Surface,
+  x : Int,
+  y : Int,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+  a : Byte,
+) -> Bool = "SDL_WriteSurfacePixel"
 
-///| Load a BMP image from a file.
+///|
+/// Load a BMP image from a file.
 /// 
 /// @param file the BMP file to load.
 /// @return a new SDL_Surface with the loaded image, or NULL on error.
@@ -476,13 +570,16 @@ pub extern "C" fn sdl_WriteSurfacePixel(surface: SDL_Surface, x: Int, y: Int, r:
 /// ```c
 /// extern SDL_DECLSPEC SDL_Surface * SDLCALL SDL_LoadBMP(const char *file);
 /// ```
-extern "C" fn __sdl_LoadBMP(file: Bytes) -> SDL_Surface = "SDL_LoadBMP"
+#owned(file)
+extern "C" fn __sdl_LoadBMP(file : Bytes) -> SDL_Surface = "SDL_LoadBMP"
 
-pub fn sdl_LoadBMP(file: String) -> SDL_Surface {
-    __sdl_LoadBMP(string_to_cbytes(file))
+///|
+pub fn sdl_LoadBMP(file : String) -> SDL_Surface {
+  __sdl_LoadBMP(string_to_cbytes(file))
 }
 
-///| Save a BMP image to a file.
+///|
+/// Save a BMP image to a file.
 /// 
 /// @param surface the surface to save.
 /// @param file the BMP file to save to.
@@ -496,8 +593,10 @@ pub fn sdl_LoadBMP(file: String) -> SDL_Surface {
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SaveBMP(SDL_Surface *surface, const char *file);
 /// ```
-extern "C" fn __sdl_SaveBMP(surface: SDL_Surface, file: Bytes) -> Bool = "SDL_SaveBMP"
+#owned(file)
+extern "C" fn __sdl_SaveBMP(surface : SDL_Surface, file : Bytes) -> Bool = "SDL_SaveBMP"
 
-pub fn sdl_SaveBMP(surface: SDL_Surface, file: String) -> Bool {
-    __sdl_SaveBMP(surface, string_to_cbytes(file))
+///|
+pub fn sdl_SaveBMP(surface : SDL_Surface, file : String) -> Bool {
+  __sdl_SaveBMP(surface, string_to_cbytes(file))
 }

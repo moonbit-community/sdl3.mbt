@@ -2,18 +2,20 @@
 //pub struct Renderer(@lib.SDL_Renderer)
 
 pub struct Renderer {
-  base: @lib.SDL_Renderer
-  mut r: Byte
-  mut g: Byte
-  mut b: Byte
-  mut a: Byte
+  base : @lib.SDL_Renderer
+  mut r : Byte
+  mut g : Byte
+  mut b : Byte
+  mut a : Byte
 }
 
-fn Renderer::inner(self: Self) -> @lib.SDL_Renderer {
+///|
+fn Renderer::inner(self : Self) -> @lib.SDL_Renderer {
   self.base
 }
 
-pub fn Renderer::setDefaultColor(self: Self) -> Unit {
+///|
+pub fn Renderer::setDefaultColor(self : Self) -> Unit {
   self.r = 0
   self.g = 0
   self.b = 0
@@ -21,7 +23,9 @@ pub fn Renderer::setDefaultColor(self: Self) -> Unit {
 }
 
 ///|
-pub suberror SetDrawColorError String derive(Show)
+pub suberror SetDrawColorError {
+  SetDrawColorError(String)
+} derive(Show)
 
 ///|
 /// Set the draw color for the renderer.
@@ -33,7 +37,7 @@ pub suberror SetDrawColorError String derive(Show)
 pub fn Renderer::setDrawColor(
   self : Renderer,
   color : Color,
-  alpha~ : Int = 255
+  alpha? : Int = 255,
 ) -> Unit raise SetDrawColorError {
   let alpha = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
   let a = alpha.to_byte()
@@ -49,7 +53,14 @@ pub fn Renderer::setDrawColor(
   }
 }
 
-fn Renderer::setRGBA(self: Self, r: Byte, g: Byte, b: Byte, a: Byte) -> Unit {
+///|
+fn Renderer::setRGBA(
+  self : Self,
+  r : Byte,
+  g : Byte,
+  b : Byte,
+  a : Byte,
+) -> Unit {
   self.r = r
   self.g = g
   self.b = b
@@ -57,6 +68,7 @@ fn Renderer::setRGBA(self: Self, r: Byte, g: Byte, b: Byte, a: Byte) -> Unit {
   let _ = @lib.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
 }
 
+///|
 pub fn Renderer::setDrawAlpha(
   self : Renderer,
   alpha : Int,
@@ -72,9 +84,12 @@ pub fn Renderer::setDrawAlpha(
 }
 
 ///|
-pub suberror ClearRendererError String derive(Show)
+pub suberror ClearRendererError {
+  ClearRendererError(String)
+} derive(Show)
 
-pub fn Renderer::refreshBackGround(self: Self, color: Color) -> Unit raise {
+///|
+pub fn Renderer::refreshBackGround(self : Self, color : Color) -> Unit raise {
   let { r, g, b, a, .. } = self
   self.setDrawColor(color)
   let res = @lib.sdl_RenderClear(self.inner())
@@ -96,7 +111,9 @@ pub fn Renderer::clear(self : Renderer) -> Unit raise ClearRendererError {
 }
 
 ///|
-pub suberror RenderPresentError String derive(Show)
+pub suberror RenderPresentError {
+  RenderPresentError(String)
+} derive(Show)
 
 ///|
 /// Present the renderer.
@@ -108,10 +125,20 @@ pub fn Renderer::present(self : Renderer) -> Unit raise RenderPresentError {
   }
 }
 
-pub suberror RenderRendError String derive(Show)
+///|
+pub suberror RenderRendError {
+  RenderRendError(String)
+} derive(Show)
 
-pub fn Renderer::drawPoint(self: Self, x: Double, y: Double, color? : Color, alpha?: Int) -> Unit raise {
-  let {r, g, b, a, ..} = self
+///|
+pub fn Renderer::drawPoint(
+  self : Self,
+  x : Double,
+  y : Double,
+  color? : Color,
+  alpha? : Int,
+) -> Unit raise {
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
@@ -126,7 +153,11 @@ pub fn Renderer::drawPoint(self: Self, x: Double, y: Double, color? : Color, alp
     Some(a) => self.setDrawAlpha(a)
     None => ()
   }
-  let res = @lib.sdl_RenderPoint(self.inner(), x.to_float(), y.to_float())
+  let res = @lib.sdl_RenderPoint(
+    self.inner(),
+    Float::from_double(x),
+    Float::from_double(y),
+  )
   self.setRGBA(r, g, b, a)
   if !res {
     let msg = @lib.sdl_GetError()
@@ -134,26 +165,28 @@ pub fn Renderer::drawPoint(self: Self, x: Double, y: Double, color? : Color, alp
   }
 }
 
+///|
 pub fn Renderer::drawPoints(
-  self: Self,
-  points: Array[(Double, Double)],
-  color?: Color, alpha?: Int
+  self : Self,
+  points : Array[(Double, Double)],
+  color? : Color,
+  alpha? : Int,
 ) -> Unit raise {
-  let {r, g, b, a, ..} = self
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
     (None, Some(a)) => self.setDrawAlpha(a)
     (None, None) => ()
   }
-  let len = points.length();
+  let len = points.length()
   let pts : FixedArray[Float] = FixedArray::make(len * 2, 0)
-  let mut i = 0;
+  let mut i = 0
   for p in points {
     let (x, y) = p
-    pts[i] = x.to_float()
-    pts[i + 1] = y.to_float()
-    i += 2;
+    pts[i] = Float::from_double(x)
+    pts[i + 1] = Float::from_double(y)
+    i += 2
   }
   let res = @lib.sdl_RenderPoints(self.inner(), pts, len)
   if !res {
@@ -163,13 +196,15 @@ pub fn Renderer::drawPoints(
   self.setRGBA(r, g, b, a)
 }
 
+///|
 pub fn Renderer::drawLine(
-  self: Self,
-  start: (Double, Double),
-  end: (Double, Double),
-  color?: Color, alpha?: Int
+  self : Self,
+  start : (Double, Double),
+  end : (Double, Double),
+  color? : Color,
+  alpha? : Int,
 ) -> Unit raise {
-  let {r, g, b, a, ..} = self
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
@@ -180,8 +215,10 @@ pub fn Renderer::drawLine(
   let (x2, y2) = end
   let res = @lib.sdl_RenderLine(
     self.inner(),
-    x1.to_float(), y1.to_float(),
-    x2.to_float(), y2.to_float()
+    Float::from_double(x1),
+    Float::from_double(y1),
+    Float::from_double(x2),
+    Float::from_double(y2),
   )
   self.setRGBA(r, g, b, a)
   if !res {
@@ -190,27 +227,30 @@ pub fn Renderer::drawLine(
   }
 }
 
-pub fn Renderer::drawLines(self: Self, points: Array[(Double, Double)], color?:Color, alpha?:Int) -> Unit raise {
-  let {r, g, b, a, ..} = self
+///|
+pub fn Renderer::drawLines(
+  self : Self,
+  points : Array[(Double, Double)],
+  color? : Color,
+  alpha? : Int,
+) -> Unit raise {
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
     (None, Some(a)) => self.setDrawAlpha(a)
     (None, None) => ()
   }
-  let len = points.length();
+  let len = points.length()
   let pts : FixedArray[Float] = FixedArray::make(len * 2, 0)
-  let mut i = 0;
+  let mut i = 0
   for p in points {
     let (x, y) = p
-    pts[i] = x.to_float()
-    pts[i + 1] = y.to_float()
-    i += 2;
+    pts[i] = Float::from_double(x)
+    pts[i + 1] = Float::from_double(y)
+    i += 2
   }
-  let res = @lib.sdl_RenderLines(
-    self.inner(),
-    pts, len
-  )
+  let res = @lib.sdl_RenderLines(self.inner(), pts, len)
   if !res {
     let msg = @lib.sdl_GetError()
     raise RenderRendError(msg)
@@ -218,14 +258,17 @@ pub fn Renderer::drawLines(self: Self, points: Array[(Double, Double)], color?:C
   self.setRGBA(r, g, b, a)
 }
 
+///|
 pub fn Renderer::drawRect(
-  self: Self,
-  anchor: (Double, Double),
-  width: Double, height: Double,
-  color?: Color, alpha?: Int,
-  fill?: Bool = false
+  self : Self,
+  anchor : (Double, Double),
+  width : Double,
+  height : Double,
+  color? : Color,
+  alpha? : Int,
+  fill? : Bool = false,
 ) -> Unit raise {
-  let {r, g, b, a, ..} = self
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
@@ -233,10 +276,10 @@ pub fn Renderer::drawRect(
     (None, None) => ()
   }
   let rect = @lib.SDL_FRect::{
-    x: anchor.0.to_float(),
-    y: anchor.1.to_float(),
-    w: width.to_float(),
-    h: height.to_float(),
+    x: Float::from_double(anchor.0),
+    y: Float::from_double(anchor.1),
+    w: Float::from_double(width),
+    h: Float::from_double(height),
   }
   let res = if fill {
     @lib.sdl_RenderFillRect(self.inner(), rect)
@@ -250,29 +293,31 @@ pub fn Renderer::drawRect(
   self.setRGBA(r, g, b, a)
 }
 
+///|
 pub fn Renderer::drawRects(
-  self: Self,
-  rects: Array[((Double, Double), Double, Double)],
-  color?: Color, alpha?: Int,
-  fill~: Bool = false
+  self : Self,
+  rects : Array[((Double, Double), Double, Double)],
+  color? : Color,
+  alpha? : Int,
+  fill? : Bool = false,
 ) -> Unit raise {
-  let {r, g, b, a, ..} = self
+  let { r, g, b, a, .. } = self
   match (color, alpha) {
     (Some(c), Some(a)) => self.setDrawColor(c, alpha=a)
     (Some(c), None) => self.setDrawColor(c)
     (None, Some(a)) => self.setDrawAlpha(a)
     (None, None) => ()
   }
-  let len = rects.length();
-  let sdl_rects: FixedArray[Float] = FixedArray::make(len * 4, 0)
-  let mut i = 0;
+  let len = rects.length()
+  let sdl_rects : FixedArray[Float] = FixedArray::make(len * 4, 0)
+  let mut i = 0
   for r in rects {
     let ((x, y), w, h) = r
-    sdl_rects[i] = x.to_float()
-    sdl_rects[i + 1] = y.to_float()
-    sdl_rects[i + 2] = w.to_float()
-    sdl_rects[i + 3] = h.to_float()
-    i += 4;
+    sdl_rects[i] = Float::from_double(x)
+    sdl_rects[i + 1] = Float::from_double(y)
+    sdl_rects[i + 2] = Float::from_double(w)
+    sdl_rects[i + 3] = Float::from_double(h)
+    i += 4
   }
   let res = if fill {
     @lib.sdl_RenderFillRects(self.inner(), sdl_rects, len)
@@ -286,52 +331,84 @@ pub fn Renderer::drawRects(
   self.setRGBA(r, g, b, a)
 }
 
-pub suberror DrawGeometryError String derive(Show)
+///|
+pub suberror DrawGeometryError {
+  DrawGeometryError(String)
+} derive(Show)
 
+///|
 pub fn Renderer::drawGeometry(
-  self: Self,
-  vertexes: Array[(Double, Double)],
-  color_alpha?: Array[(Color, Byte)] = [],
-  texture_coords?: Array[(Double, Double)] = [],
-  indices?: Array[Int] = [],
+  self : Self,
+  vertexes : Array[(Double, Double)],
+  color_alpha? : Array[(Color, Byte)] = [],
+  texture_coords? : Array[(Double, Double)] = [],
+  indices? : Array[Int] = [],
 ) -> Unit raise {
   if vertexes.length() < 3 {
-    raise DrawGeometryError("At least 3 vertexes are required to draw a geometry.")
+    raise DrawGeometryError(
+      "At least 3 vertexes are required to draw a geometry.",
+    )
   }
-  if not(color_alpha.length() is (0 | 1)) && color_alpha.length() != vertexes.length() {
-    raise DrawGeometryError("color_alpha length must be 0, 1, or equal to vertexes length.")
+  if not(color_alpha.length() is (0 | 1)) &&
+    color_alpha.length() != vertexes.length() {
+    raise DrawGeometryError(
+      "color_alpha length must be 0, 1, or equal to vertexes length.",
+    )
   }
-  if not(texture_coords.length() is (0 | 1)) && texture_coords.length() != vertexes.length() {
-    raise DrawGeometryError("texture_coords length must be 0, 1, or equal to vertexes length.")
+  if not(texture_coords.length() is (0 | 1)) &&
+    texture_coords.length() != vertexes.length() {
+    raise DrawGeometryError(
+      "texture_coords length must be 0, 1, or equal to vertexes length.",
+    )
   }
   if indices.length() != 0 && indices.length() != vertexes.length() {
-    raise DrawGeometryError("indices length must be 0, or equal to vertexes length.")
+    raise DrawGeometryError(
+      "indices length must be 0, or equal to vertexes length.",
+    )
   }
   if vertexes.length() % 3 != 0 {
     raise DrawGeometryError("vertexes length must be a multiple of 3.")
   }
 
   let len_of_vertexes = vertexes.length()
-  let sdl_vertexes_data : FixedArray[Float] = FixedArray::make(len_of_vertexes * 8, 0.0)
+  let sdl_vertexes_data : FixedArray[Float] = FixedArray::make(
+    len_of_vertexes * 8,
+    0.0,
+  )
   let mut idx = 0
   for i, v in vertexes {
     let (x, y) = v
-    sdl_vertexes_data[idx] = x.to_float()
-    sdl_vertexes_data[idx + 1] = y.to_float()
+    sdl_vertexes_data[idx] = Float::from_double(x)
+    sdl_vertexes_data[idx + 1] = Float::from_double(y)
     let (r, g, b, a) = match color_alpha {
       [] => {
-        let { r, g, b, a, ..} = self
-        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+        let { r, g, b, a, .. } = self
+        (
+          Float::from_byte(r),
+          Float::from_byte(g),
+          Float::from_byte(b),
+          Float::from_byte(a),
+        )
       }
       [c] => {
         let (color, a) = c
         let (r, g, b) = color.to_rgb()
-        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+        (
+          Float::from_byte(r),
+          Float::from_byte(g),
+          Float::from_byte(b),
+          Float::from_byte(a),
+        )
       }
       _ => {
         let (color, a) = color_alpha[i]
         let (r, g, b) = color.to_rgb()
-        (r.to_float(), g.to_float(), b.to_float(), a.to_float())
+        (
+          Float::from_byte(r),
+          Float::from_byte(g),
+          Float::from_byte(b),
+          Float::from_byte(a),
+        )
       }
     }
     sdl_vertexes_data[idx + 2] = r
@@ -343,8 +420,8 @@ pub fn Renderer::drawGeometry(
       [c] => c
       _ => texture_coords[i]
     }
-    sdl_vertexes_data[idx + 6] = tx.to_float()
-    sdl_vertexes_data[idx + 7] = ty.to_float()
+    sdl_vertexes_data[idx + 6] = Float::from_double(tx)
+    sdl_vertexes_data[idx + 7] = Float::from_double(ty)
     idx += 8
   }
 
@@ -359,8 +436,10 @@ pub fn Renderer::drawGeometry(
   let res = @lib.sdl_RenderGeometry(
     self.inner(),
     texture,
-    sdl_vertexes_data, len_of_vertexes,
-    indices_data, indices_len
+    sdl_vertexes_data,
+    len_of_vertexes,
+    indices_data,
+    indices_len,
   )
 
   if !res {

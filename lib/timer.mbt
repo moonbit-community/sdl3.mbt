@@ -34,51 +34,58 @@
 /// There are also useful macros to convert between time units, like
 /// SDL_SECONDS_TO_NS() and such.
 
-///| Number of milliseconds in a second.
+///|
+/// Number of milliseconds in a second.
 /// 
 /// This is always 1000.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_MS_PER_SECOND: Int = 1000
+pub const SDL_MS_PER_SECOND : Int = 1000
 
-///| Number of microseconds in a second.
+///|
+/// Number of microseconds in a second.
 /// 
 /// This is always 1000000.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_US_PER_SECOND: Int = 1000000
+pub const SDL_US_PER_SECOND : Int = 1000000
 
-///| Number of nanoseconds in a second.
+///|
+/// Number of nanoseconds in a second.
 /// 
 /// This is always 1000000000.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_NS_PER_SECOND: Int64 = 1000000000L
+pub const SDL_NS_PER_SECOND : Int64 = 1000000000L
 
-///| Number of nanoseconds in a millisecond.
+///|
+/// Number of nanoseconds in a millisecond.
 /// 
 /// This is always 1000000.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_NS_PER_MS: Int = 1000000
+pub const SDL_NS_PER_MS : Int = 1000000
 
-///| Number of nanoseconds in a microsecond.
+///|
+/// Number of nanoseconds in a microsecond.
 /// 
 /// This is always 1000.
 /// 
 /// @since This macro is available since SDL 3.2.0.
-pub const SDL_NS_PER_US: Int = 1000
+pub const SDL_NS_PER_US : Int = 1000
 
-///| Definition of the timer ID type.
+///|
+/// Definition of the timer ID type.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef Uint32 SDL_TimerID;
 /// ```
-pub typealias UInt as SDL_TimerID
+pub type SDL_TimerID = UInt
 
-///| Function prototype for the millisecond timer callback function.
+///|
+/// Function prototype for the millisecond timer callback function.
 /// 
 /// The callback function is passed the current timer interval and returns the
 /// next timer interval, in milliseconds. If the returned value is the same as
@@ -104,9 +111,10 @@ pub typealias UInt as SDL_TimerID
 /// ```c
 /// typedef Uint32 (SDLCALL *SDL_TimerCallback)(void *userdata, SDL_TimerID timerID, Uint32 interval);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_TimerID, UInt) -> UInt] as SDL_TimerCallback
+pub type SDL_TimerCallback = FuncRef[(VoidPtr, SDL_TimerID, UInt) -> UInt]
 
-///| Function prototype for the nanosecond timer callback function.
+///|
+/// Function prototype for the nanosecond timer callback function.
 /// 
 /// The callback function is passed the current timer interval and returns the
 /// next timer interval, in nanoseconds. If the returned value is the same as
@@ -132,9 +140,10 @@ pub typealias FuncRef[(VoidPtr, SDL_TimerID, UInt) -> UInt] as SDL_TimerCallback
 /// ```c
 /// typedef Uint64 (SDLCALL *SDL_NSTimerCallback)(void *userdata, SDL_TimerID timerID, Uint64 interval);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_TimerID, UInt64) -> UInt64] as SDL_NSTimerCallback
+pub type SDL_NSTimerCallback = FuncRef[(VoidPtr, SDL_TimerID, UInt64) -> UInt64]
 
-///| Get the number of milliseconds that have elapsed since the SDL library
+///|
+/// Get the number of milliseconds that have elapsed since the SDL library
 /// initialization.
 /// 
 /// @return an unsigned 64‑bit integer that represents the number of
@@ -152,7 +161,8 @@ pub typealias FuncRef[(VoidPtr, SDL_TimerID, UInt64) -> UInt64] as SDL_NSTimerCa
 /// ```
 pub extern "C" fn sdl_GetTicks() -> UInt64 = "SDL_GetTicks"
 
-///| Get the number of nanoseconds since SDL library initialization.
+///|
+/// Get the number of nanoseconds since SDL library initialization.
 /// 
 /// @return an unsigned 64-bit value representing the number of nanoseconds
 ///          since the SDL library initialized.
@@ -166,7 +176,8 @@ pub extern "C" fn sdl_GetTicks() -> UInt64 = "SDL_GetTicks"
 /// ```
 pub extern "C" fn sdl_GetTicksNS() -> UInt64 = "SDL_GetTicksNS"
 
-///| Get the current value of the high resolution counter.
+///|
+/// Get the current value of the high resolution counter.
 /// 
 /// This function is typically used for profiling.
 /// 
@@ -187,7 +198,8 @@ pub extern "C" fn sdl_GetTicksNS() -> UInt64 = "SDL_GetTicksNS"
 /// ```
 pub extern "C" fn sdl_GetPerformanceCounter() -> UInt64 = "SDL_GetPerformanceCounter"
 
-///| Get the count per second of the high resolution counter.
+///|
+/// Get the count per second of the high resolution counter.
 /// 
 /// @return a platform-specific count per second.
 /// 
@@ -202,7 +214,8 @@ pub extern "C" fn sdl_GetPerformanceCounter() -> UInt64 = "SDL_GetPerformanceCou
 /// ```
 pub extern "C" fn sdl_GetPerformanceFrequency() -> UInt64 = "SDL_GetPerformanceFrequency"
 
-///| Wait a specified number of milliseconds before returning.
+///|
+/// Wait a specified number of milliseconds before returning.
 /// 
 /// This function waits a specified number of milliseconds before returning. It
 /// waits at least the specified time, but possibly longer due to OS
@@ -220,9 +233,10 @@ pub extern "C" fn sdl_GetPerformanceFrequency() -> UInt64 = "SDL_GetPerformanceF
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_Delay(Uint32 ms);
 /// ```
-pub extern "C" fn sdl_Delay(ms: UInt) -> Unit = "SDL_Delay"
+pub extern "C" fn sdl_Delay(ms : UInt) -> Unit = "SDL_Delay"
 
-///| Wait a specified number of nanoseconds before returning.
+///|
+/// Wait a specified number of nanoseconds before returning.
 /// 
 /// This function waits a specified number of nanoseconds before returning. It
 /// waits at least the specified time, but possibly longer due to OS
@@ -240,9 +254,10 @@ pub extern "C" fn sdl_Delay(ms: UInt) -> Unit = "SDL_Delay"
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DelayNS(Uint64 ns);
 /// ```
-pub extern "C" fn sdl_DelayNS(ns: UInt64) -> Unit = "SDL_DelayNS"
+pub extern "C" fn sdl_DelayNS(ns : UInt64) -> Unit = "SDL_DelayNS"
 
-///| Wait a specified number of nanoseconds before returning.
+///|
+/// Wait a specified number of nanoseconds before returning.
 /// 
 /// This function waits a specified number of nanoseconds before returning. It
 /// will attempt to wait as close to the requested time as possible, busy
@@ -260,9 +275,10 @@ pub extern "C" fn sdl_DelayNS(ns: UInt64) -> Unit = "SDL_DelayNS"
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DelayPrecise(Uint64 ns);
 /// ```
-pub extern "C" fn sdl_DelayPrecise(ns: UInt64) -> Unit = "SDL_DelayPrecise"
+pub extern "C" fn sdl_DelayPrecise(ns : UInt64) -> Unit = "SDL_DelayPrecise"
 
-///| Call a callback function at a future time.
+///|
+/// Call a callback function at a future time.
 /// 
 /// The callback function is passed the current timer interval and the user
 /// supplied parameter from the SDL_AddTimer() call and should return the next
@@ -298,9 +314,14 @@ pub extern "C" fn sdl_DelayPrecise(ns: UInt64) -> Unit = "SDL_DelayPrecise"
 /// ```c
 /// extern SDL_DECLSPEC SDL_TimerID SDLCALL SDL_AddTimer(Uint32 interval, SDL_TimerCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_AddTimer(interval: UInt, callback: SDL_TimerCallback, userdata: VoidPtr) -> SDL_TimerID = "SDL_AddTimer"
+pub extern "C" fn sdl_AddTimer(
+  interval : UInt,
+  callback : SDL_TimerCallback,
+  userdata : VoidPtr,
+) -> SDL_TimerID = "SDL_AddTimer"
 
-///| Call a callback function at a future time.
+///|
+/// Call a callback function at a future time.
 /// 
 /// The callback function is passed the current timer interval and the user
 /// supplied parameter from the SDL_AddTimerNS() call and should return the
@@ -336,9 +357,14 @@ pub extern "C" fn sdl_AddTimer(interval: UInt, callback: SDL_TimerCallback, user
 /// ```c
 /// extern SDL_DECLSPEC SDL_TimerID SDLCALL SDL_AddTimerNS(Uint64 interval, SDL_NSTimerCallback callback, void *userdata);
 /// ```
-pub extern "C" fn sdl_AddTimerNS(interval: UInt64, callback: SDL_NSTimerCallback, userdata: VoidPtr) -> SDL_TimerID = "SDL_AddTimerNS"
+pub extern "C" fn sdl_AddTimerNS(
+  interval : UInt64,
+  callback : SDL_NSTimerCallback,
+  userdata : VoidPtr,
+) -> SDL_TimerID = "SDL_AddTimerNS"
 
-///| Remove a timer created with SDL_AddTimer().
+///|
+/// Remove a timer created with SDL_AddTimer().
 /// 
 /// @param id the ID of the timer to remove.
 /// @return true on success or false on failure; call SDL_GetError() for more
@@ -353,4 +379,4 @@ pub extern "C" fn sdl_AddTimerNS(interval: UInt64, callback: SDL_NSTimerCallback
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RemoveTimer(SDL_TimerID id);
 /// ```
-pub extern "C" fn sdl_RemoveTimer(id: SDL_TimerID) -> Bool = "SDL_RemoveTimer"
+pub extern "C" fn sdl_RemoveTimer(id : SDL_TimerID) -> Bool = "SDL_RemoveTimer"

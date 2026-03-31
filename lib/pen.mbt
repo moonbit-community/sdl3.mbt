@@ -34,28 +34,32 @@
 /// Pens may provide more than simple touch input; they might have other axes,
 /// such as pressure, tilt, rotation, etc.
 
-///| SDL pen instance IDs.
+///|
+/// SDL pen instance IDs.
 ///
 /// ```c
 /// typedef Uint32 SDL_PenID;
 /// ```
-pub typealias UInt as SDL_PenID
+pub type SDL_PenID = UInt
 
-///| The SDL_MouseID for mouse events simulated with pen input.
+///|
+/// The SDL_MouseID for mouse events simulated with pen input.
 ///
 /// ```c
 /// #define SDL_PEN_MOUSEID ((SDL_MouseID)-2)
 /// ```
 pub const SDL_PEN_MOUSEID : SDL_MouseID = 0xFFFF_FFFE
 
-///| The SDL_TouchID for touch events simulated with pen input.
+///|
+/// The SDL_TouchID for touch events simulated with pen input.
 ///
 /// ```c
 /// #define SDL_PEN_TOUCHID ((SDL_TouchID)-2)
 /// ```
 pub const SDL_PEN_TOUCHID : SDL_TouchID = 0xFFFF_FFFF_FFFF_FFFE
 
-///| Pen input flags, as reported by various pen events' `pen_state` field.
+///|
+/// Pen input flags, as reported by various pen events' `pen_state` field.
 ///
 /// ```c
 /// typedef Uint32 SDL_PenInputFlags;
@@ -78,7 +82,8 @@ pub(all) enum SDL_PenInputFlags {
   SDL_PEN_INPUT_ERASER_TIP = 1073741824
 }
 
-///| Pen axis indices.
+///|
+/// Pen axis indices.
 ///
 /// ```c
 /// typedef enum SDL_PenAxis

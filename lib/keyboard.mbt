@@ -17,6 +17,7 @@
 ///    misrepresented as being the original software.
 /// 3. This notice may not be removed or altered from any source distribution.
 
+///|
 /// # CategoryKeyboard
 /// 
 /// SDL keyboard management.
@@ -25,14 +26,16 @@
 /// best to accept keyboard input in various types of programs:
 /// 
 /// https://wiki.libsdl.org/SDL3/BestKeyboardPractices
-
 pub struct SDL_Scancode(UInt) derive(Eq)
 
+///|
 pub struct SDL_Keycode(UInt) derive(Eq, Show)
 
+///|
 pub struct SDL_Keymod(UInt16) derive(Eq)
 
-///| This is a unique ID for a keyboard for the time it is connected to the
+///|
+/// This is a unique ID for a keyboard for the time it is connected to the
 /// system, and is never reused for the lifetime of the application.
 /// 
 /// If the keyboard is disconnected and reconnected, it will get a new ID.
@@ -44,9 +47,10 @@ pub struct SDL_Keymod(UInt16) derive(Eq)
 /// ```c
 /// typedef Uint32 SDL_KeyboardID;
 /// ```
-pub typealias UInt as SDL_KeyboardID
+pub type SDL_KeyboardID = UInt
 
-///| Text input type.
+///|
+/// Text input type.
 /// 
 /// These are the valid values for SDL_PROP_TEXTINPUT_TYPE_NUMBER. Not every
 /// value is valid on every platform, but where a value isn't supported, a
@@ -82,7 +86,8 @@ pub(all) enum SDL_TextInputType {
   SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE
 }
 
-///| Auto capitalization type.
+///|
+/// Auto capitalization type.
 /// 
 /// These are the valid values for SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER.
 /// Not every value is valid on every platform, but where a value isn't
@@ -109,15 +114,26 @@ pub(all) enum SDL_Capitalization {
 }
 
 // 文本输入属性常量
+
+///|
 pub const SDL_PROP_TEXTINPUT_TYPE_NUMBER : String = "SDL.textinput.type"
+
+///|
 pub const SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER : String = "SDL.textinput.capitalization"
+
+///|
 pub const SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN : String = "SDL.textinput.autocorrect"
+
+///|
 pub const SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN : String = "SDL.textinput.multiline"
+
+///|
 pub const SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER : String = "SDL.textinput.android.inputtype"
 
 // Function prototypes
 
-///| Return whether a keyboard is currently connected.
+///|
+/// Return whether a keyboard is currently connected.
 /// 
 /// @return true if a keyboard is connected, false otherwise.
 /// 
@@ -130,9 +146,10 @@ pub const SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER : String = "SDL.textinput.
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HasKeyboard(void);
 /// ```
-pub extern "C" fn sdl_HasKeyboard() -> Bool = "SDL_HasKeyboard";
+pub extern "C" fn sdl_HasKeyboard() -> Bool = "SDL_HasKeyboard"
 
-///| Get a list of currently connected keyboards.
+///|
+/// Get a list of currently connected keyboards.
 /// 
 /// Note that this will include any device or virtual driver that includes
 /// keyboard functionality, including some mice, KVM switches, motherboard
@@ -155,9 +172,13 @@ pub extern "C" fn sdl_HasKeyboard() -> Bool = "SDL_HasKeyboard";
 /// ```c
 /// extern SDL_DECLSPEC SDL_KeyboardID * SDLCALL SDL_GetKeyboards(int *count);
 /// ```
-pub extern "C" fn sdl_GetKeyboards(count: FixedArray[Int]) -> FixedArray[SDL_KeyboardID] = "SDL_GetKeyboards";
+#owned(count)
+pub extern "C" fn sdl_GetKeyboards(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_KeyboardID] = "SDL_GetKeyboards"
 
-///| Get the name of a keyboard.
+///|
+/// Get the name of a keyboard.
 /// 
 /// This function returns "" if the keyboard doesn't have a name.
 /// 
@@ -174,16 +195,18 @@ pub extern "C" fn sdl_GetKeyboards(count: FixedArray[Int]) -> FixedArray[SDL_Key
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetKeyboardNameForID(SDL_KeyboardID instance_id);
 /// ```
-pub fn sdl_GetKeyboardNameForID(instance_id: SDL_KeyboardID) -> String {
-  let cres = __sdl_GetKeyboardNameForID(instance_id);
-  let res = cres.to_string();
+pub fn sdl_GetKeyboardNameForID(instance_id : SDL_KeyboardID) -> String {
+  let cres = __sdl_GetKeyboardNameForID(instance_id)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetKeyboardNameForID(instance_id: SDL_KeyboardID) -> CStr = "SDL_GetKeyboardNameForID";
+///|
+extern "C" fn __sdl_GetKeyboardNameForID(instance_id : SDL_KeyboardID) -> CStr = "SDL_GetKeyboardNameForID"
 
-///| Query the window which currently has keyboard focus.
+///|
+/// Query the window which currently has keyboard focus.
 /// 
 /// @return the window with keyboard focus.
 /// 
@@ -194,9 +217,10 @@ extern "C" fn __sdl_GetKeyboardNameForID(instance_id: SDL_KeyboardID) -> CStr = 
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetKeyboardFocus(void);
 /// ```
-pub extern "C" fn sdl_GetKeyboardFocus() -> SDL_Window = "SDL_GetKeyboardFocus";
+pub extern "C" fn sdl_GetKeyboardFocus() -> SDL_Window = "SDL_GetKeyboardFocus"
 
-///| Get a snapshot of the current state of the keyboard.
+///|
+/// Get a snapshot of the current state of the keyboard.
 /// 
 /// The pointer returned is a pointer to an internal SDL array. It will be
 /// valid for the whole lifetime of the application and should not be freed by
@@ -229,9 +253,13 @@ pub extern "C" fn sdl_GetKeyboardFocus() -> SDL_Window = "SDL_GetKeyboardFocus";
 /// ```c
 /// extern SDL_DECLSPEC const bool * SDLCALL SDL_GetKeyboardState(int *numkeys);
 /// ```
-pub extern "C" fn sdl_GetKeyboardState(numkeys: FixedArray[Int]) -> FixedArray[Bool] = "SDL_GetKeyboardState";
+#owned(numkeys)
+pub extern "C" fn sdl_GetKeyboardState(
+  numkeys : FixedArray[Int],
+) -> FixedArray[Bool] = "SDL_GetKeyboardState"
 
-///| Clear the state of the keyboard.
+///|
+/// Clear the state of the keyboard.
 /// 
 /// This function will generate key up events for all pressed keys.
 /// 
@@ -244,9 +272,10 @@ pub extern "C" fn sdl_GetKeyboardState(numkeys: FixedArray[Int]) -> FixedArray[B
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_ResetKeyboard(void);
 /// ```
-pub extern "C" fn sdl_ResetKeyboard() = "SDL_ResetKeyboard";
+pub extern "C" fn sdl_ResetKeyboard() = "SDL_ResetKeyboard"
 
-///| Get the current key modifier state for the keyboard.
+///|
+/// Get the current key modifier state for the keyboard.
 /// 
 /// @return an OR'd combination of the modifier keys for the keyboard. See
 ///          SDL_Keymod for details.
@@ -261,9 +290,10 @@ pub extern "C" fn sdl_ResetKeyboard() = "SDL_ResetKeyboard";
 /// ```c
 /// extern SDL_DECLSPEC SDL_Keymod SDLCALL SDL_GetModState(void);
 /// ```
-pub extern "C" fn sdl_GetModState() -> SDL_Keymod = "SDL_GetModState";
+pub extern "C" fn sdl_GetModState() -> SDL_Keymod = "SDL_GetModState"
 
-///| Set the current key modifier state for the keyboard.
+///|
+/// Set the current key modifier state for the keyboard.
 /// 
 /// The inverse of SDL_GetModState(), SDL_SetModState() allows you to impose
 /// modifier key states on your application. Simply pass your desired modifier
@@ -284,9 +314,10 @@ pub extern "C" fn sdl_GetModState() -> SDL_Keymod = "SDL_GetModState";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetModState(SDL_Keymod modstate);
 /// ```
-pub extern "C" fn sdl_SetModState(modstate: SDL_Keymod) = "SDL_SetModState";
+pub extern "C" fn sdl_SetModState(modstate : SDL_Keymod) = "SDL_SetModState"
 
-///| Get the key code corresponding to the given scancode according to the
+///|
+/// Get the key code corresponding to the given scancode according to the
 /// current keyboard layout.
 /// 
 /// If you want to get the keycode as it would be delivered in key events,
@@ -310,9 +341,14 @@ pub extern "C" fn sdl_SetModState(modstate: SDL_Keymod) = "SDL_SetModState";
 /// ```c
 /// extern SDL_DECLSPEC SDL_Keycode SDLCALL SDL_GetKeyFromScancode(SDL_Scancode scancode, SDL_Keymod modstate, bool key_event);
 /// ```
-pub extern "C" fn sdl_GetKeyFromScancode(scancode: SDL_Scancode, modstate: SDL_Keymod, key_event: Bool) -> SDL_Keycode = "SDL_GetKeyFromScancode";
+pub extern "C" fn sdl_GetKeyFromScancode(
+  scancode : SDL_Scancode,
+  modstate : SDL_Keymod,
+  key_event : Bool,
+) -> SDL_Keycode = "SDL_GetKeyFromScancode"
 
-///| Get the scancode corresponding to the given key code according to the
+///|
+/// Get the scancode corresponding to the given key code according to the
 /// current keyboard layout.
 /// 
 /// Note that there may be multiple scancode+modifier states that can generate
@@ -333,9 +369,14 @@ pub extern "C" fn sdl_GetKeyFromScancode(scancode: SDL_Scancode, modstate: SDL_K
 /// ```c
 /// extern SDL_DECLSPEC SDL_Scancode SDLCALL SDL_GetScancodeFromKey(SDL_Keycode key, SDL_Keymod *modstate);
 /// ```
-pub extern "C" fn sdl_GetScancodeFromKey(key: SDL_Keycode, modstate: FixedArray[SDL_Keymod]) -> SDL_Scancode = "SDL_GetScancodeFromKey";
+#owned(modstate)
+pub extern "C" fn sdl_GetScancodeFromKey(
+  key : SDL_Keycode,
+  modstate : FixedArray[SDL_Keymod],
+) -> SDL_Scancode = "SDL_GetScancodeFromKey"
 
-///| Set a human-readable name for a scancode.
+///|
+/// Set a human-readable name for a scancode.
 /// 
 /// @param scancode the desired SDL_Scancode.
 /// @param name the name to use for the scancode, encoded as UTF-8. The string
@@ -353,13 +394,19 @@ pub extern "C" fn sdl_GetScancodeFromKey(key: SDL_Keycode, modstate: FixedArray[
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetScancodeName(SDL_Scancode scancode, const char *name);
 /// ```
-pub fn sdl_SetScancodeName(scancode: SDL_Scancode, name: String) -> Bool {
+pub fn sdl_SetScancodeName(scancode : SDL_Scancode, name : String) -> Bool {
   __sdl_SetScancodeName(scancode, string_to_cbytes(name))
 }
 
-extern "C" fn __sdl_SetScancodeName(scancode: SDL_Scancode, name: Bytes) -> Bool = "SDL_SetScancodeName";
+///|
+#owned(name)
+extern "C" fn __sdl_SetScancodeName(
+  scancode : SDL_Scancode,
+  name : Bytes,
+) -> Bool = "SDL_SetScancodeName"
 
-///| Get a human-readable name for a scancode.
+///|
+/// Get a human-readable name for a scancode.
 /// 
 /// **Warning**: The returned name is by design not stable across platforms,
 /// e.g. the name for `SDL_SCANCODE_LGUI` is "Left GUI" under Linux but "Left
@@ -385,16 +432,18 @@ extern "C" fn __sdl_SetScancodeName(scancode: SDL_Scancode, name: Bytes) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetScancodeName(SDL_Scancode scancode);
 /// ```
-pub fn sdl_GetScancodeName(scancode: SDL_Scancode) -> String {
-  let cres = __sdl_GetScancodeName(scancode);
-  let res = cres.to_string();
+pub fn sdl_GetScancodeName(scancode : SDL_Scancode) -> String {
+  let cres = __sdl_GetScancodeName(scancode)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetScancodeName(scancode: SDL_Scancode) -> CStr = "SDL_GetScancodeName";
+///|
+extern "C" fn __sdl_GetScancodeName(scancode : SDL_Scancode) -> CStr = "SDL_GetScancodeName"
 
-///| Get a scancode from a human-readable name.
+///|
+/// Get a scancode from a human-readable name.
 /// 
 /// @param name the human-readable scancode name.
 /// @return the SDL_Scancode, or `SDL_SCANCODE_UNKNOWN` if the name wasn't
@@ -411,13 +460,16 @@ extern "C" fn __sdl_GetScancodeName(scancode: SDL_Scancode) -> CStr = "SDL_GetSc
 /// ```c
 /// extern SDL_DECLSPEC SDL_Scancode SDLCALL SDL_GetScancodeFromName(const char *name);
 /// ```
-pub fn sdl_GetScancodeFromName(name: String) -> SDL_Scancode {
+pub fn sdl_GetScancodeFromName(name : String) -> SDL_Scancode {
   __sdl_GetScancodeFromName(string_to_cbytes(name))
 }
 
-extern "C" fn __sdl_GetScancodeFromName(name: Bytes) -> SDL_Scancode = "SDL_GetScancodeFromName";
+///|
+#owned(name)
+extern "C" fn __sdl_GetScancodeFromName(name : Bytes) -> SDL_Scancode = "SDL_GetScancodeFromName"
 
-///| Get a human-readable name for a key.
+///|
+/// Get a human-readable name for a key.
 /// 
 /// If the key doesn't have a name, this function returns an empty string ("").
 /// 
@@ -437,16 +489,18 @@ extern "C" fn __sdl_GetScancodeFromName(name: Bytes) -> SDL_Scancode = "SDL_GetS
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetKeyName(SDL_Keycode key);
 /// ```
-pub fn sdl_GetKeyName(key: SDL_Keycode) -> String {
-  let cres = __sdl_GetKeyName(key);
-  let res = cres.to_string();
+pub fn sdl_GetKeyName(key : SDL_Keycode) -> String {
+  let cres = __sdl_GetKeyName(key)
+  let res = cres.to_string()
   free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetKeyName(key: SDL_Keycode) -> CStr = "SDL_GetKeyName";
+///|
+extern "C" fn __sdl_GetKeyName(key : SDL_Keycode) -> CStr = "SDL_GetKeyName"
 
-///| Get a key code from a human-readable name.
+///|
+/// Get a key code from a human-readable name.
 /// 
 /// @param name the human-readable key name.
 /// @return key code, or `SDLK_UNKNOWN` if the name wasn't recognized; call
@@ -463,13 +517,16 @@ extern "C" fn __sdl_GetKeyName(key: SDL_Keycode) -> CStr = "SDL_GetKeyName";
 /// ```c
 /// extern SDL_DECLSPEC SDL_Keycode SDLCALL SDL_GetKeyFromName(const char *name);
 /// ```
-pub fn sdl_GetKeyFromName(name: String) -> SDL_Keycode {
+pub fn sdl_GetKeyFromName(name : String) -> SDL_Keycode {
   __sdl_GetKeyFromName(string_to_cbytes(name))
 }
 
-extern "C" fn __sdl_GetKeyFromName(name: Bytes) -> SDL_Keycode = "SDL_GetKeyFromName";
+///|
+#owned(name)
+extern "C" fn __sdl_GetKeyFromName(name : Bytes) -> SDL_Keycode = "SDL_GetKeyFromName"
 
-///| Start accepting Unicode text input events in a window.
+///|
+/// Start accepting Unicode text input events in a window.
 /// 
 /// This function will enable text input (SDL_EVENT_TEXT_INPUT and
 /// SDL_EVENT_TEXT_EDITING events) in the specified window. Please use this
@@ -497,9 +554,10 @@ extern "C" fn __sdl_GetKeyFromName(name: Bytes) -> SDL_Keycode = "SDL_GetKeyFrom
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_StartTextInput(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_StartTextInput(window: SDL_Window) -> Bool = "SDL_StartTextInput";
+pub extern "C" fn sdl_StartTextInput(window : SDL_Window) -> Bool = "SDL_StartTextInput"
 
-///| Start accepting Unicode text input events in a window, with properties
+///|
+/// Start accepting Unicode text input events in a window, with properties
 /// describing the input.
 /// 
 /// This function will enable text input (SDL_EVENT_TEXT_INPUT and
@@ -551,9 +609,13 @@ pub extern "C" fn sdl_StartTextInput(window: SDL_Window) -> Bool = "SDL_StartTex
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props);
 /// ```
-pub extern "C" fn sdl_StartTextInputWithProperties(window: SDL_Window, props: UInt) -> Bool = "SDL_StartTextInputWithProperties"; // SDL_PropertiesID is Uint32
+pub extern "C" fn sdl_StartTextInputWithProperties(
+  window : SDL_Window,
+  props : UInt,
+) -> Bool = "SDL_StartTextInputWithProperties" // SDL_PropertiesID is Uint32
 
-///| Check whether or not Unicode text input events are enabled for a window.
+///|
+/// Check whether or not Unicode text input events are enabled for a window.
 /// 
 /// @param window the window to check.
 /// @return true if text input events are enabled else false.
@@ -567,9 +629,10 @@ pub extern "C" fn sdl_StartTextInputWithProperties(window: SDL_Window, props: UI
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_TextInputActive(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_TextInputActive(window: SDL_Window) -> Bool = "SDL_TextInputActive";
+pub extern "C" fn sdl_TextInputActive(window : SDL_Window) -> Bool = "SDL_TextInputActive"
 
-///| Stop receiving any text input events in a window.
+///|
+/// Stop receiving any text input events in a window.
 /// 
 /// If SDL_StartTextInput() showed the screen keyboard, this function will hide
 /// it.
@@ -587,9 +650,10 @@ pub extern "C" fn sdl_TextInputActive(window: SDL_Window) -> Bool = "SDL_TextInp
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_StopTextInput(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_StopTextInput(window: SDL_Window) -> Bool = "SDL_StopTextInput";
+pub extern "C" fn sdl_StopTextInput(window : SDL_Window) -> Bool = "SDL_StopTextInput"
 
-///| Dismiss the composition window/IME without disabling the subsystem.
+///|
+/// Dismiss the composition window/IME without disabling the subsystem.
 /// 
 /// @param window the window to affect.
 /// @return true on success or false on failure; call SDL_GetError() for more
@@ -605,9 +669,10 @@ pub extern "C" fn sdl_StopTextInput(window: SDL_Window) -> Bool = "SDL_StopTextI
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ClearComposition(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_ClearComposition(window: SDL_Window) -> Bool = "SDL_ClearComposition";
+pub extern "C" fn sdl_ClearComposition(window : SDL_Window) -> Bool = "SDL_ClearComposition"
 
-///| Set the area used to type Unicode text input.
+///|
+/// Set the area used to type Unicode text input.
 /// 
 /// Native input methods may place a window with word suggestions near the
 /// cursor, without covering the text being entered.
@@ -630,9 +695,15 @@ pub extern "C" fn sdl_ClearComposition(window: SDL_Window) -> Bool = "SDL_ClearC
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor);
 /// ```
-pub extern "C" fn sdl_SetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_Rect], cursor: Int) -> Bool = "SDL_SetTextInputArea";
+#owned(rect)
+pub extern "C" fn sdl_SetTextInputArea(
+  window : SDL_Window,
+  rect : FixedArray[SDL_Rect],
+  cursor : Int,
+) -> Bool = "SDL_SetTextInputArea"
 
-///| Get the area used to type Unicode text input.
+///|
+/// Get the area used to type Unicode text input.
 /// 
 /// This returns the values previously set by SDL_SetTextInputArea().
 /// 
@@ -653,9 +724,15 @@ pub extern "C" fn sdl_SetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor);
 /// ```
-pub extern "C" fn sdl_GetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_Rect], cursor: FixedArray[Int]) -> Bool = "SDL_GetTextInputArea";
+#owned(rect, cursor)
+pub extern "C" fn sdl_GetTextInputArea(
+  window : SDL_Window,
+  rect : FixedArray[SDL_Rect],
+  cursor : FixedArray[Int],
+) -> Bool = "SDL_GetTextInputArea"
 
-///| Check whether the platform has screen keyboard support.
+///|
+/// Check whether the platform has screen keyboard support.
 /// 
 /// @return true if the platform has some screen keyboard support or false if
 ///          not.
@@ -670,9 +747,10 @@ pub extern "C" fn sdl_GetTextInputArea(window: SDL_Window, rect: FixedArray[SDL_
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HasScreenKeyboardSupport(void);
 /// ```
-pub extern "C" fn sdl_HasScreenKeyboardSupport() -> Bool = "SDL_HasScreenKeyboardSupport";
+pub extern "C" fn sdl_HasScreenKeyboardSupport() -> Bool = "SDL_HasScreenKeyboardSupport"
 
-///| Check whether the screen keyboard is shown for given window.
+///|
+/// Check whether the screen keyboard is shown for given window.
 /// 
 /// @param window the window for which screen keyboard should be queried.
 /// @return true if screen keyboard is shown or false if not.
@@ -686,4 +764,4 @@ pub extern "C" fn sdl_HasScreenKeyboardSupport() -> Bool = "SDL_HasScreenKeyboar
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ScreenKeyboardShown(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_ScreenKeyboardShown(window: SDL_Window) -> Bool = "SDL_ScreenKeyboardShown";
+pub extern "C" fn sdl_ScreenKeyboardShown(window : SDL_Window) -> Bool = "SDL_ScreenKeyboardShown"

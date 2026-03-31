@@ -244,7 +244,7 @@ pub(all) enum EventType {
 
 ///|
 pub fn Event::getType(self : Self) -> EventType {
-  match self.inner().get_type() {
+  match self.0.get_type() {
     SDL_EVENT_QUIT => Quit
     SDL_EVENT_TERMINATING => Terminating
     SDL_EVENT_LOW_MEMORY => LowMemory

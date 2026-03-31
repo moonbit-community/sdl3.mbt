@@ -4,7 +4,9 @@ pub struct Context {
 }
 
 ///|
-pub suberror InitializeSDLError String derive(Show)
+pub suberror InitializeSDLError {
+  InitializeSDLError(String)
+} derive(Show)
 
 ///|
 /// Create a new context.
@@ -19,7 +21,9 @@ pub fn Context::new() -> Context raise {
 }
 
 ///|
-pub suberror CreateWindowError String derive(Show)
+pub suberror CreateWindowError {
+  CreateWindowError(String)
+} derive(Show)
 
 ///|
 /// Create a new window.
@@ -33,7 +37,7 @@ pub fn Context::createWindow(
   self : Self,
   title : String,
   width~ : Int,
-  height~ : Int
+  height~ : Int,
 ) -> Window raise {
   let window = @lib.sdl_CreateWindow(title, width, height, 0UL)
   if window.is_null() {

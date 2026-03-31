@@ -42,7 +42,8 @@
 /// most apps can get by with simply creating a window and listening for
 /// events, so start with SDL_CreateWindow() and SDL_PollEvent().
 
-///| This is a unique ID for a display for the time it is connected to the
+///|
+/// This is a unique ID for a display for the time it is connected to the
 /// system, and is never reused for the lifetime of the application.
 /// 
 /// If the display is disconnected and reconnected, it will get a new ID.
@@ -54,9 +55,10 @@
 /// ```c
 /// typedef Uint32 SDL_DisplayID;
 /// ```
-pub typealias UInt as SDL_DisplayID
+pub type SDL_DisplayID = UInt
 
-///| This is a unique ID for a window.
+///|
+/// This is a unique ID for a window.
 /// 
 /// The value 0 is an invalid ID.
 /// 
@@ -65,9 +67,10 @@ pub typealias UInt as SDL_DisplayID
 /// ```c
 /// typedef Uint32 SDL_WindowID;
 /// ```
-pub typealias UInt as SDL_WindowID
+pub type SDL_WindowID = UInt
 
-///| System theme.
+///|
+/// System theme.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -85,7 +88,8 @@ pub(all) enum SDL_SystemTheme {
   SDL_SYSTEM_THEME_DARK
 }
 
-///| Internal display mode data.
+///|
+/// Internal display mode data.
 /// 
 /// This lives as a field in SDL_DisplayMode, as opaque data.
 /// 
@@ -99,7 +103,8 @@ pub(all) enum SDL_SystemTheme {
 #external
 pub type SDL_DisplayModeData
 
-///| The structure that defines a display mode.
+///|
+/// The structure that defines a display mode.
 /// 
 /// @since This struct is available since SDL 3.2.0.
 /// 
@@ -126,18 +131,19 @@ pub type SDL_DisplayModeData
 /// } SDL_DisplayMode;
 /// ```
 pub(all) struct SDL_DisplayMode {
-  displayID: SDL_DisplayID
-  format: UInt // SDL_PixelFormat
-  w: Int
-  h: Int
-  pixel_density: Float
-  refresh_rate: Float
-  refresh_rate_numerator: Int
-  refresh_rate_denominator: Int
-  internal: SDL_DisplayModeData
+  displayID : SDL_DisplayID
+  format : UInt // SDL_PixelFormat
+  w : Int
+  h : Int
+  pixel_density : Float
+  refresh_rate : Float
+  refresh_rate_numerator : Int
+  refresh_rate_denominator : Int
+  internal : SDL_DisplayModeData
 }
 
-///| Display orientation values; the way a display is rotated.
+///|
+/// Display orientation values; the way a display is rotated.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -159,7 +165,8 @@ pub(all) enum SDL_DisplayOrientation {
   SDL_ORIENTATION_PORTRAIT_FLIPPED
 }
 
-///| The struct used as an opaque handle to a window.
+///|
+/// The struct used as an opaque handle to a window.
 /// 
 /// @since This struct is available since SDL 3.2.0.
 /// 
@@ -172,11 +179,12 @@ pub(all) enum SDL_DisplayOrientation {
 pub type SDL_Window
 
 ///|
-pub fn SDL_Window::is_null(self: Self) -> Bool {
+pub fn SDL_Window::is_null(self : Self) -> Bool {
   is_nullptr(self)
 }
 
-///| The flags on a window.
+///|
+/// The flags on a window.
 /// 
 /// These cover a lot of true/false, or on/off, window state. Some of it is
 /// immutable after being set through SDL_CreateWindow(), some of it can be
@@ -190,36 +198,87 @@ pub fn SDL_Window::is_null(self: Self) -> Bool {
 /// ```c
 /// typedef Uint64 SDL_WindowFlags;
 /// ```
-pub typealias UInt64 as SDL_WindowFlags
+pub type SDL_WindowFlags = UInt64
 
 // Window flag constants
+
+///|
 pub const SDL_WINDOW_FULLSCREEN : SDL_WindowFlags = 0x0000000000000001UL
+
+///|
 pub const SDL_WINDOW_OPENGL : SDL_WindowFlags = 0x0000000000000002UL
+
+///|
 pub const SDL_WINDOW_OCCLUDED : SDL_WindowFlags = 0x0000000000000004UL
+
+///|
 pub const SDL_WINDOW_HIDDEN : SDL_WindowFlags = 0x0000000000000008UL
+
+///|
 pub const SDL_WINDOW_BORDERLESS : SDL_WindowFlags = 0x0000000000000010UL
+
+///|
 pub const SDL_WINDOW_RESIZABLE : SDL_WindowFlags = 0x0000000000000020UL
+
+///|
 pub const SDL_WINDOW_MINIMIZED : SDL_WindowFlags = 0x0000000000000040UL
+
+///|
 pub const SDL_WINDOW_MAXIMIZED : SDL_WindowFlags = 0x0000000000000080UL
+
+///|
 pub const SDL_WINDOW_MOUSE_GRABBED : SDL_WindowFlags = 0x0000000000000100UL
+
+///|
 pub const SDL_WINDOW_INPUT_FOCUS : SDL_WindowFlags = 0x0000000000000200UL
+
+///|
 pub const SDL_WINDOW_MOUSE_FOCUS : SDL_WindowFlags = 0x0000000000000400UL
+
+///|
 pub const SDL_WINDOW_EXTERNAL : SDL_WindowFlags = 0x0000000000000800UL
+
+///|
 pub const SDL_WINDOW_MODAL : SDL_WindowFlags = 0x0000000000001000UL
+
+///|
 pub const SDL_WINDOW_HIGH_PIXEL_DENSITY : SDL_WindowFlags = 0x0000000000002000UL
+
+///|
 pub const SDL_WINDOW_MOUSE_CAPTURE : SDL_WindowFlags = 0x0000000000004000UL
+
+///|
 pub const SDL_WINDOW_MOUSE_RELATIVE_MODE : SDL_WindowFlags = 0x0000000000008000UL
+
+///|
 pub const SDL_WINDOW_ALWAYS_ON_TOP : SDL_WindowFlags = 0x0000000000010000UL
+
+///|
 pub const SDL_WINDOW_UTILITY : SDL_WindowFlags = 0x0000000000020000UL
+
+///|
 pub const SDL_WINDOW_TOOLTIP : SDL_WindowFlags = 0x0000000000040000UL
+
+///|
 pub const SDL_WINDOW_POPUP_MENU : SDL_WindowFlags = 0x0000000000080000UL
+
+///|
 pub const SDL_WINDOW_KEYBOARD_GRABBED : SDL_WindowFlags = 0x0000000000100000UL
+
+///|
 pub const SDL_WINDOW_VULKAN : SDL_WindowFlags = 0x0000000010000000UL
+
+///|
 pub const SDL_WINDOW_METAL : SDL_WindowFlags = 0x0000000020000000UL
+
+///|
 pub const SDL_WINDOW_TRANSPARENT : SDL_WindowFlags = 0x0000000040000000UL
+
+///|
 pub const SDL_WINDOW_NOT_FOCUSABLE : SDL_WindowFlags = 0x0000000080000000UL
 
-///| Window flash operation.
+///|
+/// Window flash operation.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -237,7 +296,8 @@ pub(all) enum SDL_FlashOperation {
   SDL_FLASH_UNTIL_FOCUSED
 }
 
-///| Window progress state
+///|
+/// Window progress state
 /// 
 /// @since This enum is available since SDL 3.2.8.
 /// 
@@ -261,7 +321,8 @@ pub(all) enum SDL_ProgressState {
   SDL_PROGRESS_STATE_ERROR
 }
 
-///| An opaque handle to an OpenGL context.
+///|
+/// An opaque handle to an OpenGL context.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
@@ -273,56 +334,63 @@ pub(all) enum SDL_ProgressState {
 #external
 pub type SDL_GLContext
 
-pub fn SDL_GLContext::is_null(self: Self) -> Bool {
+///|
+pub fn SDL_GLContext::is_null(self : Self) -> Bool {
   is_nullptr(self)
 }
 
-///| Opaque type for an EGL display.
+///|
+/// Opaque type for an EGL display.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef void *SDL_EGLDisplay;
 /// ```
-pub typealias VoidPtr as SDL_EGLDisplay
+pub type SDL_EGLDisplay = VoidPtr
 
-///| Opaque type for an EGL config.
+///|
+/// Opaque type for an EGL config.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef void *SDL_EGLConfig;
 /// ```
-pub typealias VoidPtr as SDL_EGLConfig
+pub type SDL_EGLConfig = VoidPtr
 
-///| Opaque type for an EGL surface.
+///|
+/// Opaque type for an EGL surface.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef void *SDL_EGLSurface;
 /// ```
-pub typealias VoidPtr as SDL_EGLSurface
+pub type SDL_EGLSurface = VoidPtr
 
-///| An EGL attribute, used when creating an EGL context.
+///|
+/// An EGL attribute, used when creating an EGL context.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef intptr_t SDL_EGLAttrib;
 /// ```
-pub typealias Int64 as SDL_EGLAttrib
+pub type SDL_EGLAttrib = Int64
 
-///| An EGL integer attribute, used when creating an EGL surface.
+///|
+/// An EGL integer attribute, used when creating an EGL surface.
 /// 
 /// @since This datatype is available since SDL 3.2.0.
 /// 
 /// ```c
 /// typedef int SDL_EGLint;
 /// ```
-pub typealias Int as SDL_EGLint
+pub type SDL_EGLint = Int
 
-///| EGL platform attribute initialization callback.
+///|
+/// EGL platform attribute initialization callback.
 /// 
 /// This is called when SDL is attempting to create an EGL context, to let the
 /// app add extra attributes to its eglGetPlatformDisplay() call.
@@ -347,9 +415,12 @@ pub typealias Int as SDL_EGLint
 /// ```c
 /// typedef SDL_EGLAttrib *(SDLCALL *SDL_EGLAttribArrayCallback)(void *userdata);
 /// ```
-pub typealias FuncRef[(VoidPtr) -> FixedArray[SDL_EGLAttrib]] as SDL_EGLAttribArrayCallback
+pub type SDL_EGLAttribArrayCallback = FuncRef[
+  (VoidPtr) -> FixedArray[SDL_EGLAttrib],
+]
 
-///| EGL surface/context attribute initialization callback types.
+///|
+/// EGL surface/context attribute initialization callback types.
 /// 
 /// This is called when SDL is attempting to create an EGL surface, to let the
 /// app add extra attributes to its eglCreateWindowSurface() or
@@ -380,9 +451,12 @@ pub typealias FuncRef[(VoidPtr) -> FixedArray[SDL_EGLAttrib]] as SDL_EGLAttribAr
 /// ```c
 /// typedef SDL_EGLint *(SDLCALL *SDL_EGLIntArrayCallback)(void *userdata, SDL_EGLDisplay display, SDL_EGLConfig config);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_EGLDisplay, SDL_EGLConfig) -> FixedArray[SDL_EGLint]] as SDL_EGLIntArrayCallback
+pub type SDL_EGLIntArrayCallback = FuncRef[
+  (VoidPtr, SDL_EGLDisplay, SDL_EGLConfig) -> FixedArray[SDL_EGLint],
+]
 
-///| An enumeration of OpenGL configuration attributes.
+///|
+/// An enumeration of OpenGL configuration attributes.
 /// 
 /// While you can set most OpenGL attributes normally, the attributes listed
 /// above must be known before SDL creates the window that will be used with
@@ -463,29 +537,60 @@ pub(all) enum SDL_GLAttr {
 }
 
 // GL Profile flags
-pub typealias UInt as SDL_GLProfile
+
+///|
+pub type SDL_GLProfile = UInt
+
+///|
 pub const SDL_GL_CONTEXT_PROFILE_CORE : SDL_GLProfile = 0x0001U
+
+///|
 pub const SDL_GL_CONTEXT_PROFILE_COMPATIBILITY : SDL_GLProfile = 0x0002U
+
+///|
 pub const SDL_GL_CONTEXT_PROFILE_ES : SDL_GLProfile = 0x0004U
 
 // GL Context flags
-pub typealias UInt as SDL_GLContextFlag
+
+///|
+pub type SDL_GLContextFlag = UInt
+
+///|
 pub const SDL_GL_CONTEXT_DEBUG_FLAG : SDL_GLContextFlag = 0x0001U
+
+///|
 pub const SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG : SDL_GLContextFlag = 0x0002U
+
+///|
 pub const SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG : SDL_GLContextFlag = 0x0004U
+
+///|
 pub const SDL_GL_CONTEXT_RESET_ISOLATION_FLAG : SDL_GLContextFlag = 0x0008U
 
 // GL Context release flags
-pub typealias UInt as SDL_GLContextReleaseFlag
+
+///|
+pub type SDL_GLContextReleaseFlag = UInt
+
+///|
 pub const SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE : SDL_GLContextReleaseFlag = 0x0000U
+
+///|
 pub const SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GLContextReleaseFlag = 0x0001U
 
 // GL Context reset notification flags
-pub typealias UInt as SDL_GLContextResetNotification
+
+///|
+pub type SDL_GLContextResetNotification = UInt
+
+///|
 pub const SDL_GL_CONTEXT_RESET_NO_NOTIFICATION : SDL_GLContextResetNotification = 0x0000U
+
+///|
 pub const SDL_GL_CONTEXT_RESET_LOSE_CONTEXT : SDL_GLContextResetNotification = 0x0001U
 
-///| Get the number of video drivers compiled into SDL.
+///|
+/// Get the number of video drivers compiled into SDL.
 /// 
 /// @return the number of built in video drivers.
 /// 
@@ -498,9 +603,10 @@ pub const SDL_GL_CONTEXT_RESET_LOSE_CONTEXT : SDL_GLContextResetNotification = 0
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_GetNumVideoDrivers(void);
 /// ```
-pub extern "C" fn sdl_GetNumVideoDrivers() -> Int = "SDL_GetNumVideoDrivers";
+pub extern "C" fn sdl_GetNumVideoDrivers() -> Int = "SDL_GetNumVideoDrivers"
 
-///| Get the name of a built in video driver.
+///|
+/// Get the name of a built in video driver.
 /// 
 /// The video drivers are presented in the order in which they are normally
 /// checked during initialization.
@@ -522,16 +628,18 @@ pub extern "C" fn sdl_GetNumVideoDrivers() -> Int = "SDL_GetNumVideoDrivers";
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetVideoDriver(int index);
 /// ```
-pub fn sdl_GetVideoDriver(index: Int) -> String {
-  let cres = __sdl_GetVideoDriver(index);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetVideoDriver(index : Int) -> String {
+  let cres = __sdl_GetVideoDriver(index)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetVideoDriver(index: Int) -> CStr = "SDL_GetVideoDriver";
+///|
+extern "C" fn __sdl_GetVideoDriver(index : Int) -> CStr = "SDL_GetVideoDriver"
 
-///| Get the name of the currently initialized video driver.
+///|
+/// Get the name of the currently initialized video driver.
 /// 
 /// The names of drivers are all simple, low-ASCII identifiers, like "cocoa",
 /// "x11" or "windows". These never have Unicode characters, and are not meant
@@ -551,15 +659,17 @@ extern "C" fn __sdl_GetVideoDriver(index: Int) -> CStr = "SDL_GetVideoDriver";
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetCurrentVideoDriver(void);
 /// ```
 pub fn sdl_GetCurrentVideoDriver() -> String {
-  let cres = __sdl_GetCurrentVideoDriver();
-  let res = cres.to_string();
-  free_cstr(cres);
+  let cres = __sdl_GetCurrentVideoDriver()
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetCurrentVideoDriver() -> CStr = "SDL_GetCurrentVideoDriver";
+///|
+extern "C" fn __sdl_GetCurrentVideoDriver() -> CStr = "SDL_GetCurrentVideoDriver"
 
-///| Get the current system theme.
+///|
+/// Get the current system theme.
 /// 
 /// @return the current system theme, light, dark, or unknown.
 /// 
@@ -570,9 +680,10 @@ extern "C" fn __sdl_GetCurrentVideoDriver() -> CStr = "SDL_GetCurrentVideoDriver
 /// ```c
 /// extern SDL_DECLSPEC SDL_SystemTheme SDLCALL SDL_GetSystemTheme(void);
 /// ```
-pub extern "C" fn sdl_GetSystemTheme() -> SDL_SystemTheme = "SDL_GetSystemTheme";
+pub extern "C" fn sdl_GetSystemTheme() -> SDL_SystemTheme = "SDL_GetSystemTheme"
 
-///| Get a list of currently connected displays.
+///|
+/// Get a list of currently connected displays.
 /// 
 /// @param count a pointer filled in with the number of displays returned, may
 ///              be NULL.
@@ -589,9 +700,13 @@ pub extern "C" fn sdl_GetSystemTheme() -> SDL_SystemTheme = "SDL_GetSystemTheme"
 /// ```c
 /// extern SDL_DECLSPEC SDL_DisplayID * SDLCALL SDL_GetDisplays(int *count);
 /// ```
-pub extern "C" fn sdl_GetDisplays(count: FixedArray[Int]) -> FixedArray[SDL_DisplayID] = "SDL_GetDisplays";
+#owned(count)
+pub extern "C" fn sdl_GetDisplays(
+  count : FixedArray[Int],
+) -> FixedArray[SDL_DisplayID] = "SDL_GetDisplays"
 
-///| Return the primary display.
+///|
+/// Return the primary display.
 /// 
 /// @return the instance ID of the primary display on success or 0 on failure;
 ///          call SDL_GetError() for more information.
@@ -605,9 +720,10 @@ pub extern "C" fn sdl_GetDisplays(count: FixedArray[Int]) -> FixedArray[SDL_Disp
 /// ```c
 /// extern SDL_DECLSPEC SDL_DisplayID SDLCALL SDL_GetPrimaryDisplay(void);
 /// ```
-pub extern "C" fn sdl_GetPrimaryDisplay() -> SDL_DisplayID = "SDL_GetPrimaryDisplay";
+pub extern "C" fn sdl_GetPrimaryDisplay() -> SDL_DisplayID = "SDL_GetPrimaryDisplay"
 
-///| Get the properties associated with a display.
+///|
+/// Get the properties associated with a display.
 /// 
 /// @param displayID the instance ID of the display to query.
 /// @return a valid property ID on success or 0 on failure; call
@@ -620,9 +736,10 @@ pub extern "C" fn sdl_GetPrimaryDisplay() -> SDL_DisplayID = "SDL_GetPrimaryDisp
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetDisplayProperties(SDL_DisplayID displayID);
 /// ```
-pub extern "C" fn sdl_GetDisplayProperties(displayID: SDL_DisplayID) -> UInt = "SDL_GetDisplayProperties"; // SDL_PropertiesID is Uint32
+pub extern "C" fn sdl_GetDisplayProperties(displayID : SDL_DisplayID) -> UInt = "SDL_GetDisplayProperties" // SDL_PropertiesID is Uint32
 
-///| Get the name of a display in UTF-8 encoding.
+///|
+/// Get the name of a display in UTF-8 encoding.
 /// 
 /// @param displayID the instance ID of the display to query.
 /// @return the name of a display or NULL on failure; call SDL_GetError() for
@@ -635,16 +752,18 @@ pub extern "C" fn sdl_GetDisplayProperties(displayID: SDL_DisplayID) -> UInt = "
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetDisplayName(SDL_DisplayID displayID);
 /// ```
-pub fn sdl_GetDisplayName(displayID: SDL_DisplayID) -> String {
-  let cres = __sdl_GetDisplayName(displayID);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetDisplayName(displayID : SDL_DisplayID) -> String {
+  let cres = __sdl_GetDisplayName(displayID)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetDisplayName(displayID: SDL_DisplayID) -> CStr = "SDL_GetDisplayName";
+///|
+extern "C" fn __sdl_GetDisplayName(displayID : SDL_DisplayID) -> CStr = "SDL_GetDisplayName"
 
-///| Get the desktop area represented by a display.
+///|
+/// Get the desktop area represented by a display.
 /// 
 /// The primary display is always located at (0,0).
 /// 
@@ -662,9 +781,14 @@ extern "C" fn __sdl_GetDisplayName(displayID: SDL_DisplayID) -> CStr = "SDL_GetD
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_GetDisplayBounds(displayID: SDL_DisplayID, rect: FixedArray[SDL_Rect]) -> Bool = "SDL_GetDisplayBounds";
+#owned(rect)
+pub extern "C" fn sdl_GetDisplayBounds(
+  displayID : SDL_DisplayID,
+  rect : FixedArray[SDL_Rect],
+) -> Bool = "SDL_GetDisplayBounds"
 
-///| Get the usable desktop area represented by a display.
+///|
+/// Get the usable desktop area represented by a display.
 /// 
 /// The primary display is always located at (0,0).
 /// 
@@ -690,9 +814,14 @@ pub extern "C" fn sdl_GetDisplayBounds(displayID: SDL_DisplayID, rect: FixedArra
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect);
 /// ```
-pub extern "C" fn sdl_GetDisplayUsableBounds(displayID: SDL_DisplayID, rect: FixedArray[SDL_Rect]) -> Bool = "SDL_GetDisplayUsableBounds";
+#owned(rect)
+pub extern "C" fn sdl_GetDisplayUsableBounds(
+  displayID : SDL_DisplayID,
+  rect : FixedArray[SDL_Rect],
+) -> Bool = "SDL_GetDisplayUsableBounds"
 
-///| Get the orientation of a display.
+///|
+/// Get the orientation of a display.
 /// 
 /// @param displayID the instance ID of the display to query.
 /// @return the SDL_DisplayOrientation enum value of the display, or
@@ -705,9 +834,12 @@ pub extern "C" fn sdl_GetDisplayUsableBounds(displayID: SDL_DisplayID, rect: Fix
 /// ```c
 /// extern SDL_DECLSPEC SDL_DisplayOrientation SDLCALL SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID);
 /// ```
-pub extern "C" fn sdl_GetNaturalDisplayOrientation(displayID: SDL_DisplayID) -> SDL_DisplayOrientation = "SDL_GetNaturalDisplayOrientation";
+pub extern "C" fn sdl_GetNaturalDisplayOrientation(
+  displayID : SDL_DisplayID,
+) -> SDL_DisplayOrientation = "SDL_GetNaturalDisplayOrientation"
 
-///| Get the orientation of a display.
+///|
+/// Get the orientation of a display.
 /// 
 /// @param displayID the instance ID of the display to query.
 /// @return the SDL_DisplayOrientation enum value of the display, or
@@ -720,9 +852,12 @@ pub extern "C" fn sdl_GetNaturalDisplayOrientation(displayID: SDL_DisplayID) -> 
 /// ```c
 /// extern SDL_DECLSPEC SDL_DisplayOrientation SDLCALL SDL_GetCurrentDisplayOrientation(SDL_DisplayID displayID);
 /// ```
-pub extern "C" fn sdl_GetCurrentDisplayOrientation(displayID: SDL_DisplayID) -> SDL_DisplayOrientation = "SDL_GetCurrentDisplayOrientation";
+pub extern "C" fn sdl_GetCurrentDisplayOrientation(
+  displayID : SDL_DisplayID,
+) -> SDL_DisplayOrientation = "SDL_GetCurrentDisplayOrientation"
 
-///| Get the content scale of a display.
+///|
+/// Get the content scale of a display.
 /// 
 /// The content scale is the expected scale for content based on the DPI
 /// settings of the display. For example, a 4K display might have a 2.0 scale to
@@ -744,11 +879,14 @@ pub extern "C" fn sdl_GetCurrentDisplayOrientation(displayID: SDL_DisplayID) -> 
 /// ```c
 /// extern SDL_DECLSPEC float SDLCALL SDL_GetDisplayContentScale(SDL_DisplayID displayID);
 /// ```
-pub extern "C" fn sdl_GetDisplayContentScale(displayID: SDL_DisplayID) -> Float = "SDL_GetDisplayContentScale";
+pub extern "C" fn sdl_GetDisplayContentScale(
+  displayID : SDL_DisplayID,
+) -> Float = "SDL_GetDisplayContentScale"
 
 // 这里我会为了简洁起见，添加一些最重要的函数。完整版本会包含更多函数
 
-///| Create a window with the specified properties.
+///|
+/// Create a window with the specified properties.
 /// 
 /// These are the supported properties:
 /// 
@@ -827,9 +965,10 @@ pub extern "C" fn sdl_GetDisplayContentScale(displayID: SDL_DisplayID) -> Float 
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_CreateWindowWithProperties(SDL_PropertiesID props);
 /// ```
-pub extern "C" fn sdl_CreateWindowWithProperties(props: UInt) -> SDL_Window = "SDL_CreateWindowWithProperties"; // SDL_PropertiesID is Uint32
+pub extern "C" fn sdl_CreateWindowWithProperties(props : UInt) -> SDL_Window = "SDL_CreateWindowWithProperties" // SDL_PropertiesID is Uint32
 
-///| Create a window with the specified title, position, dimensions, and flags.
+///|
+/// Create a window with the specified title, position, dimensions, and flags.
 /// 
 /// `flags` may be any of the following OR'd together:
 /// 
@@ -899,13 +1038,26 @@ pub extern "C" fn sdl_CreateWindowWithProperties(props: UInt) -> SDL_Window = "S
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_CreateWindow(const char *title, int w, int h, SDL_WindowFlags flags);
 /// ```
-pub fn sdl_CreateWindow(title: String, w: Int, h: Int, flags: SDL_WindowFlags) -> SDL_Window {
+pub fn sdl_CreateWindow(
+  title : String,
+  w : Int,
+  h : Int,
+  flags : SDL_WindowFlags,
+) -> SDL_Window {
   __sdl_CreateWindow(string_to_cbytes(title), w, h, flags)
 }
 
-extern "C" fn __sdl_CreateWindow(title: Bytes, w: Int, h: Int, flags: SDL_WindowFlags) -> SDL_Window = "SDL_CreateWindow";
+///|
+#owned(title)
+extern "C" fn __sdl_CreateWindow(
+  title : Bytes,
+  w : Int,
+  h : Int,
+  flags : SDL_WindowFlags,
+) -> SDL_Window = "SDL_CreateWindow"
 
-///| Get the window ID of a window.
+///|
+/// Get the window ID of a window.
 /// 
 /// @param window the window to query.
 /// @return the ID of the window on success or 0 on failure; call
@@ -920,9 +1072,10 @@ extern "C" fn __sdl_CreateWindow(title: Bytes, w: Int, h: Int, flags: SDL_Window
 /// ```c
 /// extern SDL_DECLSPEC SDL_WindowID SDLCALL SDL_GetWindowID(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetWindowID(window: SDL_Window) -> SDL_WindowID = "SDL_GetWindowID";
+pub extern "C" fn sdl_GetWindowID(window : SDL_Window) -> SDL_WindowID = "SDL_GetWindowID"
 
-///| Get a window from a stored ID.
+///|
+/// Get a window from a stored ID.
 /// 
 /// The window is returned even if it is in another process (such as when
 /// using the "external" window flag).
@@ -940,9 +1093,10 @@ pub extern "C" fn sdl_GetWindowID(window: SDL_Window) -> SDL_WindowID = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetWindowFromID(SDL_WindowID id);
 /// ```
-pub extern "C" fn sdl_GetWindowFromID(id: SDL_WindowID) -> SDL_Window = "SDL_GetWindowFromID";
+pub extern "C" fn sdl_GetWindowFromID(id : SDL_WindowID) -> SDL_Window = "SDL_GetWindowFromID"
 
-///| Get the parent of a window.
+///|
+/// Get the parent of a window.
 /// 
 /// @param window the window to query.
 /// @return the parent of the window on success or NULL if the window has no
@@ -957,9 +1111,10 @@ pub extern "C" fn sdl_GetWindowFromID(id: SDL_WindowID) -> SDL_Window = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GetWindowParent(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetWindowParent(window: SDL_Window) -> SDL_Window = "SDL_GetWindowParent";
+pub extern "C" fn sdl_GetWindowParent(window : SDL_Window) -> SDL_Window = "SDL_GetWindowParent"
 
-///| Get the properties associated with a window.
+///|
+/// Get the properties associated with a window.
 /// 
 /// @param window the window to query.
 /// @return a valid property ID on success or 0 on failure; call
@@ -972,9 +1127,10 @@ pub extern "C" fn sdl_GetWindowParent(window: SDL_Window) -> SDL_Window = "SDL_G
 /// ```c
 /// extern SDL_DECLSPEC SDL_PropertiesID SDLCALL SDL_GetWindowProperties(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetWindowProperties(window: SDL_Window) -> UInt = "SDL_GetWindowProperties"; // SDL_PropertiesID is Uint32
+pub extern "C" fn sdl_GetWindowProperties(window : SDL_Window) -> UInt = "SDL_GetWindowProperties" // SDL_PropertiesID is Uint32
 
-///| Get the window flags.
+///|
+/// Get the window flags.
 /// 
 /// @param window the window to retrieve the flags from.
 /// @return a mask of the SDL_WindowFlags associated with `window`.
@@ -994,9 +1150,10 @@ pub extern "C" fn sdl_GetWindowProperties(window: SDL_Window) -> UInt = "SDL_Get
 /// ```c
 /// extern SDL_DECLSPEC SDL_WindowFlags SDLCALL SDL_GetWindowFlags(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GetWindowFlags(window: SDL_Window) -> SDL_WindowFlags = "SDL_GetWindowFlags";
+pub extern "C" fn sdl_GetWindowFlags(window : SDL_Window) -> SDL_WindowFlags = "SDL_GetWindowFlags"
 
-///| Set the title of a window.
+///|
+/// Set the title of a window.
 /// 
 /// This string is expected to be in UTF-8 encoding.
 /// 
@@ -1014,13 +1171,16 @@ pub extern "C" fn sdl_GetWindowFlags(window: SDL_Window) -> SDL_WindowFlags = "S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowTitle(SDL_Window *window, const char *title);
 /// ```
-pub fn sdl_SetWindowTitle(window: SDL_Window, title: String) -> Bool {
+pub fn sdl_SetWindowTitle(window : SDL_Window, title : String) -> Bool {
   __sdl_SetWindowTitle(window, string_to_cbytes(title))
 }
 
-extern "C" fn __sdl_SetWindowTitle(window: SDL_Window, title: Bytes) -> Bool = "SDL_SetWindowTitle";
+///|
+#owned(title)
+extern "C" fn __sdl_SetWindowTitle(window : SDL_Window, title : Bytes) -> Bool = "SDL_SetWindowTitle"
 
-///| Get the title of a window.
+///|
+/// Get the title of a window.
 /// 
 /// @param window the window to query.
 /// @return the title of the window in UTF-8 format or "" if there is no
@@ -1035,16 +1195,18 @@ extern "C" fn __sdl_SetWindowTitle(window: SDL_Window, title: Bytes) -> Bool = "
 /// ```c
 /// extern SDL_DECLSPEC const char * SDLCALL SDL_GetWindowTitle(SDL_Window *window);
 /// ```
-pub fn sdl_GetWindowTitle(window: SDL_Window) -> String {
-  let cres = __sdl_GetWindowTitle(window);
-  let res = cres.to_string();
-  free_cstr(cres);
+pub fn sdl_GetWindowTitle(window : SDL_Window) -> String {
+  let cres = __sdl_GetWindowTitle(window)
+  let res = cres.to_string()
+  free_cstr(cres)
   res
 }
 
-extern "C" fn __sdl_GetWindowTitle(window: SDL_Window) -> CStr = "SDL_GetWindowTitle";
+///|
+extern "C" fn __sdl_GetWindowTitle(window : SDL_Window) -> CStr = "SDL_GetWindowTitle"
 
-///| Set the icon for a window.
+///|
+/// Set the icon for a window.
 /// 
 /// @param window the window to change.
 /// @param icon an SDL_Surface structure containing the icon for the window.
@@ -1058,9 +1220,13 @@ extern "C" fn __sdl_GetWindowTitle(window: SDL_Window) -> CStr = "SDL_GetWindowT
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowIcon(SDL_Window *window, SDL_Surface *icon);
 /// ```
-pub extern "C" fn sdl_SetWindowIcon(window: SDL_Window, icon: SDL_Surface) -> Bool = "SDL_SetWindowIcon";
+pub extern "C" fn sdl_SetWindowIcon(
+  window : SDL_Window,
+  icon : SDL_Surface,
+) -> Bool = "SDL_SetWindowIcon"
 
-///| Request that the window's position be set.
+///|
+/// Request that the window's position be set.
 /// 
 /// If, at the time of this request, the window is in a fixed-size state such
 /// as maximized, this request may be deferred until the window returns to a
@@ -1101,9 +1267,14 @@ pub extern "C" fn sdl_SetWindowIcon(window: SDL_Window, icon: SDL_Surface) -> Bo
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowPosition(SDL_Window *window, int x, int y);
 /// ```
-pub extern "C" fn sdl_SetWindowPosition(window: SDL_Window, x: Int, y: Int) -> Bool = "SDL_SetWindowPosition";
+pub extern "C" fn sdl_SetWindowPosition(
+  window : SDL_Window,
+  x : Int,
+  y : Int,
+) -> Bool = "SDL_SetWindowPosition"
 
-///| Get the position of a window.
+///|
+/// Get the position of a window.
 /// 
 /// This is the current position of the window as last reported by the
 /// windowing system.
@@ -1128,9 +1299,15 @@ pub extern "C" fn sdl_SetWindowPosition(window: SDL_Window, x: Int, y: Int) -> B
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetWindowPosition(SDL_Window *window, int *x, int *y);
 /// ```
-pub extern "C" fn sdl_GetWindowPosition(window: SDL_Window, x: FixedArray[Int], y: FixedArray[Int]) -> Bool = "SDL_GetWindowPosition";
+#owned(x, y)
+pub extern "C" fn sdl_GetWindowPosition(
+  window : SDL_Window,
+  x : FixedArray[Int],
+  y : FixedArray[Int],
+) -> Bool = "SDL_GetWindowPosition"
 
-///| Request that the size of a window's client area be set.
+///|
+/// Request that the size of a window's client area be set.
 /// 
 /// If, at the time of this request, the window in a fixed-size state, such as
 /// maximized or fullscreen, the request will be deferred until the window
@@ -1171,9 +1348,14 @@ pub extern "C" fn sdl_GetWindowPosition(window: SDL_Window, x: FixedArray[Int], 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowSize(SDL_Window *window, int w, int h);
 /// ```
-pub extern "C" fn sdl_SetWindowSize(window: SDL_Window, w: Int, h: Int) -> Bool = "SDL_SetWindowSize";
+pub extern "C" fn sdl_SetWindowSize(
+  window : SDL_Window,
+  w : Int,
+  h : Int,
+) -> Bool = "SDL_SetWindowSize"
 
-///| Get the size of a window's client area.
+///|
+/// Get the size of a window's client area.
 /// 
 /// NULL can safely be passed as the `w` or `h` parameter if the width or
 /// height value is not desired.
@@ -1201,9 +1383,15 @@ pub extern "C" fn sdl_SetWindowSize(window: SDL_Window, w: Int, h: Int) -> Bool 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetWindowSize(SDL_Window *window, int *w, int *h);
 /// ```
-pub extern "C" fn sdl_GetWindowSize(window: SDL_Window, w: FixedArray[Int], h: FixedArray[Int]) -> Bool = "SDL_GetWindowSize";
+#owned(w, h)
+pub extern "C" fn sdl_GetWindowSize(
+  window : SDL_Window,
+  w : FixedArray[Int],
+  h : FixedArray[Int],
+) -> Bool = "SDL_GetWindowSize"
 
-///| Show a window.
+///|
+/// Show a window.
 /// 
 /// @param window the window to show.
 /// @return true on success or false on failure; call SDL_GetError() for more
@@ -1219,9 +1407,10 @@ pub extern "C" fn sdl_GetWindowSize(window: SDL_Window, w: FixedArray[Int], h: F
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_ShowWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_ShowWindow(window: SDL_Window) -> Bool = "SDL_ShowWindow";
+pub extern "C" fn sdl_ShowWindow(window : SDL_Window) -> Bool = "SDL_ShowWindow"
 
-///| Hide a window.
+///|
+/// Hide a window.
 /// 
 /// @param window the window to hide.
 /// @return true on success or false on failure; call SDL_GetError() for more
@@ -1236,9 +1425,10 @@ pub extern "C" fn sdl_ShowWindow(window: SDL_Window) -> Bool = "SDL_ShowWindow";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HideWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_HideWindow(window: SDL_Window) -> Bool = "SDL_HideWindow";
+pub extern "C" fn sdl_HideWindow(window : SDL_Window) -> Bool = "SDL_HideWindow"
 
-///| Request that a window be raised above other windows and gain the input focus.
+///|
+/// Request that a window be raised above other windows and gain the input focus.
 /// 
 /// The result of this request is subject to desktop window manager policy,
 /// particularly if raising the requested window would result in stealing focus
@@ -1256,9 +1446,10 @@ pub extern "C" fn sdl_HideWindow(window: SDL_Window) -> Bool = "SDL_HideWindow";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RaiseWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_RaiseWindow(window: SDL_Window) -> Bool = "SDL_RaiseWindow";
+pub extern "C" fn sdl_RaiseWindow(window : SDL_Window) -> Bool = "SDL_RaiseWindow"
 
-///| Request that the window be made as large as possible.
+///|
+/// Request that the window be made as large as possible.
 /// 
 /// Non-resizable windows can't be maximized. The window must have the
 /// SDL_WINDOW_RESIZABLE flag set, or this will have no effect.
@@ -1292,9 +1483,10 @@ pub extern "C" fn sdl_RaiseWindow(window: SDL_Window) -> Bool = "SDL_RaiseWindow
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_MaximizeWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_MaximizeWindow(window: SDL_Window) -> Bool = "SDL_MaximizeWindow";
+pub extern "C" fn sdl_MaximizeWindow(window : SDL_Window) -> Bool = "SDL_MaximizeWindow"
 
-///| Request that the window be minimized to an iconic representation.
+///|
+/// Request that the window be minimized to an iconic representation.
 /// 
 /// On some windowing systems this request is asynchronous and the new window
 /// state may not have have been applied immediately upon the return of this
@@ -1320,9 +1512,10 @@ pub extern "C" fn sdl_MaximizeWindow(window: SDL_Window) -> Bool = "SDL_Maximize
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_MinimizeWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_MinimizeWindow(window: SDL_Window) -> Bool = "SDL_MinimizeWindow";
+pub extern "C" fn sdl_MinimizeWindow(window : SDL_Window) -> Bool = "SDL_MinimizeWindow"
 
-///| Request that the size and position of a minimized or maximized window be
+///|
+/// Request that the size and position of a minimized or maximized window be
 /// restored.
 /// 
 /// On some windowing systems this request is asynchronous and the new window
@@ -1349,9 +1542,10 @@ pub extern "C" fn sdl_MinimizeWindow(window: SDL_Window) -> Bool = "SDL_Minimize
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_RestoreWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_RestoreWindow(window: SDL_Window) -> Bool = "SDL_RestoreWindow";
+pub extern "C" fn sdl_RestoreWindow(window : SDL_Window) -> Bool = "SDL_RestoreWindow"
 
-///| Request that the window's fullscreen state be changed.
+///|
+/// Request that the window's fullscreen state be changed.
 /// 
 /// By default a window in fullscreen state uses fullscreen desktop mode, but a
 /// specific exclusive display mode can be set using
@@ -1382,9 +1576,13 @@ pub extern "C" fn sdl_RestoreWindow(window: SDL_Window) -> Bool = "SDL_RestoreWi
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SetWindowFullscreen(SDL_Window *window, bool fullscreen);
 /// ```
-pub extern "C" fn sdl_SetWindowFullscreen(window: SDL_Window, fullscreen: Bool) -> Bool = "SDL_SetWindowFullscreen";
+pub extern "C" fn sdl_SetWindowFullscreen(
+  window : SDL_Window,
+  fullscreen : Bool,
+) -> Bool = "SDL_SetWindowFullscreen"
 
-///| Block until any pending window state is finalized.
+///|
+/// Block until any pending window state is finalized.
 /// 
 /// On asynchronous windowing systems, this acts as a synchronization fence for
 /// pending window state. It will attempt to wait until any pending window
@@ -1413,9 +1611,10 @@ pub extern "C" fn sdl_SetWindowFullscreen(window: SDL_Window, fullscreen: Bool) 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_SyncWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_SyncWindow(window: SDL_Window) -> Bool = "SDL_SyncWindow";
+pub extern "C" fn sdl_SyncWindow(window : SDL_Window) -> Bool = "SDL_SyncWindow"
 
-///| Destroy a window.
+///|
+/// Destroy a window.
 /// 
 /// If `window` is NULL, this function will return immediately after setting
 /// the SDL error message to "Invalid window". See SDL_GetError().
@@ -1436,10 +1635,12 @@ pub extern "C" fn sdl_SyncWindow(window: SDL_Window) -> Bool = "SDL_SyncWindow";
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_DestroyWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_DestroyWindow(window: SDL_Window) = "SDL_DestroyWindow";
+pub extern "C" fn sdl_DestroyWindow(window : SDL_Window) = "SDL_DestroyWindow"
 
 // OpenGL functions
-///| Dynamically load an OpenGL library.
+
+///|
+/// Dynamically load an OpenGL library.
 /// 
 /// @param path the platform dependent OpenGL library name, or NULL to open the
 ///             default OpenGL library.
@@ -1456,13 +1657,16 @@ pub extern "C" fn sdl_DestroyWindow(window: SDL_Window) = "SDL_DestroyWindow";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_LoadLibrary(const char *path);
 /// ```
-pub fn sdl_GL_LoadLibrary(path: String) -> Bool {
+pub fn sdl_GL_LoadLibrary(path : String) -> Bool {
   __sdl_GL_LoadLibrary(string_to_cbytes(path))
 }
 
-extern "C" fn __sdl_GL_LoadLibrary(path: Bytes) -> Bool = "SDL_GL_LoadLibrary";
+///|
+#owned(path)
+extern "C" fn __sdl_GL_LoadLibrary(path : Bytes) -> Bool = "SDL_GL_LoadLibrary"
 
-///| Get an OpenGL function by name.
+///|
+/// Get an OpenGL function by name.
 /// 
 /// If the GL library is loaded via SDL_GL_LoadLibrary(), this function
 /// returns a pointer to the named OpenGL function. The returned function may
@@ -1483,13 +1687,16 @@ extern "C" fn __sdl_GL_LoadLibrary(path: Bytes) -> Bool = "SDL_GL_LoadLibrary";
 /// ```c
 /// extern SDL_DECLSPEC SDL_FunctionPointer SDLCALL SDL_GL_GetProcAddress(const char *proc);
 /// ```
-pub fn sdl_GL_GetProcAddress(proc: String) -> VoidPtr {
+pub fn sdl_GL_GetProcAddress(proc : String) -> VoidPtr {
   __sdl_GL_GetProcAddress(string_to_cbytes(proc))
 }
 
-extern "C" fn __sdl_GL_GetProcAddress(proc: Bytes) -> VoidPtr = "SDL_GL_GetProcAddress"; // SDL_FunctionPointer is void*
+///|
+#owned(proc)
+extern "C" fn __sdl_GL_GetProcAddress(proc : Bytes) -> VoidPtr = "SDL_GL_GetProcAddress" // SDL_FunctionPointer is void*
 
-///| Get an EGL library function by name.
+///|
+/// Get an EGL library function by name.
 /// 
 /// If an EGL library is loaded, this function returns a pointer to the named
 /// EGL function. This function should only be called if an EGL library has
@@ -1506,13 +1713,16 @@ extern "C" fn __sdl_GL_GetProcAddress(proc: Bytes) -> VoidPtr = "SDL_GL_GetProcA
 /// ```c
 /// extern SDL_DECLSPEC SDL_FunctionPointer SDLCALL SDL_EGL_GetProcAddress(const char *proc);
 /// ```
-pub fn sdl_EGL_GetProcAddress(proc: String) -> VoidPtr {
+pub fn sdl_EGL_GetProcAddress(proc : String) -> VoidPtr {
   __sdl_EGL_GetProcAddress(string_to_cbytes(proc))
 }
 
-extern "C" fn __sdl_EGL_GetProcAddress(proc: Bytes) -> VoidPtr = "SDL_EGL_GetProcAddress"; // SDL_FunctionPointer is void*
+///|
+#owned(proc)
+extern "C" fn __sdl_EGL_GetProcAddress(proc : Bytes) -> VoidPtr = "SDL_EGL_GetProcAddress" // SDL_FunctionPointer is void*
 
-///| Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
+///|
+/// Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
 /// 
 /// @threadsafety This function should only be called on the main thread.
 /// 
@@ -1523,9 +1733,10 @@ extern "C" fn __sdl_EGL_GetProcAddress(proc: Bytes) -> VoidPtr = "SDL_EGL_GetPro
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_GL_UnloadLibrary(void);
 /// ```
-pub extern "C" fn sdl_GL_UnloadLibrary() = "SDL_GL_UnloadLibrary";
+pub extern "C" fn sdl_GL_UnloadLibrary() = "SDL_GL_UnloadLibrary"
 
-///| Check if an OpenGL extension is supported.
+///|
+/// Check if an OpenGL extension is supported.
 /// 
 /// This function operates on the current GL context.
 /// 
@@ -1539,13 +1750,16 @@ pub extern "C" fn sdl_GL_UnloadLibrary() = "SDL_GL_UnloadLibrary";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_ExtensionSupported(const char *extension);
 /// ```
-pub fn sdl_GL_ExtensionSupported(extension: String) -> Bool {
+pub fn sdl_GL_ExtensionSupported(extension : String) -> Bool {
   __sdl_GL_ExtensionSupported(string_to_cbytes(extension))
 }
 
-extern "C" fn __sdl_GL_ExtensionSupported(extension: Bytes) -> Bool = "SDL_GL_ExtensionSupported";
+///|
+#owned(extension)
+extern "C" fn __sdl_GL_ExtensionSupported(extension : Bytes) -> Bool = "SDL_GL_ExtensionSupported"
 
-///| Reset all previously set OpenGL context attributes to their default values.
+///|
+/// Reset all previously set OpenGL context attributes to their default values.
 /// 
 /// @threadsafety This function should only be called on the main thread.
 /// 
@@ -1557,9 +1771,10 @@ extern "C" fn __sdl_GL_ExtensionSupported(extension: Bytes) -> Bool = "SDL_GL_Ex
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_GL_ResetAttributes(void);
 /// ```
-pub extern "C" fn sdl_GL_ResetAttributes() = "SDL_GL_ResetAttributes";
+pub extern "C" fn sdl_GL_ResetAttributes() = "SDL_GL_ResetAttributes"
 
-///| Set an OpenGL window attribute before window creation.
+///|
+/// Set an OpenGL window attribute before window creation.
 /// 
 /// This function sets the OpenGL attribute `attr` to `value`. The requested
 /// attributes should be set before creating an OpenGL window. You should use
@@ -1581,9 +1796,10 @@ pub extern "C" fn sdl_GL_ResetAttributes() = "SDL_GL_ResetAttributes";
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_SetAttribute(SDL_GLAttr attr, int value);
 /// ```
-pub extern "C" fn sdl_GL_SetAttribute(attr: SDL_GLAttr, value: Int) -> Bool = "SDL_GL_SetAttribute";
+pub extern "C" fn sdl_GL_SetAttribute(attr : SDL_GLAttr, value : Int) -> Bool = "SDL_GL_SetAttribute"
 
-///| Get the actual value for an attribute from the current context.
+///|
+/// Get the actual value for an attribute from the current context.
 /// 
 /// @param attr an SDL_GLAttr enum value specifying the OpenGL attribute to get.
 /// @param value a pointer filled in with the current value of `attr`.
@@ -1600,9 +1816,14 @@ pub extern "C" fn sdl_GL_SetAttribute(attr: SDL_GLAttr, value: Int) -> Bool = "S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_GetAttribute(SDL_GLAttr attr, int *value);
 /// ```
-pub extern "C" fn sdl_GL_GetAttribute(attr: SDL_GLAttr, value: FixedArray[Int]) -> Bool = "SDL_GL_GetAttribute";
+#owned(value)
+pub extern "C" fn sdl_GL_GetAttribute(
+  attr : SDL_GLAttr,
+  value : FixedArray[Int],
+) -> Bool = "SDL_GL_GetAttribute"
 
-///| Create an OpenGL context for an OpenGL window, and make it current.
+///|
+/// Create an OpenGL context for an OpenGL window, and make it current.
 /// 
 /// Windows users new to OpenGL should note that, for historical reasons, GL
 /// functions added after OpenGL version 1.1 are not available by default.
@@ -1626,9 +1847,10 @@ pub extern "C" fn sdl_GL_GetAttribute(attr: SDL_GLAttr, value: FixedArray[Int]) 
 /// ```c
 /// extern SDL_DECLSPEC SDL_GLContext SDLCALL SDL_GL_CreateContext(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GL_CreateContext(window: SDL_Window) -> SDL_GLContext = "SDL_GL_CreateContext";
+pub extern "C" fn sdl_GL_CreateContext(window : SDL_Window) -> SDL_GLContext = "SDL_GL_CreateContext"
 
-///| Set up an OpenGL context for rendering into an OpenGL window.
+///|
+/// Set up an OpenGL context for rendering into an OpenGL window.
 /// 
 /// The context must have been created with a compatible window.
 /// 
@@ -1646,9 +1868,13 @@ pub extern "C" fn sdl_GL_CreateContext(window: SDL_Window) -> SDL_GLContext = "S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_MakeCurrent(SDL_Window *window, SDL_GLContext context);
 /// ```
-pub extern "C" fn sdl_GL_MakeCurrent(window: SDL_Window, context: SDL_GLContext) -> Bool = "SDL_GL_MakeCurrent";
+pub extern "C" fn sdl_GL_MakeCurrent(
+  window : SDL_Window,
+  context : SDL_GLContext,
+) -> Bool = "SDL_GL_MakeCurrent"
 
-///| Get the currently active OpenGL context.
+///|
+/// Get the currently active OpenGL context.
 /// 
 /// @return the currently active OpenGL context or NULL on failure; call
 ///          SDL_GetError() for more information.
@@ -1662,9 +1888,10 @@ pub extern "C" fn sdl_GL_MakeCurrent(window: SDL_Window, context: SDL_GLContext)
 /// ```c
 /// extern SDL_DECLSPEC SDL_GLContext SDLCALL SDL_GL_GetCurrentContext(void);
 /// ```
-pub extern "C" fn sdl_GL_GetCurrentContext() -> SDL_GLContext = "SDL_GL_GetCurrentContext";
+pub extern "C" fn sdl_GL_GetCurrentContext() -> SDL_GLContext = "SDL_GL_GetCurrentContext"
 
-///| Get the currently active OpenGL window.
+///|
+/// Get the currently active OpenGL window.
 /// 
 /// @return the currently active OpenGL window on success or NULL on failure;
 ///          call SDL_GetError() for more information.
@@ -1676,9 +1903,10 @@ pub extern "C" fn sdl_GL_GetCurrentContext() -> SDL_GLContext = "SDL_GL_GetCurre
 /// ```c
 /// extern SDL_DECLSPEC SDL_Window * SDLCALL SDL_GL_GetCurrentWindow(void);
 /// ```
-pub extern "C" fn sdl_GL_GetCurrentWindow() -> SDL_Window = "SDL_GL_GetCurrentWindow";
+pub extern "C" fn sdl_GL_GetCurrentWindow() -> SDL_Window = "SDL_GL_GetCurrentWindow"
 
-///| Set the swap interval for the current OpenGL context.
+///|
+/// Set the swap interval for the current OpenGL context.
 /// 
 /// Some systems allow specifying -1 for the interval, to enable adaptive
 /// vsync. Adaptive vsync works the same as vsync, but if you've already missed
@@ -1710,9 +1938,10 @@ pub extern "C" fn sdl_GL_GetCurrentWindow() -> SDL_Window = "SDL_GL_GetCurrentWi
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_SetSwapInterval(int interval);
 /// ```
-pub extern "C" fn sdl_GL_SetSwapInterval(interval: Int) -> Bool = "SDL_GL_SetSwapInterval";
+pub extern "C" fn sdl_GL_SetSwapInterval(interval : Int) -> Bool = "SDL_GL_SetSwapInterval"
 
-///| Get the swap interval for the current OpenGL context.
+///|
+/// Get the swap interval for the current OpenGL context.
 /// 
 /// If the system can't determine the swap interval, or there isn't a valid
 /// current context, this function will set *interval to 0 as a safe default.
@@ -1733,9 +1962,11 @@ pub extern "C" fn sdl_GL_SetSwapInterval(interval: Int) -> Bool = "SDL_GL_SetSwa
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_GetSwapInterval(int *interval);
 /// ```
-pub extern "C" fn sdl_GL_GetSwapInterval(interval: FixedArray[Int]) -> Bool = "SDL_GL_GetSwapInterval";
+#owned(interval)
+pub extern "C" fn sdl_GL_GetSwapInterval(interval : FixedArray[Int]) -> Bool = "SDL_GL_GetSwapInterval"
 
-///| Update a window with OpenGL rendering.
+///|
+/// Update a window with OpenGL rendering.
 /// 
 /// This is used with double-buffered OpenGL contexts, which are the default.
 /// 
@@ -1757,9 +1988,10 @@ pub extern "C" fn sdl_GL_GetSwapInterval(interval: FixedArray[Int]) -> Bool = "S
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_SwapWindow(SDL_Window *window);
 /// ```
-pub extern "C" fn sdl_GL_SwapWindow(window: SDL_Window) -> Bool = "SDL_GL_SwapWindow";
+pub extern "C" fn sdl_GL_SwapWindow(window : SDL_Window) -> Bool = "SDL_GL_SwapWindow"
 
-///| Delete an OpenGL context.
+///|
+/// Delete an OpenGL context.
 /// 
 /// @param context the OpenGL context to be deleted.
 /// @return true on success or false on failure; call SDL_GetError() for more
@@ -1774,4 +2006,4 @@ pub extern "C" fn sdl_GL_SwapWindow(window: SDL_Window) -> Bool = "SDL_GL_SwapWi
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GL_DestroyContext(SDL_GLContext context);
 /// ```
-pub extern "C" fn sdl_GL_DestroyContext(context: SDL_GLContext) -> Bool = "SDL_GL_DestroyContext";
+pub extern "C" fn sdl_GL_DestroyContext(context : SDL_GLContext) -> Bool = "SDL_GL_DestroyContext"

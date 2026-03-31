@@ -45,7 +45,8 @@
 /// can guarantee that these events have a type that isn't in use by other
 /// parts of the system.
 
-///| The types of events that can be delivered.
+///|
+/// The types of events that can be delivered.
 /// 
 /// @since This enum is available since SDL 3.2.0.
 /// 
@@ -62,162 +63,272 @@
 /// } SDL_EventType;
 /// ```
 pub(all) enum SDL_EventType {
-    SDL_EVENT_FIRST = 0     ///< Unused (do not remove)
-    
-    // Application events
-    SDL_EVENT_QUIT = 0x100                   ///< User-requested quit
-    SDL_EVENT_TERMINATING                    ///< The application is being terminated by the OS
-    SDL_EVENT_LOW_MEMORY                     ///< The application is low on memory, free memory if possible
-    SDL_EVENT_WILL_ENTER_BACKGROUND          ///< The application is about to enter the background
-    SDL_EVENT_DID_ENTER_BACKGROUND           ///< The application did enter the background and may not get CPU for some time
-    SDL_EVENT_WILL_ENTER_FOREGROUND          ///< The application is about to enter the foreground
-    SDL_EVENT_DID_ENTER_FOREGROUND           ///< The application is now interactive
-    SDL_EVENT_LOCALE_CHANGED                 ///< The user's locale preferences have changed
-    SDL_EVENT_SYSTEM_THEME_CHANGED           ///< The system theme changed
-    
-    // Display events
-    SDL_EVENT_DISPLAY_ORIENTATION = 0x151    ///< Display orientation has changed to data1
-    SDL_EVENT_DISPLAY_ADDED                  ///< Display has been added to the system
-    SDL_EVENT_DISPLAY_REMOVED                ///< Display has been removed from the system
-    SDL_EVENT_DISPLAY_MOVED                  ///< Display has changed position
-    SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED   ///< Display has changed desktop mode
-    SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED   ///< Display has changed current mode
-    SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED  ///< Display has changed content scale
-    
-    // Window events
-    SDL_EVENT_WINDOW_SHOWN = 0x202           ///< Window has been shown
-    SDL_EVENT_WINDOW_HIDDEN                  ///< Window has been hidden
-    SDL_EVENT_WINDOW_EXPOSED                 ///< Window has been exposed and should be redrawn
-    SDL_EVENT_WINDOW_MOVED                   ///< Window has been moved to data1, data2
-    SDL_EVENT_WINDOW_RESIZED                 ///< Window has been resized to data1xdata2
-    SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED      ///< The pixel size of the window has changed to data1xdata2
-    SDL_EVENT_WINDOW_METAL_VIEW_RESIZED      ///< The pixel size of a Metal view associated with the window has changed
-    SDL_EVENT_WINDOW_MINIMIZED               ///< Window has been minimized
-    SDL_EVENT_WINDOW_MAXIMIZED               ///< Window has been maximized
-    SDL_EVENT_WINDOW_RESTORED                ///< Window has been restored to normal size and position
-    SDL_EVENT_WINDOW_MOUSE_ENTER             ///< Window has gained mouse focus
-    SDL_EVENT_WINDOW_MOUSE_LEAVE             ///< Window has lost mouse focus
-    SDL_EVENT_WINDOW_FOCUS_GAINED            ///< Window has gained keyboard focus
-    SDL_EVENT_WINDOW_FOCUS_LOST              ///< Window has lost keyboard focus
-    SDL_EVENT_WINDOW_CLOSE_REQUESTED         ///< The window manager requests that the window be closed
-    SDL_EVENT_WINDOW_HIT_TEST                ///< Window had a hit test that wasn't SDL_HITTEST_NORMAL
-    SDL_EVENT_WINDOW_ICCPROF_CHANGED         ///< The ICC profile of the window's display has changed
-    SDL_EVENT_WINDOW_DISPLAY_CHANGED         ///< Window has been moved to display data1
-    SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED   ///< Window display scale has been changed
-    SDL_EVENT_WINDOW_SAFE_AREA_CHANGED       ///< The window safe area has been changed
-    SDL_EVENT_WINDOW_OCCLUDED                ///< The window has been occluded
-    SDL_EVENT_WINDOW_ENTER_FULLSCREEN        ///< The window has entered fullscreen mode
-    SDL_EVENT_WINDOW_LEAVE_FULLSCREEN        ///< The window has left fullscreen mode
-    SDL_EVENT_WINDOW_DESTROYED               ///< The window with the associated ID is being or has been destroyed
-    SDL_EVENT_WINDOW_HDR_STATE_CHANGED       ///< Window HDR properties have changed
-    
-    // Keyboard events
-    SDL_EVENT_KEY_DOWN = 0x300               ///< Key pressed
-    SDL_EVENT_KEY_UP                         ///< Key released
-    SDL_EVENT_TEXT_EDITING                   ///< Keyboard text editing (composition)
-    SDL_EVENT_TEXT_INPUT                     ///< Keyboard text input
-    SDL_EVENT_KEYMAP_CHANGED                 ///< Keymap changed due to a system event
-    SDL_EVENT_KEYBOARD_ADDED                 ///< A new keyboard has been inserted into the system
-    SDL_EVENT_KEYBOARD_REMOVED               ///< A keyboard has been removed
-    SDL_EVENT_TEXT_EDITING_CANDIDATES        ///< Keyboard text editing candidates
-    
-    // Mouse events
-    SDL_EVENT_MOUSE_MOTION = 0x400           ///< Mouse moved
-    SDL_EVENT_MOUSE_BUTTON_DOWN              ///< Mouse button pressed
-    SDL_EVENT_MOUSE_BUTTON_UP                ///< Mouse button released
-    SDL_EVENT_MOUSE_WHEEL                    ///< Mouse wheel motion
-    SDL_EVENT_MOUSE_ADDED                    ///< A new mouse has been inserted into the system
-    SDL_EVENT_MOUSE_REMOVED                  ///< A mouse has been removed
-    
-    // Joystick events
-    SDL_EVENT_JOYSTICK_AXIS_MOTION = 0x600   ///< Joystick axis motion
-    SDL_EVENT_JOYSTICK_BALL_MOTION           ///< Joystick trackball motion
-    SDL_EVENT_JOYSTICK_HAT_MOTION            ///< Joystick hat position change
-    SDL_EVENT_JOYSTICK_BUTTON_DOWN           ///< Joystick button pressed
-    SDL_EVENT_JOYSTICK_BUTTON_UP             ///< Joystick button released
-    SDL_EVENT_JOYSTICK_ADDED                 ///< A new joystick has been inserted into the system
-    SDL_EVENT_JOYSTICK_REMOVED               ///< An opened joystick has been removed
-    SDL_EVENT_JOYSTICK_BATTERY_UPDATED       ///< Joystick battery level change
-    SDL_EVENT_JOYSTICK_UPDATE_COMPLETE       ///< Joystick update is complete
-    
-    // Gamepad events
-    SDL_EVENT_GAMEPAD_AXIS_MOTION = 0x650    ///< Gamepad axis motion
-    SDL_EVENT_GAMEPAD_BUTTON_DOWN            ///< Gamepad button pressed
-    SDL_EVENT_GAMEPAD_BUTTON_UP              ///< Gamepad button released
-    SDL_EVENT_GAMEPAD_ADDED                  ///< A new gamepad has been inserted into the system
-    SDL_EVENT_GAMEPAD_REMOVED                ///< A gamepad has been removed
-    SDL_EVENT_GAMEPAD_REMAPPED               ///< The gamepad mapping was updated
-    SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN          ///< Gamepad touchpad was touched
-    SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION        ///< Gamepad touchpad finger was moved
-    SDL_EVENT_GAMEPAD_TOUCHPAD_UP            ///< Gamepad touchpad finger was lifted
-    SDL_EVENT_GAMEPAD_SENSOR_UPDATE          ///< Gamepad sensor was updated
-    SDL_EVENT_GAMEPAD_UPDATE_COMPLETE        ///< Gamepad update is complete
-    SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED   ///< Gamepad Steam handle has changed
-    
-    // Touch events
-    SDL_EVENT_FINGER_DOWN = 0x700            ///< Finger touched down on the touch surface
-    SDL_EVENT_FINGER_UP                      ///< Finger lifted up from the touch surface
-    SDL_EVENT_FINGER_MOTION                  ///< Finger moved along the touch surface
-    SDL_EVENT_FINGER_CANCELED               ///< Finger touch canceled
-    
-    // Clipboard events
-    SDL_EVENT_CLIPBOARD_UPDATE = 0x900       ///< The clipboard or primary selection changed
-    
-    // Drag and drop events
-    SDL_EVENT_DROP_FILE = 0x1000             ///< The system requests a file open
-    SDL_EVENT_DROP_TEXT                      ///< text/plain drag-and-drop event
-    SDL_EVENT_DROP_BEGIN                     ///< A new set of drops is beginning
-    SDL_EVENT_DROP_COMPLETE                  ///< Current set of drops is now complete
-    SDL_EVENT_DROP_POSITION                  ///< Position while moving over the window
-    
-    // Audio hotplug events
-    SDL_EVENT_AUDIO_DEVICE_ADDED = 0x1100    ///< A new audio device is available
-    SDL_EVENT_AUDIO_DEVICE_REMOVED           ///< An audio device has been removed
-    SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED    ///< An audio device's format has been changed by the system
-    
-    // Sensor events
-    SDL_EVENT_SENSOR_UPDATE = 0x1200         ///< A sensor was updated
-    
-    // Pressure-sensitive pen events
-    SDL_EVENT_PEN_PROXIMITY_IN = 0x1300      ///< Pressure-sensitive pen has become available
-    SDL_EVENT_PEN_PROXIMITY_OUT              ///< Pressure-sensitive pen has become unavailable
-    SDL_EVENT_PEN_DOWN                       ///< Pressure-sensitive pen touched drawing surface
-    SDL_EVENT_PEN_UP                         ///< Pressure-sensitive pen stopped touching drawing surface
-    SDL_EVENT_PEN_BUTTON_DOWN                ///< Pressure-sensitive pen button pressed
-    SDL_EVENT_PEN_BUTTON_UP                  ///< Pressure-sensitive pen button released
-    SDL_EVENT_PEN_MOTION                     ///< Pressure-sensitive pen is moving on the tablet
-    SDL_EVENT_PEN_AXIS                       ///< Pressure-sensitive pen angle/pressure/etc changed
-    
-    // Camera hotplug events
-    SDL_EVENT_CAMERA_DEVICE_ADDED = 0x1400   ///< A new camera device is available
-    SDL_EVENT_CAMERA_DEVICE_REMOVED          ///< A camera device has been removed
-    SDL_EVENT_CAMERA_DEVICE_APPROVED         ///< A camera device has been approved for use by the user
-    SDL_EVENT_CAMERA_DEVICE_DENIED           ///< A camera device has been denied for use by the user
-    
-    // Render events
-    SDL_EVENT_RENDER_TARGETS_RESET = 0x2000  ///< The render targets have been reset and their contents need to be updated
-    SDL_EVENT_RENDER_DEVICE_RESET            ///< The device has been reset and all textures need to be recreated
-    SDL_EVENT_RENDER_DEVICE_LOST             ///< The device has been lost and can't be recovered
-    
-    // Reserved events for private platforms
-    SDL_EVENT_PRIVATE0 = 0x4000
-    SDL_EVENT_PRIVATE1
-    SDL_EVENT_PRIVATE2
-    SDL_EVENT_PRIVATE3
-    
-    // Internal events
-    SDL_EVENT_POLL_SENTINEL = 0x7F00         ///< Signals the end of an event poll cycle
-    
-    // User events
-    SDL_EVENT_USER = 0x8000                  ///< Events SDL_EVENT_USER through SDL_EVENT_LAST are for your use
-    
-    // This last event is only for bounding internal arrays
-    SDL_EVENT_LAST = 0xFFFF
+  ///< Unused (do not remove)
+  SDL_EVENT_FIRST = 0
+
+  // Application events
+  ///< User-requested quit
+  ///< The application is being terminated by the OS
+  ///< The application is low on memory, free memory if possible
+  ///< The application is about to enter the background
+  ///< The application did enter the background and may not get CPU for some time
+  ///< The application is about to enter the foreground
+  ///< The application is now interactive
+  ///< The user's locale preferences have changed
+  ///< The system theme changed
+  SDL_EVENT_QUIT = 0x100
+  SDL_EVENT_TERMINATING
+  SDL_EVENT_LOW_MEMORY
+  SDL_EVENT_WILL_ENTER_BACKGROUND
+  SDL_EVENT_DID_ENTER_BACKGROUND
+  SDL_EVENT_WILL_ENTER_FOREGROUND
+  SDL_EVENT_DID_ENTER_FOREGROUND
+  SDL_EVENT_LOCALE_CHANGED
+  SDL_EVENT_SYSTEM_THEME_CHANGED
+
+  // Display events
+  ///< Display orientation has changed to data1
+  ///< Display has been added to the system
+  ///< Display has been removed from the system
+  ///< Display has changed position
+  ///< Display has changed desktop mode
+  ///< Display has changed current mode
+  ///< Display has changed content scale
+  SDL_EVENT_DISPLAY_ORIENTATION = 0x151
+  SDL_EVENT_DISPLAY_ADDED
+  SDL_EVENT_DISPLAY_REMOVED
+  SDL_EVENT_DISPLAY_MOVED
+  SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED
+  SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED
+  SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED
+
+  // Window events
+  ///< Window has been shown
+  ///< Window has been hidden
+  ///< Window has been exposed and should be redrawn
+  ///< Window has been moved to data1, data2
+  ///< Window has been resized to data1xdata2
+  ///< The pixel size of the window has changed to data1xdata2
+  ///< The pixel size of a Metal view associated with the window has changed
+  ///< Window has been minimized
+  ///< Window has been maximized
+  ///< Window has been restored to normal size and position
+  ///< Window has gained mouse focus
+  ///< Window has lost mouse focus
+  ///< Window has gained keyboard focus
+  ///< Window has lost keyboard focus
+  ///< The window manager requests that the window be closed
+  ///< Window had a hit test that wasn't SDL_HITTEST_NORMAL
+  ///< The ICC profile of the window's display has changed
+  ///< Window has been moved to display data1
+  ///< Window display scale has been changed
+  ///< The window safe area has been changed
+  ///< The window has been occluded
+  ///< The window has entered fullscreen mode
+  ///< The window has left fullscreen mode
+  ///< The window with the associated ID is being or has been destroyed
+  ///< Window HDR properties have changed
+  SDL_EVENT_WINDOW_SHOWN = 0x202
+  SDL_EVENT_WINDOW_HIDDEN
+  SDL_EVENT_WINDOW_EXPOSED
+  SDL_EVENT_WINDOW_MOVED
+  SDL_EVENT_WINDOW_RESIZED
+  SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED
+  SDL_EVENT_WINDOW_METAL_VIEW_RESIZED
+  SDL_EVENT_WINDOW_MINIMIZED
+  SDL_EVENT_WINDOW_MAXIMIZED
+  SDL_EVENT_WINDOW_RESTORED
+  SDL_EVENT_WINDOW_MOUSE_ENTER
+  SDL_EVENT_WINDOW_MOUSE_LEAVE
+  SDL_EVENT_WINDOW_FOCUS_GAINED
+  SDL_EVENT_WINDOW_FOCUS_LOST
+  SDL_EVENT_WINDOW_CLOSE_REQUESTED
+  SDL_EVENT_WINDOW_HIT_TEST
+  SDL_EVENT_WINDOW_ICCPROF_CHANGED
+  SDL_EVENT_WINDOW_DISPLAY_CHANGED
+  SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED
+  SDL_EVENT_WINDOW_SAFE_AREA_CHANGED
+  SDL_EVENT_WINDOW_OCCLUDED
+  SDL_EVENT_WINDOW_ENTER_FULLSCREEN
+  SDL_EVENT_WINDOW_LEAVE_FULLSCREEN
+  SDL_EVENT_WINDOW_DESTROYED
+  SDL_EVENT_WINDOW_HDR_STATE_CHANGED
+
+  // Keyboard events
+  ///< Key pressed
+  ///< Key released
+  ///< Keyboard text editing (composition)
+  ///< Keyboard text input
+  ///< Keymap changed due to a system event
+  ///< A new keyboard has been inserted into the system
+  ///< A keyboard has been removed
+  ///< Keyboard text editing candidates
+  SDL_EVENT_KEY_DOWN = 0x300
+  SDL_EVENT_KEY_UP
+  SDL_EVENT_TEXT_EDITING
+  SDL_EVENT_TEXT_INPUT
+  SDL_EVENT_KEYMAP_CHANGED
+  SDL_EVENT_KEYBOARD_ADDED
+  SDL_EVENT_KEYBOARD_REMOVED
+  SDL_EVENT_TEXT_EDITING_CANDIDATES
+
+  // Mouse events
+  ///< Mouse moved
+  ///< Mouse button pressed
+  ///< Mouse button released
+  ///< Mouse wheel motion
+  ///< A new mouse has been inserted into the system
+  ///< A mouse has been removed
+  SDL_EVENT_MOUSE_MOTION = 0x400
+  SDL_EVENT_MOUSE_BUTTON_DOWN
+  SDL_EVENT_MOUSE_BUTTON_UP
+  SDL_EVENT_MOUSE_WHEEL
+  SDL_EVENT_MOUSE_ADDED
+  SDL_EVENT_MOUSE_REMOVED
+
+  // Joystick events
+  ///< Joystick axis motion
+  ///< Joystick trackball motion
+  ///< Joystick hat position change
+  ///< Joystick button pressed
+  ///< Joystick button released
+  ///< A new joystick has been inserted into the system
+  ///< An opened joystick has been removed
+  ///< Joystick battery level change
+  ///< Joystick update is complete
+  SDL_EVENT_JOYSTICK_AXIS_MOTION = 0x600
+  SDL_EVENT_JOYSTICK_BALL_MOTION
+  SDL_EVENT_JOYSTICK_HAT_MOTION
+  SDL_EVENT_JOYSTICK_BUTTON_DOWN
+  SDL_EVENT_JOYSTICK_BUTTON_UP
+  SDL_EVENT_JOYSTICK_ADDED
+  SDL_EVENT_JOYSTICK_REMOVED
+  SDL_EVENT_JOYSTICK_BATTERY_UPDATED
+  SDL_EVENT_JOYSTICK_UPDATE_COMPLETE
+
+  // Gamepad events
+  ///< Gamepad axis motion
+  ///< Gamepad button pressed
+  ///< Gamepad button released
+  ///< A new gamepad has been inserted into the system
+  ///< A gamepad has been removed
+  ///< The gamepad mapping was updated
+  ///< Gamepad touchpad was touched
+  ///< Gamepad touchpad finger was moved
+  ///< Gamepad touchpad finger was lifted
+  ///< Gamepad sensor was updated
+  ///< Gamepad update is complete
+  ///< Gamepad Steam handle has changed
+  SDL_EVENT_GAMEPAD_AXIS_MOTION = 0x650
+  SDL_EVENT_GAMEPAD_BUTTON_DOWN
+  SDL_EVENT_GAMEPAD_BUTTON_UP
+  SDL_EVENT_GAMEPAD_ADDED
+  SDL_EVENT_GAMEPAD_REMOVED
+  SDL_EVENT_GAMEPAD_REMAPPED
+  SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN
+  SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION
+  SDL_EVENT_GAMEPAD_TOUCHPAD_UP
+  SDL_EVENT_GAMEPAD_SENSOR_UPDATE
+  SDL_EVENT_GAMEPAD_UPDATE_COMPLETE
+  SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED
+
+  // Touch events
+  ///< Finger touched down on the touch surface
+  ///< Finger lifted up from the touch surface
+  ///< Finger moved along the touch surface
+  ///< Finger touch canceled
+  SDL_EVENT_FINGER_DOWN = 0x700
+  SDL_EVENT_FINGER_UP
+  SDL_EVENT_FINGER_MOTION
+  SDL_EVENT_FINGER_CANCELED
+
+  // Clipboard events
+  ///< The clipboard or primary selection changed
+  SDL_EVENT_CLIPBOARD_UPDATE = 0x900
+
+  // Drag and drop events
+  ///< The system requests a file open
+  ///< text/plain drag-and-drop event
+  ///< A new set of drops is beginning
+  ///< Current set of drops is now complete
+  ///< Position while moving over the window
+  SDL_EVENT_DROP_FILE = 0x1000
+  SDL_EVENT_DROP_TEXT
+  SDL_EVENT_DROP_BEGIN
+  SDL_EVENT_DROP_COMPLETE
+  SDL_EVENT_DROP_POSITION
+
+  // Audio hotplug events
+  ///< A new audio device is available
+  ///< An audio device has been removed
+  ///< An audio device's format has been changed by the system
+  SDL_EVENT_AUDIO_DEVICE_ADDED = 0x1100
+  SDL_EVENT_AUDIO_DEVICE_REMOVED
+  SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED
+
+  // Sensor events
+  ///< A sensor was updated
+  SDL_EVENT_SENSOR_UPDATE = 0x1200
+
+  // Pressure-sensitive pen events
+  ///< Pressure-sensitive pen has become available
+  ///< Pressure-sensitive pen has become unavailable
+  ///< Pressure-sensitive pen touched drawing surface
+  ///< Pressure-sensitive pen stopped touching drawing surface
+  ///< Pressure-sensitive pen button pressed
+  ///< Pressure-sensitive pen button released
+  ///< Pressure-sensitive pen is moving on the tablet
+  ///< Pressure-sensitive pen angle/pressure/etc changed
+  SDL_EVENT_PEN_PROXIMITY_IN = 0x1300
+  SDL_EVENT_PEN_PROXIMITY_OUT
+  SDL_EVENT_PEN_DOWN
+  SDL_EVENT_PEN_UP
+  SDL_EVENT_PEN_BUTTON_DOWN
+  SDL_EVENT_PEN_BUTTON_UP
+  SDL_EVENT_PEN_MOTION
+  SDL_EVENT_PEN_AXIS
+
+  // Camera hotplug events
+  ///< A new camera device is available
+  ///< A camera device has been removed
+  ///< A camera device has been approved for use by the user
+  ///< A camera device has been denied for use by the user
+  SDL_EVENT_CAMERA_DEVICE_ADDED = 0x1400
+  SDL_EVENT_CAMERA_DEVICE_REMOVED
+  SDL_EVENT_CAMERA_DEVICE_APPROVED
+  SDL_EVENT_CAMERA_DEVICE_DENIED
+
+  // Render events
+  ///< The render targets have been reset and their contents need to be updated
+  ///< The device has been reset and all textures need to be recreated
+  ///< The device has been lost and can't be recovered
+  SDL_EVENT_RENDER_TARGETS_RESET = 0x2000
+  SDL_EVENT_RENDER_DEVICE_RESET
+  SDL_EVENT_RENDER_DEVICE_LOST
+
+  // Reserved events for private platforms
+  SDL_EVENT_PRIVATE0 = 0x4000
+  SDL_EVENT_PRIVATE1
+  SDL_EVENT_PRIVATE2
+  SDL_EVENT_PRIVATE3
+
+  // Internal events
+  ///< Signals the end of an event poll cycle
+  SDL_EVENT_POLL_SENTINEL = 0x7F00
+
+  // User events
+  ///< Events SDL_EVENT_USER through SDL_EVENT_LAST are for your use
+  SDL_EVENT_USER = 0x8000
+
+  // This last event is only for bounding internal arrays
+  SDL_EVENT_LAST = 0xFFFF
 } derive(Eq)
 
-pub fn[T] unsafe_from_sdl_event(event: SDL_Event) -> T = "%identity"
+///|
+pub fn[T] unsafe_from_sdl_event(event : SDL_Event) -> T = "%identity"
 
-///| The "quit requested" event 
+///|
+/// The "quit requested" event 
 ///
 /// @since This struct is available since SDL 3.2.0.
 ///
@@ -231,13 +342,15 @@ pub fn[T] unsafe_from_sdl_event(event: SDL_Event) -> T = "%identity"
 /// ```
 pub struct SDL_QuitEvent {
   /// Must be SDL_EVENT_QUIT
-  event_type: SDL_EventType
-  reserved: UInt
+  event_type : SDL_EventType
+  reserved : UInt
   /// In nanoseconds, populated using SDL_GetTicksNS()
-  timestamp: UInt64          ///< In nanoseconds, populated using SDL_GetTicksNS()
+  ///< In nanoseconds, populated using SDL_GetTicksNS()
+  timestamp : UInt64
 } derive(Eq)
 
-///| Keyboard button event structure (event.key.*)
+///|
+/// Keyboard button event structure (event.key.*)
 /// 
 /// The `key` is the base SDL_Keycode generated by pressing the `scancode`
 /// using the current keyboard layout, applying any options specified in
@@ -267,30 +380,54 @@ pub struct SDL_QuitEvent {
 /// } SDL_KeyboardEvent;
 /// ```
 pub struct SDL_KeyboardEvent {
-    /// Must be SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP
-    event_type: SDL_EventType;
-    reserved: UInt;
-    /// In nanoseconds, populated using SDL_GetTicksNS()
-    timestamp: UInt64;          ///< In nanoseconds, populated using SDL_GetTicksNS()
-    /// The window with keyboard focus, if any
-    windowID: SDL_WindowID;
-    /// The keyboard instance id, or 0 if unknown or virtual
-    which: SDL_KeyboardID;
-    /// SDL physical key code
-    scancode: SDL_Scancode;
-    /// SDL virtual key code
-    key: SDL_Keycode;
-    /// current key modifiers
-    mod: SDL_Keymod;
-    /// The platform dependent scancode for this event
-    raw: UInt16;
-    /// true if the key is pressed
-    down: Bool;
-    /// true if this is a key repeat
-    repeat: Bool
+  /// Must be SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP
+  event_type : SDL_EventType
+  reserved : UInt
+  /// In nanoseconds, populated using SDL_GetTicksNS()
+  ///< In nanoseconds, populated using SDL_GetTicksNS()
+  /// The window with keyboard focus, if any
+  timestamp : UInt64
+  windowID : SDL_WindowID
+  /// The keyboard instance id, or 0 if unknown or virtual
+  which : SDL_KeyboardID
+  /// SDL physical key code
+  scancode : SDL_Scancode
+  /// SDL virtual key code
+  key : SDL_Keycode
+  /// current key modifiers
+  mod : SDL_Keymod
+  /// The platform dependent scancode for this event
+  raw : UInt16
+  /// true if the key is pressed
+  down : Bool
+  /// true if this is a key repeat
+  repeat : Bool
 } derive(Eq)
 
-///| SDL Event structure
+///|
+fn _touch_event_structs() -> Unit {
+  ignore(SDL_QuitEvent::{
+    event_type: SDL_EVENT_QUIT,
+    reserved: 0U,
+    timestamp: 0UL,
+  })
+  ignore(SDL_KeyboardEvent::{
+    event_type: SDL_EVENT_KEY_DOWN,
+    reserved: 0U,
+    timestamp: 0UL,
+    windowID: 0U,
+    which: 0U,
+    scancode: SDL_Scancode(0U),
+    key: SDL_Keycode(0U),
+    mod: SDL_Keymod(Int::to_uint16(0)),
+    raw: Int::to_uint16(0),
+    down: false,
+    repeat: false,
+  })
+}
+
+///|
+/// SDL Event structure
 /// 
 /// The main SDL event structure. This is an opaque type in our binding
 /// since the C structure is a union with many different event types.
@@ -306,17 +443,20 @@ pub struct SDL_KeyboardEvent {
 /// ```
 pub type SDL_Event
 
-pub fn SDL_Event::is_null(self: Self) -> Bool {
-    is_nullptr(self)
+///|
+pub fn SDL_Event::is_null(self : Self) -> Bool {
+  is_nullptr(self)
 }
 
 ///|
 pub extern "C" fn new_sdl_event() -> SDL_Event = "new_sdl_event"
 
 ///|
-pub extern "C" fn SDL_Event::get_type(self: SDL_Event) -> SDL_EventType = "sdl_event_get_type"
+#owned(self)
+pub extern "C" fn SDL_Event::get_type(self : SDL_Event) -> SDL_EventType = "sdl_event_get_type"
 
-///| Event filter function type
+///|
+/// Event filter function type
 /// 
 /// @param userdata what was passed as `userdata` to SDL_SetEventFilter()
 ///                 or SDL_AddEventWatch, etc.
@@ -332,9 +472,10 @@ pub extern "C" fn SDL_Event::get_type(self: SDL_Event) -> SDL_EventType = "sdl_e
 /// ```c
 /// typedef int (SDLCALL *SDL_EventFilter)(void *userdata, SDL_Event *event);
 /// ```
-pub typealias FuncRef[(VoidPtr, SDL_Event) -> Int] as SDL_EventFilter
+pub type SDL_EventFilter = FuncRef[(VoidPtr, SDL_Event) -> Int]
 
-///| Pump the event loop, gathering events from the input devices.
+///|
+/// Pump the event loop, gathering events from the input devices.
 /// 
 /// This function updates the event queue and internal input device state.
 /// 
@@ -362,7 +503,8 @@ pub typealias FuncRef[(VoidPtr, SDL_Event) -> Int] as SDL_EventFilter
 /// ```
 pub extern "C" fn sdl_PumpEvents() = "SDL_PumpEvents"
 
-///| Check the event queue for messages and optionally return them.
+///|
+/// Check the event queue for messages and optionally return them.
 /// 
 /// `action` may be any of the following:
 /// 
@@ -406,9 +548,17 @@ pub extern "C" fn sdl_PumpEvents() = "SDL_PumpEvents"
 /// ```c
 /// extern SDL_DECLSPEC int SDLCALL SDL_PeepEvents(SDL_Event *events, int numevents, SDL_EventAction action, Uint32 minType, Uint32 maxType);
 /// ```
-pub extern "C" fn sdl_PeepEvents(events: FixedArray[SDL_Event], numevents: Int, action: Int, minType: UInt, maxType: UInt) -> Int = "SDL_PeepEvents"
+#owned(events)
+pub extern "C" fn sdl_PeepEvents(
+  events : FixedArray[SDL_Event],
+  numevents : Int,
+  action : Int,
+  minType : UInt,
+  maxType : UInt,
+) -> Int = "SDL_PeepEvents"
 
-///| Check for the existence of a certain event type in the event queue.
+///|
+/// Check for the existence of a certain event type in the event queue.
 /// 
 /// If you need to check for a range of event types, use SDL_HasEvents()
 /// instead.
@@ -426,9 +576,10 @@ pub extern "C" fn sdl_PeepEvents(events: FixedArray[SDL_Event], numevents: Int, 
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HasEvent(Uint32 type);
 /// ```
-pub extern "C" fn sdl_HasEvent(event_type: UInt) -> Bool = "SDL_HasEvent"
+pub extern "C" fn sdl_HasEvent(event_type : UInt) -> Bool = "SDL_HasEvent"
 
-///| Check for the existence of certain event types in the event queue.
+///|
+/// Check for the existence of certain event types in the event queue.
 /// 
 /// If you need to check for a single event type, use SDL_HasEvent() instead.
 /// 
@@ -448,9 +599,10 @@ pub extern "C" fn sdl_HasEvent(event_type: UInt) -> Bool = "SDL_HasEvent"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_HasEvents(Uint32 minType, Uint32 maxType);
 /// ```
-pub extern "C" fn sdl_HasEvents(minType: UInt, maxType: UInt) -> Bool = "SDL_HasEvents"
+pub extern "C" fn sdl_HasEvents(minType : UInt, maxType : UInt) -> Bool = "SDL_HasEvents"
 
-///| Clear events of a specific type from the event queue.
+///|
+/// Clear events of a specific type from the event queue.
 /// 
 /// This will unconditionally remove any events from the queue that match
 /// `type`. If you need to remove a range of event types, use SDL_FlushEvents()
@@ -474,9 +626,10 @@ pub extern "C" fn sdl_HasEvents(minType: UInt, maxType: UInt) -> Bool = "SDL_Has
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_FlushEvent(Uint32 type);
 /// ```
-pub extern "C" fn sdl_FlushEvent(event_type: UInt) = "SDL_FlushEvent"
+pub extern "C" fn sdl_FlushEvent(event_type : UInt) = "SDL_FlushEvent"
 
-///| Clear events of a range of types from the event queue.
+///|
+/// Clear events of a range of types from the event queue.
 /// 
 /// This will unconditionally remove any events from the queue that are in the
 /// range of `minType` to `maxType`, inclusive. If you need to remove a single
@@ -503,9 +656,10 @@ pub extern "C" fn sdl_FlushEvent(event_type: UInt) = "SDL_FlushEvent"
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_FlushEvents(Uint32 minType, Uint32 maxType);
 /// ```
-pub extern "C" fn sdl_FlushEvents(minType: UInt, maxType: UInt) = "SDL_FlushEvents"
+pub extern "C" fn sdl_FlushEvents(minType : UInt, maxType : UInt) = "SDL_FlushEvents"
 
-///| Poll for currently pending events.
+///|
+/// Poll for currently pending events.
 /// 
 /// If `event` is not NULL, the next event is removed from the queue and stored
 /// in the SDL_Event structure pointed to by `event`. The 1 returned refers to
@@ -550,9 +704,11 @@ pub extern "C" fn sdl_FlushEvents(minType: UInt, maxType: UInt) = "SDL_FlushEven
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_PollEvent(SDL_Event *event);
 /// ```
-pub extern "C" fn sdl_PollEvent(event:SDL_Event) -> Bool = "SDL_PollEvent"
+#owned(event)
+pub extern "C" fn sdl_PollEvent(event : SDL_Event) -> Bool = "SDL_PollEvent"
 
-///| Wait indefinitely for the next available event.
+///|
+/// Wait indefinitely for the next available event.
 /// 
 /// If `event` is not NULL, the next event is removed from the queue and stored
 /// in the SDL_Event structure pointed to by `event`.
@@ -576,9 +732,11 @@ pub extern "C" fn sdl_PollEvent(event:SDL_Event) -> Bool = "SDL_PollEvent"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WaitEvent(SDL_Event *event);
 /// ```
-pub extern "C" fn sdl_WaitEvent(event:SDL_Event) -> Bool = "SDL_WaitEvent"
+#owned(event)
+pub extern "C" fn sdl_WaitEvent(event : SDL_Event) -> Bool = "SDL_WaitEvent"
 
-///| Wait until the specified timeout (in milliseconds) for the next available
+///|
+/// Wait until the specified timeout (in milliseconds) for the next available
 /// event.
 /// 
 /// If `event` is not NULL, the next event is removed from the queue and stored
@@ -608,9 +766,14 @@ pub extern "C" fn sdl_WaitEvent(event:SDL_Event) -> Bool = "SDL_WaitEvent"
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_WaitEventTimeout(SDL_Event *event, Sint32 timeoutMS);
 /// ```
-pub extern "C" fn sdl_WaitEventTimeout(event: SDL_Event, timeoutMS: Int) -> Bool = "SDL_WaitEventTimeout"
+#owned(event)
+pub extern "C" fn sdl_WaitEventTimeout(
+  event : SDL_Event,
+  timeoutMS : Int,
+) -> Bool = "SDL_WaitEventTimeout"
 
-///| Add an event to the event queue.
+///|
+/// Add an event to the event queue.
 /// 
 /// The event queue can actually be used as a two way communication channel.
 /// Not only can events be read from the queue, but the user can also push
@@ -644,9 +807,11 @@ pub extern "C" fn sdl_WaitEventTimeout(event: SDL_Event, timeoutMS: Int) -> Bool
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_PushEvent(SDL_Event *event);
 /// ```
-pub extern "C" fn sdl_PushEvent(event: SDL_Event) -> Bool = "SDL_PushEvent"
+#owned(event)
+pub extern "C" fn sdl_PushEvent(event : SDL_Event) -> Bool = "SDL_PushEvent"
 
-///| Set up a filter to process all events before they change internal state
+///|
+/// Set up a filter to process all events before they change internal state
 /// and are posted to the internal event queue.
 /// 
 /// If the filter function returns 1 when called, then the event will be added
@@ -688,9 +853,13 @@ pub extern "C" fn sdl_PushEvent(event: SDL_Event) -> Bool = "SDL_PushEvent"
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetEventFilter(SDL_EventFilter filter, void *userdata);
 /// ```
-pub extern "C" fn sdl_SetEventFilter(filter: SDL_EventFilter, userdata: VoidPtr) = "SDL_SetEventFilter"
+pub extern "C" fn sdl_SetEventFilter(
+  filter : SDL_EventFilter,
+  userdata : VoidPtr,
+) = "SDL_SetEventFilter"
 
-///| Query the current event filter.
+///|
+/// Query the current event filter.
 /// 
 /// This function can be used to "chain" filters, by saving the existing filter
 /// before replacing it with a function that will call that saved filter.
@@ -709,9 +878,14 @@ pub extern "C" fn sdl_SetEventFilter(filter: SDL_EventFilter, userdata: VoidPtr)
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_GetEventFilter(SDL_EventFilter *filter, void **userdata);
 /// ```
-pub extern "C" fn sdl_GetEventFilter(filter: FixedArray[SDL_EventFilter], userdata: FixedArray[VoidPtr]) -> Bool = "SDL_GetEventFilter"
+#owned(filter, userdata)
+pub extern "C" fn sdl_GetEventFilter(
+  filter : FixedArray[SDL_EventFilter],
+  userdata : FixedArray[VoidPtr],
+) -> Bool = "SDL_GetEventFilter"
 
-///| Add a callback to be triggered when an event is added to the event queue.
+///|
+/// Add a callback to be triggered when an event is added to the event queue.
 /// 
 /// `filter` will be called when an event happens, and its return value is
 /// ignored.
@@ -743,9 +917,13 @@ pub extern "C" fn sdl_GetEventFilter(filter: FixedArray[SDL_EventFilter], userda
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_AddEventWatch(SDL_EventFilter filter, void *userdata);
 /// ```
-pub extern "C" fn sdl_AddEventWatch(filter: SDL_EventFilter, userdata: VoidPtr) -> Bool = "SDL_AddEventWatch"
+pub extern "C" fn sdl_AddEventWatch(
+  filter : SDL_EventFilter,
+  userdata : VoidPtr,
+) -> Bool = "SDL_AddEventWatch"
 
-///| Remove an event watch callback added with SDL_AddEventWatch().
+///|
+/// Remove an event watch callback added with SDL_AddEventWatch().
 /// 
 /// This function takes the same input as SDL_AddEventWatch() to identify and
 /// delete the corresponding callback.
@@ -762,9 +940,13 @@ pub extern "C" fn sdl_AddEventWatch(filter: SDL_EventFilter, userdata: VoidPtr) 
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_RemoveEventWatch(SDL_EventFilter filter, void *userdata);
 /// ```
-pub extern "C" fn sdl_RemoveEventWatch(filter: SDL_EventFilter, userdata: VoidPtr) = "SDL_RemoveEventWatch"
+pub extern "C" fn sdl_RemoveEventWatch(
+  filter : SDL_EventFilter,
+  userdata : VoidPtr,
+) = "SDL_RemoveEventWatch"
 
-///| Set the state of processing events by type.
+///|
+/// Set the state of processing events by type.
 /// 
 /// @param type the type of event; see SDL_EventType for details.
 /// @param enabled whether to process the event or not.
@@ -778,9 +960,10 @@ pub extern "C" fn sdl_RemoveEventWatch(filter: SDL_EventFilter, userdata: VoidPt
 /// ```c
 /// extern SDL_DECLSPEC void SDLCALL SDL_SetEventEnabled(Uint32 type, bool enabled);
 /// ```
-pub extern "C" fn sdl_SetEventEnabled(event_type: UInt, enabled: Bool) = "SDL_SetEventEnabled"
+pub extern "C" fn sdl_SetEventEnabled(event_type : UInt, enabled : Bool) = "SDL_SetEventEnabled"
 
-///| Query the state of processing events by type.
+///|
+/// Query the state of processing events by type.
 /// 
 /// @param type the type of event; see SDL_EventType for details.
 /// @return true if the event is being processed, false otherwise.
@@ -794,9 +977,10 @@ pub extern "C" fn sdl_SetEventEnabled(event_type: UInt, enabled: Bool) = "SDL_Se
 /// ```c
 /// extern SDL_DECLSPEC bool SDLCALL SDL_EventEnabled(Uint32 type);
 /// ```
-pub extern "C" fn sdl_EventEnabled(event_type: UInt) -> Bool = "SDL_EventEnabled"
+pub extern "C" fn sdl_EventEnabled(event_type : UInt) -> Bool = "SDL_EventEnabled"
 
-///| Allocate a set of user-defined events, and return the beginning event
+///|
+/// Allocate a set of user-defined events, and return the beginning event
 /// number for that set of events.
 /// 
 /// @param numevents the number of events to be allocated.
@@ -812,4 +996,4 @@ pub extern "C" fn sdl_EventEnabled(event_type: UInt) -> Bool = "SDL_EventEnabled
 /// ```c
 /// extern SDL_DECLSPEC Uint32 SDLCALL SDL_RegisterEvents(int numevents);
 /// ```
-pub extern "C" fn sdl_RegisterEvents(numevents: Int) -> UInt = "SDL_RegisterEvents" 
+pub extern "C" fn sdl_RegisterEvents(numevents : Int) -> UInt = "SDL_RegisterEvents"

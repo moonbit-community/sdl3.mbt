@@ -13,7 +13,9 @@ fn main_err() -> Unit raise {
     }
     for event in events {
       if event.getType() is KEY_DOWN {
-        let kevent : @lib.SDL_KeyboardEvent = @lib.unsafe_from_sdl_event(event.inner())
+        let kevent : @lib.SDL_KeyboardEvent = @lib.unsafe_from_sdl_event(
+          event.0,
+        )
         println(kevent.key)
       }
     }
@@ -25,7 +27,11 @@ fn main_err() -> Unit raise {
     renderer.drawPoint(400, 300, color=Black)
     renderer.drawLine((100, 100), (700, 500))
     renderer.drawLines([
-      (100, 100), (100, 500), (500, 500), (500, 100), (100, 100)
+      (100, 100),
+      (100, 500),
+      (500, 500),
+      (500, 100),
+      (100, 100),
     ])
     renderer.setDrawColor(Lime)
     renderer.drawRect((200, 200), 300, 300, fill=true)
@@ -45,8 +51,9 @@ fn main_err() -> Unit raise {
 
 ///|
 fn main {
-  match (try? main_err()) {
-    Ok(_) => ()
-    Err(e) => println(e)
+  try main_err() catch {
+    e => println(e)
+  } noraise {
+    _ => ()
   }
 }

@@ -1,9 +1,10 @@
 ///|
 pub struct Window {
   base : @lib.SDL_Window
-  mut renderer: Renderer?
+  mut renderer : Renderer?
 }
 
+///|
 fn Window::inner(self : Window) -> @lib.SDL_Window {
   self.base
 }
@@ -18,13 +19,7 @@ pub fn Window::createRenderer(self : Window) -> Renderer raise {
     raise CreateWindowError("Failed to create SDL renderer")
   }
   let (r, g, b, a) : (Byte, Byte, Byte, Byte) = (0, 0, 0, 255)
-  let renderer = Renderer::{ 
-    base: renderer,
-    r: r,
-    g: g,
-    b: b,
-    a: a
-  }
+  let renderer = Renderer::{ base: renderer, r, g, b, a }
   self.renderer = Some(renderer)
   renderer
 }

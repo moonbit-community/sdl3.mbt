@@ -1,0 +1,15 @@
+import {
+  "Kaida-Amethyst/sdl3",
+  "Kaida-Amethyst/sdl3/lib",
+}
+
+options(
+  "is-main": true,
+  link: {
+    "native": {
+      "cc": "clang",
+      "cc-link-flags": "-Wl,-rpath,/opt/homebrew/lib -lSDL3",
+    },
+  },
+  "supported-targets": "native",
+)

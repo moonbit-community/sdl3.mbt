@@ -1,0 +1,8 @@
+import {
+  "Kaida-Amethyst/sdl3/lib",
+}
+
+options(
+  "is-main": false,
+  "supported-targets": "native",
+)
