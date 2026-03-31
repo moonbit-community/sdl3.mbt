@@ -11,6 +11,12 @@ fn main_err() -> Unit raise {
     if events.iter().any(e => e.getType() is Quit) {
       quit = true
     }
+    for event in events {
+      if event.getType() is KEY_DOWN {
+        let kevent : @lib.SDL_KeyboardEvent = @lib.unsafe_from_sdl_event(event.inner())
+        println(kevent.key)
+      }
+    }
   }
   while !quit {
     check_quit()

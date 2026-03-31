@@ -4,3 +4,4 @@ target/
 c/
 .moonagent/
 AGENTS.md
+_build

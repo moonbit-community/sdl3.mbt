@@ -28,9 +28,16 @@ int voidptr_is_null(void* p) {
   return p == NULL;
 }
 
+void free_sdl_event(void *event) {
+  // if (event) {
+  //   free(event);
+  // }
+}
+
 SDL_Event* new_sdl_event() {
-  SDL_Event *event = (SDL_Event *)malloc(sizeof(SDL_Event));
-  return event;
+  // SDL_Event *event = (SDL_Event *)malloc(sizeof(SDL_Event));
+  // return event;
+  return (SDL_Event*)moonbit_make_external_object(&free_sdl_event, sizeof(SDL_Event));
 }
 
 SDL_EventType sdl_event_get_type(SDL_Event *event) {

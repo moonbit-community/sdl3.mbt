@@ -26,15 +26,11 @@
 /// 
 /// https://wiki.libsdl.org/SDL3/BestKeyboardPractices
 
-// 引入其他模块中定义的类型
-#external  
-pub type SDL_Scancode
+pub struct SDL_Scancode(UInt) derive(Eq)
 
-#external
-pub type SDL_Keycode
+pub struct SDL_Keycode(UInt) derive(Eq, Show)
 
-#external
-pub type SDL_Keymod
+pub struct SDL_Keymod(UInt16) derive(Eq)
 
 ///| This is a unique ID for a keyboard for the time it is connected to the
 /// system, and is never reused for the lifetime of the application.
