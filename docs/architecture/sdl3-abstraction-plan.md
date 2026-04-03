@@ -118,6 +118,15 @@
   - `sys/string.mbt`
 - 相关模块职责草案见：
   `docs/architecture/sys-layer-plan.md`
+- 当前已收敛的 `sys/runtime.mbt` 第一版边界包括：
+  - 直接复用 `@raw.SDL_InitFlags`
+  - 提供 `init / init_subsystem / quit_subsystem / quit_all`
+  - 提供 `initialized_flags / is_initialized`
+  - 提供 `set_app_metadata / set_app_metadata_property`
+  - 提供 `SysVersion / compiled_version / linked_version`
+  - 提供 `is_main_thread()`
+  - 暂不纳入 `run_on_main_thread(...)`
+  - 暂不引入 `SysAppMetadata` 结构体
 
 ## 包职责
 

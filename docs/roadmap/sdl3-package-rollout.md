@@ -84,6 +84,10 @@
   - `sys/surface.mbt`
 - 明确 `sys` 采用平铺文件结构，不新增子目录
 - 只做一轮最小必要的 `raw` 边界清理，不等待 `raw` 全面纯化后再开始 `sys`
+- `sys/runtime.mbt` 第一版先保持函数式浅层接口：
+  - 直接复用 `@raw.SDL_InitFlags`
+  - 先提供 init / quit、initialized flags、metadata、version、main-thread 查询
+  - 暂不在 `sys` 层固化 `Runtime` token 或 `SysAppMetadata`
 
 ### 退出条件
 

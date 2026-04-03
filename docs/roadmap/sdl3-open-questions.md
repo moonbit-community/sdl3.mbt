@@ -172,6 +172,29 @@
 - 已决定：`get2 / get3 / get4` 采用异构泛型，而不是同构泛型。
 - 已决定：第一版保留 `pair / triple / quad`。
 - 已决定：第一版保留 `collect_mapped_array`。
+- 已决定：`sys/runtime.mbt` 第一版职责包括：
+  - 运行时 init / quit 的浅层整理
+  - initialized flags 查询
+  - app metadata 设置入口
+  - 编译期与运行时版本信息读取
+  - main-thread 查询
+- 已决定：`sys/runtime.mbt` 第一版直接复用 `@raw.SDL_InitFlags`，不新增 `SysInitFlags`。
+- 已决定：`sys/runtime.mbt` 第一版公开接口草案包括：
+  - `init`
+  - `init_subsystem`
+  - `quit_subsystem`
+  - `quit_all`
+  - `initialized_flags`
+  - `is_initialized`
+  - `set_app_metadata`
+  - `set_app_metadata_property`
+  - `SysVersion`
+  - `compiled_version`
+  - `linked_version`
+  - `is_main_thread`
+- 已决定：`sys/runtime.mbt` 第一版保留 `set_app_metadata(...)` 与 `set_app_metadata_property(...)` 两个入口，但暂不引入 `SysAppMetadata` 结构体。
+- 已决定：`sys/runtime.mbt` 第一版纳入 `is_main_thread()`，但暂不纳入 `run_on_main_thread(...)`。
+- 已决定：`sys/runtime.mbt` 当前保持函数式浅层接口，不在模块内部维护额外运行时状态。
 
 ### 待补充
 
@@ -179,6 +202,6 @@
 
 ## 下一轮讨论建议
 
-- 先讨论 `Runtime` 模型。
-- 然后讨论事件 ADT 形状。
+- 先讨论 `sys/events.mbt` 的职责与第一版函数形状。
+- 然后讨论稳定层 `events.Event` 的 ADT 形状。
 - 最后讨论渲染状态模型。

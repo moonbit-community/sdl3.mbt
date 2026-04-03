@@ -273,14 +273,84 @@ pub fn[T, U] collect_mapped_array_from_count(
 
 职责：
 
-- 在 `raw/init` 和相关基础 API 上做运行时级浅层适配
-- 服务未来的稳定 `runtime` 包
+- 在 `raw/init`、`raw/version` 与相关基础 API 上做运行时级浅层适配
+- 统一处理 SDL 初始化/退出相关的低层错误提升
+- 提供运行时初始化状态、版本信息与应用元数据的低层入口
+- 服务未来的稳定 `runtime` 包，但不在 `sys` 层提前固化最终 `Runtime` 对象设计
 
 适合放入：
 
 - init / quit 的低层整理
+- initialized flags 的浅层查询
 - metadata / version 的浅层入口
 - runtime 级 capability 检查
+
+不适合放入：
+
+- 最终公开 `Runtime` 对象的高层语义
+- `run_on_main_thread(...)` 这类会引入 callback 与线程策略的问题
+- 自动 quit guard、引用计数、全局状态缓存
+
+当前第一版设计草案：
+
+```moonbit
+pub(all) struct SysVersion {
+  major : Int
+  minor : Int
+  micro : Int
+} derive(Show, Eq)
+
+pub fn init(
+  flags : @raw.SDL_InitFlags,
+) -> Unit raise SysError
+
+pub fn init_subsystem(
+  flags : @raw.SDL_InitFlags,
+) -> Unit raise SysError
+
+pub fn quit_subsystem(
+  flags : @raw.SDL_InitFlags,
+) -> Unit
+
+pub fn quit_all() -> Unit
+
+pub fn initialized_flags() -> @raw.SDL_InitFlags
+
+pub fn is_initialized(
+  flags : @raw.SDL_InitFlags,
+) -> Bool
+
+pub fn set_app_metadata(
+  name~ : String,
+  version~ : String,
+  identifier~ : String = "",
+) -> Unit raise SysError
+
+pub fn set_app_metadata_property(
+  name : String,
+  value : String,
+) -> Unit raise SysError
+
+pub fn compiled_version() -> SysVersion
+
+pub fn linked_version() -> SysVersion
+
+pub fn is_main_thread() -> Bool
+```
+
+说明：
+
+- 第一版直接复用 `@raw.SDL_InitFlags`，不再新增 `SysInitFlags` 同义类型。
+- `initialized_flags()` 与 `is_initialized(...)` 两个接口都保留：
+  - 前者提供低层完整查询
+  - 后者提供更直接的调用点判断
+- `set_app_metadata(...)` 与 `set_app_metadata_property(...)` 都保留：
+  - 前者是设置应用基础元数据的便捷入口
+  - 后者是设置单条 metadata property 的通用入口
+- 当前不建议在 `sys/runtime.mbt` 中引入 `SysAppMetadata` 结构体。
+- `SysVersion` 第一版保留，以显式区分编译期头文件版本和运行时链接库版本。
+- 第一版纳入 `is_main_thread()`，但暂不纳入 `run_on_main_thread(...)`。
+- `sys/runtime.mbt` 当前应保持为函数式浅层接口，不在模块内部持有额外状态。
 
 ### `sys/events.mbt`
 
