@@ -34,17 +34,26 @@
 - TODO：
   - 比较 MoonBit 使用体验与生命周期清晰度
 
-### Q2. 稳定层资源释放策略是什么？
+### Q2. 关闭后访问的错误体系如何设计？
 
 - 状态：`open`
 - 为什么重要：
   - 影响 `Window`、`Canvas`、`Texture`、`Surface`、`Font` 以及设备句柄
-- 当前备选：
-  - 仅显式 `close()`
-  - 显式 `close()` + finalizer 兜底
-  - 主要依赖 finalizer，显式释放作为提前回收
+- 当前已定部分：
+  - 资源释放以显式 `close()` 为主
+  - 允许 finalizer 兜底
+  - 绝不把 finalizer 作为主要释放模型
+  - 所有拥有型资源统一提供 `is_closed()`
+  - finalizer 的实现需要单独关注 MoonBit 的外部对象与 `#borrow / #owned` 约定
+  - 实施时必须检查 `_build/` 下生成的 C 代码，而不能只看 `.mbt`
+  - `close()` 必须幂等
+  - 关闭后，只有 `close()` 与 `is_closed()` 继续保证可用
+  - 其他依赖 native handle 的方法在关闭后应抛统一生命周期错误
+  - 父资源关闭时，子资源立即失效
+  - 推荐 child-first close，但不把它作为 correctness 的硬前提
+  - 当前倾向：并入统一主错误体系，但保留单独的生命周期错误分支
 - TODO：
-  - 记录对 MoonBit 用户体验的利弊分析
+  - 后续再细化生命周期错误中需要哪些变体
 
 ### Q3. 输入与窗口事件的 payload 细节应如何建模？
 
@@ -59,10 +68,19 @@
   - 事件系统中的几何命名暂按：
     - `Point / Size / Rect / Offset`
     - `PixelPoint / PixelSize / PixelRect`
+  - `MouseButton` 当前采用：
+    - `Left / Middle / Right / X1 / X2 / Indexed(Int)`
+  - `PressedMouseButtons` 当前采用不透明 bitmask 值类型
+  - `MouseWheelDirection` 当前采用：
+    - `Normal / Flipped`
+  - `MouseMotion / MouseButton / MouseWheel` 当前采用 `MouseSource`
+  - `WindowEvent.window_id` 为必填
+  - `KeyEvent.window_id / keyboard_id` 为可选
+  - `TextEvent.window_id` 为可选
+  - `MouseDeviceEvent.mouse_id` 为必填
+  - `MouseMotion / MouseButton / MouseWheel.window_id` 为可选
 - TODO：
-  - 继续收敛 `MouseButtons`
-  - 继续收敛 `MouseWheelDirection`
-  - 继续收敛 `WindowId? / MouseId? / KeyboardId?` 的可选性边界
+  - 继续收敛 `DisplayEvent`、`GamepadEvent`、`TouchEvent` 等后续事件组
 
 ### Q4. 稳定 2D 渲染状态模型如何设计？
 
@@ -290,6 +308,23 @@
   - `MouseMotionEvent`
   - `MouseButtonEvent`
   - `MouseWheelEvent`
+- 已决定：`MouseButton` 第一版采用：
+  - `Left`
+  - `Middle`
+  - `Right`
+  - `X1`
+  - `X2`
+  - `Indexed(Int)`
+- 已决定：`MouseButton::Indexed(Int)` 当前仅在文档和实现注释层约定面向额外按钮索引，第一版暂不做更重的类型系统约束。
+- 已决定：表示“当前按下按钮集合”的类型命名为 `PressedMouseButtons`，并采用不透明 bitmask 值类型。
+- 已决定：`MouseWheelDirection` 第一版采用：
+  - `Normal`
+  - `Flipped`
+- 已决定：`MouseMotionEvent`、`MouseButtonEvent`、`MouseWheelEvent` 不再直接使用 `MouseId?`，而改用：
+  - `MouseSource::Device(MouseId)`
+  - `MouseSource::Touch`
+  - `MouseSource::Pen`
+  - `MouseSource::Unspecified`
 - 已决定：`UserEvent` 与 `UnknownEvent` 必须分开。
 - 已决定：`UserEvent` 中若保留 `data1 / data2`，必须包裹在显式 `unsafe` 命名的结构中。
 - 已决定：事件系统中的几何命名当前采用：
@@ -297,6 +332,37 @@
   - 像素族：`PixelPoint / PixelSize / PixelRect`
 - 已决定：`WindowEvent` 使用 `PixelPoint / PixelSize`。
 - 已决定：`MouseEvent` 使用 `Point / Offset`。
+- 已决定：`WindowEvent.window_id` 为必填。
+- 已决定：`KeyEvent.window_id` 与 `KeyEvent.keyboard_id` 为可选。
+- 已决定：`KeyboardDeviceEvent.keyboard_id` 为必填。
+- 已决定：`TextEvent.window_id` 为可选。
+- 已决定：`MouseDeviceEvent.mouse_id` 为必填。
+- 已决定：`MouseMotionEvent`、`MouseButtonEvent`、`MouseWheelEvent.window_id` 为可选。
+- 已决定：稳定层资源释放采用：
+  - 显式 `close()` 为主
+  - finalizer 兜底
+  - finalizer 不作为主要释放模型
+- 已决定：所有拥有型资源统一提供 `is_closed()`。
+- 已决定：`close()` 必须幂等。
+- 已决定：关闭后，只有 `close()` 与 `is_closed()` 这类生命周期方法继续保证可用。
+- 已决定：其他依赖底层 native handle 的方法，在对象关闭后应抛统一的生命周期错误，而不是 silent no-op。
+- 已决定：不建议在关闭后保留零散 getter 的可用性；第一版除生命周期方法外，一律视为不可再用。
+- 已决定：MoonBit finalizer 的实施机制需要单独看待，不应把它当成“只在 MoonBit 侧补少量代码即可完成”的特性。
+- 已决定：后续实现 finalizer 时，必须检查 `_build/` 下生成的 C 代码，重点关注：
+  - 外部对象布局
+  - `#borrow / #owned` 的调用约定
+  - `wrap.c` 与生成代码之间的引用计数与释放逻辑是否一致
+- 已决定：父资源关闭时，子资源立即失效。
+- 已决定：当前父子依赖至少包括：
+  - `Texture -> Canvas`
+  - `Canvas -> Window`
+- 已决定：关闭 `Window` 后，其上的 `Canvas` 与 `Texture` 都视为 closed。
+- 已决定：关闭 `Canvas` 后，其上的 `Texture` 都视为 closed。
+- 已决定：子资源在父资源关闭后，再调用自身的 `close()` 必须是安全幂等的 no-op。
+- 已决定：文档推荐显式 child-first close 作为最佳实践，但不把它作为 correctness 的硬前提。
+- 已决定：关闭后访问的错误当前倾向于并入统一主错误体系，但保留单独的生命周期错误分支。
+- 已决定：当前不建议为每种资源分别定义独立的 closed error 类型。
+- 已决定：当前不建议把“资源已关闭”伪装成普通 SDL backend error。
 
 ### 待补充
 
@@ -304,6 +370,5 @@
 
 ## 下一轮讨论建议
 
-- 先讨论 `MouseButtons`、`MouseWheelDirection`、`WindowId? / MouseId? / KeyboardId?` 这些输入事件细节。
-- 然后讨论稳定层资源释放策略。
+- 先讨论稳定 API 是否必须显式持有 `Runtime` token。
 - 最后讨论渲染状态模型。

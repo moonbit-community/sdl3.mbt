@@ -169,6 +169,7 @@ pub(all) enum WindowEvent {
 
 - 这些事件会额外引入平台特化建模、色彩/ICC 模型、safe area 表达或 HDR 状态建模问题。
 - 它们不应阻塞第一版稳定窗口事件骨架。
+- `WindowEvent` 中的 `window_id` 不应可选，因为这类事件天然属于某个窗口。
 
 ## `KeyboardEvent` 草案
 
@@ -206,7 +207,9 @@ pub(all) enum KeyboardEvent {
 - `KeyDown` 与 `KeyUp` 共用 `KeyEvent`。
 - `repeat` 保留在 `KeyEvent` 中。
 - SDL 的平台 raw scancode 暂不进入稳定层 payload。
-- `window_id` 与 `keyboard_id` 的可选性仍需结合具体 SDL 语义继续讨论。
+- `KeyEvent.window_id` 保留为 `WindowId?`，因为 SDL 原始语义是“the window with keyboard focus, if any”。
+- `KeyEvent.keyboard_id` 保留为 `KeyboardId?`，因为 SDL 原始语义是“keyboard instance id, or 0 if unknown or virtual”。
+- `KeyboardDeviceEvent.keyboard_id` 为必填，因为设备热插拔事件天然绑定具体键盘设备。
 
 ## `TextEvent` 草案
 
@@ -243,7 +246,55 @@ pub(all) enum TextEvent {
 
 - `TextEvent` 与 `KeyboardEvent` 明确分开。
 - `Input`、`Editing`、`EditingCandidates` 当前建议分别使用专用 payload。
+- `TextEvent.window_id` 保留为 `WindowId?`，因为 SDL 原始语义是“the window with keyboard focus, if any”。
 - 如果早期 `raw` 对某一类文本事件 payload 尚未准备好，可暂时落入 `Unknown`，但目标形状先按此设计。
+
+## 鼠标输入相关基础类型草案
+
+```moonbit
+pub(all) enum MouseButton {
+  Left
+  Middle
+  Right
+  X1
+  X2
+  Indexed(Int)
+}
+
+/// 语义上表示“当前按下的按钮集合”
+pub struct PressedMouseButtons(UInt32) derive(Show, Eq)
+
+pub(all) enum MouseWheelDirection {
+  Normal
+  Flipped
+}
+
+pub(all) enum MouseSource {
+  Device(MouseId)
+  Touch
+  Pen
+  Unspecified
+}
+```
+
+说明：
+
+- `MouseButton` 与 `PressedMouseButtons` 必须分开：
+  - `MouseButton` 表示单个按钮身份
+  - `PressedMouseButtons` 表示某一时刻当前按下的按钮集合
+- `MouseButton` 不采用只有 5 个构造器的封闭 enum，而是保留：
+  - `Left / Middle / Right / X1 / X2`
+  - `Indexed(Int)` 用于没有 SDL 标准名字的额外按钮
+- 当前建议在文档与实现注释中约定：
+  - `Indexed(Int)` 主要面向 `6..32` 的额外按钮索引
+  - 第一版暂不强制用更重的类型系统约束表达这一范围
+- `PressedMouseButtons` 采用不透明 bitmask 值类型，而不是数组或固定布尔字段。
+- `MouseWheelDirection` 采用 `Normal / Flipped`，保持与 SDL 原始语义一致。
+- `MouseSource` 用于表达鼠标事件来源：
+  - 真实鼠标设备
+  - 触摸映射的虚拟鼠标
+  - 笔映射的虚拟鼠标
+  - 未指定来源
 
 ## `MouseEvent` 草案
 
@@ -256,16 +307,16 @@ pub struct MouseDeviceEvent {
 pub struct MouseMotionEvent {
   timestamp : TimestampNs
   window_id : WindowId?
-  mouse_id : MouseId?
+  source : MouseSource
   position : Point
   delta : Offset
-  buttons : MouseButtons
+  buttons : PressedMouseButtons
 } derive(Show, Eq)
 
 pub struct MouseButtonEvent {
   timestamp : TimestampNs
   window_id : WindowId?
-  mouse_id : MouseId?
+  source : MouseSource
   button : MouseButton
   clicks : Int
   position : Point
@@ -274,7 +325,7 @@ pub struct MouseButtonEvent {
 pub struct MouseWheelEvent {
   timestamp : TimestampNs
   window_id : WindowId?
-  mouse_id : MouseId?
+  source : MouseSource
   delta : Offset
   direction : MouseWheelDirection
 } derive(Show, Eq)
@@ -293,7 +344,11 @@ pub(all) enum MouseEvent {
 
 - `ButtonDown` 与 `ButtonUp` 共用 `MouseButtonEvent`。
 - 鼠标位置与滚轮/移动量先按连续空间几何建模。
-- `MouseButtons`、`MouseWheelDirection`、`window_id? / mouse_id?` 的具体细节仍需继续讨论。
+- `MouseDeviceEvent.mouse_id` 为必填，因为设备热插拔事件天然绑定真实鼠标设备。
+- `MouseMotionEvent / MouseButtonEvent / MouseWheelEvent` 中不再直接使用 `MouseId?`，而改用 `MouseSource`：
+  - SDL 原始语义中，这些事件的 `which` 可能表示真实鼠标、触摸映射鼠标、笔映射鼠标，或 `0`
+  - `MouseId?` 会丢失触摸与笔的来源信息
+- `MouseMotionEvent / MouseButtonEvent / MouseWheelEvent.window_id` 保留为 `WindowId?`，因为 SDL 原始语义是“the window with mouse focus, if any”。
 
 ## `UserEvent` 与 `UnknownEvent` 草案
 
@@ -383,7 +438,5 @@ pub struct PixelRect {
 
 ## 当前仍待继续讨论的细节
 
-- `MouseButtons` 应建模成什么形状。
-- `MouseWheelDirection` 的设计。
-- `WindowId? / MouseId? / KeyboardId?` 的可选性边界。
 - `DisplayEvent`、`GamepadEvent`、`TouchEvent` 等后续事件组的具体形状。
+- `WindowEvent` 暂缓变体的补入顺序与依赖类型。

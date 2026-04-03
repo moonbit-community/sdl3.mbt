@@ -118,6 +118,10 @@
   - `sys/string.mbt`
 - 相关模块职责草案见：
   `docs/architecture/sys-layer-plan.md`
+- finalizer 实现机制说明见：
+  `docs/architecture/finalizer-implementation-notes.md`
+- 资源生命周期策略草案见：
+  `docs/architecture/resource-lifetime-plan.md`
 - 当前已收敛的 `sys/runtime.mbt` 第一版边界包括：
   - 直接复用 `@raw.SDL_InitFlags`
   - 提供 `init / init_subsystem / quit_subsystem / quit_all`
@@ -179,6 +183,7 @@
 
 - 负责 display 和 window 的生命周期。
 - 稳定层中，只有它应当拥有 `SDL_Window`。
+- 资源释放当前采用“显式 `close()` 为主，finalizer 兜底，但 finalizer 不作为主要释放模型”。
 - 第一批候选类型：
   - `DisplayId`
   - `Display`
@@ -198,6 +203,9 @@
   - `Scancode`
   - `KeyMods`
   - `MouseButton`
+  - `PressedMouseButtons`
+  - `MouseWheelDirection`
+  - `MouseSource`
   - `MouseState`
   - `KeyboardId`
   - `MouseId`
@@ -232,6 +240,7 @@
 
 - 负责 `SDL_Surface` 生命周期与软件像素操作。
 - 同时作为 `image` 和 `ttf` 的桥接层。
+- 资源释放当前采用“显式 `close()` 为主，finalizer 兜底，但 finalizer 不作为主要释放模型”。
 - 第一批候选类型：
   - `Surface`
   - `PixelFormat`
@@ -242,6 +251,7 @@
 
 - 负责 `SDL_Renderer` 与 `SDL_Texture`。
 - 提供 MoonBit 风格的 2D 绘制 API。
+- 资源释放当前采用“显式 `close()` 为主，finalizer 兜底，但 finalizer 不作为主要释放模型”。
 - 第一批候选类型：
   - `Canvas`
   - `CanvasSpec`
@@ -264,6 +274,7 @@
 
 - 负责 SDL_ttf 相关的字体加载、测量与文字栅格化。
 - 优先产出 `Surface` 或 metrics，而不是直接耦合渲染层。
+- 资源释放当前采用“显式 `close()` 为主，finalizer 兜底，但 finalizer 不作为主要释放模型”。
 - 第一批候选类型：
   - `Font`
   - `FontSpec`

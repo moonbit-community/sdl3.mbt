@@ -16,6 +16,8 @@
 
 - 架构主文档：`docs/architecture/sdl3-abstraction-plan.md`
 - `sys` 层模块草案：`docs/architecture/sys-layer-plan.md`
+- finalizer 实现机制说明：`docs/architecture/finalizer-implementation-notes.md`
+- 资源生命周期策略草案：`docs/architecture/resource-lifetime-plan.md`
 - 未决问题列表：`docs/roadmap/sdl3-open-questions.md`
 
 ## 推进原则
@@ -167,6 +169,8 @@
 - `Surface` 生命周期
 - `Canvas` 生命周期
 - `Texture` 创建路径
+- 统一 `close()` 语义
+- 明确父子资源顺序与失效规则
 - `Paint` 模型
 - 几何图元绘制
 - 截图/导出整合点
