@@ -21,19 +21,17 @@
 
 ## 当前问题
 
-### Q1. `sys/error.mbt` 与 `sys/out.mbt` 应提供哪些函数形状？
+### Q1. `sys/out.mbt` 应提供哪些函数形状？
 
 - 状态：`open`
 - 为什么重要：
-  - 这两个模块会成为大部分 `sys` 文件的共同基础
+  - `sys/out.mbt` 会成为多个 `sys` 模块共享的低层结果整理基础
   - 如果这里的接口不稳，后续 `sys/events`、`sys/video`、`sys/render` 都会返工
 - 当前需要讨论的方向：
-  - `sys/error.mbt` 中的检查函数命名与返回形状
   - `sys/out.mbt` 如何统一单值、多值、数组类 out 参数
   - 低层 helper 应该多泛型，还是适度重复、保持直接
-- TODO：
-  - 先讨论 `sys/error.mbt`
-  - 再讨论 `sys/out.mbt`
+- 先讨论单值 out 参数
+- 再讨论多值和数组类 out 参数
 
 ### Q2. 稳定 API 是否必须显式持有 `Runtime` token？
 
@@ -145,6 +143,27 @@
   - `sys/video.mbt`
   - `sys/render.mbt`
   - `sys/surface.mbt`
+- 已决定：`sys/error.mbt` 第一版错误类型草案为：
+  - `pub suberror SysError { SysError(SysErrorKind, operation~ : String, msg~ : String) }`
+- 已决定：`SysErrorKind` 第一版草案包含：
+  - `BoolFailure`
+  - `NullFailure`
+  - `NegativeFailure`
+  - `ValidationFailure`
+  - `DecodeFailure`
+  - `Uncategorized`
+- 已决定：`SysError` 中保留 `kind`，但 `operation` 与 `msg` 先继续使用 `String`。
+- 已决定：`operation` 与 `msg` 必须采用 label argument，避免两个字符串在调用点混淆。
+- 已决定：`sys/error.mbt` 第一批函数草案包括：
+  - `last_error_message`
+  - `take_last_error_message`
+  - `make_error`
+  - `make_last_error`
+  - `raise_error`
+  - `raise_last_error`
+  - `expect_ok`
+  - `expect_not_null`
+  - `expect_non_negative`
 
 ### 待补充
 
@@ -152,8 +171,7 @@
 
 ## 下一轮讨论建议
 
-- 先讨论 `sys/error.mbt` 的函数形状。
-- 再讨论 `sys/out.mbt` 的函数形状。
+- 先讨论 `sys/out.mbt` 的函数形状。
 - 然后讨论 `Runtime` 模型。
 - 然后讨论事件 ADT 形状。
 - 最后讨论渲染状态模型。

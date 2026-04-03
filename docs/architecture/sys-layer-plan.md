@@ -47,6 +47,7 @@
 - 统一处理 `Bool` 返回值失败后的错误提升
 - 统一处理空指针返回值失败后的错误提升
 - 提供低层 operation 上下文到错误信息的拼接策略
+- 提供 `sys` 层统一的低层错误类型
 
 适合放入：
 
@@ -58,6 +59,98 @@
 
 - 领域专用错误类型
 - 面向最终用户的文案包装
+
+当前第一版设计草案：
+
+```moonbit
+pub(all) enum SysErrorKind {
+  BoolFailure
+  NullFailure
+  NegativeFailure
+  ValidationFailure
+  DecodeFailure
+  Uncategorized
+}
+
+pub suberror SysError {
+  SysError(SysErrorKind, operation~ : String, msg~ : String)
+} derive(Show, Eq)
+```
+
+说明：
+
+- `kind` 必须存在，用于区分错误的判定来源和低层语义类别。
+- `operation` 和 `msg` 先保持为 `String`，避免过早做成过重的封闭建模。
+- `operation` 与 `msg` 必须使用 label argument，避免在调用点混淆两个字符串。
+- 当前不建议把 `operation` 做成大型 enum。
+- 当前也不建议一开始就在 `SysError` 中加入更多字段。
+
+`SysErrorKind` 当前含义：
+
+- `BoolFailure`
+  用于 SDL 风格“返回 `Bool`，`false` 表示失败”的场景。
+- `NullFailure`
+  用于返回指针或句柄，空值表示失败的场景。
+- `NegativeFailure`
+  用于返回 `Int` 且负数表示失败的场景。
+- `ValidationFailure`
+  用于 `sys` 在浅层整理时主动发现输入、中间结果或返回值形状不满足约定。
+- `DecodeFailure`
+  用于 reinterpret、union 解码、底层 payload 解释失败等场景。
+- `Uncategorized`
+  作为早期兜底项使用。它表示错误真实存在，但当前 taxonomy 尚未给出更精确类别。
+
+当前建议的第一批函数形状：
+
+```moonbit
+pub fn last_error_message() -> String
+
+pub fn take_last_error_message() -> String
+
+pub fn make_error(
+  kind : SysErrorKind,
+  operation~ : String,
+  msg~ : String,
+) -> SysError
+
+pub fn make_last_error(
+  kind : SysErrorKind,
+  operation~ : String,
+) -> SysError
+
+pub fn raise_error(
+  kind : SysErrorKind,
+  operation~ : String,
+  msg~ : String,
+) -> Unit raise SysError
+
+pub fn raise_last_error(
+  kind : SysErrorKind,
+  operation~ : String,
+) -> Unit raise SysError
+
+pub fn expect_ok(
+  operation~ : String,
+  ok : Bool,
+) -> Unit raise SysError
+
+pub fn[T] expect_not_null(
+  operation~ : String,
+  value : T,
+) -> T raise SysError
+
+pub fn expect_non_negative(
+  operation~ : String,
+  value : Int,
+) -> Int raise SysError
+```
+
+补充说明：
+
+- 以上函数形状是当前推荐草案，不代表所有命名都已经最终冻结。
+- `expect_ok`、`expect_not_null`、`expect_non_negative` 对应 `BoolFailure`、`NullFailure`、`NegativeFailure` 三类最常见 SDL 失败模式。
+- `make_error`、`make_last_error`、`raise_error`、`raise_last_error` 用于让其他 `sys` 模块在需要时直接构造或抛出 `SysError`。
+- 当前优先把 `sys/error.mbt` 设计成 `raise` 风格 API，而不是 `Result` 风格 API。
 
 ### `sys/out.mbt`
 
@@ -213,5 +306,6 @@
 ## TODO
 
 - TODO：补充一份 `raw` 现有函数到 `sys` 目标模块的映射清单。
-- TODO：明确 `sys/error.mbt` 的错误类型和检查函数命名。
 - TODO：明确 `sys/out.mbt` 对单值、多值、数组类 out 参数的统一形状。
+- TODO：视实际实现反馈，确认 `take_last_error_message()` 是否应清空 SDL last error。
+- TODO：视实际使用反馈，确认 `expect_ok` / `expect_not_null` / `expect_non_negative` 的最终命名。
