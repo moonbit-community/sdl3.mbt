@@ -356,14 +356,18 @@ pub fn is_main_thread() -> Bool
 
 职责：
 
-- 承接 event buffer、poll/wait/drain 的低层整理
+- 承接 `SDL_Event` 缓冲、poll / wait / wait timeout 的低层整理
 - 承接 event union 的低层解释入口
-- 服务未来稳定的 `events` 包
+- 明确区分“没有事件”“超时无事件”“真正错误”三类返回语义
+- 服务未来稳定的 `events` 包，但不直接定义最终公开的 `Event` ADT
 
 适合放入：
 
 - 事件对象缓冲分配
-- 事件类型读取与底层解码入口
+- `poll / wait / wait timeout` 的浅层包装
+- 事件类型读取与 checked decode 入口
+- 事件启用状态的浅层入口
+- 自定义事件注册与事件推送的低层入口
 - 从 `raw` 迁出的明显越界 helper
 
 候选迁移目标：
@@ -375,6 +379,97 @@ pub fn is_main_thread() -> Bool
 
 - 是否最终把这些 helper 从 `raw` 实体迁走，需要按实现细节再定。
 - 但语义归属应先视为 `sys/events`。
+
+不适合放入：
+
+- 最终公开的 `events.Event` 结构
+- 高层事件分类模型
+- 第一版就纳入完整的 filter / watch / callback 体系
+- 第一版就完整包装 `SDL_PeepEvents()` 的复杂批量语义
+
+当前第一版设计草案：
+
+```moonbit
+pub fn new_event_slot() -> @raw.SDL_Event
+
+pub fn poll_event_into(
+  slot : @raw.SDL_Event,
+) -> Bool
+
+pub fn poll_event() -> @raw.SDL_Event?
+
+pub fn wait_event_into(
+  slot : @raw.SDL_Event,
+) -> Unit raise SysError
+
+pub fn wait_event() -> @raw.SDL_Event raise SysError
+
+pub fn wait_event_timeout_into(
+  slot : @raw.SDL_Event,
+  timeout_ms : Int,
+) -> Bool
+
+pub fn wait_event_timeout(
+  timeout_ms : Int,
+) -> @raw.SDL_Event?
+
+pub fn read_event_type(
+  event : @raw.SDL_Event,
+) -> @raw.SDL_EventType
+
+pub fn expect_event_type(
+  event : @raw.SDL_Event,
+  expected : @raw.SDL_EventType,
+) -> Unit raise SysError
+
+pub fn decode_quit_event(
+  event : @raw.SDL_Event,
+) -> @raw.SDL_QuitEvent raise SysError
+
+pub fn decode_keyboard_event(
+  event : @raw.SDL_Event,
+) -> @raw.SDL_KeyboardEvent raise SysError
+
+pub fn set_event_enabled(
+  event_type : @raw.SDL_EventType,
+  enabled : Bool,
+) -> Unit
+
+pub fn is_event_enabled(
+  event_type : @raw.SDL_EventType,
+) -> Bool
+
+pub fn push_event(
+  event : @raw.SDL_Event,
+) -> Unit raise SysError
+
+pub fn register_user_events(
+  count : Int,
+) -> UInt raise SysError
+```
+
+说明：
+
+- `new_event_slot()` 语义上承接当前 `@raw.new_sdl_event()` 的归属。
+- 同时保留 `poll_event()` 与 `poll_event_into()` 两套接口：
+  - 前者适合直接调用
+  - 后者适合未来 `EventPump` 一类可复用缓冲的实现
+- `poll_event_into(...)` 返回 `false` 表示当前没有事件，不视为错误。
+- `wait_event_into(...)` 在失败时视为真正错误，应抛出 `SysError`。
+- `wait_event_timeout_into(...)` 返回 `false` 表示超时无事件，不视为错误。
+- `read_event_type(...)` 与 `expect_event_type(...)` 用于在 reinterpret 前先做低层类型检查。
+- 第一版 `decode_*` 先只覆盖当前 `raw/events.mbt` 中已明确绑定结构的事件类型：
+  - `decode_quit_event`
+  - `decode_keyboard_event`
+- 当事件类型不匹配或 payload 解码失败时，应抛出 `SysError(DecodeFailure, ...)`。
+- 第一版纳入 `set_event_enabled(...)` 与 `is_event_enabled(...)`。
+- 第一版纳入 `push_event(...)` 与 `register_user_events(...)`。
+- 当前不建议在第一版纳入：
+  - `set_event_filter`
+  - `get_event_filter`
+  - `add_event_watch`
+  - `remove_event_watch`
+  - `peep_events`
 
 ### `sys/video.mbt`
 

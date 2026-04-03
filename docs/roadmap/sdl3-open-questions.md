@@ -195,6 +195,30 @@
 - 已决定：`sys/runtime.mbt` 第一版保留 `set_app_metadata(...)` 与 `set_app_metadata_property(...)` 两个入口，但暂不引入 `SysAppMetadata` 结构体。
 - 已决定：`sys/runtime.mbt` 第一版纳入 `is_main_thread()`，但暂不纳入 `run_on_main_thread(...)`。
 - 已决定：`sys/runtime.mbt` 当前保持函数式浅层接口，不在模块内部维护额外运行时状态。
+- 已决定：`sys/events.mbt` 第一版职责包括：
+  - `SDL_Event` 缓冲与队列读取的浅层整理
+  - event union 的低层解释入口
+  - 明确区分“没有事件”“超时无事件”“真正错误”三类返回语义
+- 已决定：`sys/events.mbt` 第一版公开接口草案包括：
+  - `new_event_slot`
+  - `poll_event_into`
+  - `poll_event`
+  - `wait_event_into`
+  - `wait_event`
+  - `wait_event_timeout_into`
+  - `wait_event_timeout`
+  - `read_event_type`
+  - `expect_event_type`
+  - `decode_quit_event`
+  - `decode_keyboard_event`
+  - `set_event_enabled`
+  - `is_event_enabled`
+  - `push_event`
+  - `register_user_events`
+- 已决定：`sys/events.mbt` 第一版同时保留 `poll_event()` 与 `poll_event_into()` 两套接口。
+- 已决定：`sys/events.mbt` 第一版纳入 `push_event(...)` 与 `register_user_events(...)`。
+- 已决定：`sys/events.mbt` 第一版暂不纳入 filter / watch / peep_events。
+- 已决定：`sys/events.mbt` 中事件类型不匹配或 payload 解码失败时，应抛出 `SysError(DecodeFailure, ...)`。
 
 ### 待补充
 
@@ -202,6 +226,6 @@
 
 ## 下一轮讨论建议
 
-- 先讨论 `sys/events.mbt` 的职责与第一版函数形状。
-- 然后讨论稳定层 `events.Event` 的 ADT 形状。
+- 先讨论稳定层 `events.Event` 的 ADT 形状。
+- 然后讨论稳定层资源释放策略。
 - 最后讨论渲染状态模型。

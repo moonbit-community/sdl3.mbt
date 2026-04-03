@@ -88,6 +88,12 @@
   - 直接复用 `@raw.SDL_InitFlags`
   - 先提供 init / quit、initialized flags、metadata、version、main-thread 查询
   - 暂不在 `sys` 层固化 `Runtime` token 或 `SysAppMetadata`
+- `sys/events.mbt` 第一版先收敛“事件队列 + union 解码”这两部分：
+  - 同时保留 `poll_event` 与 `poll_event_into`
+  - 明确区分“没有事件”“超时无事件”“真正错误”
+  - 先提供 `decode_quit_event / decode_keyboard_event`
+  - 第一版纳入 `push_event / register_user_events`
+  - 暂不纳入 filter / watch / peep_events
 
 ### 退出条件
 

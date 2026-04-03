@@ -127,6 +127,15 @@
   - 提供 `is_main_thread()`
   - 暂不纳入 `run_on_main_thread(...)`
   - 暂不引入 `SysAppMetadata` 结构体
+- 当前已收敛的 `sys/events.mbt` 第一版边界包括：
+  - 提供 `new_event_slot`
+  - 同时保留 `poll_event / poll_event_into`
+  - 提供 `wait_event / wait_event_into / wait_event_timeout / wait_event_timeout_into`
+  - 提供 `read_event_type / expect_event_type`
+  - 第一版先提供 `decode_quit_event / decode_keyboard_event`
+  - 提供 `set_event_enabled / is_event_enabled`
+  - 第一版纳入 `push_event / register_user_events`
+  - 暂不纳入 filter / watch / peep_events
 
 ## 包职责
 
