@@ -141,6 +141,9 @@
 - 鼠标按钮与移动值对象
 - `EventPump`
 - typed `Event` ADT
+  - 顶层采用按领域分组的一层 ADT
+  - 第一批优先细化 `App / Window / Keyboard / Text / Mouse / User / Unknown`
+  - 第一批窗口事件先覆盖通用生命周期、几何、焦点与 fullscreen 相关变体
 - `poll` / `wait` / `drain`
 
 ### 退出条件

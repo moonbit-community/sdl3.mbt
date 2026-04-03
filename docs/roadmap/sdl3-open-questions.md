@@ -46,18 +46,23 @@
 - TODO：
   - 记录对 MoonBit 用户体验的利弊分析
 
-### Q3. `events.Event` 应如何建模？
+### Q3. 输入与窗口事件的 payload 细节应如何建模？
 
 - 状态：`open`
 - 为什么重要：
-  - 影响发现性
-  - 影响 typed event 的使用体验
-- 当前备选：
-  - 一个完全扁平的 `Event` ADT
-  - 分组层级，如 `Event::Window(WindowEvent)`
-  - 混合设计：按大类分组，同时保留少数顶层快捷构造
+  - 影响稳定层 typed event 的可发现性与可维护性
+  - 影响 `events`、`input`、`video`、`base` 的边界
+- 当前已定部分：
+  - 顶层 `Event` 采用按领域分组的一层 ADT
+  - 第一批优先细化 `App / Window / Keyboard / Text / Mouse / User / Unknown`
+  - `WindowEvent` 第一批优先支持通用生命周期、几何、焦点与 fullscreen 相关变体
+  - 事件系统中的几何命名暂按：
+    - `Point / Size / Rect / Offset`
+    - `PixelPoint / PixelSize / PixelRect`
 - TODO：
-  - 先用几个代表性事件做原型比较
+  - 继续收敛 `MouseButtons`
+  - 继续收敛 `MouseWheelDirection`
+  - 继续收敛 `WindowId? / MouseId? / KeyboardId?` 的可选性边界
 
 ### Q4. 稳定 2D 渲染状态模型如何设计？
 
@@ -219,6 +224,79 @@
 - 已决定：`sys/events.mbt` 第一版纳入 `push_event(...)` 与 `register_user_events(...)`。
 - 已决定：`sys/events.mbt` 第一版暂不纳入 filter / watch / peep_events。
 - 已决定：`sys/events.mbt` 中事件类型不匹配或 payload 解码失败时，应抛出 `SysError(DecodeFailure, ...)`。
+- 已决定：稳定层 `Event` 采用按领域分组的一层 ADT。
+- 已决定：稳定层 `Event` 顶层第一版分组草案包括：
+  - `App`
+  - `Display`
+  - `Window`
+  - `Keyboard`
+  - `Text`
+  - `Mouse`
+  - `Joystick`
+  - `Gamepad`
+  - `Touch`
+  - `Clipboard`
+  - `Drop`
+  - `AudioDevice`
+  - `Sensor`
+  - `Pen`
+  - `Camera`
+  - `User`
+  - `Unknown`
+- 已决定：第一批优先细化的事件组包括：
+  - `AppEvent`
+  - `WindowEvent`
+  - `KeyboardEvent`
+  - `TextEvent`
+  - `MouseEvent`
+  - `UserEvent`
+  - `UnknownEvent`
+- 已决定：`AppEvent` 第一版采用共享的 `AppEventInfo`。
+- 已决定：`WindowEvent` 第一版采用：
+  - `WindowEventInfo`
+  - `WindowMovedEvent`
+  - `WindowResizedEvent`
+  - `WindowDisplayChangedEvent`
+- 已决定：`WindowEvent` 第一批建议支持的变体包括：
+  - `Shown`
+  - `Hidden`
+  - `Exposed`
+  - `Moved`
+  - `Resized`
+  - `PixelSizeChanged`
+  - `Minimized`
+  - `Maximized`
+  - `Restored`
+  - `MouseEnter`
+  - `MouseLeave`
+  - `FocusGained`
+  - `FocusLost`
+  - `CloseRequested`
+  - `DisplayChanged`
+  - `Occluded`
+  - `EnterFullscreen`
+  - `LeaveFullscreen`
+  - `Destroyed`
+- 已决定：`KeyboardEvent` 第一版采用：
+  - `KeyEvent`
+  - `KeyboardDeviceEvent`
+  - `KeyboardSystemEvent`
+- 已决定：`TextEvent` 第一版采用：
+  - `TextInputEvent`
+  - `TextEditingEvent`
+  - `TextEditingCandidatesEvent`
+- 已决定：`MouseEvent` 第一版采用：
+  - `MouseDeviceEvent`
+  - `MouseMotionEvent`
+  - `MouseButtonEvent`
+  - `MouseWheelEvent`
+- 已决定：`UserEvent` 与 `UnknownEvent` 必须分开。
+- 已决定：`UserEvent` 中若保留 `data1 / data2`，必须包裹在显式 `unsafe` 命名的结构中。
+- 已决定：事件系统中的几何命名当前采用：
+  - 浮点族：`Point / Size / Rect / Offset`
+  - 像素族：`PixelPoint / PixelSize / PixelRect`
+- 已决定：`WindowEvent` 使用 `PixelPoint / PixelSize`。
+- 已决定：`MouseEvent` 使用 `Point / Offset`。
 
 ### 待补充
 
@@ -226,6 +304,6 @@
 
 ## 下一轮讨论建议
 
-- 先讨论稳定层 `events.Event` 的 ADT 形状。
+- 先讨论 `MouseButtons`、`MouseWheelDirection`、`WindowId? / MouseId? / KeyboardId?` 这些输入事件细节。
 - 然后讨论稳定层资源释放策略。
 - 最后讨论渲染状态模型。

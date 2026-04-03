@@ -212,6 +212,7 @@
 
 - 负责事件轮询、等待、drain，以及 typed event 解码。
 - 稳定层用户不应再需要 `unsafe_from_sdl_event`。
+- 稳定层 `Event` 当前已收敛为“按领域分组”的一层 ADT，而不是完全扁平设计或混合设计。
 - 第一批候选类型：
   - `EventPump`
   - `Event`
@@ -224,6 +225,8 @@
   - `DropEvent`
   - `UnknownEvent`
   - `UserEventId`
+- 详细事件 ADT 草案见：
+  `docs/architecture/events-adt-plan.md`
 
 ### `surface`
 
