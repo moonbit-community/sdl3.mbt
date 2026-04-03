@@ -38,6 +38,11 @@ pub suberror RenderRendError {
 }
 pub impl Show for RenderRendError
 
+pub suberror SaveRenderImageError {
+  SaveRenderImageError(String)
+}
+pub impl Show for SaveRenderImageError
+
 pub suberror SetDrawColorError {
   SetDrawColorError(String)
 }
@@ -322,6 +327,7 @@ pub fn Renderer::drawRect(Self, (Double, Double), Double, Double, color? : Color
 pub fn Renderer::drawRects(Self, Array[((Double, Double), Double, Double)], color? : Color, alpha? : Int, fill? : Bool) -> Unit raise
 pub fn Renderer::present(Self) -> Unit raise RenderPresentError
 pub fn Renderer::refreshBackGround(Self, Color) -> Unit raise
+pub fn Renderer::savePNG(Self, String) -> Unit raise SaveRenderImageError
 pub fn Renderer::setDefaultColor(Self) -> Unit
 pub fn Renderer::setDrawAlpha(Self, Int) -> Unit raise SetDrawColorError
 pub fn Renderer::setDrawColor(Self, Color, alpha? : Int) -> Unit raise SetDrawColorError

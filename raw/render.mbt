@@ -3006,6 +3006,34 @@ pub extern "C" fn sdl_RenderGeometryRaw(
 ) -> Bool = "SDL_RenderGeometryRaw"
 
 ///|
+/// Read pixels from the current render target and return them as a new
+/// surface.
+///
+/// This helper reads the entire current viewport.
+///
+/// @param renderer the rendering context.
+/// @return a new SDL_Surface on success or NULL on failure; call
+///         SDL_GetError() for more information.
+///
+/// @threadsafety This function should only be called on the main thread.
+///
+/// @since This function is available since SDL 3.2.0.
+///
+/// ```c
+/// extern SDL_DECLSPEC SDL_Surface * SDLCALL SDL_RenderReadPixels(SDL_Renderer *renderer, const SDL_Rect *rect);
+/// ```
+#owned(rect)
+extern "C" fn __sdl_RenderReadPixels(
+  renderer : SDL_Renderer,
+  rect : VoidPtr,
+) -> SDL_Surface = "SDL_RenderReadPixels"
+
+///|
+pub fn sdl_RenderReadPixels(renderer : SDL_Renderer) -> SDL_Surface {
+  __sdl_RenderReadPixels(renderer, nullptr())
+}
+
+///|
 /// Update the screen with rendering performed.
 ///
 /// SDL's rendering functions operate on a backbuffer; that is, calling a

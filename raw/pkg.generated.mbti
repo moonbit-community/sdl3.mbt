@@ -1500,6 +1500,8 @@ pub fn sdl_RenderPoints(SDL_Renderer, FixedArray[Float], Int) -> Bool
 
 pub fn sdl_RenderPresent(SDL_Renderer) -> Bool
 
+pub fn sdl_RenderReadPixels(SDL_Renderer) -> SDL_Surface
+
 pub fn sdl_RenderRect(SDL_Renderer, SDL_FRect) -> Bool
 
 pub fn sdl_RenderRects(SDL_Renderer, FixedArray[Float], Int) -> Bool
@@ -2686,6 +2688,7 @@ pub type SDL_SensorType
 
 #external
 pub type SDL_Surface
+pub fn SDL_Surface::is_null(Self) -> Bool
 
 pub(all) enum SDL_SystemCursor {
   SDL_SYSTEM_CURSOR_DEFAULT

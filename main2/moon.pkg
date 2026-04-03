@@ -1,6 +1,5 @@
 import {
   "Kaida-Amethyst/sdl3",
-  "Kaida-Amethyst/sdl3/raw",
 }
 
 options(
@@ -8,7 +7,7 @@ options(
   link: {
     "native": {
       "cc": "clang",
-      "cc-link-flags": "-Wl,-rpath,/opt/homebrew/lib -lSDL3",
+      "cc-link-flags": "-Wl,-rpath,/opt/homebrew/lib -lSDL3 -lSDL3_image",
     },
   },
   "supported-targets": "native",

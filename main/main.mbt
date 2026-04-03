@@ -13,7 +13,7 @@ fn main_err() -> Unit raise {
     }
     for event in events {
       if event.getType() is KEY_DOWN {
-        let kevent : @lib.SDL_KeyboardEvent = @lib.unsafe_from_sdl_event(
+        let kevent : @raw.SDL_KeyboardEvent = @raw.unsafe_from_sdl_event(
           event.0,
         )
         println(kevent.key)

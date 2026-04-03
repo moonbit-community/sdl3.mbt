@@ -13,7 +13,7 @@ pub suberror InitializeSDLError {
 /// This function initializes the SDL library.
 /// It returns a new `Context` instance.
 pub fn Context::new() -> Context raise {
-  let res = @lib.sdl_Init(@lib.SDL_INIT_VIDEO)
+  let res = @raw.sdl_Init(@raw.SDL_INIT_VIDEO)
   if !res {
     raise InitializeSDLError("Failed to initialize SDL")
   }
@@ -39,7 +39,7 @@ pub fn Context::createWindow(
   width~ : Int,
   height~ : Int,
 ) -> Window raise {
-  let window = @lib.sdl_CreateWindow(title, width, height, 0UL)
+  let window = @raw.sdl_CreateWindow(title, width, height, 0UL)
   if window.is_null() {
     raise CreateWindowError("Failed to create SDL window")
   }
@@ -51,8 +51,8 @@ pub fn Context::createWindow(
 ///|
 fn Context::has_event(self : Self) -> Bool {
   ignore(self)
-  let event = @lib.nullptr()
-  @lib.sdl_PollEvent(event)
+  let event = @raw.nullptr()
+  @raw.sdl_PollEvent(event)
 }
 
 ///|
@@ -63,8 +63,8 @@ pub fn Context::getEvents(self : Self) -> Array[Event] {
   ignore(self)
   let events : Array[Event] = []
   while self.has_event() {
-    let event = @lib.new_sdl_event()
-    let _ = @lib.sdl_PollEvent(event)
+    let event = @raw.new_sdl_event()
+    let _ = @raw.sdl_PollEvent(event)
     events.push(event)
   }
   events
@@ -83,8 +83,8 @@ pub fn Context::getTimer(self : Self) -> Timer {
 /// Quit the SDL library.
 /// This function should be called before the program exits.
 pub fn Context::quit(self : Self) -> Unit {
-  self.windows.each(w => @lib.sdl_DestroyWindow(w.inner()))
-  @lib.sdl_Quit()
+  self.windows.each(w => @raw.sdl_DestroyWindow(w.inner()))
+  @raw.sdl_Quit()
 }
 
 //pub fn Context::createPoint(x: Double, y: Double) -> Point {

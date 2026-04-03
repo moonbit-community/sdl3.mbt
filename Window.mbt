@@ -1,11 +1,11 @@
 ///|
 pub struct Window {
-  base : @lib.SDL_Window
+  base : @raw.SDL_Window
   mut renderer : Renderer?
 }
 
 ///|
-fn Window::inner(self : Window) -> @lib.SDL_Window {
+fn Window::inner(self : Window) -> @raw.SDL_Window {
   self.base
 }
 
@@ -14,7 +14,7 @@ fn Window::inner(self : Window) -> @lib.SDL_Window {
 ///
 /// It returns a new `Renderer` instance.
 pub fn Window::createRenderer(self : Window) -> Renderer raise {
-  let renderer = @lib.sdl_CreateRenderer(self.inner(), "")
+  let renderer = @raw.sdl_CreateRenderer(self.inner(), "")
   if renderer.is_null() {
     raise CreateWindowError("Failed to create SDL renderer")
   }

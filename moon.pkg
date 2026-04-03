@@ -1,5 +1,5 @@
 import {
-  "Kaida-Amethyst/sdl3/lib",
+  "Kaida-Amethyst/sdl3/raw",
 }
 
 options(

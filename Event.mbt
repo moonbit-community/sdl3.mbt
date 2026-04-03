@@ -1,5 +1,5 @@
 ///|
-pub struct Event(@lib.SDL_Event)
+pub struct Event(@raw.SDL_Event)
 
 ///|
 pub(all) enum EventType {

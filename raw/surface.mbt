@@ -108,6 +108,11 @@ pub(all) enum SDL_FlipMode {
 #external
 pub type SDL_Surface
 
+///|
+pub fn SDL_Surface::is_null(self : Self) -> Bool {
+  is_nullptr(self)
+}
+
 // SDL_PixelFormat is already defined in pixels.mbt as an enum
 // SDL_Colorspace is defined as external type in video/pixels modules  
 // SDL_PropertiesID is handled as UInt throughout the codebase

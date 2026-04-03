@@ -1,8 +1,8 @@
 ///|
-//pub struct Renderer(@lib.SDL_Renderer)
+//pub struct Renderer(@raw.SDL_Renderer)
 
 pub struct Renderer {
-  base : @lib.SDL_Renderer
+  base : @raw.SDL_Renderer
   mut r : Byte
   mut g : Byte
   mut b : Byte
@@ -10,7 +10,7 @@ pub struct Renderer {
 }
 
 ///|
-fn Renderer::inner(self : Self) -> @lib.SDL_Renderer {
+fn Renderer::inner(self : Self) -> @raw.SDL_Renderer {
   self.base
 }
 
@@ -46,9 +46,9 @@ pub fn Renderer::setDrawColor(
   self.g = g
   self.b = b
   self.a = a
-  let res = @lib.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
+  let res = @raw.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise SetDrawColorError(msg)
   }
 }
@@ -65,7 +65,7 @@ fn Renderer::setRGBA(
   self.g = g
   self.b = b
   self.a = a
-  let _ = @lib.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
+  let _ = @raw.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
 }
 
 ///|
@@ -76,9 +76,9 @@ pub fn Renderer::setDrawAlpha(
   let alpha = if alpha < 0 { 0 } else if alpha > 255 { 255 } else { alpha }
   self.a = alpha.to_byte()
   let { r, g, b, a, .. } = self
-  let res = @lib.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
+  let res = @raw.sdl_SetRenderDrawColor(self.inner(), r, g, b, a)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise SetDrawColorError(msg)
   }
 }
@@ -92,9 +92,9 @@ pub suberror ClearRendererError {
 pub fn Renderer::refreshBackGround(self : Self, color : Color) -> Unit raise {
   let { r, g, b, a, .. } = self
   self.setDrawColor(color)
-  let res = @lib.sdl_RenderClear(self.inner())
+  let res = @raw.sdl_RenderClear(self.inner())
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise ClearRendererError(msg)
   }
   self.setRGBA(r, g, b, a)
@@ -103,9 +103,9 @@ pub fn Renderer::refreshBackGround(self : Self, color : Color) -> Unit raise {
 ///|
 /// Clear the renderer.
 pub fn Renderer::clear(self : Renderer) -> Unit raise ClearRendererError {
-  let res = @lib.sdl_RenderClear(self.inner())
+  let res = @raw.sdl_RenderClear(self.inner())
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise ClearRendererError(msg)
   }
 }
@@ -118,10 +118,31 @@ pub suberror RenderPresentError {
 ///|
 /// Present the renderer.
 pub fn Renderer::present(self : Renderer) -> Unit raise RenderPresentError {
-  let res = @lib.sdl_RenderPresent(self.inner())
+  let res = @raw.sdl_RenderPresent(self.inner())
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderPresentError(msg)
+  }
+}
+
+///|
+pub suberror SaveRenderImageError {
+  SaveRenderImageError(String)
+} derive(Show)
+
+///|
+pub fn Renderer::savePNG(
+  self : Renderer,
+  path : String,
+) -> Unit raise SaveRenderImageError {
+  let surface = @raw.sdl_RenderReadPixels(self.inner())
+  if surface.is_null() {
+    raise SaveRenderImageError(@raw.sdl_GetError())
+  }
+  let ok = @raw.img_SavePNG(surface, path)
+  @raw.sdl_DestroySurface(surface)
+  if !ok {
+    raise SaveRenderImageError(@raw.sdl_GetError())
   }
 }
 
@@ -153,14 +174,14 @@ pub fn Renderer::drawPoint(
     Some(a) => self.setDrawAlpha(a)
     None => ()
   }
-  let res = @lib.sdl_RenderPoint(
+  let res = @raw.sdl_RenderPoint(
     self.inner(),
     Float::from_double(x),
     Float::from_double(y),
   )
   self.setRGBA(r, g, b, a)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
 }
@@ -188,9 +209,9 @@ pub fn Renderer::drawPoints(
     pts[i + 1] = Float::from_double(y)
     i += 2
   }
-  let res = @lib.sdl_RenderPoints(self.inner(), pts, len)
+  let res = @raw.sdl_RenderPoints(self.inner(), pts, len)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
   self.setRGBA(r, g, b, a)
@@ -213,7 +234,7 @@ pub fn Renderer::drawLine(
   }
   let (x1, y1) = start
   let (x2, y2) = end
-  let res = @lib.sdl_RenderLine(
+  let res = @raw.sdl_RenderLine(
     self.inner(),
     Float::from_double(x1),
     Float::from_double(y1),
@@ -222,7 +243,7 @@ pub fn Renderer::drawLine(
   )
   self.setRGBA(r, g, b, a)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
 }
@@ -250,9 +271,9 @@ pub fn Renderer::drawLines(
     pts[i + 1] = Float::from_double(y)
     i += 2
   }
-  let res = @lib.sdl_RenderLines(self.inner(), pts, len)
+  let res = @raw.sdl_RenderLines(self.inner(), pts, len)
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
   self.setRGBA(r, g, b, a)
@@ -275,19 +296,19 @@ pub fn Renderer::drawRect(
     (None, Some(a)) => self.setDrawAlpha(a)
     (None, None) => ()
   }
-  let rect = @lib.SDL_FRect::{
+  let rect = @raw.SDL_FRect::{
     x: Float::from_double(anchor.0),
     y: Float::from_double(anchor.1),
     w: Float::from_double(width),
     h: Float::from_double(height),
   }
   let res = if fill {
-    @lib.sdl_RenderFillRect(self.inner(), rect)
+    @raw.sdl_RenderFillRect(self.inner(), rect)
   } else {
-    @lib.sdl_RenderRect(self.inner(), rect)
+    @raw.sdl_RenderRect(self.inner(), rect)
   }
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
   self.setRGBA(r, g, b, a)
@@ -320,12 +341,12 @@ pub fn Renderer::drawRects(
     i += 4
   }
   let res = if fill {
-    @lib.sdl_RenderFillRects(self.inner(), sdl_rects, len)
+    @raw.sdl_RenderFillRects(self.inner(), sdl_rects, len)
   } else {
-    @lib.sdl_RenderRects(self.inner(), sdl_rects, len)
+    @raw.sdl_RenderRects(self.inner(), sdl_rects, len)
   }
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise RenderRendError(msg)
   }
   self.setRGBA(r, g, b, a)
@@ -426,14 +447,14 @@ pub fn Renderer::drawGeometry(
   }
 
   let indices_data : FixedArray[Int] = if indices.length() == 0 {
-    @lib.nullptr()
+    @raw.nullptr()
   } else {
     FixedArray::from_array(indices)
   }
   let indices_len = indices.length()
-  let texture : @lib.SDL_Texture = @lib.nullptr() // No texture used
+  let texture : @raw.SDL_Texture = @raw.nullptr() // No texture used
 
-  let res = @lib.sdl_RenderGeometry(
+  let res = @raw.sdl_RenderGeometry(
     self.inner(),
     texture,
     sdl_vertexes_data,
@@ -443,7 +464,7 @@ pub fn Renderer::drawGeometry(
   )
 
   if !res {
-    let msg = @lib.sdl_GetError()
+    let msg = @raw.sdl_GetError()
     raise DrawGeometryError(msg)
   }
 }
