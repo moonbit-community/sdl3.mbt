@@ -21,19 +21,7 @@
 
 ## 当前问题
 
-### Q1. `sys/out.mbt` 应提供哪些函数形状？
-
-- 状态：`open`
-- 为什么重要：
-  - `sys/out.mbt` 会成为多个 `sys` 模块共享的低层结果整理基础
-  - 如果这里的接口不稳，后续 `sys/events`、`sys/video`、`sys/render` 都会返工
-- 当前需要讨论的方向：
-  - `sys/out.mbt` 如何统一单值、多值、数组类 out 参数
-  - 低层 helper 应该多泛型，还是适度重复、保持直接
-- 先讨论单值 out 参数
-- 再讨论多值和数组类 out 参数
-
-### Q2. 稳定 API 是否必须显式持有 `Runtime` token？
+### Q1. 稳定 API 是否必须显式持有 `Runtime` token？
 
 - 状态：`open`
 - 为什么重要：
@@ -46,7 +34,7 @@
 - TODO：
   - 比较 MoonBit 使用体验与生命周期清晰度
 
-### Q3. 稳定层资源释放策略是什么？
+### Q2. 稳定层资源释放策略是什么？
 
 - 状态：`open`
 - 为什么重要：
@@ -58,7 +46,7 @@
 - TODO：
   - 记录对 MoonBit 用户体验的利弊分析
 
-### Q4. `events.Event` 应如何建模？
+### Q3. `events.Event` 应如何建模？
 
 - 状态：`open`
 - 为什么重要：
@@ -71,7 +59,7 @@
 - TODO：
   - 先用几个代表性事件做原型比较
 
-### Q5. 稳定 2D 渲染状态模型如何设计？
+### Q4. 稳定 2D 渲染状态模型如何设计？
 
 - 状态：`open`
 - 为什么重要：
@@ -83,7 +71,7 @@
 - TODO：
   - 比较简单 demo 与较大绘制代码中的可读性差异
 
-### Q6. `base` 层几何模型如何确定？
+### Q5. `base` 层几何模型如何确定？
 
 - 状态：`open`
 - 为什么重要：
@@ -95,7 +83,7 @@
 - TODO：
   - 选出一套更自然的 MoonBit 命名方式
 
-### Q7. `image` 和 `ttf` 是否只与 `Surface` 交互？
+### Q6. `image` 和 `ttf` 是否只与 `Surface` 交互？
 
 - 状态：`open`
 - 为什么重要：
@@ -137,7 +125,7 @@
 - 已决定：`sys/` 当前不新增子目录，只新增平铺的 `.mbt` 文件和模块。
 - 已决定：`sys` 第一批建议模块为：
   - `sys/error.mbt`
-  - `sys/out.mbt`
+  - `sys/result_shape.mbt`
   - `sys/runtime.mbt`
   - `sys/events.mbt`
   - `sys/video.mbt`
@@ -164,6 +152,26 @@
   - `expect_ok`
   - `expect_not_null`
   - `expect_non_negative`
+- 已决定：`sys/out.mbt` 更名为 `sys/result_shape.mbt`，以避免把职责误解为仅处理 out 参数。
+- 已决定：`sys/result_shape.mbt` 第一批函数草案包括：
+  - `slot`
+  - `pair`
+  - `triple`
+  - `quad`
+  - `get`
+  - `get2`
+  - `get3`
+  - `get4`
+  - `count_slot`
+  - `read_count`
+  - `check_count`
+  - `collect_array`
+  - `collect_array_from_count`
+  - `collect_mapped_array`
+  - `collect_mapped_array_from_count`
+- 已决定：`get2 / get3 / get4` 采用异构泛型，而不是同构泛型。
+- 已决定：第一版保留 `pair / triple / quad`。
+- 已决定：第一版保留 `collect_mapped_array`。
 
 ### 待补充
 
@@ -171,7 +179,6 @@
 
 ## 下一轮讨论建议
 
-- 先讨论 `sys/out.mbt` 的函数形状。
-- 然后讨论 `Runtime` 模型。
+- 先讨论 `Runtime` 模型。
 - 然后讨论事件 ADT 形状。
 - 最后讨论渲染状态模型。

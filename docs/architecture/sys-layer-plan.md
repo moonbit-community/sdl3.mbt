@@ -152,7 +152,7 @@ pub fn expect_non_negative(
 - `make_error`、`make_last_error`、`raise_error`、`raise_last_error` 用于让其他 `sys` 模块在需要时直接构造或抛出 `SysError`。
 - 当前优先把 `sys/error.mbt` 设计成 `raise` 风格 API，而不是 `Result` 风格 API。
 
-### `sys/out.mbt`
+### `sys/result_shape.mbt`
 
 职责：
 
@@ -170,6 +170,104 @@ pub fn expect_non_negative(
 
 - 特定领域的业务语义
 - 与错误路径强耦合的高层策略
+
+当前第一版设计草案：
+
+```moonbit
+pub fn[T] slot(init : T) -> FixedArray[T]
+
+pub fn[T] pair(init : T) -> (FixedArray[T], FixedArray[T])
+
+pub fn[T] triple(init : T) -> (
+  FixedArray[T],
+  FixedArray[T],
+  FixedArray[T],
+)
+
+pub fn[T] quad(init : T) -> (
+  FixedArray[T],
+  FixedArray[T],
+  FixedArray[T],
+  FixedArray[T],
+)
+
+pub fn[T] get(slot : FixedArray[T]) -> T
+
+pub fn[A, B] get2(
+  a : FixedArray[A],
+  b : FixedArray[B],
+) -> (A, B)
+
+pub fn[A, B, C] get3(
+  a : FixedArray[A],
+  b : FixedArray[B],
+  c : FixedArray[C],
+) -> (A, B, C)
+
+pub fn[A, B, C, D] get4(
+  a : FixedArray[A],
+  b : FixedArray[B],
+  c : FixedArray[C],
+  d : FixedArray[D],
+) -> (A, B, C, D)
+
+pub fn count_slot() -> FixedArray[Int]
+
+pub fn read_count(
+  operation~ : String,
+  count : FixedArray[Int],
+) -> Int raise SysError
+
+pub fn check_count(
+  operation~ : String,
+  count : Int,
+) -> Int raise SysError
+
+pub fn[T] collect_array(
+  operation~ : String,
+  values : FixedArray[T],
+  count : Int,
+) -> Array[T] raise SysError
+
+pub fn[T] collect_array_from_count(
+  operation~ : String,
+  values : FixedArray[T],
+  count : FixedArray[Int],
+) -> Array[T] raise SysError
+
+pub fn[T, U] collect_mapped_array(
+  operation~ : String,
+  values : FixedArray[T],
+  count : Int,
+  f : (T) -> U,
+) -> Array[U] raise SysError
+
+pub fn[T, U] collect_mapped_array_from_count(
+  operation~ : String,
+  values : FixedArray[T],
+  count : FixedArray[Int],
+  f : (T) -> U,
+) -> Array[U] raise SysError
+```
+
+说明：
+
+- `slot / pair / triple / quad` 用于创建最常见的同构 out 参数槽位。
+- `get` 用于读取单槽值。
+- `get2 / get3 / get4` 采用异构泛型，而不是同构泛型。
+- 保持 `get2 / get3 / get4` 为异构形式的原因是：SDL 的多个 out 参数不一定同类型。
+- `count_slot()` 用于为 `count + array` 类接口准备计数槽位。
+- `read_count(...)` 用于从 `FixedArray[Int]` 形式的计数槽位中读取并校验 count。
+- `check_count(...)` 用于在 count 已经是 `Int` 时做统一校验。
+- `collect_array(...)` 与 `collect_array_from_count(...)` 负责把 `count + FixedArray[T]` 整理成 `Array[T]`。
+- `collect_mapped_array(...)` 与 `collect_mapped_array_from_count(...)` 允许在收集阶段直接做映射，避免在各 `sys` 模块中重复写遍历转换逻辑。
+
+当前约定：
+
+- `read_count(...)` 与 `check_count(...)` 在遇到负数计数时，应抛出 `SysError(ValidationFailure, ...)`。
+- 第一版保留 `pair / triple / quad`。
+- 第一版保留 `collect_mapped_array`，不推迟到后续版本。
+- 当前不建议在 `sys/result_shape.mbt` 中继续加入更多公开函数，避免它膨胀成泛化工具箱。
 
 ### `sys/runtime.mbt`
 
@@ -277,7 +375,7 @@ pub fn expect_non_negative(
 ## 当前推荐建设顺序
 
 1. `sys/error.mbt`
-2. `sys/out.mbt`
+2. `sys/result_shape.mbt`
 3. `sys/runtime.mbt`
 4. `sys/events.mbt`
 5. `sys/video.mbt`
@@ -296,7 +394,7 @@ pub fn expect_non_negative(
 建议优先细化以下两个模块中的函数形状：
 
 1. `sys/error.mbt`
-2. `sys/out.mbt`
+2. `sys/result_shape.mbt`
 
 原因：
 
@@ -306,6 +404,6 @@ pub fn expect_non_negative(
 ## TODO
 
 - TODO：补充一份 `raw` 现有函数到 `sys` 目标模块的映射清单。
-- TODO：明确 `sys/out.mbt` 对单值、多值、数组类 out 参数的统一形状。
 - TODO：视实际实现反馈，确认 `take_last_error_message()` 是否应清空 SDL last error。
 - TODO：视实际使用反馈，确认 `expect_ok` / `expect_not_null` / `expect_non_negative` 的最终命名。
+- TODO：视实际实现反馈，确认 `read_count` / `check_count` 的最终命名是否稳定。

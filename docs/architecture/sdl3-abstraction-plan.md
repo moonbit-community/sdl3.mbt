@@ -101,7 +101,7 @@
 - `sys` 应按“稳定包马上会用到的浅层改造能力”来拆模块。
 - 当前第一批建议模块：
   - `sys/error.mbt`
-  - `sys/out.mbt`
+  - `sys/result_shape.mbt`
   - `sys/runtime.mbt`
   - `sys/events.mbt`
   - `sys/video.mbt`

@@ -76,7 +76,7 @@
 - 定义 duration / timestamp 值类型
 - 建立第一批 `sys` 模块：
   - `sys/error.mbt`
-  - `sys/out.mbt`
+  - `sys/result_shape.mbt`
   - `sys/runtime.mbt`
   - `sys/events.mbt`
   - `sys/video.mbt`
