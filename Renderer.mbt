@@ -370,13 +370,13 @@ pub fn Renderer::drawGeometry(
       "At least 3 vertexes are required to draw a geometry.",
     )
   }
-  if not(color_alpha.length() is (0 | 1)) &&
+  if !(color_alpha.length() is (0 | 1)) &&
     color_alpha.length() != vertexes.length() {
     raise DrawGeometryError(
       "color_alpha length must be 0, 1, or equal to vertexes length.",
     )
   }
-  if not(texture_coords.length() is (0 | 1)) &&
+  if !(texture_coords.length() is (0 | 1)) &&
     texture_coords.length() != vertexes.length() {
     raise DrawGeometryError(
       "texture_coords length must be 0, 1, or equal to vertexes length.",
