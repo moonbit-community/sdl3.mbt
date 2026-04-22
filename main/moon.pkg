@@ -11,5 +11,5 @@ options(
       "cc-link-flags": "-Wl,-rpath,/opt/homebrew/lib -lSDL3",
     },
   },
-  "supported-targets": "native",
 )
+supported_targets = "native"

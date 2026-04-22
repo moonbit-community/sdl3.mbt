@@ -4,5 +4,5 @@ import {
 
 options(
   "is-main": false,
-  "supported-targets": "native",
 )
+supported_targets = "native"
