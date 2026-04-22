@@ -29,7 +29,15 @@
 pub struct SDL_Scancode(UInt) derive(Eq)
 
 ///|
-pub struct SDL_Keycode(UInt) derive(Eq, Show)
+pub struct SDL_Keycode(UInt) derive(Eq, Debug)
+
+///|
+pub impl Show for SDL_Keycode with output(self, logger) {
+  logger.write_string("SDL_Keycode(")
+  let SDL_Keycode(value) = self
+  value.output(logger)
+  logger.write_string(")")
+}
 
 ///|
 pub struct SDL_Keymod(UInt16) derive(Eq)
