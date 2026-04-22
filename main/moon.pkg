@@ -3,6 +3,8 @@ import {
   "Kaida-Amethyst/sdl3/raw",
 }
 
+supported_targets = "native"
+
 options(
   "is-main": true,
   link: {
@@ -12,4 +14,3 @@ options(
     },
   },
 )
-supported_targets = "native"
