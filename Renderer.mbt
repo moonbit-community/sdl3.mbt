@@ -25,7 +25,7 @@ pub fn Renderer::setDefaultColor(self : Self) -> Unit {
 ///|
 pub suberror SetDrawColorError {
   SetDrawColorError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Set the draw color for the renderer.
@@ -86,7 +86,7 @@ pub fn Renderer::setDrawAlpha(
 ///|
 pub suberror ClearRendererError {
   ClearRendererError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn Renderer::refreshBackGround(self : Self, color : Color) -> Unit raise {
@@ -113,7 +113,7 @@ pub fn Renderer::clear(self : Renderer) -> Unit raise ClearRendererError {
 ///|
 pub suberror RenderPresentError {
   RenderPresentError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Present the renderer.
@@ -128,7 +128,7 @@ pub fn Renderer::present(self : Renderer) -> Unit raise RenderPresentError {
 ///|
 pub suberror SaveRenderImageError {
   SaveRenderImageError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn Renderer::savePNG(
@@ -149,7 +149,7 @@ pub fn Renderer::savePNG(
 ///|
 pub suberror RenderRendError {
   RenderRendError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn Renderer::drawPoint(
@@ -355,7 +355,7 @@ pub fn Renderer::drawRects(
 ///|
 pub suberror DrawGeometryError {
   DrawGeometryError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn Renderer::drawGeometry(
@@ -370,13 +370,13 @@ pub fn Renderer::drawGeometry(
       "At least 3 vertexes are required to draw a geometry.",
     )
   }
-  if not(color_alpha.length() is (0 | 1)) &&
+  if !(color_alpha.length() is (0 | 1)) &&
     color_alpha.length() != vertexes.length() {
     raise DrawGeometryError(
       "color_alpha length must be 0, 1, or equal to vertexes length.",
     )
   }
-  if not(texture_coords.length() is (0 | 1)) &&
+  if !(texture_coords.length() is (0 | 1)) &&
     texture_coords.length() != vertexes.length() {
     raise DrawGeometryError(
       "texture_coords length must be 0, 1, or equal to vertexes length.",

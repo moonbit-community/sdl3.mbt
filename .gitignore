@@ -5,3 +5,4 @@ c/
 .moonagent/
 AGENTS.md
 _build
+_build/

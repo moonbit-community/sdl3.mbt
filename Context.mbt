@@ -6,7 +6,7 @@ pub struct Context {
 ///|
 pub suberror InitializeSDLError {
   InitializeSDLError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new context.
@@ -23,7 +23,7 @@ pub fn Context::new() -> Context raise {
 ///|
 pub suberror CreateWindowError {
   CreateWindowError(String)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new window.

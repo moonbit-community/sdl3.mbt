@@ -2,7 +2,8 @@
 package "Kaida-Amethyst/sdl3"
 
 import {
-  "Kaida-Amethyst/sdl3/lib",
+  "Kaida-Amethyst/sdl3/raw",
+  "moonbitlang/core/debug",
 }
 
 // Values
@@ -10,43 +11,35 @@ import {
 // Errors
 pub suberror ClearRendererError {
   ClearRendererError(String)
-}
-pub impl Show for ClearRendererError
+} derive(@debug.Debug)
 
 pub suberror CreateWindowError {
   CreateWindowError(String)
-}
-pub impl Show for CreateWindowError
+} derive(@debug.Debug)
 
 pub suberror DrawGeometryError {
   DrawGeometryError(String)
-}
-pub impl Show for DrawGeometryError
+} derive(@debug.Debug)
 
 pub suberror InitializeSDLError {
   InitializeSDLError(String)
-}
-pub impl Show for InitializeSDLError
+} derive(@debug.Debug)
 
 pub suberror RenderPresentError {
   RenderPresentError(String)
-}
-pub impl Show for RenderPresentError
+} derive(@debug.Debug)
 
 pub suberror RenderRendError {
   RenderRendError(String)
-}
-pub impl Show for RenderRendError
+} derive(@debug.Debug)
 
 pub suberror SaveRenderImageError {
   SaveRenderImageError(String)
-}
-pub impl Show for SaveRenderImageError
+} derive(@debug.Debug)
 
 pub suberror SetDrawColorError {
   SetDrawColorError(String)
-}
-pub impl Show for SetDrawColorError
+} derive(@debug.Debug)
 
 // Types and methods
 pub(all) enum Color {
@@ -176,10 +169,8 @@ pub(all) enum Color {
   Honeydew
   Transparent
   RGB(Byte, Byte, Byte)
-}
+} derive(Eq, @debug.Debug)
 pub fn Color::to_rgb(Self) -> (Byte, Byte, Byte)
-pub impl Eq for Color
-pub impl Show for Color
 
 pub struct Context {
   windows : Array[Window]
@@ -190,10 +181,8 @@ pub fn Context::getTimer(Self) -> Timer
 pub fn Context::new() -> Self raise
 pub fn Context::quit(Self) -> Unit
 
-pub struct Event(@lib.SDL_Event)
+pub struct Event(@raw.SDL_Event)
 pub fn Event::getType(Self) -> EventType
-#deprecated
-pub fn Event::inner(Self) -> @lib.SDL_Event
 
 pub(all) enum EventType {
   Quit
@@ -311,7 +300,7 @@ pub(all) enum EventType {
 }
 
 pub struct Renderer {
-  base : @lib.SDL_Renderer
+  base : @raw.SDL_Renderer
   mut r : Byte
   mut g : Byte
   mut b : Byte
@@ -337,7 +326,7 @@ pub struct Timer {
 pub fn Timer::delay(Self, Int) -> Unit
 
 pub struct Window {
-  base : @lib.SDL_Window
+  base : @raw.SDL_Window
   mut renderer : Renderer?
 }
 pub fn Window::createRenderer(Self) -> Renderer raise

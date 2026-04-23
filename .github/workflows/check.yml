@@ -1,0 +1,51 @@
+name: check
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: install
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: moon version
+        run: |
+          moon version --all
+
+      - name: moon check
+        run: |
+          moon update
+          moon check --deny-warn
+
+      - name: moon info
+        run: |
+          moon info --target all
+          git diff --exit-code
+
+      - name: format diff
+        run: |
+          moon fmt
+          git diff --exit-code
+
+      - name: Set ulimit
+        run: |
+          ulimit -s 8176
+
+      - name: moon test
+        run: |
+          moon test --target all

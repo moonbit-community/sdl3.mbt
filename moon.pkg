@@ -2,7 +2,8 @@ import {
   "Kaida-Amethyst/sdl3/raw",
 }
 
+supported_targets = "native"
+
 options(
   "is-main": false,
-  "supported-targets": "native",
 )

@@ -1,7 +1,8 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "Kaida-Amethyst/sdl3/lib"
+package "Kaida-Amethyst/sdl3/raw"
 
 import {
+  "moonbitlang/core/debug",
   "moonbitlang/core/ref",
 }
 
@@ -2146,8 +2147,7 @@ pub(all) enum SDL_EventType {
   SDL_EVENT_POLL_SENTINEL
   SDL_EVENT_USER
   SDL_EVENT_LAST
-}
-pub impl Eq for SDL_EventType
+} derive(Eq)
 
 pub(all) struct SDL_FColor {
   r : Float
@@ -2379,19 +2379,12 @@ pub struct SDL_KeyboardEvent {
   raw : UInt16
   down : Bool
   repeat : Bool
-}
-pub impl Eq for SDL_KeyboardEvent
+} derive(Eq)
 
-pub struct SDL_Keycode(UInt)
-#deprecated
-pub fn SDL_Keycode::inner(Self) -> UInt
-pub impl Eq for SDL_Keycode
+pub struct SDL_Keycode(UInt) derive(Eq, @debug.Debug)
 pub impl Show for SDL_Keycode
 
-pub struct SDL_Keymod(UInt16)
-#deprecated
-pub fn SDL_Keymod::inner(Self) -> UInt16
-pub impl Eq for SDL_Keymod
+pub struct SDL_Keymod(UInt16) derive(Eq)
 
 pub(all) enum SDL_LogCategory {
   SDL_LOG_CATEGORY_APPLICATION
@@ -2650,8 +2643,7 @@ pub struct SDL_QuitEvent {
   event_type : SDL_EventType
   reserved : UInt
   timestamp : UInt64
-}
-pub impl Eq for SDL_QuitEvent
+} derive(Eq)
 
 pub(all) struct SDL_Rect {
   x : Int
@@ -2678,10 +2670,7 @@ pub(all) enum SDL_ScaleMode {
   SDL_SCALEMODE_PIXELART
 }
 
-pub struct SDL_Scancode(UInt)
-#deprecated
-pub fn SDL_Scancode::inner(Self) -> UInt
-pub impl Eq for SDL_Scancode
+pub struct SDL_Scancode(UInt) derive(Eq)
 
 #external
 pub type SDL_SensorType

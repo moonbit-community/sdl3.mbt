@@ -127,7 +127,7 @@ pub(all) enum Color {
   Honeydew
   Transparent
   RGB(Byte, Byte, Byte)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Convert color to RGB bytes (red, green, blue)

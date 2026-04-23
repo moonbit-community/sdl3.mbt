@@ -3,6 +3,8 @@ import {
   "Kaida-Amethyst/sdl3/raw",
 }
 
+supported_targets = "native"
+
 options(
   "is-main": true,
   link: {
@@ -11,5 +13,4 @@ options(
       "cc-link-flags": "-Wl,-rpath,/opt/homebrew/lib -lSDL3",
     },
   },
-  "supported-targets": "native",
 )
