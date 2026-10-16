@@ -1,0 +1,17 @@
+name = "Kaida-Amethyst/sdl3"
+
+version = "0.1.1"
+
+readme = "README.md"
+
+repository = "https://github.com/moonbit-community/sdl3.mbt"
+
+license = "Apache-2.0"
+
+keywords = [ "SDL3" ]
+
+description = "Use sdl3 in MoonBit"
+
+source = ""
+
+preferred_target = "native"
